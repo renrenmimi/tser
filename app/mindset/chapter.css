@@ -1,0 +1,387 @@
+/* 终章 · 类型思维 专属样式(前缀 ms-)。通用样式一律来自 globals.css。 */
+
+/* ================= hero:五条心法 ================= */
+
+.ms-creeds {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 26px 0 10px;
+  max-width: 680px;
+}
+
+.ms-creed {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: ms-creed-in 0.55s ease forwards;
+}
+.ms-creed .ico {
+  font-size: 17px;
+  line-height: 1;
+}
+.ms-creed small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+
+@keyframes ms-creed-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ================= §01 三兄弟对比台 ================= */
+
+.ms-trio-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 1.05fr) 1.2fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.ms-trio-code {
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+  overflow: hidden;
+}
+.ms-trio-code-bar {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+.ms-trio-side {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ms-trio-stance {
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--acc-ink);
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px dashed var(--acc-border);
+  background: var(--acc-soft);
+}
+
+/* — 考题行 — */
+.ms-test {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  overflow: hidden;
+  transition: border-color 0.18s;
+}
+.ms-test.open {
+  border-color: var(--border-strong);
+}
+
+.ms-test-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 10px 13px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-test-head:hover {
+  background: var(--acc-soft);
+}
+
+.ms-light {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  transition: all 0.25s;
+}
+.ms-light[data-tone="ok"] {
+  color: var(--ok);
+  background: var(--ok-bg);
+  border: 1px solid color-mix(in oklab, var(--ok) 45%, transparent);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--ok) 25%, transparent);
+}
+.ms-light[data-tone="bad"] {
+  color: var(--risk);
+  background: var(--risk-bg);
+  border: 1px solid color-mix(in oklab, var(--risk) 45%, transparent);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--risk) 25%, transparent);
+}
+
+.ms-test-q {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+}
+.ms-test-q small {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.ms-test-q small[data-tone="ok"] {
+  color: var(--ok);
+}
+.ms-test-q small[data-tone="bad"] {
+  color: var(--risk);
+}
+
+.ms-test-caret {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-3);
+  transition: transform 0.2s;
+}
+.ms-test.open .ms-test-caret {
+  transform: rotate(180deg);
+}
+
+.ms-test-detail {
+  margin: 0;
+  padding: 2px 14px 12px 46px;
+  font-size: 12.5px;
+  line-height: 1.85;
+  color: var(--text-2);
+}
+
+.ms-trio-score {
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px dashed var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+}
+.ms-trio-score b {
+  color: var(--acc-ink);
+}
+
+/* ================= §03 类型擦除逐帧 ================= */
+
+.ms-ef {
+  min-width: 520px;
+}
+.ms-ef .flow-node {
+  max-width: 190px;
+}
+.ms-ef .flow-node[data-tone="ok"] {
+  border-color: color-mix(in oklab, var(--ok) 45%, transparent);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.ms-ef .flow-node[data-tone="bad"] {
+  border-color: color-mix(in oklab, var(--risk) 45%, transparent);
+  background: var(--risk-bg);
+  color: var(--risk);
+}
+.ms-ef .flow-packet[data-tone="bad"] {
+  border-color: color-mix(in oklab, var(--risk) 55%, transparent);
+  background: var(--risk-bg);
+  color: var(--risk);
+}
+.ms-ef .flow-packet[data-tone="ok"] {
+  border-color: color-mix(in oklab, var(--ok) 55%, transparent);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+/* ================= §07 全书知识地图 ================= */
+
+.ms-map {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 14px;
+  position: relative;
+}
+/* 左侧纵向路线 */
+.ms-map::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 10px;
+  bottom: 10px;
+  border-left: 2px dashed var(--border-strong);
+}
+
+.ms-map-group {
+  position: relative;
+  padding-left: 26px;
+}
+.ms-map-group::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 10px var(--acc-glow);
+}
+
+.ms-map-head {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 10px;
+}
+.ms-map-camp {
+  font-weight: 800;
+  font-size: 14.5px;
+  color: var(--text);
+}
+.ms-map-sub {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: var(--acc-ink);
+}
+
+.ms-map-nodes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.ms-map-node {
+  /* 每张卡用自己章节的色相,就地重算派生色(inline style 提供 --hue) */
+  --acc: oklch(var(--acc-l) var(--acc-c) var(--hue));
+  --acc-ink: oklch(from var(--acc) calc(l + 0.08) calc(c - 0.03) h);
+  --acc-soft: oklch(var(--acc-l) var(--acc-c) var(--hue) / 0.13);
+  --acc-border: oklch(var(--acc-l) var(--acc-c) var(--hue) / 0.34);
+  --acc-glow: oklch(var(--acc-l) var(--acc-c) var(--hue) / 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--acc);
+  background: var(--panel);
+  padding: 14px 16px;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+.ms-map-node:hover {
+  transform: translateY(-3px);
+  border-color: var(--acc-border);
+  box-shadow: 0 8px 24px var(--acc-glow);
+}
+[data-theme="light"] .ms-map-node {
+  --acc-ink: oklch(from var(--acc) calc(l - 0.06) c h);
+}
+
+.ms-map-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--acc-ink);
+}
+.ms-map-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+}
+.ms-map-soul {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+/* ================= §10 毕业寄语 ================= */
+
+.ms-farewell {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid var(--acc-border);
+  background: linear-gradient(
+    135deg,
+    oklch(var(--acc-l) var(--acc-c) var(--hue) / 0.09),
+    transparent 70%
+  );
+  padding: 22px 24px;
+  margin: 20px 0 6px;
+  font-size: 14px;
+  line-height: 1.95;
+  color: var(--text-2);
+  overflow: hidden;
+}
+.ms-farewell b {
+  color: var(--text);
+}
+.ms-farewell p {
+  margin: 0;
+}
+.ms-farewell p + p {
+  margin-top: 10px;
+}
+.ms-farewell-mark {
+  position: absolute;
+  right: 14px;
+  top: 4px;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--acc);
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+/* ================= 窄屏 ================= */
+
+@media (max-width: 1100px) {
+  .ms-map-nodes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .ms-trio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .ms-creed {
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+  .ms-map-nodes {
+    grid-template-columns: 1fr;
+  }
+  .ms-test-detail {
+    padding-left: 14px;
+  }
+}

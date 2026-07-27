@@ -1,0 +1,425 @@
+/* 第 03 章 · 联合类型与收窄 专属样式(前缀 nr-)。通用样式一律来自 globals.css。 */
+
+/* — hero:迷你安检通道 — */
+.nr-hero {
+  position: relative;
+  max-width: 560px;
+  margin: 26px 0 10px;
+  padding: 22px 20px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--panel-2);
+  overflow: hidden;
+}
+.nr-hero::before {
+  /* 安检口的警示斜纹 */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--warn) 0 10px,
+    transparent 10px 20px
+  );
+  opacity: 0.5;
+}
+.nr-hero-stamp {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  font-family: var(--font-jb), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px dashed var(--acc-border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  transform: rotate(6deg);
+}
+.nr-hero-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+.nr-hero-code {
+  font-family: var(--font-jb), monospace;
+  font-size: 12.5px;
+  color: var(--text);
+}
+.nr-hero-code.lit {
+  color: var(--acc-ink);
+  font-weight: 700;
+}
+.nr-hero-tag {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.nr-hero-row.roomy .nr-hero-tag {
+  /* 给右上角的 SECURITY CHECK 邮戳让位 */
+  margin-right: 118px;
+}
+.nr-hero-gate {
+  font-family: var(--font-jb), monospace;
+  font-size: 11px;
+  color: var(--warn);
+  border-top: 1px dashed color-mix(in oklab, var(--warn) 45%, transparent);
+  border-bottom: 1px dashed color-mix(in oklab, var(--warn) 45%, transparent);
+  padding: 3px 0;
+  margin: 4px 0;
+}
+
+/* — 类型成员小票(漏斗、通用) — */
+.nr-chip {
+  display: inline-block;
+  font-family: var(--font-jb), monospace;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 4px 10px;
+  border: 1px solid color-mix(in oklab, var(--m) 55%, transparent);
+  color: var(--m);
+  background: color-mix(in oklab, var(--m) 12%, transparent);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.nr-chip[data-m="string"]  { --m: var(--tk-str); }
+.nr-chip[data-m="number"]  { --m: var(--tk-num); }
+.nr-chip[data-m="boolean"] { --m: var(--tk-kw); }
+.nr-chip[data-m="null"]    { --m: var(--text-3); }
+.nr-chip.caught {
+  opacity: 0.75;
+  border-style: dashed;
+  font-weight: 500;
+}
+.nr-chip.never {
+  --m: var(--risk);
+  border-style: dashed;
+}
+
+/* — §02 类型漏斗 — */
+.nr-funnel .viz-stage {
+  padding: 14px;
+}
+.nr-fn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 660px;
+  margin: 0 auto;
+}
+.nr-fn-entry,
+.nr-fn-outlet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--panel-2);
+  padding: 10px 14px;
+}
+.nr-fn-outlet {
+  border-color: var(--acc-border);
+  box-shadow: 0 0 16px var(--acc-glow);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.nr-fn-outlet.empty {
+  border-color: color-mix(in oklab, var(--risk) 55%, transparent);
+  box-shadow: 0 0 16px color-mix(in oklab, var(--risk) 25%, transparent);
+}
+.nr-fn-lab {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.nr-fn-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nr-fn-type {
+  font-family: var(--font-jb), monospace;
+  font-size: 12.5px;
+  color: var(--text);
+  background: var(--code-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+.nr-fn-type.out {
+  margin-left: auto;
+  color: var(--acc-ink);
+}
+.nr-fn-gate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 9px 14px;
+  background: var(--panel);
+  opacity: 0.6;
+  transition: opacity 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.nr-fn-gate.done {
+  opacity: 1;
+  border-style: solid;
+}
+.nr-fn-gate.active {
+  border-color: var(--warn);
+  box-shadow: 0 0 14px color-mix(in oklab, var(--warn) 30%, transparent);
+}
+.nr-fn-gate.ghost {
+  border-color: color-mix(in oklab, var(--risk) 45%, transparent);
+}
+.nr-fn-gate-code {
+  font-family: var(--font-jb), monospace;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.nr-fn-gate.done .nr-fn-gate-code {
+  color: var(--text);
+}
+.nr-fn-gate-catch {
+  margin-left: auto;
+}
+.nr-fn-wait {
+  font-size: 11px;
+  color: var(--text-3);
+}
+@media (max-width: 720px) {
+  .nr-fn-gate-catch,
+  .nr-fn-type.out {
+    margin-left: 0;
+  }
+}
+
+/* — §03 收窄六板斧 — */
+.nr-gx {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 14px;
+  align-items: start;
+  margin: 14px 0;
+}
+.nr-gx-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.nr-gx-cell {
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.nr-gx-cell:hover {
+  transform: translateY(-1px);
+  border-color: var(--acc-border);
+}
+.nr-gx-cell b {
+  font-family: var(--font-jb), monospace;
+  font-size: 13px;
+}
+.nr-gx-cell span {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.nr-gx-cell.on {
+  border-color: var(--acc-border);
+  box-shadow: 0 0 0 1px var(--acc-border), 0 0 18px var(--acc-glow);
+}
+.nr-gx-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 76px;
+}
+.nr-gx-view,
+.nr-gx-pit {
+  border-radius: 12px;
+  padding: 11px 14px;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+.nr-gx-view {
+  background: var(--info-bg);
+  border-left: 3px solid var(--info);
+}
+.nr-gx-pit {
+  background: var(--warn-bg);
+  border-left: 3px solid var(--warn);
+}
+.nr-gx-view p,
+.nr-gx-pit p {
+  margin: 4px 0 0;
+}
+.nr-gx-view b,
+.nr-gx-pit b,
+.nr-gx-view code,
+.nr-gx-pit code {
+  color: var(--text);
+}
+.nr-gx-view-lab,
+.nr-gx-pit-lab {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.nr-gx-view-lab {
+  color: var(--info);
+}
+.nr-gx-pit-lab {
+  color: var(--warn);
+}
+@media (max-width: 880px) {
+  .nr-gx {
+    grid-template-columns: 1fr;
+  }
+  .nr-gx-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .nr-gx-cell {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .nr-gx-cell span {
+    margin-left: 0;
+  }
+  .nr-gx-detail {
+    position: static;
+  }
+}
+
+/* — §04 分拣台 — */
+.nr-os-switch {
+  font-size: 12.5px;
+  color: var(--code-text);
+  background: var(--code-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+.nr-os-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.nr-os-btn {
+  font-family: var(--font-jb), monospace;
+  font-size: 12.5px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  color: var(--text-2);
+  border-radius: 10px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.nr-os-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--acc-border);
+}
+.nr-os-btn.on {
+  border-color: var(--acc-border);
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  box-shadow: 0 0 14px var(--acc-glow);
+}
+.nr-os-panel {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nr-os-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.nr-os-lab {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.nr-os-type {
+  font-family: var(--font-jb), monospace;
+  font-size: 12px;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+  border-radius: 8px;
+  padding: 4px 9px;
+}
+.nr-os-fields {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nr-os-field {
+  font-family: var(--font-jb), monospace;
+  font-size: 12px;
+  border-radius: 8px;
+  padding: 4px 10px;
+  border: 1px solid;
+}
+.nr-os-field.ok {
+  color: var(--ok);
+  border-color: color-mix(in oklab, var(--ok) 50%, transparent);
+  background: var(--ok-bg);
+}
+.nr-os-field.no {
+  color: var(--risk);
+  border-color: color-mix(in oklab, var(--risk) 45%, transparent);
+  background: var(--risk-bg);
+  text-decoration: line-through;
+  opacity: 0.85;
+}
+.nr-os-err {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--risk);
+  background: var(--code-bg);
+  border: 1px solid color-mix(in oklab, var(--risk) 35%, transparent);
+  border-radius: 8px;
+  padding: 8px 10px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+.nr-os-note {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+.nr-os-note b,
+.nr-os-note code {
+  color: var(--text);
+}

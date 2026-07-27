@@ -1,0 +1,268 @@
+/* 09 · 模块与声明文件 专属样式(前缀 md-)。通用样式一律来自 globals.css。 */
+
+/* — hero:商品与说明书货架 — */
+.md-shelf {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 28px 0 8px;
+  max-width: 720px;
+}
+.md-good {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 15px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  min-width: 170px;
+  flex: 1;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: md-rise 0.55s ease forwards;
+}
+.md-good .ico {
+  font-size: 20px;
+  line-height: 1;
+  margin-top: 6px;
+}
+.md-good b {
+  font-size: 13.5px;
+}
+.md-good small {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.55;
+}
+.md-good-tag {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--acc-border);
+  background: var(--acc-soft);
+  color: var(--acc-ink);
+  white-space: nowrap;
+}
+.md-good:last-child .md-good-tag {
+  border-color: color-mix(in oklab, var(--warn) 40%, transparent);
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+@keyframes md-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* — §02 lib 书架 — */
+.md-lib-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.md-book {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.md-book:hover {
+  transform: translateY(-1px);
+  border-color: var(--acc-border);
+}
+.md-book.on {
+  border-color: var(--acc-border);
+  box-shadow: 0 0 0 1px var(--acc-border), 0 0 18px var(--acc-glow);
+}
+.md-book .ico {
+  font-size: 18px;
+  line-height: 1;
+}
+.md-book b {
+  font-family: var(--font-jb), monospace;
+  font-size: 12px;
+}
+.md-lib-info {
+  margin-top: 12px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+.md-lib-info p {
+  margin: 9px 0 0;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text-2);
+}
+.md-lib-info code {
+  font-family: var(--font-jb), monospace;
+  font-size: 12px;
+}
+.md-lib-info b {
+  color: var(--text);
+}
+
+/* — §01 import 蒸发观察台 — */
+.md-erase-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+}
+.md-erase-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  transition: opacity 0.25s;
+}
+.md-erase-row code {
+  font-family: var(--font-jb), monospace;
+  font-size: 12.5px;
+  color: var(--code-text);
+  white-space: pre;
+  transition: opacity 0.25s;
+}
+.md-erase-row.gone code {
+  opacity: 0.32;
+  text-decoration: line-through;
+}
+.md-erase-note {
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+.md-erase-row.gone .md-erase-note {
+  color: var(--warn);
+  font-weight: 600;
+}
+
+/* — §03 编译器寻类型之旅 — */
+.md-quest {
+  min-width: 780px;
+  padding: 10px 4px;
+}
+.md-quest .flow-node {
+  gap: 4px;
+}
+.md-quest-mid {
+  min-height: 76px;
+}
+.md-node-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-3);
+  font-family: var(--font-jb), monospace;
+  text-align: center;
+}
+.md-found {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: var(--ok);
+  background: var(--ok-bg);
+  border: 1px solid color-mix(in oklab, var(--ok) 35%, transparent);
+  white-space: nowrap;
+}
+.md-deny {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: var(--risk);
+  background: var(--risk-bg);
+  border: 1px solid color-mix(in oklab, var(--risk) 35%, transparent);
+  white-space: nowrap;
+}
+
+/* — §05 boba-sdk 三步版本轨 — */
+.md-vroute {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 14px 0 4px;
+}
+.md-vstep {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.md-vstep .n {
+  font-family: var(--font-jb), monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--acc-ink);
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+}
+.md-varrow {
+  color: var(--text-3);
+  font-weight: 700;
+}
+
+/* — 主题与响应式微调 — */
+[data-theme="light"] .md-erase-list {
+  border-color: var(--border);
+}
+[data-theme="light"] .md-good {
+  background: var(--panel);
+}
+@media (max-width: 720px) {
+  .md-shelf {
+    flex-direction: column;
+    max-width: 420px;
+  }
+  .md-good {
+    min-width: 0;
+  }
+  .md-erase-row {
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .md-erase-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .md-erase-row code {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .md-vroute {
+    gap: 7px;
+  }
+  .md-varrow {
+    display: none;
+  }
+}

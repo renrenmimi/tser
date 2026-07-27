@@ -1,0 +1,331 @@
+/* 第 02 章 · 函数与对象类型 专属样式(前缀 fn-)。通用样式一律来自 globals.css。 */
+
+/* — hero:进出货单 — */
+.fn-manifest {
+  position: relative;
+  max-width: 560px;
+  margin: 26px 0 10px;
+  padding: 22px 20px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--panel-2);
+  overflow: hidden;
+}
+.fn-manifest::before {
+  /* 货单顶部的打孔条 */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--acc-border) 0 14px,
+    transparent 14px 28px
+  );
+  opacity: 0.7;
+}
+.fn-manifest-stamp {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  font-family: var(--font-jb), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px dashed var(--acc-border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  transform: rotate(6deg);
+}
+.fn-manifest-title {
+  font-family: var(--font-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.fn-manifest-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+.fn-manifest-row.out {
+  border-top: 1px dashed var(--border-strong);
+  margin-top: 6px;
+  padding-top: 9px;
+}
+.fn-dir {
+  flex-shrink: 0;
+  font-family: var(--font-jb), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 6px;
+  padding: 2px 7px;
+  color: var(--info);
+  background: var(--info-bg);
+  border: 1px solid color-mix(in oklab, var(--info) 40%, transparent);
+}
+.fn-dir.opt {
+  color: var(--warn);
+  background: var(--warn-bg);
+  border-color: color-mix(in oklab, var(--warn) 40%, transparent);
+}
+.fn-dir.ret {
+  color: var(--ok);
+  background: var(--ok-bg);
+  border-color: color-mix(in oklab, var(--ok) 40%, transparent);
+}
+.fn-manifest-code {
+  font-family: var(--font-jb), monospace;
+  font-size: 12.5px;
+  color: var(--text);
+}
+.fn-manifest-row.out .fn-manifest-code {
+  color: var(--acc-ink);
+  font-weight: 700;
+}
+.fn-manifest-tag {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* — §01 签名解剖台 — */
+.fn-sig {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 14px;
+  align-items: stretch;
+  margin: 14px 0;
+}
+.fn-sig-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: baseline;
+  padding: 20px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+  font-family: var(--font-jb), monospace;
+  font-size: 14.5px;
+  line-height: 2.15;
+}
+.fn-sig-seg {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  padding: 1px 2px;
+  white-space: pre;
+  color: var(--seg, var(--code-text));
+  border-bottom: 2px solid color-mix(in oklab, var(--seg) 45%, transparent);
+  transition: background 0.15s, border-color 0.15s;
+}
+.fn-sig-seg:hover {
+  background: var(--code-hl);
+}
+.fn-sig-seg.on {
+  background: color-mix(in oklab, var(--seg) 20%, transparent);
+  border-bottom-color: var(--seg);
+}
+.fn-sig-seg[data-k="name"] { --seg: var(--tk-fn); }
+.fn-sig-seg[data-k="p1"]   { --seg: var(--tk-type); }
+.fn-sig-seg[data-k="p2"]   { --seg: var(--tk-str); }
+.fn-sig-seg[data-k="p3"]   { --seg: var(--tk-num); }
+.fn-sig-seg[data-k="ret"]  { --seg: var(--tk-kw); }
+.fn-sig-info {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fn-sig-info-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fn-sig-info-head b {
+  font-size: 14px;
+}
+.fn-sig-info-code {
+  font-family: var(--font-jb), monospace;
+  font-size: 12.5px;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  white-space: pre;
+}
+.fn-sig-info p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+.fn-sig-info b {
+  color: var(--text);
+}
+@media (max-width: 880px) {
+  .fn-sig {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* — §05 能力对照表:勾叉 — */
+.fn-yes {
+  color: var(--ok);
+  font-weight: 700;
+}
+.fn-no {
+  color: var(--risk);
+  font-weight: 700;
+}
+
+/* — §06 调用体检机 — */
+.fn-cc-score {
+  margin-left: auto;
+  font-size: 12px;
+}
+.fn-cc-sig {
+  white-space: pre-wrap;
+  font-size: 12.5px;
+  line-height: 1.8;
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+.fn-cc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fn-cc-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  padding: 11px 14px;
+  transition: border-color 0.2s;
+}
+.fn-cc-item.solved {
+  border-color: color-mix(in oklab, var(--ok) 45%, transparent);
+}
+.fn-cc-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fn-cc-n {
+  font-family: var(--font-jb), monospace;
+  font-size: 11px;
+  color: var(--acc-ink);
+  border: 1px solid var(--acc-border);
+  border-radius: 6px;
+  padding: 1px 7px;
+  flex-shrink: 0;
+}
+.fn-cc-code {
+  font-family: var(--font-jb), monospace;
+  font-size: 12.5px;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.fn-cc-btns {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+.fn-cc-btn {
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 5px 11px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  transition: border-color 0.15s, transform 0.15s, background 0.15s;
+}
+.fn-cc-btn:hover {
+  border-color: var(--acc-border);
+  transform: translateY(-1px);
+}
+.fn-cc-btn.pass:hover { color: var(--ok); }
+.fn-cc-btn.stop:hover { color: var(--risk); }
+.fn-cc-btn.right {
+  border-color: color-mix(in oklab, var(--ok) 60%, transparent);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.fn-cc-btn.wrong {
+  border-color: color-mix(in oklab, var(--risk) 60%, transparent);
+  background: var(--risk-bg);
+  color: var(--risk);
+}
+.fn-cc-fb {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text-2);
+}
+.fn-cc-fb.ok {
+  background: var(--ok-bg);
+  border-left: 3px solid var(--ok);
+}
+.fn-cc-fb.no {
+  background: var(--warn-bg);
+  border-left: 3px solid var(--warn);
+}
+.fn-cc-verdict {
+  margin: 0 0 6px;
+}
+.fn-cc-verdict b,
+.fn-cc-why b,
+.fn-cc-why code {
+  color: var(--text);
+}
+.fn-cc-err {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--risk);
+  background: var(--code-bg);
+  border: 1px solid color-mix(in oklab, var(--risk) 35%, transparent);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 6px 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+.fn-cc-why {
+  margin: 6px 0 0;
+}
+@media (max-width: 720px) {
+  .fn-cc-btns {
+    margin-left: 0;
+    width: 100%;
+  }
+  .fn-cc-btn {
+    flex: 1;
+  }
+}

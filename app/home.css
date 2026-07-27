@@ -1,0 +1,315 @@
+/* 序章专属样式(前缀 hm-)。通用样式一律来自 globals.css,这里只放本章特有的。 */
+
+/* ================= hero:刚按下保存的编辑器小窗 ================= */
+
+.hm-squig {
+  max-width: 560px;
+  margin: 26px 0 10px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+}
+.hm-squig-body {
+  position: relative;
+  padding: 16px 0 58px;
+}
+.hm-squig-line {
+  display: flex;
+  gap: 14px;
+  padding: 0 16px;
+  font-family: var(--font-jb), monospace;
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--code-text);
+  white-space: pre;
+}
+.hm-squig-n {
+  color: var(--text-3);
+  user-select: none;
+}
+.hm-squig-err {
+  position: relative;
+  color: var(--code-text);
+  /* 红波浪线:两层径向渐变拼出来的 squiggle */
+  background-image: radial-gradient(
+      circle at 2px 100%,
+      transparent 1.5px,
+      var(--risk) 1.5px 2.4px,
+      transparent 2.4px
+    );
+  background-size: 6px 4px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  padding-bottom: 3px;
+  animation: hm-squig-pulse 3.6s ease-in-out infinite;
+}
+@keyframes hm-squig-pulse {
+  0%, 100% { background-position-y: 100%; }
+  50% { background-position-y: calc(100% - 1px); }
+}
+.hm-squig-tip {
+  position: absolute;
+  left: 46px;
+  bottom: 10px;
+  max-width: calc(100% - 62px);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-2);
+  background: var(--panel);
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--risk);
+  border-radius: 8px;
+  padding: 7px 10px;
+  animation: hm-tip-pop 3.6s ease-in-out infinite;
+}
+.hm-squig-tip b {
+  color: var(--text);
+  font-weight: 650;
+}
+@keyframes hm-tip-pop {
+  0%, 12% { opacity: 0; transform: translateY(4px); }
+  24%, 92% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(4px); }
+}
+.hm-squig-foot {
+  padding: 9px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* ================= §02 两条时间线 ================= */
+
+.hm-tl {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-width: 560px;
+  padding: 26px 8px 10px;
+}
+.hm-lane {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hm-lane-name {
+  flex: 0 0 34px;
+  font-family: var(--font-jb), monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  border-radius: 8px;
+  padding: 6px 0;
+  border: 1px solid var(--border-strong);
+}
+.hm-lane[data-tone="js"] .hm-lane-name {
+  color: oklch(75% 0.14 90);
+  background: oklch(75% 0.14 90 / 0.12);
+  border-color: oklch(75% 0.14 90 / 0.4);
+}
+.hm-lane[data-tone="ts"] .hm-lane-name {
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border-color: var(--acc-border);
+}
+.hm-lane-track {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hm-tl-node {
+  position: relative;
+  flex: 0 0 auto;
+  font-size: 12.5px;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 9px 13px;
+  white-space: nowrap;
+  transition: color 0.25s, border-color 0.25s, background 0.25s,
+    box-shadow 0.25s;
+}
+.hm-tl-node.done {
+  color: var(--text-2);
+  border-color: var(--border-strong);
+}
+.hm-tl-node.on {
+  color: var(--text);
+  border-color: var(--acc-border);
+  background: var(--acc-soft);
+  box-shadow: 0 0 0 3px var(--acc-soft);
+}
+.hm-tl-node.boom {
+  border-color: var(--risk);
+  background: oklch(60% 0.2 25 / 0.12);
+  box-shadow: 0 0 0 3px oklch(60% 0.2 25 / 0.14);
+  animation: hm-boom 0.9s ease-in-out infinite alternate;
+}
+@keyframes hm-boom {
+  from { box-shadow: 0 0 0 2px oklch(60% 0.2 25 / 0.1); }
+  to { box-shadow: 0 0 0 5px oklch(60% 0.2 25 / 0.2); }
+}
+.hm-tl-line {
+  flex: 1 1 22px;
+  min-width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--border-strong);
+}
+.hm-tl-tag {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(100% + 6px);
+  font-family: var(--font-jb), monospace;
+  font-size: 10.5px;
+  color: var(--text-2);
+  background: var(--panel-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  animation: hm-tag-in 0.3s ease-out;
+}
+@keyframes hm-tag-in {
+  from { opacity: 0; transform: translate(-50%, 3px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ================= §05 类型擦除 ================= */
+
+.hm-er-modes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.hm-er-win {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+  margin-bottom: 12px;
+}
+.hm-er-body {
+  margin: 0;
+  padding: 12px 0 16px;
+  font-family: var(--font-jb), monospace;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--code-text);
+  overflow-x: auto;
+}
+.hm-er-line {
+  display: flex;
+  gap: 14px;
+  padding: 0 16px;
+  white-space: pre;
+}
+.hm-er-n {
+  min-width: 1.4em;
+  text-align: right;
+  color: var(--text-3);
+  user-select: none;
+}
+.hm-er-t {
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+.hm-er-t.cut {
+  color: var(--risk);
+  background: oklch(60% 0.2 25 / 0.1);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+
+/* ================= §08 全书地图 ================= */
+
+.hm-map {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 14px;
+}
+.hm-map-camp {
+  font-family: var(--font-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.hm-map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.hm-map-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-decoration: none;
+  color: inherit;
+  border-left: 3px solid var(--acc);
+}
+.hm-map-num {
+  font-family: var(--font-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--acc-ink);
+}
+.hm-map-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+.hm-map-essence {
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+/* ================= 亮色主题微调 ================= */
+
+[data-theme="light"] .hm-squig-tip {
+  box-shadow: 0 6px 18px oklch(30% 0.03 250 / 0.12);
+}
+[data-theme="light"] .hm-tl-node.boom {
+  background: oklch(55% 0.19 25 / 0.09);
+}
+[data-theme="light"] .hm-er-t.cut {
+  background: oklch(55% 0.19 25 / 0.08);
+}
+
+/* ================= 响应式与可访问性 ================= */
+
+@media (max-width: 720px) {
+  .hm-map-grid {
+    grid-template-columns: 1fr;
+  }
+  .hm-squig-line {
+    font-size: 12px;
+  }
+  .hm-squig-tip {
+    left: 16px;
+    max-width: calc(100% - 32px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hm-squig-err,
+  .hm-squig-tip,
+  .hm-tl-node.boom,
+  .hm-tl-tag {
+    animation: none;
+  }
+  .hm-squig-tip {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,383 @@
+/* 第 07 章 · 类型运算 专属样式(前缀 tm-)。
+   通用样式一律来自 globals.css,这里只放本章特有的。 */
+
+/* — hero:拆开 Partial 看零件 — */
+.tm-hero {
+  margin: 26px 0 10px;
+  max-width: 640px;
+  border-radius: 14px;
+  border: 1px solid var(--acc-border);
+  background: var(--code-bg);
+  padding: 16px 18px 14px;
+  box-shadow: 0 0 24px var(--acc-glow);
+  animation: tm-glow 3.4s ease-in-out infinite;
+}
+@keyframes tm-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 14px var(--acc-glow);
+  }
+  50% {
+    box-shadow: 0 0 32px var(--acc-glow);
+  }
+}
+.tm-hero-line {
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--code-text);
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.tm-part {
+  border-radius: 6px;
+  padding: 2px 5px;
+  margin: 0 1px;
+  font-weight: 700;
+  border: 1px dashed transparent;
+}
+.tm-part[data-p="1"] {
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border-color: var(--acc-border);
+}
+.tm-part[data-p="2"] {
+  color: var(--warn);
+  background: var(--warn-bg);
+  border-color: color-mix(in oklab, var(--warn) 45%, transparent);
+}
+.tm-part[data-p="3"] {
+  color: var(--ok);
+  background: var(--ok-bg);
+  border-color: color-mix(in oklab, var(--ok) 45%, transparent);
+}
+.tm-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.tm-hero-tag {
+  font-size: 11px;
+  color: var(--text-3);
+}
+.tm-hero-tag[data-p="1"] {
+  color: var(--acc-ink);
+}
+.tm-hero-tag[data-p="2"] {
+  color: var(--warn);
+}
+.tm-hero-tag[data-p="3"] {
+  color: var(--ok);
+}
+
+/* — TmDistribute:条件类型分发机 — */
+.tm-dist-sig {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+  border-radius: 8px;
+  padding: 5px 12px;
+  margin-bottom: 12px;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.tm-dist {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: start;
+  width: 100%;
+}
+.tm-dist-col {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.tm-dist-lab {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 3px;
+}
+.tm-chip {
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  font-size: 12.5px;
+  color: var(--text);
+  transition:
+    opacity 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+.tm-chip.spent {
+  opacity: 0.32;
+}
+.tm-chip.active {
+  border-color: var(--acc);
+  box-shadow: 0 0 14px var(--acc-glow);
+  opacity: 1;
+}
+.tm-chip.pass {
+  border-color: color-mix(in oklab, var(--ok) 40%, transparent);
+  background: var(--ok-bg);
+  animation: tm-slide-in 0.4s var(--ease-spring);
+}
+@keyframes tm-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tm-dist-empty {
+  padding: 14px 10px;
+  border-radius: 10px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-3);
+  font-size: 12px;
+  text-align: center;
+}
+.tm-dist-mid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 190px;
+}
+.tm-gate {
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+  padding: 12px 14px;
+  text-align: center;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.tm-gate.on {
+  border-color: var(--acc-border);
+  box-shadow: 0 0 26px var(--acc-glow);
+}
+.tm-gate-cond {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--acc-ink);
+}
+.tm-gate-idle {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+.tm-gate-chip {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  animation: tm-pop 0.35s var(--ease-spring);
+}
+.tm-gate-chip i {
+  font-style: normal;
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+.tm-gate-chip.ok {
+  border: 1px solid color-mix(in oklab, var(--ok) 45%, transparent);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.tm-gate-chip.bad {
+  border: 1px solid color-mix(in oklab, var(--risk) 45%, transparent);
+  background: var(--risk-bg);
+  color: var(--risk);
+}
+@keyframes tm-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tm-bin {
+  border-radius: 12px;
+  border: 1px dashed color-mix(in oklab, var(--risk) 45%, transparent);
+  background: var(--risk-bg);
+  padding: 8px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.tm-bin-lab {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--risk);
+  width: 100%;
+}
+.tm-bin-empty {
+  font-size: 11px;
+  color: var(--text-3);
+}
+.tm-bin-item {
+  font-size: 11px;
+  color: var(--risk);
+  text-decoration: line-through;
+  border: 1px solid color-mix(in oklab, var(--risk) 35%, transparent);
+  border-radius: 6px;
+  padding: 1px 7px;
+  animation: tm-pop 0.35s var(--ease-spring);
+}
+.tm-dist-result {
+  margin-top: 12px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-3);
+  font-size: 12.5px;
+  font-weight: 700;
+  overflow-x: auto;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+.tm-dist-result.on {
+  border: 1px solid var(--acc-border);
+  background: var(--acc-soft);
+  color: var(--acc-ink);
+  box-shadow: 0 0 18px var(--acc-glow);
+}
+@media (max-width: 760px) {
+  .tm-dist {
+    grid-template-columns: 1fr;
+  }
+  .tm-dist-mid {
+    order: -1;
+  }
+}
+
+/* — TmMappedFactory:映射类型工厂 — */
+.tm-mf-seg {
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.tm-mf-seg .seg-btn {
+  font-size: 12.5px;
+}
+.tm-mf-src {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.tm-mf-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: center;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  padding: 14px 16px;
+}
+.tm-mf-col {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.tm-mf-arrow {
+  font-size: 20px;
+  color: var(--acc-ink);
+  text-align: center;
+}
+.tm-mf-card {
+  padding: 7px 11px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  font-size: 12px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.tm-mf-card.out {
+  border-color: var(--acc-border);
+  background: var(--acc-soft);
+  animation: tm-slide-in 0.35s var(--ease-spring);
+}
+@media (max-width: 700px) {
+  .tm-mf-grid {
+    grid-template-columns: 1fr;
+  }
+  .tm-mf-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* — 值世界 vs 类型世界 对照表加重 — */
+.tm-vs-table td:first-child {
+  color: var(--text-2);
+}
+.tm-vs-table td:last-child code,
+.tm-vs-table td:first-child code {
+  white-space: nowrap;
+}
+
+/* — 毕业仪式:每把改锥的小标题 — */
+.tm-tool-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 26px 0 4px;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.tm-tool-h:first-of-type {
+  margin-top: 8px;
+}
+.tm-tool-h .mono {
+  font-size: 13.5px;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+  border-radius: 7px;
+  padding: 2px 9px;
+}
+.tm-tool-h .tm-parts-used {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+@media (max-width: 640px) {
+  .tm-tool-h .tm-parts-used {
+    display: none;
+  }
+}

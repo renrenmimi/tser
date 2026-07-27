@@ -1,0 +1,434 @@
+/* 10 · tsconfig 与严格模式 专属样式(前缀 tc-)。通用样式一律来自 globals.css。 */
+
+/* ================= hero:游戏难度选择器 ================= */
+
+.tc-diffs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 26px 0 10px;
+  max-width: 640px;
+}
+
+.tc-diff {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: tc-diff-in 0.55s ease forwards;
+}
+.tc-diff .ico {
+  font-size: 17px;
+  line-height: 1;
+}
+.tc-diff small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.tc-diff.lit {
+  border-color: var(--acc-border);
+  background: var(--acc-soft);
+  box-shadow: 0 0 18px var(--acc-glow);
+}
+.tc-diff.lit small {
+  color: var(--acc-ink);
+}
+
+@keyframes tc-diff-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ================= §02 严格度调节台 ================= */
+
+.tc-strict-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* — 左列:开关组 — */
+.tc-sws {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tc-sw {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-2);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+  color: var(--text-2);
+}
+.tc-sw:hover {
+  border-color: var(--acc-border);
+}
+.tc-sw.on {
+  border-color: var(--acc-border);
+  background: var(--acc-soft);
+  color: var(--text);
+}
+
+.tc-sw-track {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  width: 30px;
+  height: 17px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel);
+  position: relative;
+  transition: all 0.2s;
+}
+.tc-sw-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--text-3);
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tc-sw.on .tc-sw-track {
+  border-color: var(--acc);
+  background: var(--acc-soft);
+}
+.tc-sw.on .tc-sw-knob {
+  left: 15px;
+  background: var(--acc);
+  box-shadow: 0 0 8px var(--acc-glow);
+}
+
+.tc-sw-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.tc-sw-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: inherit;
+}
+.tc-sw-text small {
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--text-3);
+}
+
+.tc-sw-badge {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+.tc-sw-badge[data-family="yes"] {
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+}
+.tc-sw-badge[data-family="no"] {
+  color: var(--warn);
+  background: var(--warn-bg);
+  border: 1px solid color-mix(in oklab, var(--warn) 40%, transparent);
+}
+
+.tc-sw-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* — 右列:代码窗 — */
+.tc-strict-code {
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+  overflow: hidden;
+}
+.tc-code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-strong);
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+.tc-shield {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: var(--warn);
+  background: var(--warn-bg);
+  transition: all 0.25s;
+}
+.tc-shield.full {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+
+/* 被军规抓住的行:红色高亮(覆盖 .cl.hl 的默认强调色) */
+.tc-strict-code .cl.hl {
+  background: var(--risk-bg);
+  box-shadow: inset 2.5px 0 0 var(--risk);
+}
+.tc-strict-code .cl.hl .cl-n {
+  color: var(--risk);
+  font-weight: 700;
+}
+
+/* — 错误控制台 — */
+.tc-errs {
+  margin-top: 14px;
+  border-radius: 12px;
+  border: 1px dashed var(--border-strong);
+  background: var(--panel);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+.tc-err {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  flex-wrap: wrap;
+  color: var(--text-2);
+  animation: tc-err-in 0.3s ease both;
+}
+@keyframes tc-err-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tc-err-loc {
+  color: var(--text-3);
+}
+.tc-err-code {
+  color: var(--risk);
+  font-weight: 700;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--risk-bg);
+}
+.tc-err-msg {
+  color: var(--text);
+}
+.tc-err-by {
+  color: var(--text-3);
+  font-size: 10.5px;
+}
+
+.tc-err-zero {
+  color: var(--text-3);
+  line-height: 1.7;
+}
+.tc-err-rest {
+  color: var(--warn);
+  padding-top: 5px;
+  border-top: 1px dashed var(--border);
+}
+.tc-err-full {
+  color: var(--ok);
+  line-height: 1.8;
+  padding-top: 5px;
+  border-top: 1px dashed var(--border);
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+}
+.tc-err-full b {
+  color: var(--ok);
+}
+
+/* ================= §04 target 拨盘 ================= */
+
+.tc-target .codepair {
+  margin: 4px 0 0;
+}
+
+/* ================= §05 迁移逐帧 ================= */
+
+.tc-mig-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 480px;
+  padding: 4px 2px;
+}
+
+.tc-mig-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.tc-mig-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 11px;
+  border-radius: 999px;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+}
+.tc-mig-errs {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  transition: all 0.25s;
+}
+.tc-mig-errs[data-tone="dim"] {
+  color: var(--text-3);
+  background: var(--panel-2);
+  border: 1px dashed var(--border-strong);
+}
+.tc-mig-errs[data-tone="warn"] {
+  color: var(--risk);
+  background: var(--risk-bg);
+}
+.tc-mig-errs[data-tone="ok"] {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+
+.tc-mig-files {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tc-mig-file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 110px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-strong);
+  background: var(--panel-2);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tc-mig-fname {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.tc-mig-file small {
+  font-size: 10px;
+  color: var(--text-3);
+}
+.tc-mig-file[data-st="js"] {
+  border-style: dashed;
+  opacity: 0.75;
+}
+.tc-mig-file[data-st="check"] {
+  border-color: color-mix(in oklab, var(--warn) 45%, transparent);
+  background: var(--warn-bg);
+}
+.tc-mig-file[data-st="check"] small {
+  color: var(--warn);
+}
+.tc-mig-file[data-st="ts"] {
+  border-color: var(--acc-border);
+  background: var(--acc-soft);
+}
+.tc-mig-file[data-st="ts"] small {
+  color: var(--acc-ink);
+}
+.tc-mig-file[data-st="ok"] {
+  border-color: color-mix(in oklab, var(--ok) 45%, transparent);
+  background: var(--ok-bg);
+  transform: translateY(-2px);
+}
+.tc-mig-file[data-st="ok"] small {
+  color: var(--ok);
+}
+
+.tc-mig-cfg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+.tc-mig-cfg-name {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 2px;
+}
+.tc-mig-cfg code {
+  color: var(--code-text);
+}
+
+/* ================= 窄屏 ================= */
+
+@media (max-width: 860px) {
+  .tc-strict-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .tc-diff {
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+  .tc-mig-stage {
+    min-width: 420px;
+  }
+}
