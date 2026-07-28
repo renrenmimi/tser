@@ -49,6 +49,8 @@
   50% { background-position-y: calc(100% - 1px); }
 }
 .hm-squig-tip {
+  /* --tip-arrow-x:小箭头到气泡左缘的距离,对准 totle 的中心(窄屏时在媒体查询里另调) */
+  --tip-arrow-x: 166px;
   position: absolute;
   left: 46px;
   bottom: 10px;
@@ -61,11 +63,41 @@
   border-left: 3px solid var(--risk);
   border-radius: 8px;
   padding: 7px 10px;
+  box-shadow:
+    0 10px 26px oklch(0% 0 0 / 0.35),
+    0 2px 8px oklch(0% 0 0 / 0.22);
   animation: hm-tip-pop 3.6s ease-in-out infinite;
+}
+/* 指向错词的小箭头:斜切菱形,和气泡同底同边框,像编辑器的错误悬浮卡 */
+.hm-squig-tip::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: var(--tip-arrow-x);
+  width: 8px;
+  height: 8px;
+  background: var(--panel);
+  border-left: 1px solid var(--border-strong);
+  border-top: 1px solid var(--border-strong);
+  transform: rotate(45deg);
 }
 .hm-squig-tip b {
   color: var(--text);
   font-weight: 650;
+}
+/* 报错编号徽章:真实 tsc 给这条错误的编号 */
+.hm-squig-ecode {
+  display: inline-block;
+  margin-left: 7px;
+  font-family: var(--font-jb), monospace;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 2px 5px;
+  vertical-align: 1px;
+  white-space: nowrap;
 }
 @keyframes hm-tip-pop {
   0%, 12% { opacity: 0; transform: translateY(4px); }
@@ -86,7 +118,9 @@
   flex-direction: column;
   gap: 26px;
   min-width: 560px;
-  padding: 26px 8px 10px;
+  /* 顶部余量给节点上方的气泡(.hm-tl-tag)留呼吸位:
+     外层 .viz-scroll 是 overflow-y: hidden,预留不足气泡会被切头 */
+  padding: 32px 8px 10px;
 }
 .hm-lane {
   display: flex;
@@ -164,7 +198,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(100% + 6px);
+  bottom: calc(100% + 8px);
   font-family: var(--font-jb), monospace;
   font-size: 10.5px;
   color: var(--text-2);
@@ -173,7 +207,18 @@
   border-radius: 999px;
   padding: 3px 9px;
   white-space: nowrap;
+  box-shadow: 0 4px 12px oklch(0% 0 0 / 0.28);
   animation: hm-tag-in 0.3s ease-out;
+}
+/* 气泡下方的指向小箭头,点住它标注的站点 */
+.hm-tl-tag::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--border-strong);
 }
 @keyframes hm-tag-in {
   from { opacity: 0; transform: translate(-50%, 3px); }
@@ -282,6 +327,14 @@
 [data-theme="light"] .hm-tl-node.boom {
   background: oklch(55% 0.19 25 / 0.09);
 }
+[data-theme="light"] .hm-squig-tip {
+  box-shadow:
+    0 10px 26px oklch(35% 0.04 250 / 0.16),
+    0 2px 8px oklch(35% 0.04 250 / 0.1);
+}
+[data-theme="light"] .hm-tl-tag {
+  box-shadow: 0 4px 12px oklch(35% 0.04 250 / 0.14);
+}
 [data-theme="light"] .hm-er-t.cut {
   background: oklch(55% 0.19 25 / 0.08);
 }
@@ -295,7 +348,13 @@
   .hm-squig-line {
     font-size: 12px;
   }
+  .hm-squig-body {
+    /* 窄屏气泡会折到三行,加高下摆别让它顶到代码行 */
+    padding-bottom: 84px;
+  }
   .hm-squig-tip {
+    /* 窄屏气泡左移、字号变小,箭头偏移随 totle 的位置重调 */
+    --tip-arrow-x: 176px;
     left: 16px;
     max-width: calc(100% - 32px);
   }

@@ -111,6 +111,10 @@ lib/<ch>-data.tsx      本章动手任务 LABS + 测验 QUIZ 数据
 - `<FlowStepper title frames={[{stage: ReactNode, msg: ReactNode},…]} />`
   舞台里用 globals.css 的 `.flow / .flow-node(.lit)/ .flow-mid / .flow-line / .flow-packet(.back)`。
 - 自由形态动画自建组件,复用 `.viz/.viz-stage/.viz-msg/.viz-ctl` 样式。
+- **悬浮气泡防裁剪**:`.viz-scroll` 是 `overflow-y: hidden`、`.viz` 是 `overflow: hidden`;
+  要在节点上方/下方挂气泡(如首页 `.hm-tl-tag`),必须在滚动内容自身预留
+  `padding-top/bottom`(参考 `.hm-tl` 的 32px)。气泡一律加指向箭头 + 阴影,
+  别让它悬空(参考 `.hm-squig-tip`/`.hm-tl-tag` 的 `::before/::after` 写法)。
 
 ### lib/quiz.tsx
 - `<Quiz ch="narrowing" items={QuizItem[]} />`;题型 choice/multi/fill。

@@ -1334,11 +1334,29 @@ li code {
 }
 
 .codewin-note {
-  padding: 10px 16px;
+  position: relative;
+  padding: 10px 16px 10px 44px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 12.5px;
   color: rgba(230, 235, 250, 0.6);
   line-height: 1.6;
+  background: oklch(70% 0.1 var(--hue) / 0.04);
+}
+
+/* 「注」徽章:跟随章节主题色,给底注一个精致的锚点 */
+.codewin-note::before {
+  content: "注";
+  position: absolute;
+  left: 15px;
+  top: 11px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 5px;
+  border: 1px solid var(--acc-border);
+  color: var(--acc);
+  background: var(--acc-soft);
 }
 
 .codewin-note b { color: rgba(240, 244, 255, 0.9); }

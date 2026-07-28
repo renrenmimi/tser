@@ -38,6 +38,7 @@ export function HeroSquiggle() {
         <div className="hm-squig-tip">
           <b>Property &apos;totle&apos; does not exist on type
           &apos;Order&apos;.</b> Did you mean &apos;total&apos;?
+          <span className="hm-squig-ecode">ts(2551)</span>
         </div>
       </div>
       <div className="hm-squig-foot">
