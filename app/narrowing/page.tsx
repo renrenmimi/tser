@@ -168,7 +168,7 @@ const b = order.sugar || 50; // 0 也会被换成 50!
 
 // 顾客点了 0% 糖(无糖):
 // a === 0  ✓ 尊重顾客
-// b === 50 ✕ 无糖变半糖,投诉预定`;
+// b === 50 ✕ 无糖变半糖,直接是一次投诉`;
 
 export default function NarrowingPage() {
   return (
@@ -374,7 +374,7 @@ export default function NarrowingPage() {
           }
         />
         <p className="sec-desc">
-          好戏在后头。三个月后,产品经理说要支持退款 ——
+          问题出在后面。三个月后,产品经理说要支持退款 ——
           你在类型里加了一个新状态:
         </p>
         <CodeBlock

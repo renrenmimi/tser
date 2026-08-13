@@ -116,7 +116,7 @@ export default function TsconfigPage() {
         <div className="grid-3">
           <div className="card">
             <div className="card-kicker">第一类 · 检查多严</div>
-            <div className="card-title">🛡️ strict 家族</div>
+            <div className="card-title">strict 家族</div>
             <p>
               noImplicitAny、strictNullChecks…… 决定编译器揪错揪得多狠。
               这是本章的重头戏,§02 逐条签。
@@ -124,7 +124,7 @@ export default function TsconfigPage() {
           </div>
           <div className="card">
             <div className="card-kicker">第二类 · 产物长啥样</div>
-            <div className="card-title">📦 target / module</div>
+            <div className="card-title">target / module</div>
             <p>
               输出的 JS 是哪个年代的语法、用哪种模块格式、放到哪个目录 ——
               §04 拨给你看。
@@ -132,7 +132,7 @@ export default function TsconfigPage() {
           </div>
           <div className="card">
             <div className="card-kicker">第三类 · 文件从哪来</div>
-            <div className="card-title">📂 include / paths</div>
+            <div className="card-title">include / paths</div>
             <p>
               哪些文件归 TS 管(include/exclude)、import
               的路径别名怎么解析(paths)—— 划定规则书的管辖范围。
@@ -517,7 +517,7 @@ const o: Order = { topping: undefined };
 
         <div className="grid-2">
           <div className="card">
-            <div className="card-title">📚 lib</div>
+            <div className="card-title">lib</div>
             <p>
               声明运行环境有哪些内置 API:写 <code>{`"dom"`}</code> 才认识
               document,写 <code>{`"es2022"`}</code> 才认识
@@ -525,14 +525,14 @@ const o: Order = { topping: undefined };
             </p>
           </div>
           <div className="card">
-            <div className="card-title">📂 outDir / rootDir</div>
+            <div className="card-title">outDir / rootDir</div>
             <p>
               产物去哪(<code>dist</code>)、源码在哪(<code>src</code>)——
               不设 outDir,编译出的 .js 会和 .ts 混住一屋,场面很难看。
             </p>
           </div>
           <div className="card">
-            <div className="card-title">🗺️ sourceMap</div>
+            <div className="card-title">sourceMap</div>
             <p>
               产物和源码之间的地图:开了它,调试器里断点打在 .ts
               上而不是编译产物上。一句话:开。
@@ -570,11 +570,11 @@ const o: Order = { topping: undefined };
         id="migrate"
         index="05"
         title="实战:祖传 JS 项目,渐进迁移"
-        desc="奶茶店老板的点单系统是三个 JS 文件,九百行,谁动谁背锅 —— 现在轮到你动。"
+        desc="奶茶店老板的点单系统是三个 JS 文件,九百行,长期没人敢改 —— 现在轮到你动。"
       >
         <p className="sec-desc">
           最忌讳的做法是「停业装修」:全部改成 .ts、strict
-          一次开满,然后面对四百个报错怀疑人生。正确的姿势是
+          一次开满,然后面对四百个报错无从下手。正确的做法是
           <b>渐进(incremental)</b>:每一步都保持系统能跑,每一步都比上一步严。
           走一遍:
         </p>

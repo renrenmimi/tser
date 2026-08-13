@@ -46,7 +46,7 @@ type B = Wrapped<"a" | 1>;
           <code>A</code> 显示 <code>boolean</code> 是最容易懵的一步:
           不是 TS 偷懒,而是 <code>true | false</code>{" "}
           这个联合的规范名就叫 boolean。看到条件类型返回了「不该是联合」的联合,
-          第一反应就该是:<b>哦,分发了</b>。
+          第一反应就该是:<b>这里发生了分发</b>。
         </p>
       </>
     ),

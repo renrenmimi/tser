@@ -224,7 +224,7 @@ shop.name;        // ✅ 大堂
 const s = new Shop();
 
 s.vaultCode;          // ❌ ts(2341)
-(s as any).vaultCode; // 😈 "8848"
+(s as any).vaultCode; // 拿到了 "8848"
 // 编译期拦得住同事,
 // 拦不住运行时的 as any`}
             />
@@ -252,7 +252,7 @@ const s = new Shop();
         <div className="grid-2">
           <div className="card">
             <div className="card-kicker">TS PRIVATE</div>
-            <div className="card-title">🚧 编译期围栏</div>
+            <div className="card-title">编译期围栏</div>
             <p>
               零运行时开销、报错信息友好、能参与类型系统的兼容判定
               (§06 的「准名义」就靠它)。适合挡的是<b>队友的手滑</b>:
@@ -261,7 +261,7 @@ const s = new Shop();
           </div>
           <div className="card">
             <div className="card-kicker">JS #FIELD</div>
-            <div className="card-title">🔒 运行时铁门</div>
+            <div className="card-title">运行时铁门</div>
             <p>
               JavaScript 原生语法,擦除后依然生效,类外
               <b>任何手段都拿不到</b>。TS 对它照样做完整类型检查。

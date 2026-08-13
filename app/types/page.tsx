@@ -279,7 +279,7 @@ export default function TypesPage() {
       >
         <InferenceLens />
         <p className="sec-desc" style={{ marginTop: 18 }}>
-          看明白了吧:局部变量这种「左手赋值右手用」的场合,推断全包了。
+          由此可见:局部变量这种「左手赋值右手用」的场合,推断全包了。
           那注解该写在哪?一句话:<b>写在边界上</b> ——
           凡是「别人要用」或「推断没材料」的地方。
         </p>

@@ -85,7 +85,7 @@ function firstOrder(arr: Order[]): Order | undefined {
           left={
             <CodeBlock
               lang="ts"
-              title="路线二 · any 一把梭:类型丢在门口"
+              title="路线二 · 全部用 any:类型丢在门口"
               hl={[4, 6]}
               code={`function first(arr: any[]): any {
   return arr[0];
@@ -448,7 +448,7 @@ const x = first(["三分糖"]);`}
           <p>
             在 .tsx 里写 <code>{"const id = <T>(x: T) => x"}</code>,
             编译器会把 <code>&lt;T&gt;</code> 当成一个 JSX 标签的开头,
-            直接懵掉。解法是加个逗号消歧义:
+            会把 <code>&lt;T&gt;</code> 当成 JSX 标签,报语法错。解法是加个逗号消歧义:
             <code>{"const id = <T,>(x: T) => x"}</code> ——
             纯 .ts 文件没这个问题,function 声明也没有。一句话记住:
             <b>tsx 里箭头函数留洞,逗号护体</b>。

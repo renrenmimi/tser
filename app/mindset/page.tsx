@@ -67,7 +67,7 @@ export default function MindsetPage() {
             编译器认真查,但查完把推断改写成你声明的类型;<b>断言</b>(
             <code>as Config</code>)是「我说了算」—— 编译器闭嘴,检查跳过;
             <b>satisfies</b>(TS 4.9)是「检查完别改我」——
-            形状照查,推断保留。口说无凭,上台对比:
+            形状照查,推断保留。下面直接对比:
           </p>
         </Callout>
 
@@ -465,7 +465,7 @@ cfg.hours.open = 8;
         <div className="grid-3">
           <div className="card hoverable">
             <div className="card-kicker">练功房 · 题库</div>
-            <div className="card-title">🏋️ type-challenges</div>
+            <div className="card-title">type-challenges</div>
             <p>
               github.com/type-challenges/type-challenges ——
               社区维护的类型体操题库,从 easy 到 extreme,
@@ -475,7 +475,7 @@ cfg.hours.open = 8;
           </div>
           <div className="card hoverable">
             <div className="card-kicker">原典 · 官方手册</div>
-            <div className="card-title">📖 TypeScript Handbook</div>
+            <div className="card-title">TypeScript Handbook</div>
             <p>
               typescriptlang.org/docs 下的 Handbook 是第一手资料:
               本书讲过的每个概念,那里都有权威版本。
@@ -484,7 +484,7 @@ cfg.hours.open = 8;
           </div>
           <div className="card hoverable">
             <div className="card-kicker">工作台 · 随手验证</div>
-            <div className="card-title">🧪 TS Playground</div>
+            <div className="card-title">TS Playground</div>
             <p>
               typescriptlang.org/play —— 免注册、可分享链接、能切 TS
               版本、能看编译产物。拿不准的行为,别猜,贴进去五秒出答案。

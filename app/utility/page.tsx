@@ -395,7 +395,7 @@ type SugarValue = NonNullable<SugarInput>; // Sugar`}
           </p>
           <p>
             顺嘴剧透:<code>Exclude</code> 的官方实现<b>只有一行</b>。
-            那一行里藏着下一章最精彩的魔法时刻 —— 分发。
+            那一行里藏着下一章最关键的机制 —— 分发。
           </p>
         </Callout>
       </Section>
@@ -518,7 +518,7 @@ type BoardStats = Record<Exclude<OrderStatus, "done" | "cancelled">, number>;
 
         <Callout tone="story" title="预告:下一章,拆改锥">
           <p>
-            这套改锥好用得不像话 —— 可它们不是天上掉下来的。
+            这套改锥非常好用 —— 可它们不是天上掉下来的。
             <code>Partial</code> 的官方实现只有一行,<code>Exclude</code>{" "}
             更短。下一章把它们全部拆开:零件就那么几个,拆完,
             <b>这一章用过的每一把,你都能亲手复刻</b>。

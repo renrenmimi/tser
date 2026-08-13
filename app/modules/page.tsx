@@ -206,7 +206,7 @@ declare function fetch(
         <div className="grid-3">
           <div className="card">
             <div className="card-kicker">SOURCE 1</div>
-            <div className="card-title">📦 库自带</div>
+            <div className="card-title">库自带</div>
             <p>
               TS 写的库编译时顺手 <code>--declaration</code>,
               package.json 用 <code>types</code>(或 exports 里的 types
@@ -215,7 +215,7 @@ declare function fetch(
           </div>
           <div className="card">
             <div className="card-kicker">SOURCE 2</div>
-            <div className="card-title">📚 DefinitelyTyped</div>
+            <div className="card-title">DefinitelyTyped</div>
             <p>
               社区代写说明书的大仓库,发布成 <code>@types/*</code> 包:
               <code>npm i -D @types/lodash</code>。老牌 JS 库几乎全有。
