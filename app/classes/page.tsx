@@ -65,7 +65,7 @@ export default function ClassesPage() {
           <p>
             class 的字段声明就是这份报备:你写下 <code>name: string</code>,
             等于承诺「每个 new 出来的实例,都有一个 string 类型的
-            name」。<b>strictPropertyInitialization</b>(strict 全家桶的一员)
+            name」。<b>strictPropertyInitialization</b>(strict 家族的一员)
             负责验收:承诺了却没赋值,编译期就拦下。
           </p>
         </Callout>

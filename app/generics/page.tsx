@@ -68,7 +68,7 @@ export default function GenericsPage() {
 
         <CodeBlock
           lang="ts"
-          title="路线一 · 每种类型抄一份:代码复读机"
+          title="路线一 · 每种类型抄一份:重复代码"
           code={`function firstString(arr: string[]): string | undefined {
   return arr[0];
 }
@@ -461,7 +461,7 @@ const x = first(["三分糖"]);`}
         id="labs"
         index="07"
         title="动手任务"
-        desc="四个任务,全在 TypeScript Playground 就能做:把复读机代码合成一个泛型,给奶茶店写分页容器,再玩一轮约束和双洞模具。"
+        desc="四个任务,全在 TypeScript Playground 就能做:把重复的代码合成一个泛型,给奶茶店写分页容器,再玩一轮约束和双洞模具。"
       >
         <LabSet ch="generics" items={LABS} />
       </Section>

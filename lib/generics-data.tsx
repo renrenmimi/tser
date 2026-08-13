@@ -9,7 +9,7 @@ import { CodeBlock } from "@/lib/code";
 export const LABS: Lab[] = [
   {
     id: "merge-three",
-    title: "把三份复读机函数,合成一个泛型",
+    title: "把三份重复的函数,合成一个泛型",
     d: "easy",
     tags: ["Playground", "泛型函数"],
     task: (
@@ -44,7 +44,7 @@ const a = first(["三分糖", "七分糖"]); // string | undefined
 const b = first([9.9, 19.9]);          // number | undefined
 const c = first([true, false]);        // boolean | undefined
 
-// 悬停 a、b、c 逐个验收 —— 三份复读机,一个洞全干掉`}
+// 悬停 a、b、c 逐个验收 —— 三份重复代码,一个类型参数全解决`}
         />
         <p>
           悬停验收是这个练习的重点:能亲眼看到 T
