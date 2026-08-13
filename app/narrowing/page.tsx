@@ -306,7 +306,7 @@ export default function NarrowingPage() {
               lang="ts"
               title="✕ 大而全 + 可选属性"
               code={S4_LOOSE}
-              hl={[13]}
+              hl={[12]}
               note={
                 <>
                   那个 <code>!</code> 就是投降书:类型系统帮不上忙,

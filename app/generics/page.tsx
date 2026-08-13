@@ -318,7 +318,7 @@ getProp(order, "topping");
         <CodeBlock
           lang="ts"
           title="containers.ts · 一个壳子,装遍全店"
-          hl={[4, 11, 18, 19]}
+          hl={[5, 10, 13, 19]}
           code={`type Size = "small" | "medium" | "large";
 type Order = { id: number; item: string; size: Size };
 type MenuItem = { name: string; price: number };

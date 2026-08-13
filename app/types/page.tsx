@@ -96,8 +96,11 @@ const menu = [
 
 // 直到很远的下游,错误才炸出来,而且报得很绕:
 const cheap = menu.filter((m) => m.price < 15);
-// Property 'price' does not exist on type
-// '{ name: string; prise: number; soldOut: boolean; }'.`;
+// error TS18048: 'm.price' is possibly 'undefined'.
+//
+// 为什么是「可能没有」而不是「不存在」?TS 把数组里两个对象字面量
+// 归一成一个联合类型,各自缺的属性会被补上并标成可选 ——
+// 于是 price 的类型成了 number | undefined。`;
 
 const MENU_TYPED = `// 注解在边界上:菜单是全店共用的数据,值得立一份形状
 type MenuItem = {
@@ -502,7 +505,7 @@ export default function TypesPage() {
           lang="ts"
           title="empty.ts · 坑三现场"
           code={EMPTY_ARR_CODE}
-          hl={[7]}
+          hl={[8]}
           note={
             <>
               一行注解 <code>const safe: string[] = []</code>{" "}

@@ -170,10 +170,19 @@ type ToppedItem = MenuItem & {
 };`;
 
 const S5_MERGE = `// declaration merging:同名 interface 自动合并 —— interface 独有
-interface Window {
-  teaShopVersion: string;
+
+// ⚠ 前提:只有「脚本文件」(整个文件没有任何 import / export)里的
+// interface 才直接落在全局。真实项目的文件几乎都是模块,此时下面这样写
+// 声明的是一个「局部的 Window」,不会与内置 Window 合并:
+//   error TS2339: Property 'teaShopVersion' does not exist on
+//                 type 'Window & typeof globalThis'.
+// 模块里要扩全局,必须用 declare global 包起来:
+declare global {
+  interface Window {
+    teaShopVersion: string;
+  }
 }
-// 上面这段和浏览器内置的 Window 合并了:
+// 这样才真的和浏览器内置的 Window 合并了:
 window.teaShopVersion; // ✓ 给全局对象「补」字段,靠的就是它
 
 // type 重名?直接报错:
@@ -467,7 +476,7 @@ export default function FunctionsPage() {
           </table>
         </div>
 
-        <CodeBlock lang="ts" title="interface 的独门:declaration merging" code={S5_MERGE} hl={[2, 3]} />
+        <CodeBlock lang="ts" title="interface 的独门:declaration merging" code={S5_MERGE} hl={[9, 10, 11]} />
         <CodeBlock lang="ts" title="type 的独门:union 与映射" code={S5_TYPE_ONLY} />
 
         <Callout tone="idea" title="到底选哪个?官方现行答案:随便,统一就行">
