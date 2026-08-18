@@ -39,7 +39,7 @@ visualization, then real code you can paste straight into the TypeScript Playgro
 verify, then the common mistakes, then a hands-on task, then a quiz. Progress is stored
 locally in the browser.
 
-Every compiler error quoted in the course is real `tsc` output, not written from memory.
+Every compiler error quoted in the course is `tsc` output.
 
 ## Running locally
 
@@ -55,7 +55,7 @@ Build with type checking: `npm run build`.
 
 ## Structure
 
-Next.js 15 (App Router) + TypeScript + React 19, plain CSS, no Tailwind. No API routes, so the whole site prerenders to static pages.
+Next.js 15 (App Router) + TypeScript + React 19, plain CSS. No API routes, so the whole site prerenders to static pages.
 
 Each chapter is one folder under `app/` holding its page, its visualizations (`viz.tsx`) and
 its own stylesheet, paired with a data file under `lib/` for labs and quizzes.
