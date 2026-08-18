@@ -13,9 +13,9 @@ Sister sites: [APIer](https://apier-eta.vercel.app) (APIs) and
 
 *The course home — 12 chapters from inference to type-level programming*
 
-![Generics, with real code you can paste into the Playground](docs/generics.jpg)
+![Generics, with code you can paste into the Playground](docs/generics.jpg)
 
-*Generics, with real code you can paste into the Playground*
+*Generics, with code you can paste into the Playground*
 
 ## Chapters
 
@@ -35,8 +35,7 @@ Sister sites: [APIer](https://apier-eta.vercel.app) (APIs) and
 | ✦ | Finale — thinking in types | `satisfies` · `as const` · `unknown` as the safe default · type challenges · final quiz |
 
 Each chapter follows the same rhythm: an intuition first, then an interactive
-visualization, then real code you can paste straight into the TypeScript Playground to
-verify, then the common mistakes, then a hands-on task, then a quiz. Progress is stored
+visualization, then code you can paste into the TypeScript Playground, then the common mistakes, then a hands-on task, then a quiz. Progress is stored
 locally in the browser.
 
 Every compiler error quoted in the course is `tsc` output.
