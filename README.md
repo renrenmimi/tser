@@ -17,7 +17,7 @@ Sister sites: [APIer](https://apier-eta.vercel.app) (APIs) and
 
 *Generics, with real code you can paste into the Playground*
 
-## The 12 chapters
+## Chapters
 
 | # | Chapter | What it covers |
 |---|---|---|
