@@ -9,6 +9,14 @@ type-level programming.
 Sister sites: [APIer](https://apier-eta.vercel.app) (APIs) and
 [DataData](https://data-data.vercel.app) (data structures) — same design language.
 
+![The course home — 12 chapters from inference to type-level programming](docs/home.jpg)
+
+*The course home — 12 chapters from inference to type-level programming*
+
+![Generics, with real code you can paste into the Playground](docs/generics.jpg)
+
+*Generics, with real code you can paste into the Playground*
+
 ## The 12 chapters
 
 | # | Chapter | What it covers |
