@@ -2,9 +2,8 @@
 
 **▶ [Open the course](https://tser.vercel.app)** — runs in your browser, nothing to install.
 
-An interactive TypeScript course for people starting from zero. It starts at "why types at
-all" and goes far enough that you can read the errors, design your own types, and do real
-type-level programming.
+An interactive TypeScript course covering the motivation for types, compiler feedback,
+application-level type design, and an introduction to type-level programming.
 
 Sister sites: [APIer](https://apier-eta.vercel.app) (APIs) and
 [DataData](https://data-data.vercel.app) (data structures) — same design language.
