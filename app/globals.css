@@ -1343,7 +1343,15 @@ li code {
   background: oklch(70% 0.1 var(--hue) / 0.04);
 }
 
-/* 「注」徽章:跟随章节主题色,给底注一个精致的锚点 */
+/* 「注」徽章:跟随章节主题色,给底注一个精致的锚点。英文界面换成 NOTE,同时留出更宽的槽位。 */
+html[data-lang="en"] .codewin-note {
+  padding-left: 60px;
+}
+
+html[data-lang="en"] .codewin-note::before {
+  content: "NOTE";
+}
+
 .codewin-note::before {
   content: "注";
   position: absolute;
