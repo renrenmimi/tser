@@ -1,33 +1,49 @@
 "use client";
 
-// 第 04 章 · 结构化类型 —— 本章专属可视化:
-//  - HeroDuck:hero 里的「鸭子测试安检口」循环动画(纯 CSS 驱动)。
-//  - CompatPlayground:兼容方向实验台 —— Barista 和 Staff 互相赋值,看哪个方向亮绿灯。
-//  - ShapeMatcher:形状匹配器 —— 对象逐成员「对孔」,多余属性检查做成
-//    「字面量直传 / 先存变量」开关,亲眼看同一个对象两种命运。
+// Chapter 04 · Structural typing — visualizations for this chapter:
+//  - HeroDuck: the "duck test" gate in the hero, looping (pure CSS).
+//  - CompatPlayground: assign Barista to Staff and back, and see which
+//    direction is allowed.
+//  - ShapeMatcher: the object is checked member by member. The excess property
+//    check becomes a switch between "literal at the call site" and "stored in a
+//    variable first", so the same object gets two different verdicts.
 
 import { useMemo, useState, type ReactNode } from "react";
 import { useStepper, StepControls } from "@/lib/stepper";
+import { T, useL, type Loc } from "@/lib/i18n";
 
 /* ================= HeroDuck ================= */
 
+const HERO_CANDS: Loc<string>[] = [
+  { en: "class instance", zh: "class 实例" },
+  { en: "object literal", zh: "对象字面量" },
+  { en: "imported interface", zh: "别处的 interface" },
+];
+
 export function HeroDuck() {
+  const L = useL();
   return (
     <div className="st-hero" aria-hidden>
       <div className="st-cands">
-        <div className="st-cand">class 正式工</div>
-        <div className="st-cand">对象字面量</div>
-        <div className="st-cand">隔壁店的 interface</div>
+        {HERO_CANDS.map((c, i) => (
+          <div key={i} className="st-cand">
+            {L(c)}
+          </div>
+        ))}
       </div>
       <div className="flow-mid st-hero-mid">
         <div className="flow-line" />
         <span className="flow-packet st-go">{`{ name, makeTea }`}</span>
-        <span className="flow-packet back st-back">✓ 形状对,上岗</span>
+        <span className="flow-packet back st-back">
+          <T en="✓ shape matches" zh="✓ 形状对上了" />
+        </span>
       </div>
       <div className="flow-node lit st-gate">
         <span className="ico">🦆</span>
-        鸭子测试
-        <span className="st-gate-sub">只看形状 · 不问出身</span>
+        <T en="Duck test" zh="鸭子测试" />
+        <span className="st-gate-sub">
+          <T en="Members only · no declaration" zh="只看成员 · 不问声明" />
+        </span>
       </div>
     </div>
   );
@@ -45,39 +61,92 @@ const BARISTA_MEMBERS = [
 const STAFF_MEMBERS = [{ key: "name", type: "string" }];
 
 export function CompatPlayground() {
+  const L = useL();
   const [dir, setDir] = useState<Dir>("idle");
 
   const msg: ReactNode =
     dir === "idle" ? (
-      <>
-        两个类型摆在这:<b>Barista</b> 三个成员,<b>Staff</b>{" "}
-        只要一个。点上面的按钮,试试两个赋值方向 —— 猜猜哪个能过。
-      </>
+      <T
+        en={
+          <>
+            Two types are on the table. <b>Barista</b> has three members,{" "}
+            <b>Staff</b> requires one. Use the buttons above to try both
+            assignment directions, and predict which one is allowed.
+          </>
+        }
+        zh={
+          <>
+            两个类型摆在这里:<b>Barista</b> 有三个成员,<b>Staff</b>{" "}
+            只要求一个。用上面的按钮试两个赋值方向,先猜猜哪个能过。
+          </>
+        }
+      />
     ) : dir === "toStaff" ? (
-      <>
-        <b>绿灯。</b>排班表只问一件事:有 name 吗?Barista 有,还是
-        string —— 对上了。多出来的 makeTea 和 years 是「多带的技能」,
-        不碍事。<b>成员多的更具体,可以当成员少的用。</b>
-      </>
+      <T
+        en={
+          <>
+            <b>Allowed.</b> <code>Staff</code> asks one question: is there a{" "}
+            <code>name</code>, and is it a <code>string</code>?{" "}
+            <code>Barista</code> answers yes. The extra <code>makeTea</code> and{" "}
+            <code>years</code> are not part of the requirement, so they are
+            ignored. <b>A type with more members can stand in for one with
+            fewer.</b>
+          </>
+        }
+        zh={
+          <>
+            <b>通过。</b>
+            <code>Staff</code> 只问一件事:有没有 <code>name</code>,
+            是不是 <code>string</code>?<code>Barista</code> 的回答是有。
+            多出来的 <code>makeTea</code> 和 <code>years</code>{" "}
+            不在要求里,直接被忽略。<b>成员多的类型,可以顶替成员少的。</b>
+          </>
+        }
+      />
     ) : (
-      <>
-        <b>红灯。</b>Staff 身上翻不出 makeTea,也没有 years ——
-        缺两个成员,两个孔都对不上。让只登记了名字的人直接上吧台,
-        编译器不答应。<b>成员少的,当不了成员多的用。</b>
-      </>
+      <T
+        en={
+          <>
+            <b>Rejected.</b> <code>Staff</code> has no <code>makeTea</code> and
+            no <code>years</code>, so two required members are missing. The
+            compiler reports both of them at once:{" "}
+            <b>a type with fewer members cannot stand in for one with more.</b>
+          </>
+        }
+        zh={
+          <>
+            <b>拒绝。</b>
+            <code>Staff</code> 身上既没有 <code>makeTea</code> 也没有{" "}
+            <code>years</code>,两个必需成员都缺。编译器会一次报出这两个:
+            <b>成员少的类型,顶替不了成员多的。</b>
+          </>
+        }
+      />
     );
 
-  const codeLine =
+  const codeLine: Loc<string> =
     dir === "toStaff"
-      ? "const s: Staff = barista;   // ✅ 通过"
+      ? {
+          en: "const s: Staff = barista;   // ✓ accepted",
+          zh: "const s: Staff = barista;   // ✓ 通过",
+        }
       : dir === "toBarista"
-        ? "const b: Barista = staff;   // ❌ 缺 makeTea、years"
-        : "// ← 选一个方向试试";
+        ? {
+            en: "const b: Barista = staff;   // ✕ ts(2739): missing makeTea, years",
+            zh: "const b: Barista = staff;   // ✕ ts(2739):缺 makeTea、years",
+          }
+        : {
+            en: "// ← pick a direction to try",
+            zh: "// ← 选一个方向试试",
+          };
 
   return (
     <div className="viz">
       <div className="viz-title">
-        兼容方向实验台:多的当少的用,行;反过来,不行
+        <T
+          en="Assignability direction: more members can stand in for fewer, not the other way round"
+          zh="兼容方向实验台:多的当少的用可以,反过来不行"
+        />
         <span className="seg" role="group">
           <button
             type="button"
@@ -100,7 +169,7 @@ export function CompatPlayground() {
           <div className="st-duel">
             <TypeCard
               name="Barista"
-              sub="后厨老手 · 3 个成员"
+              sub={<T en="the value · 3 members" zh="要赋的值 · 3 个成员" />}
               members={BARISTA_MEMBERS}
               lights={
                 dir === "toBarista"
@@ -117,19 +186,25 @@ export function CompatPlayground() {
                   dir === "idle" ? "" : dir === "toStaff" ? "ok" : "bad"
                 }`}
               >
-                {dir === "idle" ? "?" : dir === "toStaff" ? "✓ 兼容" : "✕ 拒绝"}
+                {dir === "idle" ? (
+                  "?"
+                ) : dir === "toStaff" ? (
+                  <T en="✓ compatible" zh="✓ 兼容" />
+                ) : (
+                  <T en="✕ rejected" zh="✕ 拒绝" />
+                )}
               </span>
             </div>
             <TypeCard
               name="Staff"
-              sub="排班表要求 · 1 个成员"
+              sub={<T en="the target · 1 member" zh="目标要求 · 1 个成员" />}
               members={STAFF_MEMBERS}
               lights={dir === "toStaff" ? { name: "ok" } : {}}
             />
           </div>
         </div>
       </div>
-      <div className="st-codeline mono">{codeLine}</div>
+      <div className="st-codeline mono">{L(codeLine)}</div>
       <div className="viz-msg" aria-live="polite">
         {msg}
       </div>
@@ -144,7 +219,7 @@ function TypeCard({
   lights,
 }: {
   name: string;
-  sub: string;
+  sub: ReactNode;
   members: { key: string; type: string }[];
   lights: Record<string, "ok" | "bad" | "dim">;
 }) {
@@ -174,37 +249,37 @@ const TARGET = [
 
 interface Preset {
   id: string;
-  label: string;
-  /** 对象实际有的成员:key → 展示值 + 实际类型 */
+  label: Loc<string>;
+  /** the members the object really has: key → displayed value + actual type */
   pins: { key: string; val: string; type: string }[];
 }
 
 const PRESETS: Preset[] = [
   {
     id: "fit",
-    label: "阿珍 · 刚好匹配",
+    label: { en: "Zhen · exact match", zh: "Zhen · 刚好匹配" },
     pins: [
-      { key: "name", val: '"阿珍"', type: "string" },
+      { key: "name", val: '"Zhen"', type: "string" },
       { key: "makeTea", val: "() => { … }", type: "() => void" },
     ],
   },
   {
     id: "extra",
-    label: "阿强 · 多带一个 salary",
+    label: { en: "Qiang · one extra salary", zh: "Qiang · 多带一个 salary" },
     pins: [
-      { key: "name", val: '"阿强"', type: "string" },
+      { key: "name", val: '"Qiang"', type: "string" },
       { key: "makeTea", val: "() => { … }", type: "() => void" },
       { key: "salary", val: "8000", type: "number" },
     ],
   },
   {
     id: "missing",
-    label: "临时工 · 少了 makeTea",
-    pins: [{ key: "name", val: '"临时工"', type: "string" }],
+    label: { en: "Temp · no makeTea", zh: "Temp · 少了 makeTea" },
+    pins: [{ key: "name", val: '"Temp"', type: "string" }],
   },
   {
     id: "wrongtype",
-    label: "42 号 · name 类型不对",
+    label: { en: "No.42 · name is a number", zh: "42 号 · name 类型不对" },
     pins: [
       { key: "name", val: "42", type: "number" },
       { key: "makeTea", val: "() => { … }", type: "() => void" },
@@ -219,6 +294,7 @@ interface MatchFrame {
   extras: Record<string, Light>;
   msg: ReactNode;
   verdict?: "ok" | "bad";
+  /** compiler output — stays in English in both languages */
   errText?: string;
 }
 
@@ -235,15 +311,37 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
     mem: { ...mem },
     extras: { ...extras },
     msg: literal ? (
-      <>
-        对象<b>现做现卖</b>,以字面量的身份直接递给 startShift ——
-        逐个成员对孔,开始。
-      </>
+      <T
+        en={
+          <>
+            The object is written <b>at the call site</b> and passed to{" "}
+            <code>startShift</code> as a literal. The members are now checked
+            one by one.
+          </>
+        }
+        zh={
+          <>
+            这个对象<b>直接写在调用处</b>,以字面量的身份传给{" "}
+            <code>startShift</code>。现在开始逐个检查成员。
+          </>
+        }
+      />
     ) : (
-      <>
-        对象先存进了变量 <code>c</code>,再把 <code>c</code> 递给
-        startShift —— 逐个成员对孔,开始。
-      </>
+      <T
+        en={
+          <>
+            The object is stored in the variable <code>c</code> first, and{" "}
+            <code>c</code> is passed to <code>startShift</code>. The members are
+            now checked one by one.
+          </>
+        }
+        zh={
+          <>
+            这个对象先存进变量 <code>c</code>,再把 <code>c</code> 传给{" "}
+            <code>startShift</code>。现在开始逐个检查成员。
+          </>
+        }
+      />
     ),
   });
 
@@ -256,10 +354,22 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
         mem: { ...mem },
         extras: { ...extras },
         msg: (
-          <>
-            对 <code>{t.key}</code> 这个孔:对象身上翻遍了也没有 ——
-            <b>缺孔,红灯</b>。这一条跟怎么传无关,缺就是缺。
-          </>
+          <T
+            en={
+              <>
+                Required member <code>{t.key}</code>: the object does not have
+                it at all. <b>Missing, so this one fails.</b> This has nothing
+                to do with how the object was passed. Missing is missing.
+              </>
+            }
+            zh={
+              <>
+                必需成员 <code>{t.key}</code>:对象身上根本没有。
+                <b>缺失,这一项不通过。</b>
+                这和对象怎么传进来无关,缺就是缺。
+              </>
+            }
+          />
         ),
       });
     } else if (pin.type !== t.type) {
@@ -269,11 +379,23 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
         mem: { ...mem },
         extras: { ...extras },
         msg: (
-          <>
-            对 <code>{t.key}</code> 这个孔:名字对上了,可它是{" "}
-            <code>{pin.type}</code>,孔要的是 <code>{t.type}</code> ——
-            <b>插头形状不对,红灯</b>。
-          </>
+          <T
+            en={
+              <>
+                Required member <code>{t.key}</code>: the name is there, but its
+                type is <code>{pin.type}</code> and the requirement is{" "}
+                <code>{t.type}</code>. <b>The types do not match, so this one
+                fails.</b>
+              </>
+            }
+            zh={
+              <>
+                必需成员 <code>{t.key}</code>:名字是有,但它的类型是{" "}
+                <code>{pin.type}</code>,要求的是 <code>{t.type}</code>。
+                <b>类型对不上,这一项不通过。</b>
+              </>
+            }
+          />
         ),
       });
     } else {
@@ -282,10 +404,20 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
         mem: { ...mem },
         extras: { ...extras },
         msg: (
-          <>
-            对 <code>{t.key}</code> 这个孔:有,而且是{" "}
-            <code>{t.type}</code> —— <b>这一孔对上了,绿灯</b>。
-          </>
+          <T
+            en={
+              <>
+                Required member <code>{t.key}</code>: present, and its type is{" "}
+                <code>{t.type}</code>. <b>This one passes.</b>
+              </>
+            }
+            zh={
+              <>
+                必需成员 <code>{t.key}</code>:有,类型也是{" "}
+                <code>{t.type}</code>。<b>这一项通过。</b>
+              </>
+            }
+          />
         ),
       });
     }
@@ -297,17 +429,42 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
       mem: { ...mem },
       extras: { ...extras },
       msg: literal ? (
-        <>
-          还剩一个 <code>{extraPins[0].key}</code>,目标类型里没这个孔。
-          字面量是现做现卖的 —— 多写一个属性,只可能是拼错或想多了。
-          <b>多余属性检查出手,红灯</b>。
-        </>
+        <T
+          en={
+            <>
+              One member is left over: <code>{extraPins[0].key}</code>, which
+              the target type does not declare. The literal was written for this
+              one call, so an extra property is almost always a typo or a
+              misunderstanding. <b>The excess property check reports it.</b>
+            </>
+          }
+          zh={
+            <>
+              还剩一个 <code>{extraPins[0].key}</code>,目标类型里没有声明它。
+              这个字面量只为这一次调用而写,多出来的属性几乎都是拼错或误解。
+              <b>多余属性检查在这里报错。</b>
+            </>
+          }
+        />
       ) : (
-        <>
-          还剩一个 <code>{extraPins[0].key}</code>,目标类型里没这个孔。
-          但它存过变量,别处可能正当用途 —— 按「多的当少的用」放行,
-          <b>黄灯,不追究</b>。
-        </>
+        <T
+          en={
+            <>
+              One member is left over: <code>{extraPins[0].key}</code>, which
+              the target type does not declare. But the object lives in a
+              variable and may be used elsewhere for a valid reason, so the
+              ordinary rule applies: more members are allowed.{" "}
+              <b>Not reported.</b>
+            </>
+          }
+          zh={
+            <>
+              还剩一个 <code>{extraPins[0].key}</code>,目标类型里没有声明它。
+              但这个对象存在变量里,别处可能另有正当用途,
+              于是按普通规则判断:成员多是允许的。<b>不报错。</b>
+            </>
+          }
+        />
       ),
     });
   } else if (extraPins.length > 0) {
@@ -316,40 +473,97 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
 
   const literalExtraBad = literal && extraPins.length > 0 && !anyBad;
   const pass = !anyBad && !literalExtraBad;
+
+  let errText: string | undefined;
+  if (!pass) {
+    if (preset.id === "missing") {
+      // identical in both modes: a missing member is not about freshness
+      errText =
+        "Argument of type '{ name: string; }' is not assignable to parameter of type 'Staff'. Property 'makeTea' is missing in type '{ name: string; }' but required in type 'Staff'. ts(2345)";
+    } else if (preset.id === "wrongtype") {
+      errText = literal
+        ? "Type 'number' is not assignable to type 'string'. ts(2322)"
+        : "Argument of type '{ name: number; makeTea: () => void; }' is not assignable to parameter of type 'Staff'. Types of property 'name' are incompatible. Type 'number' is not assignable to type 'string'. ts(2345)";
+    } else {
+      errText =
+        "Object literal may only specify known properties, and 'salary' does not exist in type 'Staff'. ts(2353)";
+    }
+  }
+
   frames.push({
     mem: { ...mem },
     extras: { ...extras },
     verdict: pass ? "ok" : "bad",
-    errText: pass
-      ? undefined
-      : anyBad
-        ? preset.id === "missing"
-          ? "Property 'makeTea' is missing in type '{ name: string; }' but required in type 'Staff'."
-          : "Type 'number' is not assignable to type 'string'."
-        : "Object literal may only specify known properties, and 'salary' does not exist in type 'Staff'.",
+    errText,
     msg: pass ? (
-      <>
-        <b>通过,上岗。</b>
-        {extraPins.length > 0 ? (
-          <>
-            多带的 {extraPins[0].key} 没人追究 —— 想看另一种命运,
-            把上面的开关拨到「字面量直传」再走一遍。
-          </>
-        ) : (
-          <>每个孔都严丝合缝 —— 它从没声明过自己是 Staff,但这不重要。</>
-        )}
-      </>
+      extraPins.length > 0 ? (
+        <T
+          en={
+            <>
+              <b>Accepted.</b> Nobody objected to the extra{" "}
+              {extraPins[0].key}. To see the other outcome, set the switch above
+              to &quot;pass a literal&quot; and run it again.
+            </>
+          }
+          zh={
+            <>
+              <b>通过。</b>多出来的 {extraPins[0].key} 没有被追究。
+              想看另一种结果,把上面的开关拨到「字面量直传」,再走一遍。
+            </>
+          }
+        />
+      ) : (
+        <T
+          en={
+            <>
+              <b>Accepted.</b> Every required member is present with a matching
+              type. The object never declared that it was a <code>Staff</code>,
+              and that makes no difference.
+            </>
+          }
+          zh={
+            <>
+              <b>通过。</b>每个必需成员都在,类型也对得上。
+              这个对象从没声明过自己是 <code>Staff</code>,而这并不影响结果。
+            </>
+          }
+        />
+      )
     ) : anyBad ? (
-      <>
-        <b>拒绝。</b>孔对不上就是对不上 —— 编译器把报错原文摆在下面了,
-        试着读懂它:说的正是刚才那盏红灯。
-      </>
+      <T
+        en={
+          <>
+            <b>Rejected.</b> A required member did not match, and that is true
+            however the object is passed. The compiler message is shown above —
+            it describes exactly the member that failed.
+          </>
+        }
+        zh={
+          <>
+            <b>拒绝。</b>有必需成员没对上,而且无论对象怎么传都是这个结果。
+            编译器的原文就在上面 —— 它描述的正是刚才没通过的那个成员。
+          </>
+        }
+      />
     ) : (
-      <>
-        <b>拒绝。</b>同一个对象,先存变量就能过 —— 把开关拨到
-        「先存变量」验证一下。这不是编译器抽风,是它对「新鲜」字面量
-        故意更严:此刻多写的属性,九成是 bug。
-      </>
+      <T
+        en={
+          <>
+            <b>Rejected.</b> The same object compiles once it is stored in a
+            variable. Switch to &quot;store in a variable&quot; and check. This
+            is not inconsistent behavior: the compiler is deliberately stricter
+            with a fresh literal, because an extra property there is almost
+            always a bug.
+          </>
+        }
+        zh={
+          <>
+            <b>拒绝。</b>同一个对象,先存进变量就能通过 ——
+            把开关拨到「先存变量」验证一下。这不是前后矛盾:
+            编译器对新鲜的字面量刻意更严,因为此处多出来的属性几乎都是 bug。
+          </>
+        }
+      />
     ),
   });
 
@@ -357,6 +571,7 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
 }
 
 export function ShapeMatcher() {
+  const L = useL();
   const [presetIdx, setPresetIdx] = useState(1);
   const [literal, setLiteral] = useState(true);
   const preset = PRESETS[presetIdx];
@@ -382,21 +597,24 @@ export function ShapeMatcher() {
   return (
     <div className="viz">
       <div className="viz-title">
-        形状匹配器:startShift(s: Staff) 的安检口
+        <T
+          en="Shape matcher: the check performed by startShift(s: Staff)"
+          zh="形状匹配器:startShift(s: Staff) 处的检查"
+        />
         <span className="seg" role="group">
           <button
             type="button"
             className={`seg-btn${literal ? " on" : ""}`}
             onClick={() => setMode(true)}
           >
-            字面量直传
+            <T en="Pass a literal" zh="字面量直传" />
           </button>
           <button
             type="button"
             className={`seg-btn${!literal ? " on" : ""}`}
             onClick={() => setMode(false)}
           >
-            先存变量
+            <T en="Store in a variable" zh="先存变量" />
           </button>
         </span>
       </div>
@@ -409,7 +627,7 @@ export function ShapeMatcher() {
             className={`st-preset${presetIdx === i ? " on" : ""}`}
             onClick={() => pick(i)}
           >
-            {p.label}
+            {L(p.label)}
           </button>
         ))}
       </div>
@@ -418,9 +636,13 @@ export function ShapeMatcher() {
         <div className="viz-scroll">
           <div className="st-match">
             <div className="st-match-head">
-              <span>来应聘的对象</span>
+              <span>
+                <T en="The value being passed" zh="传进来的值" />
+              </span>
               <span />
-              <span>插座 · type Staff</span>
+              <span>
+                <T en="Required · type Staff" zh="要求 · type Staff" />
+              </span>
             </div>
             {TARGET.map((t) => {
               const pin = preset.pins.find((p) => p.key === t.key);
@@ -434,7 +656,9 @@ export function ShapeMatcher() {
                         <em className="st-tt">{pin.type}</em>
                       </>
                     ) : (
-                      <span className="st-none">(没有这个成员)</span>
+                      <span className="st-none">
+                        <T en="(no such member)" zh="(没有这个成员)" />
+                      </span>
                     )}
                   </span>
                   <span className="st-wire">
@@ -457,7 +681,9 @@ export function ShapeMatcher() {
                   <span className="st-wire">
                     <span className="st-light" data-s={s} />
                   </span>
-                  <span className="st-hole st-none">(没有对应的孔)</span>
+                  <span className="st-hole st-none">
+                    <T en="(not required)" zh="(不在要求里)" />
+                  </span>
                 </div>
               );
             })}
@@ -471,7 +697,11 @@ export function ShapeMatcher() {
           : `const c = { ${preset.pins.map((p) => `${p.key}: ${p.val}`).join(", ")} };  startShift(c)`}
         {f.verdict && (
           <span className={`st-verdict ${f.verdict}`}>
-            {f.verdict === "ok" ? "✓ 编译通过" : "✕ 编译报错"}
+            {f.verdict === "ok" ? (
+              <T en="✓ compiles" zh="✓ 编译通过" />
+            ) : (
+              <T en="✕ compile error" zh="✕ 编译报错" />
+            )}
           </span>
         )}
       </div>
