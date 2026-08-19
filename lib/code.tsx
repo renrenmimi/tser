@@ -7,14 +7,15 @@
 
 import { useMemo, type ReactNode } from "react";
 import { highlight, type CodeLangId } from "@/lib/highlight";
+import { useL, type Loc } from "@/lib/i18n";
 
-const LANG_LABEL: Record<CodeLangId, string> = {
+const LANG_LABEL: Record<CodeLangId, Loc<string>> = {
   ts: "TypeScript",
   js: "JavaScript",
   json: "JSON",
   bash: "Terminal",
   http: "HTTP",
-  dts: "声明文件 .d.ts",
+  dts: { en: "Declaration file .d.ts", zh: "声明文件 .d.ts" },
 };
 
 export function CodeLines({
@@ -58,12 +59,13 @@ export function CodeBlock({
   hl,
   note,
 }: {
-  code: string;
+  code: Loc<string>;
   lang: CodeLangId;
-  title?: string;
+  title?: Loc<string>;
   hl?: number[];
-  note?: ReactNode;
+  note?: Loc<ReactNode>;
 }) {
+  const L = useL();
   return (
     <div className="codewin">
       <div className="codewin-bar">
@@ -72,11 +74,13 @@ export function CodeBlock({
           <i />
           <i />
         </span>
-        <span className="codewin-name">{title ?? LANG_LABEL[lang]}</span>
+        <span className="codewin-name">
+          {L(title ?? LANG_LABEL[lang])}
+        </span>
         <span style={{ width: 47 }} aria-hidden />
       </div>
-      <CodeLines code={code} lang={lang} hl={hl} />
-      {note && <div className="codewin-note">{note}</div>}
+      <CodeLines code={L(code)} lang={lang} hl={hl} />
+      {note && <div className="codewin-note">{L(note)}</div>}
     </div>
   );
 }

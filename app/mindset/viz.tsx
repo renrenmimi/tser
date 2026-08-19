@@ -11,6 +11,7 @@ import { useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { CHAPTERS, type ChapterId, type Chapter } from "@/lib/curriculum";
 import { CodeLines } from "@/lib/code";
+import { useL } from "@/lib/i18n";
 import { FlowStepper, type FlowFrame } from "@/lib/stepper";
 
 /* ================= HeroCreed ================= */
@@ -406,6 +407,7 @@ const CAMP_META: { camp: Chapter["camp"]; label: string; sub: string }[] = [
 ];
 
 export function RoadMap() {
+  const L = useL();
   return (
     <div className="ms-map">
       {CAMP_META.map((g) => {
@@ -425,9 +427,9 @@ export function RoadMap() {
                   style={{ "--hue": c.hue } as CSSProperties}
                 >
                   <span className="ms-map-num">
-                    {c.num} · {c.en}
+                    {c.num} · {L(c.en)}
                   </span>
-                  <span className="ms-map-title">{c.title}</span>
+                  <span className="ms-map-title">{L(c.title)}</span>
                   <span className="ms-map-soul">{SOULS[c.id]}</span>
                 </Link>
               ))}
