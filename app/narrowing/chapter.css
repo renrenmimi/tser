@@ -1,6 +1,7 @@
-/* 第 03 章 · 联合类型与收窄 专属样式(前缀 nr-)。通用样式一律来自 globals.css。 */
+/* Chapter 03 · Unions and narrowing — chapter-only styles (nr- prefix).
+   Everything shared lives in globals.css. */
 
-/* — hero:迷你安检通道 — */
+/* — hero: the miniature checkpoint — */
 .nr-hero {
   position: relative;
   max-width: 560px;
@@ -12,7 +13,7 @@
   overflow: hidden;
 }
 .nr-hero::before {
-  /* 安检口的警示斜纹 */
+  /* warning stripes across the top of the checkpoint */
   content: "";
   position: absolute;
   top: 0;
@@ -60,11 +61,14 @@
   margin-left: auto;
   font-size: 11px;
   color: var(--text-3);
-  white-space: nowrap;
+  /* English runs longer than Chinese here — let it wrap instead of clipping */
+  text-align: right;
+  max-width: 100%;
 }
 .nr-hero-row.roomy .nr-hero-tag {
-  /* 给右上角的 SECURITY CHECK 邮戳让位 */
+  /* keep clear of the SECURITY CHECK stamp in the top-right corner */
   margin-right: 118px;
+  max-width: calc(100% - 118px);
 }
 .nr-hero-gate {
   font-family: var(--font-jb), monospace;
@@ -76,7 +80,7 @@
   margin: 4px 0;
 }
 
-/* — 类型成员小票(漏斗、通用) — */
+/* — union member chips (used by the funnel) — */
 .nr-chip {
   display: inline-block;
   font-family: var(--font-jb), monospace;
@@ -103,7 +107,7 @@
   border-style: dashed;
 }
 
-/* — §02 类型漏斗 — */
+/* — §02 the funnel — */
 .nr-funnel .viz-stage {
   padding: 14px;
 }
@@ -204,7 +208,7 @@
   }
 }
 
-/* — §03 收窄六板斧 — */
+/* — §03 the checks that narrow — */
 .nr-gx {
   display: grid;
   grid-template-columns: 0.72fr 1.28fr;
@@ -236,12 +240,14 @@
 .nr-gx-cell b {
   font-family: var(--font-jb), monospace;
   font-size: 13px;
+  /* names such as "discriminated union" must be able to wrap */
+  overflow-wrap: anywhere;
 }
 .nr-gx-cell span {
   margin-left: auto;
   font-size: 11px;
   color: var(--text-3);
-  white-space: nowrap;
+  text-align: right;
 }
 .nr-gx-cell.on {
   border-color: var(--acc-border);
@@ -282,9 +288,10 @@
 }
 .nr-gx-view-lab,
 .nr-gx-pit-lab {
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .nr-gx-view-lab {
   color: var(--info);
@@ -297,7 +304,7 @@
     grid-template-columns: 1fr;
   }
   .nr-gx-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
   .nr-gx-cell {
     flex-direction: column;
@@ -305,13 +312,14 @@
   }
   .nr-gx-cell span {
     margin-left: 0;
+    text-align: left;
   }
   .nr-gx-detail {
     position: static;
   }
 }
 
-/* — §04 分拣台 — */
+/* — §05 the switch demo — */
 .nr-os-switch {
   font-size: 12.5px;
   color: var(--code-text);
@@ -377,6 +385,9 @@
   border: 1px solid var(--acc-border);
   border-radius: 8px;
   padding: 4px 9px;
+  /* the delivered member is long — wrap instead of overflowing the panel */
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 .nr-os-fields {
   display: flex;
