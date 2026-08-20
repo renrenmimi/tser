@@ -1206,7 +1206,7 @@ export default function TsconfigPage() {
                 </td>
                 <td>
                   <T
-                    en="The loose-mode behaviours of older JavaScript, such as assigning to a variable that was never declared"
+                    en="The loose-mode behaviors of older JavaScript, such as assigning to a variable that was never declared"
                     zh="旧 JavaScript 松散模式下的那些行为,比如给一个从未声明的变量赋值"
                   />
                 </td>

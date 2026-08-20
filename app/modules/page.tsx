@@ -1382,7 +1382,7 @@ export default function ModulesPage() {
                   Declarations in DefinitelyTyped are written by volunteers, so
                   they can lag behind the library. Install a new major version of
                   lodash while <code>@types/lodash</code> stays on the old one,
-                  and the types will describe behaviour the library no longer
+                  and the types will describe behavior the library no longer
                   has.
                 </p>
                 <p>

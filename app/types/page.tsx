@@ -490,7 +490,7 @@ export default function TypesPage() {
         <Callout
           tone="idea"
           title={{
-            en: "Learn the first five well, and just recognise the last two",
+            en: "Learn the first five well, and just recognize the last two",
             zh: "先认前五户,后两户认个脸就行",
           }}
         >

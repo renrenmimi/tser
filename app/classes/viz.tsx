@@ -387,7 +387,7 @@ const ERASE_TABS: EraseTab[] = [
             outside the class is a syntax error, and{" "}
             <code>JSON.stringify(shop)</code> prints <code>{"{}"}</code>. With
             an older target the compiler emits a <code>WeakMap</code> that
-            keeps the same behaviour.
+            keeps the same behavior.
           </>
         }
         zh={

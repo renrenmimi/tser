@@ -991,7 +991,7 @@ export const QUIZ: QuizItem[] = [
         en: (
           <>
             <code>Object.freeze</code> is a runtime function you call yourself.
-            TypeScript never adds behaviour to the output. Type erasure is
+            TypeScript never adds behavior to the output. Type erasure is
             absolute.
           </>
         ),

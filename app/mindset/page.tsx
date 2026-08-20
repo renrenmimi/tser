@@ -1867,7 +1867,7 @@ export default function MindsetPage() {
           {
             en: (
               <>
-                The most useful thing types do is modelling: a discriminated
+                The most useful thing types do is modeling: a discriminated
                 union makes illegal states impossible to write, so the agreement
                 stops being a comment. And when you are unsure, check it in the
                 Playground instead of guessing.

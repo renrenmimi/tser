@@ -1187,7 +1187,7 @@ export default function UtilityPage() {
                   <code>Exclude&lt;A | B | C, B&gt;</code> gives{" "}
                   <code>A | C</code> instead of comparing the whole union at
                   once. Chapter 07 shows the one-line definition that produces
-                  this behaviour.
+                  this behavior.
                 </p>
               </>
             }
@@ -1339,7 +1339,7 @@ export default function UtilityPage() {
                   <code>Uncapitalize</code> goes the other way. All four work on
                   string literal types only, and they become genuinely useful
                   together with the template literal types in Chapter 07. For
-                  now, just recognise the names.
+                  now, just recognize the names.
                 </p>
                 <p>
                   There is also <code>NoInfer&lt;T&gt;</code>, added in

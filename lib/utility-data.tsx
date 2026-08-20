@@ -595,7 +595,7 @@ export const QUIZ: QuizItem[] = [
         en: (
           <>
             Types are erased when the code compiles, as Chapter 01 showed, so a
-            type cannot produce any runtime behaviour. You still write the
+            type cannot produce any runtime behavior. You still write the
             default values yourself.
           </>
         ),

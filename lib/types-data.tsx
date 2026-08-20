@@ -427,7 +427,7 @@ const menu: MenuItem[] = [
           title={{ en: "The fix", zh: "修复" }}
           code={{
             en: `function newCart() {
-  const cart: string[] = []; // labelled at creation
+  const cart: string[] = []; // labeled at creation
   return cart;               // return type is inferred as string[]
 }
 

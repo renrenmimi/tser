@@ -573,7 +573,7 @@ export const QUIZ: QuizItem[] = [
           <>
             The compiler does not rewrite one syntax into another.{" "}
             <code>private</code> is a type-system annotation and is simply
-            erased. If you want the runtime behaviour of <code>#</code>, you
+            erased. If you want the runtime behavior of <code>#</code>, you
             have to write <code>#</code>.
           </>
         }

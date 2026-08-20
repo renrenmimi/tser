@@ -1359,7 +1359,7 @@ export const QUIZ: QuizItem[] = [
       {
         en: (
           <>
-            <code>any</code> was the old behaviour.{" "}
+            <code>any</code> was the old behavior.{" "}
             <code>useUnknownInCatchVariables</code>, part of the strict family,
             changed it to <code>unknown</code>.
           </>

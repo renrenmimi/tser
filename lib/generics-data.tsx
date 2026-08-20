@@ -789,7 +789,7 @@ export const QUIZ: QuizItem[] = [
       {
         en: (
           <>
-            Length is not the argument. The difference is in behaviour: one
+            Length is not the argument. The difference is in behavior: one
             drops the type at the door, the other carries it through to the
             result.
           </>
@@ -1173,7 +1173,7 @@ export const QUIZ: QuizItem[] = [
         en: (
           <>
             It works either way, and inference works fine. That is exactly the
-            problem: whatever <code>T</code> is filled with, the behaviour and
+            problem: whatever <code>T</code> is filled with, the behavior and
             the result type do not change.
           </>
         ),

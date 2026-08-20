@@ -835,7 +835,7 @@ export default function TypeMagicPage() {
           <T
             en={
               <>
-                On its own that is not much. The important behaviour appears
+                On its own that is not much. The important behavior appears
                 when the checked type is a union. The last chapter said that{" "}
                 <code>Exclude</code> is defined in a single line, and this is
                 that line. But how can a ternary <b>remove</b> members from a
@@ -869,7 +869,7 @@ export default function TypeMagicPage() {
           <T
             en={
               <>
-                This behaviour is called a <b>distributive conditional type</b>,
+                This behavior is called a <b>distributive conditional type</b>,
                 and it has one condition that you have to know: it happens{" "}
                 <b>
                   only when the type on the left of <code>extends</code> is a

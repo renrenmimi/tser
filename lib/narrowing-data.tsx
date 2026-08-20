@@ -1757,7 +1757,7 @@ export const QUIZ: QuizItem[] = [
           <>
             That is what you want, but <code>||</code> tests truthiness and{" "}
             <code>0</code> is falsy, so it is replaced. Use <code>??</code> to
-            get this behaviour.
+            get this behavior.
           </>
         }
         zh={

@@ -817,7 +817,7 @@ export const QUIZ: QuizItem[] = [
       {
         en: (
           <>
-            The compiler never adds runtime behaviour of that kind. It removes
+            The compiler never adds runtime behavior of that kind. It removes
             types and reports errors. The null check is always yours to write.
           </>
         ),
