@@ -1,12 +1,13 @@
 /* 第 06 章 · 内置工具类型 专属样式(前缀 ut-)。
-   通用样式一律来自 globals.css,这里只放本章特有的。 */
+   通用样式一律来自 globals.css,这里只放本章特有的。
+   英文文案比中文长,尺寸按英文留出余量。 */
 
-/* — hero:Order → 改锥 → 新类型 轮播 — */
+/* — hero:Order → 工具 → 新类型 轮播 — */
 .ut-hero {
   display: flex;
   align-items: center;
   gap: 12px;
-  max-width: 660px;
+  max-width: 760px;
   margin: 26px 0 10px;
 }
 .ut-hero-box {
@@ -31,6 +32,8 @@
   border-top: 2px dashed var(--acc-border);
 }
 .ut-hero-tool {
+  flex: 0 0 auto;
+  max-width: 220px;
   padding: 9px 14px;
   border-radius: 12px;
   border: 1px solid var(--acc-border);
@@ -46,9 +49,9 @@
 }
 .ut-hero-tool-eff {
   font-size: 10.5px;
+  line-height: 1.45;
   color: var(--text-3);
-  margin-top: 2px;
-  white-space: nowrap;
+  margin-top: 3px;
 }
 @keyframes ut-pop {
   from {
@@ -113,8 +116,9 @@
   color: var(--text-3);
   margin-bottom: 3px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 4px 8px;
 }
 .ut-pipe-done {
   color: var(--ok);
@@ -200,7 +204,9 @@
   flex-direction: column;
   gap: 10px;
   align-items: stretch;
-  min-width: 170px;
+  /* 英文的工具说明比中文长,这一列要宽一些才不会挤成细长条 */
+  min-width: 215px;
+  max-width: 260px;
 }
 .ut-machine {
   border-radius: 14px;
@@ -256,12 +262,13 @@
   padding: 1px 7px;
   animation: ut-pop 0.35s var(--ease-spring);
 }
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .ut-pipe {
     grid-template-columns: 1fr;
   }
   .ut-pipe-mid {
     order: -1;
+    max-width: none;
   }
 }
 
@@ -328,11 +335,12 @@
   white-space: nowrap;
 }
 
-/* — 每把改锥的小标题 — */
+/* — 每个工具类型的小标题 — */
 .ut-tool-h {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 6px 8px;
   margin: 26px 0 4px;
   font-size: 15.5px;
   font-weight: 700;

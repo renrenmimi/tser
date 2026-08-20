@@ -1,21 +1,41 @@
 "use client";
 
-// 第 06 章 · 内置工具类型 —— 本章专属可视化:
-//  - UtHeroToolbox:hero 顶部的「Order 进 → 换刀头 → 新类型出」轮播示意。
-//  - UtPipeline:类型加工流水线(本章招牌)—— 六个字段逐个过机,
-//    Partial / Readonly / Pick / Omit 四个刀头可切换,配逐帧旁白。
+// 第 06 章 · 内置工具类型 —— 本章专属可视化(双语:文案用 <Tx en zh />,
+// 类型名、代码与编译器报错原文保持不变):
+//  - UtHeroToolbox:hero 顶部的「Order 进 → 换工具 → 新类型出」轮播示意。
+//  - UtPipeline:类型加工流水线(本章招牌)—— 六个属性逐个过机,
+//    Partial / Readonly / Pick / Omit 四种工具可切换,配逐帧旁白。
 //  - UtUnionSieve:联合类型筛子 —— Exclude / Extract 对同一个 union 的两种筛法。
+//
+// 所有推断结果与「哪一行会被拦」均在 TypeScript 5.9 + strict 下实测过。
 
 import { useEffect, useState, type ReactNode } from "react";
 import { useStepper, StepControls } from "@/lib/stepper";
+import { T as Tx } from "@/lib/i18n";
 
 /* ================= UtHeroToolbox ================= */
 
-const HERO_TOOLS = [
-  { tool: "Partial", out: "Partial<Order>", eff: "字段全变可选" },
-  { tool: "Readonly", out: "Readonly<Order>", eff: "字段全部上锁" },
-  { tool: "Pick", out: 'Pick<Order, "id" | "size">', eff: "只挑要的字段" },
-  { tool: "Omit", out: 'Omit<Order, "internalNote">', eff: "抹掉不给看的" },
+const HERO_TOOLS: { tool: string; out: string; eff: ReactNode }[] = [
+  {
+    tool: "Partial",
+    out: "Partial<Order>",
+    eff: <Tx en="every property optional" zh="每个属性都变可选" />,
+  },
+  {
+    tool: "Readonly",
+    out: "Readonly<Order>",
+    eff: <Tx en="every property read-only" zh="每个属性都变只读" />,
+  },
+  {
+    tool: "Pick",
+    out: 'Pick<Order, "id" | "size">',
+    eff: <Tx en="keep only these properties" zh="只留下点到名的属性" />,
+  },
+  {
+    tool: "Omit",
+    out: 'Omit<Order, "internalNote">',
+    eff: <Tx en="remove these properties" zh="删掉点到名的属性" />,
+  },
 ];
 
 export function UtHeroToolbox() {
@@ -66,31 +86,51 @@ const UT_TOOLS: {
   id: UtToolId;
   sig: string;
   out: string;
-  blurb: string;
+  blurb: ReactNode;
 }[] = [
   {
     id: "Partial",
     sig: "Partial<Order>",
     out: "DraftOrder",
-    blurb: "每个字段拧上 ? —— 草稿订单,想填几项填几项",
+    blurb: (
+      <Tx
+        en="Adds ? to every property. A draft order can be saved half-filled."
+        zh="给每个属性加上 ?。草稿订单可以只填一部分就存下来。"
+      />
+    ),
   },
   {
     id: "Readonly",
     sig: "Readonly<Order>",
     out: "LockedOrder",
-    blurb: "每个字段焊上 readonly —— 小票打出来就不许改",
+    blurb: (
+      <Tx
+        en="Adds readonly to every property. A printed receipt must not be reassigned."
+        zh="给每个属性加上 readonly。小票已经打出来了,不能再改。"
+      />
+    ),
   },
   {
     id: "Pick",
     sig: 'Pick<Order, "id" | "drink" | "size">',
     out: "OrderListItem",
-    blurb: "白名单:点到名的留下,其他一律不放行",
+    blurb: (
+      <Tx
+        en="An allow-list: the named properties are kept, everything else is left out."
+        zh="白名单:点到名的属性留下,其余一概不带走。"
+      />
+    ),
   },
   {
     id: "Omit",
     sig: 'Omit<Order, "internalNote">',
     out: "PublicOrder",
-    blurb: "黑名单:点到名的丢废料箱,其他原样通过",
+    blurb: (
+      <Tx
+        en="A block-list: the named properties are dropped, everything else passes through."
+        zh="黑名单:点到名的属性丢掉,其余原样通过。"
+      />
+    ),
   },
 ];
 
@@ -111,38 +151,131 @@ function utFieldMsg(tool: UtToolId, f: UtField): ReactNode {
   const v = utVerdict(tool, f.key);
   if (v === "opt")
     return (
-      <>
-        <b>{f.key}</b> 过机:类型一个字符没动,冒号前拧上一个 <code>?</code> ——
-        这一项想填就填,不填也合法。
-      </>
+      <Tx
+        en={
+          <>
+            <b>{f.key}</b> goes through. A <code>?</code> is added before the
+            colon. The property may now be left out, so reading it gives{" "}
+            <code>
+              {f.type} | undefined
+            </code>
+            .
+          </>
+        }
+        zh={
+          <>
+            <b>{f.key}</b> 过机:冒号前加上一个 <code>?</code>。
+            这个属性现在可以不写,所以读它拿到的是{" "}
+            <code>
+              {f.type} | undefined
+            </code>
+            。
+          </>
+        }
+      />
     );
   if (v === "lock")
-    return (
-      <>
-        <b>{f.key}</b> 过机:前面焊上 <code>readonly</code> ——
-        初始化之后再想赋值,编译器直接拦下。
-      </>
+    return f.key === "toppings" ? (
+      <Tx
+        en={
+          <>
+            <b>toppings</b> goes through and becomes{" "}
+            <code>readonly toppings: string[]</code>. Assigning a new array to{" "}
+            <code>o.toppings</code> is rejected, but{" "}
+            <code>o.toppings.push(&quot;boba&quot;)</code> is still allowed:{" "}
+            <code>Readonly</code> only protects the property, not the array it
+            points at.
+          </>
+        }
+        zh={
+          <>
+            <b>toppings</b> 过机,变成{" "}
+            <code>readonly toppings: string[]</code>。给{" "}
+            <code>o.toppings</code> 赋一个新数组会被拒绝,但{" "}
+            <code>o.toppings.push(&quot;boba&quot;)</code> 依然合法:
+            <code>Readonly</code> 保护的是属性本身,不是属性指向的那个数组。
+          </>
+        }
+      />
+    ) : (
+      <Tx
+        en={
+          <>
+            <b>{f.key}</b> goes through. <code>readonly</code> is added in
+            front. After the object is created, assigning to this property is
+            rejected by the compiler.
+          </>
+        }
+        zh={
+          <>
+            <b>{f.key}</b> 过机:前面加上 <code>readonly</code>。
+            对象建好之后,再给这个属性赋值就会被编译器拒绝。
+          </>
+        }
+      />
     );
   if (v === "keep")
     return tool === "Pick" ? (
-      <>
-        <b>{f.key}</b> 在白名单上,原样放行 —— 名字、类型,一个字符都没改。
-      </>
+      <Tx
+        en={
+          <>
+            <b>{f.key}</b> is on the allow-list, so it passes through unchanged.
+            Same name, same type, same optional and readonly markers.
+          </>
+        }
+        zh={
+          <>
+            <b>{f.key}</b> 在白名单上,原样通过。名字、类型、
+            可选与只读标记全都不变。
+          </>
+        }
+      />
     ) : (
-      <>
-        <b>{f.key}</b> 没被点名,原样通过 —— Omit 只对名单上的键下手。
-      </>
+      <Tx
+        en={
+          <>
+            <b>{f.key}</b> was not named, so it passes through unchanged.{" "}
+            <code>Omit</code> only touches the keys you list.
+          </>
+        }
+        zh={
+          <>
+            <b>{f.key}</b> 没被点名,原样通过。<code>Omit</code>{" "}
+            只处理你列出的那些键。
+          </>
+        }
+      />
     );
   return tool === "Pick" ? (
-    <>
-      <b>{f.key}</b> 不在 Pick 的白名单上,拦下丢进废料箱 ——
-      新类型里查无此人。
-    </>
+    <Tx
+      en={
+        <>
+          <b>{f.key}</b> is not on the allow-list, so it is dropped. The new
+          type has no such property, and reading it is a compile error.
+        </>
+      }
+      zh={
+        <>
+          <b>{f.key}</b> 不在白名单上,被丢掉。新类型里没有这个属性,
+          读它就是一个编译错误。
+        </>
+      }
+    />
   ) : (
-    <>
-      <b>{f.key}</b> 被 Omit 点名,丢进废料箱 ——
-      对外的类型里再也看不到它。
-    </>
+    <Tx
+      en={
+        <>
+          <b>{f.key}</b> was named, so <code>Omit</code> drops it. The public
+          type no longer has this property.
+        </>
+      }
+      zh={
+        <>
+          <b>{f.key}</b> 被点了名,<code>Omit</code> 把它丢掉。
+          对外的类型里再也没有这个属性。
+        </>
+      }
+    />
   );
 }
 
@@ -166,24 +299,49 @@ export function UtPipeline() {
   let msg: ReactNode;
   if (s.step === 0)
     msg = (
-      <>
-        六个字段在传送带上排好队,机器换上 <b>{tool}</b> 刀头
-        —— 点「下一步」,看它们一个个过机。
-      </>
+      <Tx
+        en={
+          <>
+            Six properties are queued on the left, and the machine is set to{" "}
+            <b>{tool}</b>. Press Next to send them through one at a time.
+          </>
+        }
+        zh={
+          <>
+            六个属性在左边排好队,机器上装的是 <b>{tool}</b>。
+            点「下一步」,让它们一个一个过机。
+          </>
+        }
+      />
     );
   else if (curIdx !== null) msg = utFieldMsg(tool, UT_FIELDS[curIdx]);
   else
     msg = (
-      <>
-        出料完毕,这就是 <b>{meta.out}</b>。回头看入料区:<b>Order</b>{" "}
-        一根毫毛都没少 —— 工具类型是纯函数,<b>产新,不改旧</b>。
-      </>
+      <Tx
+        en={
+          <>
+            Output complete. This is <b>{meta.out}</b>. Look back at the input
+            column: <b>Order</b> is exactly as it was. A utility type takes a
+            type and returns a new type; it never changes the type you gave it.
+          </>
+        }
+        zh={
+          <>
+            出料完毕,这就是 <b>{meta.out}</b>。回头看入料区:<b>Order</b>{" "}
+            和原来一模一样。工具类型接受一个类型、返回一个新类型,
+            从不改动你交给它的那个类型。
+          </>
+        }
+      />
     );
 
   return (
     <div className="viz">
       <div className="viz-title">
-        类型加工流水线:同一个 Order,换个刀头就是另一种类型
+        <Tx
+          en="A type-processing line: one Order, a different type for each tool"
+          zh="类型加工流水线:同一个 Order,换个工具就是另一种类型"
+        />
       </div>
       <div className="seg ut-pipe-seg" role="tablist">
         {UT_TOOLS.map((t) => (
@@ -208,7 +366,9 @@ export function UtPipeline() {
       <div className="viz-stage">
         <div className="ut-pipe">
           <div className="ut-pipe-col">
-            <div className="ut-pipe-lab">入料 · Order</div>
+            <div className="ut-pipe-lab">
+              <Tx en="In · Order" zh="入料 · Order" />
+            </div>
             {UT_FIELDS.map((f, i) => (
               <div
                 key={f.key}
@@ -230,9 +390,13 @@ export function UtPipeline() {
             </div>
             {(tool === "Pick" || tool === "Omit") && (
               <div className="ut-bin">
-                <div className="ut-bin-lab">废料箱</div>
+                <div className="ut-bin-lab">
+                  <Tx en="Dropped" zh="丢掉的属性" />
+                </div>
                 {dropped.length === 0 ? (
-                  <span className="ut-bin-empty">(空)</span>
+                  <span className="ut-bin-empty">
+                    <Tx en="(none yet)" zh="(还没有)" />
+                  </span>
                 ) : (
                   dropped.map((f) => (
                     <span key={f.key} className="ut-bin-item mono">
@@ -246,11 +410,17 @@ export function UtPipeline() {
 
           <div className="ut-pipe-col">
             <div className="ut-pipe-lab">
-              出料 · {meta.out}
-              {doneAll && <span className="ut-pipe-done">✓ 完工</span>}
+              <Tx en="Out" zh="出料" /> · {meta.out}
+              {doneAll && (
+                <span className="ut-pipe-done">
+                  <Tx en="✓ done" zh="✓ 完工" />
+                </span>
+              )}
             </div>
             {outFields.length === 0 && (
-              <div className="ut-pipe-empty">等待出料…</div>
+              <div className="ut-pipe-empty">
+                <Tx en="Waiting for output…" zh="等待出料…" />
+              </div>
             )}
             {outFields.map((f) => {
               const v = utVerdict(tool, f.key);
@@ -298,7 +468,10 @@ export function UtUnionSieve() {
   return (
     <div className="viz">
       <div className="viz-title">
-        联合类型的筛子:同一份名单,Exclude 剔人,Extract 挑人
+        <Tx
+          en="One union, two filters: Exclude removes members, Extract keeps them"
+          zh="同一份联合,两种筛法:Exclude 去掉成员,Extract 留下成员"
+        />
       </div>
       <div className="seg ut-sv-seg" role="tablist">
         {(["exclude", "extract"] as const).map((m) => (
@@ -324,7 +497,13 @@ export function UtUnionSieve() {
           return (
             <span key={m} className={`ut-sv-chip mono${ok ? " ok" : " cut"}`}>
               &quot;{m}&quot;
-              <i className="ut-sv-mark">{ok ? "✓ 留" : "✕ 筛掉"}</i>
+              <i className="ut-sv-mark">
+                {ok ? (
+                  <Tx en="✓ kept" zh="✓ 留下" />
+                ) : (
+                  <Tx en="✕ removed" zh="✕ 去掉" />
+                )}
+              </i>
             </span>
           );
         })}
@@ -334,15 +513,41 @@ export function UtUnionSieve() {
       </div>
       <div className="viz-msg">
         {mode === "exclude" ? (
-          <>
-            <b>Exclude</b> 是漏勺:榜上有名的(done / cancelled)漏下去,
-            剩下的接着走 —— 正好筛出「还活着」的订单状态,喂给取餐大屏。
-          </>
+          <Tx
+            en={
+              <>
+                <b>Exclude</b> removes the members that match the second
+                argument. <code>&quot;done&quot;</code> and{" "}
+                <code>&quot;cancelled&quot;</code> are dropped, and the rest
+                stay. This is the list of orders that are still in progress, so
+                it is the right type for the pickup screen.
+              </>
+            }
+            zh={
+              <>
+                <b>Exclude</b> 去掉与第二个参数匹配的成员:
+                <code>&quot;done&quot;</code> 和{" "}
+                <code>&quot;cancelled&quot;</code> 被去掉,其余留下。
+                这正好是「还在进行中」的订单状态,适合用在取餐大屏上。
+              </>
+            }
+          />
         ) : (
-          <>
-            <b>Extract</b> 是磁铁:只把榜上有名的吸出来,其余一概不要 ——
-            归档表里只存已经终结的订单,就用它。
-          </>
+          <Tx
+            en={
+              <>
+                <b>Extract</b> keeps only the members that match, and removes
+                everything else. Here it produces the two finished states, which
+                is the type an archive table needs.
+              </>
+            }
+            zh={
+              <>
+                <b>Extract</b> 只留下匹配的成员,其余全部去掉。
+                这里得到的是两个终结状态,归档表要的就是这个类型。
+              </>
+            }
+          />
         )}
       </div>
     </div>
