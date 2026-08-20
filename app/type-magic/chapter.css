@@ -164,7 +164,9 @@
   background: var(--code-bg);
   padding: 12px 14px;
   text-align: center;
-  transition: box-shadow 0.3s, border-color 0.3s;
+  transition:
+    box-shadow 0.3s,
+    border-color 0.3s;
 }
 .tm-gate.on {
   border-color: var(--acc-border);
@@ -349,9 +351,12 @@
   white-space: nowrap;
 }
 
-/* — 毕业仪式:每把改锥的小标题 — */
+/* — §07 每个工具类型的小标题 — */
+/* flex-wrap:英文标题和「零件」说明都比中文长,窄一点的视口里让它们换行,
+   而不是把 .tm-parts-used 挤出容器。 */
 .tm-tool-h {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin: 26px 0 4px;
