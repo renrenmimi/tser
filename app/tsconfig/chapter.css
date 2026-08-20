@@ -1,13 +1,15 @@
-/* 10 · tsconfig 与严格模式 专属样式(前缀 tc-)。通用样式一律来自 globals.css。 */
+/* 10 · tsconfig 与严格模式 专属样式(前缀 tc-)。通用样式一律来自 globals.css。
+   英文文案比中文长,涉及固定宽度的地方(hero 难度条、调节台左列、迁移卡片)
+   都留了余量,靠 flex-wrap / minmax 吸收,不靠缩小字号。 */
 
-/* ================= hero:游戏难度选择器 ================= */
+/* ================= hero:严格度四档 ================= */
 
 .tc-diffs {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin: 26px 0 10px;
-  max-width: 640px;
+  max-width: 720px;
 }
 
 .tc-diff {
@@ -56,7 +58,7 @@
 
 .tc-strict-grid {
   display: grid;
-  grid-template-columns: minmax(280px, 340px) 1fr;
+  grid-template-columns: minmax(300px, 380px) 1fr;
   gap: 16px;
   align-items: start;
 }
@@ -203,7 +205,7 @@
   background: var(--ok-bg);
 }
 
-/* 被军规抓住的行:红色高亮(覆盖 .cl.hl 的默认强调色) */
+/* 被某项检查抓住的行:红色高亮(覆盖 .cl.hl 的默认强调色) */
 .tc-strict-code .cl.hl {
   background: var(--risk-bg);
   box-shadow: inset 2.5px 0 0 var(--risk);
@@ -266,6 +268,31 @@
 .tc-err-zero {
   color: var(--text-3);
   line-height: 1.7;
+}
+
+/* 依赖提示:开着但被 strictNullChecks 卡住的开关 */
+.tc-dep {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.75;
+  color: var(--warn);
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: var(--warn-bg);
+  border: 1px solid color-mix(in oklab, var(--warn) 28%, transparent);
+}
+.tc-dep b,
+.tc-dep code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  word-break: break-word;
+}
+.tc-dep-name {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin-right: 6px;
 }
 .tc-err-rest {
   color: var(--warn);
