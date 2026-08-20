@@ -118,6 +118,12 @@
 .md-lib-info b {
   color: var(--text);
 }
+/* 全局 .chip 是 nowrap;这里的说明比标签长,窄屏要允许折行。 */
+.md-lib-info .chip {
+  white-space: normal;
+  text-align: left;
+  max-width: 100%;
+}
 
 /* — §01 import 蒸发观察台 — */
 .md-erase-list {
@@ -157,8 +163,9 @@
 }
 
 /* — §03 编译器寻类型之旅 — */
+/* 英文的节点小字比中文长,min-width 留够,避免 flow-node 挤压换行。 */
 .md-quest {
-  min-width: 780px;
+  min-width: 860px;
   padding: 10px 4px;
 }
 .md-quest .flow-node {
@@ -261,6 +268,10 @@
   }
   .md-vroute {
     gap: 7px;
+  }
+  .md-vstep {
+    padding: 7px 12px;
+    font-size: 12px;
   }
   .md-varrow {
     display: none;
