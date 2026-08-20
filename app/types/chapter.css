@@ -32,8 +32,10 @@
   gap: 10px;
   padding: 2.5px 0;
 }
+/* 标签列固定宽度,让「值 / 类型」两行对齐。
+   宽度按更长的英文标签(Value / Type)取,中文下同样对齐。 */
 .tp-idcard-row .k {
-  flex: 0 0 30px;
+  flex: 0 0 46px;
   font-size: 11px;
   color: var(--text-3);
 }

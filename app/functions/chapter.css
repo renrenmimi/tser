@@ -1,4 +1,5 @@
-/* 第 02 章 · 函数与对象类型 专属样式(前缀 fn-)。通用样式一律来自 globals.css。 */
+/* 第 02 章 · 函数与对象类型 专属样式(前缀 fn-)。通用样式一律来自 globals.css。
+   英文文案比中文长,货单标签、方向徽章、体检机按钮都按最长的英文留了余量。 */
 
 /* — hero:进出货单 — */
 .fn-manifest {
@@ -67,6 +68,9 @@
   letter-spacing: 0.08em;
   border-radius: 6px;
   padding: 2px 7px;
+  /* IN / IN? / OUT 与「进 / 进? / 出」宽度不一,固定一个下限让四行对齐 */
+  min-width: 34px;
+  text-align: center;
   color: var(--info);
   background: var(--info-bg);
   border: 1px solid color-mix(in oklab, var(--info) 40%, transparent);
@@ -94,7 +98,16 @@
   margin-left: auto;
   font-size: 11px;
   color: var(--text-3);
-  white-space: nowrap;
+  /* 英文标签比中文长,允许换行并靠右对齐,不再强制 nowrap */
+  white-space: normal;
+  text-align: right;
+}
+@media (max-width: 560px) {
+  /* 窄屏上标签换到下一行时,靠左读起来更自然 */
+  .fn-manifest-tag {
+    margin-left: 0;
+    text-align: left;
+  }
 }
 
 /* — §01 签名解剖台 — */

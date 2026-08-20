@@ -7,7 +7,8 @@
   gap: 10px;
   flex-wrap: wrap;
   margin: 26px 0 10px;
-  max-width: 680px;
+  /* 英文小字比中文长,放宽一点,避免每行只挤得下一枚 */
+  max-width: 780px;
 }
 
 .ms-creed {
@@ -51,6 +52,11 @@
   grid-template-columns: minmax(300px, 1.05fr) 1.2fr;
   gap: 16px;
   align-items: start;
+}
+
+/* 英文按钮比中文长,窄屏时允许这一组切换换行,而不是横向溢出 */
+.ms-trio .viz-title > .seg {
+  flex-wrap: wrap;
 }
 
 .ms-trio-code {
@@ -189,11 +195,13 @@
 
 /* ================= §03 类型擦除逐帧 ================= */
 
+/* 英文节点名比中文长(如 "Boundary check isOrder()"),给节点和舞台多留宽度 */
 .ms-ef {
-  min-width: 520px;
+  min-width: 580px;
 }
 .ms-ef .flow-node {
-  max-width: 190px;
+  max-width: 220px;
+  line-height: 1.45;
 }
 .ms-ef .flow-node[data-tone="ok"] {
   border-color: color-mix(in oklab, var(--ok) 45%, transparent);
