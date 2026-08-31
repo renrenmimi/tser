@@ -1,0 +1,29 @@
+# The labs are only trustworthy while the real compiler agrees with what the
+# course says about it, so every push runs the tests against tsc itself and
+# checks that the compiler is still being served instead of bundled.
+
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Prove the compiler is not in the page bundle
+        run: npm run check:bundle
