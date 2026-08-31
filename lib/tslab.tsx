@@ -101,6 +101,7 @@ const TXT = {
     zh: "下面的代码本身没问题 —— 去官方 Playground 跑一样的结果。",
   },
   openPlayground: { en: "Open in Playground", zh: "在 Playground 打开" },
+  retry: { en: "Try again", zh: "再试一次" },
   noErrors: { en: "No errors. tsc is happy.", zh: "没有报错,tsc 通过。" },
   errorCount: (n: number): Loc<string> => ({
     en: `${n} ${n === 1 ? "error" : "errors"}`,
@@ -551,6 +552,9 @@ export function TsLab({
             <div>
               <b>{L(TXT.failed)}</b>
               <small>{L(TXT.failedHint)}</small>
+              <button type="button" className="tsl-chip" onClick={ts.retry}>
+                {L(TXT.retry)}
+              </button>
               <a
                 className="tsl-chip"
                 href="https://www.typescriptlang.org/play"

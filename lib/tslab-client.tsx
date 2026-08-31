@@ -76,12 +76,19 @@ interface Meta {
 /* ---------------- worker 单例 ---------------- */
 
 interface Pending {
+  /** The worker instance this request was posted to. */
+  gen: number;
   resolve: (v: Record<string, unknown>) => void;
   reject: (e: Error) => void;
 }
 
 let worker: Worker | null = null;
 let readyPromise: Promise<string> | null = null;
+/**
+ * Bumped for every worker instance and again whenever one is abandoned, so a
+ * late reply from a worker we have given up on can be recognised and dropped.
+ */
+let generation = 0;
 let nextId = 1;
 const pending = new Map<number, Pending>();
 
@@ -99,18 +106,59 @@ function publish(next: Partial<typeof state>) {
   subscribers.forEach((fn) => fn());
 }
 
+/**
+ * Abandon the worker of `gen`: reject every request still in flight, forget the
+ * pending map, detach the handlers, terminate the thread and clear the
+ * singleton so the next attempt starts exactly one clean worker. A call for an
+ * older generation is ignored, so an `error` and a `messageerror` arriving
+ * together tear down once rather than twice.
+ */
+function teardown(gen: number, reason: string): void {
+  if (gen !== generation) return;
+
+  const failed = worker;
+  worker = null;
+  readyPromise = null;
+  // From here on, anything `failed` still posts belongs to a dead generation.
+  generation += 1;
+
+  const err = new Error(reason);
+  for (const p of pending.values()) p.reject(err);
+  pending.clear();
+
+  if (failed) {
+    failed.onmessage = null;
+    failed.onerror = null;
+    failed.onmessageerror = null;
+    try {
+      failed.terminate();
+    } catch {
+      /* the thread is already gone */
+    }
+  }
+
+  publish({ status: "error", phase: "", error: reason });
+}
+
 function send<T extends Record<string, unknown>>(
   payload: Record<string, unknown>,
 ): Promise<T> {
   const w = worker;
   if (!w) return Promise.reject(new Error("compiler worker not started"));
+  const gen = generation;
   const id = nextId++;
   return new Promise<T>((resolve, reject) => {
     pending.set(id, {
+      gen,
       resolve: resolve as Pending["resolve"],
       reject,
     });
-    w.postMessage({ ...payload, id });
+    try {
+      w.postMessage({ ...payload, id });
+    } catch (err) {
+      pending.delete(id);
+      reject(err instanceof Error ? err : new Error(String(err)));
+    }
   });
 }
 
@@ -118,7 +166,10 @@ function send<T extends Record<string, unknown>>(
 function ensureReady(): Promise<string> {
   if (readyPromise) return readyPromise;
 
-  readyPromise = (async () => {
+  generation += 1;
+  const myGen = generation;
+
+  const promise = (async () => {
     if (typeof Worker === "undefined") throw new Error("Web Worker unavailable");
     publish({ status: "loading", phase: "compiler", error: "" });
 
@@ -126,20 +177,23 @@ function ensureReady(): Promise<string> {
     worker = w;
 
     w.onmessage = (e: MessageEvent) => {
+      // A reply from a worker that has already been abandoned must never settle
+      // a request belonging to its replacement.
+      if (myGen !== generation) return;
       const msg = e.data ?? {};
       if (msg.kind === "progress") {
         publish({ phase: msg.phase });
         return;
       }
       const p = pending.get(msg.id);
-      if (!p) return;
+      if (!p || p.gen !== myGen) return;
       pending.delete(msg.id);
       if (msg.ok) p.resolve(msg);
       else p.reject(new Error(msg.error ?? "compiler error"));
     };
-    w.onerror = () => {
-      publish({ status: "error", error: "failed to load the compiler" });
-    };
+    w.onerror = () => teardown(myGen, "the compiler worker stopped");
+    w.onmessageerror = () =>
+      teardown(myGen, "the compiler worker sent an unreadable message");
 
     const res = await fetch("/tslab/meta.json");
     if (!res.ok) throw new Error(`compiler manifest ${res.status}`);
@@ -150,17 +204,31 @@ function ensureReady(): Promise<string> {
       compiler: meta.compiler,
       libs: meta.libs,
     });
+    if (myGen !== generation) throw new Error("compiler worker was replaced");
 
     publish({ status: "ready", version: init.version, phase: "" });
     return init.version;
   })();
 
-  readyPromise.catch((err: Error) => {
-    publish({ status: "error", error: err.message });
-    readyPromise = null; // 允许重试
+  readyPromise = promise;
+
+  // A failure while starting up is handled exactly like a crash later on, so a
+  // half-started worker is terminated instead of being left running for the
+  // next attempt to leak past.
+  promise.catch((err: Error) => {
+    teardown(myGen, err.message || "the compiler failed to start");
   });
 
-  return readyPromise;
+  return promise;
+}
+
+/** Discard a failed worker and make one clean attempt to start again. */
+function restart(): void {
+  teardown(generation, "restarting the compiler");
+  publish({ status: "idle", phase: "", error: "" });
+  void ensureReady().catch(() => {
+    /* teardown has already published the failure */
+  });
 }
 
 /* ---------------- React 接口 ---------------- */
@@ -174,6 +242,8 @@ export interface TsLabApi {
   error: string;
   /** 预热:实验室进入视口时调用,把加载提前到用户动手之前 */
   warm: () => void;
+  /** Start over after a failure: one new worker, nothing left of the old one. */
+  retry: () => void;
   check: (
     code: string,
     flags?: TsFlags,
@@ -211,6 +281,8 @@ export function useTsLab(): TsLabApi {
       /* 状态已经发布,这里不用再处理 */
     });
   }, []);
+
+  const retry = useCallback(() => restart(), []);
 
   const check = useCallback(async (code: string, flags?: TsFlags) => {
     await ensureReady();
@@ -253,6 +325,7 @@ export function useTsLab(): TsLabApi {
     version: state.version,
     error: state.error,
     warm,
+    retry,
     check,
     quickInfo,
     emit,
