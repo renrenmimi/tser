@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/prepare-tslab.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/prepare-tslab.mjs",
     "build": "next build",
     "start": "next start"
   },

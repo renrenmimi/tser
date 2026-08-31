@@ -14,6 +14,7 @@
    11. 要点卡 / 章节页脚
    12. 动效与响应式
    13. APIer 专属原语(HTTP 方法徽章 / 状态码徽章 / 双窗对照 / 报文卡)
+   14. TypeScript 实验室(可编辑代码 / 真实波浪线 / 诊断面板 / 编译产物)
    ============================================================ */
 
 /* ---------- 1. 设计 token ---------- */
@@ -2422,3 +2423,527 @@ html[data-lang="en"] .codewin-note::before {
   transition: transform 0.5s ease;
 }
 .flow-packet.back { border-style: dashed; }
+
+/* ================================================================
+   14. TypeScript 实验室(lib/tslab.tsx)
+   浏览器里真跑 tsc:可编辑代码 + 真实波浪线 + 诊断面板 + 编译产物。
+   关键约束:.tsl-hl 与 .tsl-ta 的字体/字号/行高/内边距/折行规则必须
+   完全一致,否则光标会和高亮层错位。改这里时两处一起改。
+   ================================================================ */
+
+.tsl {
+  border-radius: 16px;
+  border: 1px solid var(--border-strong);
+  background: var(--code-bg);
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---- 顶栏 ---- */
+
+.tsl-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  background: var(--code-bar);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tsl-dots {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+.tsl-dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+.tsl-dots i:nth-child(1) { background: #f2756f; }
+.tsl-dots i:nth-child(2) { background: #f0b45c; }
+.tsl-dots i:nth-child(3) { background: #4ade9c; }
+
+.tsl-name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(230, 235, 250, 0.55);
+  flex: 0 0 auto;
+}
+
+.tsl-bar-tail {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* 真实编译器版本 —— 这个数字来自 ts.version,不是写死的 */
+.tsl-ver {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-border);
+  border-radius: 999px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+.tsl-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tsl-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(230, 235, 250, 0.62);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 4px 9px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.16s, background 0.16s, border-color 0.16s;
+}
+.tsl-chip:hover {
+  color: rgba(240, 244, 255, 0.95);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ---- 编译开关 ---- */
+
+.tsl-flags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.018);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tsl-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(230, 235, 250, 0.5);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 4px 9px 4px 6px;
+  cursor: pointer;
+  transition: color 0.16s, background 0.16s, border-color 0.16s;
+}
+.tsl-flag:hover { color: rgba(240, 244, 255, 0.85); }
+.tsl-flag.on {
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border-color: var(--acc-border);
+}
+
+.tsl-flag-box {
+  width: 13px;
+  height: 13px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  line-height: 1;
+}
+.tsl-flag.on .tsl-flag-box {
+  border-color: var(--acc);
+  background: var(--acc);
+  color: #08090f;
+}
+
+.tsl-target {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(230, 235, 250, 0.5);
+}
+.tsl-target select {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(240, 244, 255, 0.9);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 3.5px 6px;
+  cursor: pointer;
+}
+
+/* ---- 编辑器 ---- */
+
+.tsl-editor {
+  position: relative;
+}
+
+.tsl-code {
+  position: relative;
+}
+
+/* 高亮层与输入层:下面这组属性两者必须完全相同 */
+.tsl-hl,
+.tsl-ta {
+  margin: 0;
+  padding: 14px 16px 14px 46px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.72;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  tab-size: 2;
+  border: 0;
+}
+
+.tsl-hl {
+  color: var(--code-text);
+  min-height: 7.5em;
+  pointer-events: none;
+}
+
+.tsl-ta {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--acc);
+  resize: none;
+  outline: none;
+  overflow: hidden;
+}
+.tsl-ta::selection {
+  background: oklch(70% 0.14 var(--hue) / 0.32);
+}
+
+/* 行号:画在左侧留白里;折行的续行不会重复出号码 */
+.tsl-line {
+  position: relative;
+}
+.tsl-line::before {
+  content: attr(data-n);
+  position: absolute;
+  left: -34px;
+  width: 26px;
+  text-align: right;
+  color: var(--code-ln);
+  user-select: none;
+}
+.tsl-line[data-bad="1"]::before {
+  color: var(--risk);
+  font-weight: 600;
+}
+
+/* 编译器给的精确出错范围 */
+.tsl-sq {
+  text-decoration: underline wavy var(--risk);
+  text-decoration-skip-ink: none;
+  text-underline-offset: 3px;
+  background: var(--risk-bg);
+  border-radius: 2px;
+}
+
+/* 加载 / 失败遮罩 */
+.tsl-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: left;
+  background: oklch(12% 0.02 250 / 0.72);
+  backdrop-filter: blur(3px);
+}
+.tsl-overlay b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(240, 244, 255, 0.92);
+}
+.tsl-overlay small {
+  display: block;
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: rgba(230, 235, 250, 0.55);
+}
+.tsl-overlay .tsl-chip {
+  display: inline-block;
+  margin-top: 9px;
+}
+
+.tsl-spin {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid var(--acc-border);
+  border-top-color: var(--acc);
+  animation: tsl-spin 0.8s linear infinite;
+  flex: 0 0 auto;
+}
+@keyframes tsl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- 推断类型 ---- */
+
+.tsl-inspect {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 9px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  min-height: 38px;
+}
+.tsl-inspect code {
+  color: var(--acc-ink);
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+.tsl-inspect-tag {
+  flex: 0 0 auto;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(230, 235, 250, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 2px 6px;
+}
+.tsl-inspect-idle {
+  color: rgba(230, 235, 250, 0.42);
+  font-size: 11.5px;
+}
+
+/* ---- 页签 ---- */
+
+.tsl-tabs {
+  display: flex;
+  gap: 3px;
+  padding: 8px 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.tsl-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border: 1px solid transparent;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+  color: rgba(230, 235, 250, 0.5);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: color 0.16s, background 0.16s;
+}
+.tsl-tabs button:hover { color: rgba(240, 244, 255, 0.85); }
+.tsl-tabs button.on {
+  color: var(--acc-ink);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  border-bottom-color: transparent;
+}
+
+.tsl-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #08090f;
+  background: var(--risk);
+  border-radius: 999px;
+  padding: 1px 6px;
+}
+
+/* ---- 诊断面板 ---- */
+
+.tsl-panel {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.tsl-diags {
+  display: flex;
+  flex-direction: column;
+}
+
+.tsl-diag {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 9px 14px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(230, 235, 250, 0.78);
+  transition: background 0.16s;
+}
+.tsl-diag:hover { background: rgba(255, 255, 255, 0.04); }
+
+.tsl-diag-at {
+  flex: 0 0 auto;
+  color: rgba(230, 235, 250, 0.38);
+  font-variant-numeric: tabular-nums;
+}
+
+.tsl-diag-code {
+  flex: 0 0 auto;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--risk);
+  background: var(--risk-bg);
+  border: 1px solid oklch(65% 0.19 12 / 0.28);
+  border-radius: 5px;
+  padding: 1.5px 6px;
+  margin-top: 1px;
+}
+.tsl-diag.warning .tsl-diag-code {
+  color: #f0b45c;
+  background: rgba(240, 180, 92, 0.12);
+  border-color: rgba(240, 180, 92, 0.3);
+}
+
+.tsl-diag-msg {
+  white-space: pre-wrap;
+}
+
+.tsl-diag-rel {
+  display: block;
+  margin-top: 4px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  color: rgba(230, 235, 250, 0.48);
+  font-size: 11.5px;
+}
+.tsl-diag-rel span { display: block; }
+
+.tsl-ok,
+.tsl-diag-idle {
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.tsl-ok { color: var(--ok); }
+.tsl-diag-idle { color: rgba(230, 235, 250, 0.42); }
+
+/* ---- 编译产物 ---- */
+
+.tsl-out-hint {
+  padding: 9px 14px;
+  font-size: 12px;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border-bottom: 1px solid var(--acc-border);
+}
+
+.tsl-out-code {
+  margin: 0;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.72;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: var(--code-text);
+}
+.tsl-out-code .tsl-line { display: flex; gap: 14px; }
+.tsl-out-code .tsl-line::before { content: none; }
+.tsl-out-n {
+  flex: 0 0 22px;
+  text-align: right;
+  color: var(--code-ln);
+  user-select: none;
+}
+
+/* ---- 状态条 ---- */
+
+.tsl-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--code-bar);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.tsl-st-ok { color: var(--ok); }
+.tsl-st-bad { color: var(--risk); }
+.tsl-st-ms,
+.tsl-st-note { color: rgba(230, 235, 250, 0.4); }
+.tsl-st-note { margin-left: auto; }
+
+/* ---- 浅色主题:代码区保持深色(和 .codewin 一致),只调外框 ---- */
+
+[data-theme="light"] .tsl {
+  box-shadow: 0 8px 28px rgba(23, 28, 45, 0.1);
+}
+
+/* ---- 窄屏 ---- */
+
+@media (max-width: 720px) {
+  .tsl-hl,
+  .tsl-ta {
+    font-size: 12px;
+    padding-left: 40px;
+    padding-right: 12px;
+  }
+  .tsl-line::before { left: -30px; width: 22px; }
+  .tsl-name { display: none; }
+  .tsl-panel { max-height: 220px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tsl-spin { animation-duration: 2s; }
+}
+
+/* idle 态的启动按钮 —— 11 MB 的下载值得一次明确的点击 */
+.tsl-start {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #08090f;
+  background: var(--acc);
+  border: 0;
+  border-radius: 9px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: filter 0.16s, transform 0.16s;
+}
+.tsl-start:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}

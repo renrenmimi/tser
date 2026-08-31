@@ -11,3 +11,7 @@
 npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
+
+# TypeScript 实验室的编译器产物(predev / prebuild 生成,11 MB,不进版本库)
+/public/tslab/meta.json
+/public/tslab/[0-9]*

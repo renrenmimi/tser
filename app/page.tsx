@@ -8,6 +8,7 @@ import "./home.css";
 
 import { Hero, Section, Callout, KeyPoints, ChapterFooter } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { T } from "@/lib/i18n";
@@ -41,6 +42,18 @@ const order = { drink: "杨枝甘露", total: 22 };
 const bill = order.totle * 2; // 保存那一刻,红线
 console.log("合计:¥" + bill);`,
 };
+
+/* 实验室的两份稿子:写错的 / 修好的 —— 代码里的标识符不分语言,
+   注释用英文,免得中英切换时把用户改过的代码换掉。 */
+const LAB_TYPO = `const order = { drink: "Jasmine Green", total: 22 };
+
+const bill = order.totle * 2;
+console.log("Total: $" + bill);`;
+
+const LAB_FIXED = `const order = { drink: "Jasmine Green", total: 22 };
+
+const bill = order.total * 2;
+console.log("Total: $" + bill);`;
 
 const LOCAL_TSC = {
   en: `mkdir tea-shop && cd tea-shop
@@ -473,6 +486,57 @@ export default function HomePage() {
               }}
             />
           }
+        />
+
+        <Callout
+          tone="win"
+          title={{
+            en: "The compiler below is the real one",
+            zh: "下面这个窗口里跑的是真编译器",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  Not a recording, and not a hand-written error message. The
+                  actual TypeScript compiler is running in your browser, in a
+                  background thread. Edit the code and it checks again. Fix{" "}
+                  <code>totle</code> and the error goes away on its own. Click
+                  any name to see the type it inferred, and open{" "}
+                  <b>Compiled JS</b> to see what actually runs.
+                </>
+              }
+              zh={
+                <>
+                  不是录像,也不是我手写的报错文案 —— 真正的 TypeScript
+                  编译器就在你的浏览器里跑,在后台线程。改代码,它重新检查;
+                  把 <code>totle</code> 拼对,报错自己消失。点任意名字看它推断出的
+                  类型,切到<b>编译产物 JS</b> 看真正运行的是什么。
+                </>
+              }
+            />
+          </p>
+        </Callout>
+
+        <TsLab
+          code={FIRST_TS}
+          title="order.ts"
+          emit="js"
+          presets={[
+            {
+              label: { en: "the typo", zh: "写错的版本" },
+              code: LAB_TYPO,
+            },
+            {
+              label: { en: "fixed", zh: "修好的版本" },
+              code: LAB_FIXED,
+            },
+          ]}
+          note={{
+            en: "Everything here runs locally — nothing is sent anywhere.",
+            zh: "全部在本地跑,代码不会发到任何地方。",
+          }}
         />
 
         <p className="sec-desc" style={{ marginTop: 18 }}>

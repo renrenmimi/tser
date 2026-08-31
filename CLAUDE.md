@@ -15,8 +15,12 @@
 - 不假设读者懂编译原理、集合论、其他静态类型语言;
 - 代码示例一律 TypeScript(读者会的 JavaScript 是它的子集,看得懂起点)。
 
-**语言:全站纯中文**(与姊妹项目对齐,勿引入 i18n)。英文只出现在:
-章节注册表的 en 副标、hero 眉题、代码与术语。
+**语言:全站双语,English 默认 + 中文可切换**(顶栏 EN/中文,localStorage 键 `tser-lang`)。
+基础设施在 `lib/i18n.tsx`:
+- 数据/props 里的文案写成 `Loc<T>` 双语对 `{ en, zh }`,消费时 `const L = useL(); L(x)`;
+- JSX 正文里用 `<T en={…} zh={…} />`(可以写在模块级常量里);
+- 新写的每一句用户可见文案都要给两份 —— 只给一份等于另一种语言下漏字。
+两种语言适用同一套文风标准(下一节),中文不是英文的直译,各自说人话。
 
 ## 文案风格(重要,全站贯穿)
 
@@ -73,6 +77,8 @@
 - Next.js 15(App Router)+ React 19 + TypeScript,**纯 CSS 无 Tailwind**。
 - **本机默认 Node 16 跑不动**,一切命令加:
   `export PATH="$HOME/.nvm/versions/node/v22.21.1/bin:$PATH"`
+- `npm run dev` / `npm run build` 前会自动跑 `scripts/prepare-tslab.mjs`,
+  把编译器搬进 `public/tslab/`(11 MB 生成物,已 gitignore;缺了实验室会退回静态视图)。
 - 构建验证:`npm run build`;并行写章节时**不要各自跑 build**(.next 冲突),
   用 `npx tsc --noEmit --incremental false` 做类型检查。
 - 预览:`.claude/launch.json` 已配置(autoPort,基准端口 3400)。
@@ -117,6 +123,32 @@ lib/<ch>-data.tsx      本章动手任务 LABS + 测验 QUIZ 数据
   dts 与 ts 同规则,窗口标签显示「声明文件 .d.ts」。
 - `<CodePair left={<CodeBlock…/>} right={<CodeBlock…/>} />` 双窗对照
   (本书招牌排版:**JS 的写法 vs TS 的写法**、**报错代码 vs 修好代码**)。
+
+### lib/tslab.tsx(浏览器里的真 tsc —— 本站的招牌)
+
+```tsx
+<TsLab
+  code={{ en: "…", zh: "…" }}   // 初始源码(也可以给单份字符串)
+  title="order.ts"              // 报错前缀就是这个名字
+  flags={{ strict: true }}      // 初始编译选项
+  toggles={["strict", "noUncheckedIndexedAccess"]}  // 想暴露成开关的选项
+  targets                       // 显示 target 下拉(es5…esnext)
+  emit="js|dts|both"            // 产物页签:看类型擦除 / 看自动生成的声明文件
+  inspect                       // 点代码看推断类型(默认开)
+  presets={[{ label: {en,zh}, code: "…" }]}         // 一键换稿:出错版 / 修好版
+  note={{ en: "…", zh: "…" }}
+/>
+```
+
+**真的是 tsc**:`public/tslab/worker.js` 在 Web Worker 里 `importScripts` 真正的
+TypeScript(`scripts/prepare-tslab.mjs` 在 predev/prebuild 时从 node_modules 搬到
+`public/tslab/<版本>/`,连同 89 个 `lib.*.d.ts` 的传递闭包)。诊断、类型悬浮、
+emit 全部来自 `ts.LanguageService` —— 报错文案、错误码、字符范围都是编译器给的,
+**不许手写模拟**。写章节时:
+- 要展示报错,优先用 TsLab 让读者自己改出来,而不是贴一张死代码 + 手抄报错;
+- 编译器 8.7 MB,按需加载:页面里放 1–2 个实验室,别每小节都塞;
+- 全站共享一个 worker 单例,第二个实验室是秒开的;
+- 加载失败会自动退回静态视图 + Playground 链接,课程内容不依赖它可用。
 
 ### lib/stepper.tsx(逐帧慢放)
 - `useStepper(total)` + `<StepControls stepper={s} step={s.step} total={n} />`
