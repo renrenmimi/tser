@@ -101,6 +101,7 @@ const TXT = {
     zh: "下面的代码本身没问题 —— 去官方 Playground 跑一样的结果。",
   },
   openPlayground: { en: "Open in Playground", zh: "在 Playground 打开" },
+  retry: { en: "Try again", zh: "再试一次" },
   noErrors: { en: "No errors. tsc is happy.", zh: "没有报错,tsc 通过。" },
   errorCount: (n: number): Loc<string> => ({
     en: `${n} ${n === 1 ? "error" : "errors"}`,
@@ -128,7 +129,19 @@ const TXT = {
     zh: "所有类型标注都不见了。真正运行的是这份。",
   },
   target: { en: "target", zh: "target" },
+  // Shown instead of the lesson note once the learner has edited the sample.
+  edited: { en: "edited", zh: "已编辑" },
+  editedWith: (codes: string): Loc<string> => ({
+    en: `edited \u00b7 ${codes}`,
+    zh: `已编辑 \u00b7 ${codes}`,
+  }),
 } as const;
+
+/** "TS2322" / "TS2322, TS2345" / "TS2322, TS2345 +2" — codes straight from tsc. */
+function formatCodes(codes: number[]): string {
+  const shown = codes.slice(0, 2).map((c) => `TS${c}`).join(", ");
+  return codes.length > 2 ? `${shown} +${codes.length - 2}` : shown;
+}
 
 const TARGET_OPTIONS: TsTarget[] = ["es5", "es2015", "es2020", "es2022", "esnext"];
 
@@ -202,10 +215,25 @@ export function TsLab({
   const taRef = useRef<HTMLTextAreaElement | null>(null);
   const runId = useRef(0);
 
+  // Whether the learner has moved away from the sample this lab shipped with.
+  // Tracked against the sample text itself, never inferred from the diagnostics:
+  // a different error count does not mean the learner typed anything, and an
+  // identical error count does not mean they did not.
+  const [dirty, setDirty] = useState(false);
+  const originalRef = useRef(initialCode);
+
+  /** The only place `source` is written, so `dirty` cannot drift away from it. */
+  const applySource = useCallback((next: string) => {
+    setSource(next);
+    setDirty(next !== originalRef.current);
+    setInfo(null);
+  }, []);
+
   // 语言切换时,如果用户还没动过代码,就跟着换成该语言的示例
-  const [touched, setTouched] = useState(false);
   useEffect(() => {
-    if (!touched) setSource(L(code));
+    const sample = L(code);
+    originalRef.current = sample;
+    if (!dirty) setSource(sample);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang]);
 
@@ -308,6 +336,28 @@ export function TsLab({
     [errors],
   );
 
+  /* The lesson note describes the sample this lab shipped with ("one error, and
+     it is on the parameter"). The moment the learner edits the code that
+     sentence can be false while the compiler reports something else entirely,
+     so it is dropped and replaced by a neutral marker carrying the codes tsc
+     actually returned. No prose is generated for a diagnostic: the message,
+     code and location in the list above stay the authority. */
+  const liveCodes = useMemo(() => {
+    const seen: number[] = [];
+    for (const d of errors) if (!seen.includes(d.code)) seen.push(d.code);
+    return seen;
+  }, [errors]);
+
+  const statusNote: ReactNode = dirty
+    ? diagnostics === null
+      ? null
+      : liveCodes.length > 0
+        ? L(TXT.editedWith(formatCodes(liveCodes)))
+        : L(TXT.edited)
+    : note
+      ? L(note)
+      : null;
+
   /** 点诊断 → 在编辑器里选中出问题的那段 */
   const revealDiagnostic = useCallback((d: TsDiagnostic) => {
     const ta = taRef.current;
@@ -317,16 +367,18 @@ export function TsLab({
   }, []);
 
   /** Tab 键插入两个空格,而不是跳走焦点 */
-  const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key !== "Tab") return;
-    e.preventDefault();
-    const ta = e.currentTarget;
-    const { selectionStart: s, selectionEnd: end, value } = ta;
-    const next = value.slice(0, s) + "  " + value.slice(end);
-    setSource(next);
-    setTouched(true);
-    requestAnimationFrame(() => ta.setSelectionRange(s + 2, s + 2));
-  }, []);
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key !== "Tab") return;
+      e.preventDefault();
+      const ta = e.currentTarget;
+      const { selectionStart: s, selectionEnd: end, value } = ta;
+      const next = value.slice(0, s) + "  " + value.slice(end);
+      applySource(next);
+      requestAnimationFrame(() => ta.setSelectionRange(s + 2, s + 2));
+    },
+    [applySource],
+  );
 
   // idle 和 loading 要分开:idle 时给一个明确的启动按钮 —— 视口观察在
   // 后台标签页/隐藏容器里不会触发,不能让实验室永远停在「加载中」。
@@ -335,7 +387,12 @@ export function TsLab({
   const failed = ts.status === "error";
 
   return (
-    <div className="tsl" ref={rootRef} data-tab={tab}>
+    <div
+      className="tsl"
+      ref={rootRef}
+      data-tab={tab}
+      data-dirty={dirty ? "1" : "0"}
+    >
       {/* 顶栏:文件名 + 版本 + 页签 */}
       <div className="tsl-bar">
         <span className="tsl-dots" aria-hidden>
@@ -357,26 +414,18 @@ export function TsLab({
                   key={i}
                   type="button"
                   className="tsl-chip"
-                  onClick={() => {
-                    setSource(p.code);
-                    setTouched(true);
-                    setInfo(null);
-                  }}
+                  onClick={() => applySource(p.code)}
                 >
                   {L(p.label)}
                 </button>
               ))}
             </span>
           )}
-          {source !== initialCode && (
+          {dirty && (
             <button
               type="button"
               className="tsl-chip"
-              onClick={() => {
-                setSource(initialCode);
-                setTouched(false);
-                setInfo(null);
-              }}
+              onClick={() => applySource(initialCode)}
             >
               {L(TXT.reset)}
             </button>
@@ -466,11 +515,7 @@ export function TsLab({
             autoCorrect="off"
             wrap="off"
             aria-label={lang === "zh" ? "可编辑的 TypeScript 代码" : "editable TypeScript code"}
-            onChange={(e) => {
-              setSource(e.target.value);
-              setTouched(true);
-              setInfo(null);
-            }}
+            onChange={(e) => applySource(e.target.value)}
             onKeyDown={onKeyDown}
             // 动手就是最明确的意图信号 —— 视口观察没触发时,这里兜底
             onFocus={ts.warm}
@@ -507,6 +552,9 @@ export function TsLab({
             <div>
               <b>{L(TXT.failed)}</b>
               <small>{L(TXT.failedHint)}</small>
+              <button type="button" className="tsl-chip" onClick={ts.retry}>
+                {L(TXT.retry)}
+              </button>
               <a
                 className="tsl-chip"
                 href="https://www.typescriptlang.org/play"
@@ -637,7 +685,14 @@ export function TsLab({
               : ""}
         </span>
         {ms !== null && !checking && <span className="tsl-st-ms">{ms} ms</span>}
-        {note && <span className="tsl-st-note">{L(note)}</span>}
+        {statusNote !== null && (
+          <span
+            className={`tsl-st-note${dirty ? " tsl-st-live" : ""}`}
+            data-live={dirty ? "1" : undefined}
+          >
+            {statusNote}
+          </span>
+        )}
       </div>
     </div>
   );
