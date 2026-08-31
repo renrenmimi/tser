@@ -18,6 +18,7 @@ import {
   ChapterFooter,
 } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { T, type Loc } from "@/lib/i18n";
@@ -549,6 +550,35 @@ stock["tea-001"] = "many";
 // Type 'string' is not assignable to type 'number'.`,
 };
 
+/* §06 实验室:readonly 与可选属性各挨一条红线,产物页签用来验证
+   「readonly 在编译产物里不留痕迹」这个说法。两种语言只有注释不同。 */
+const LAB_READONLY: Loc<string> = {
+  en: `interface MenuItem {
+  readonly id: number;
+  name: string;
+  price: number;
+  desc?: string;
+}
+
+const jasmine: MenuItem = { id: 1, name: "Jasmine Milk Green", price: 16 };
+
+jasmine.price = 18;  // fine, prices change
+jasmine.id = 2;      // stopped here
+jasmine.desc.trim(); // and here`,
+  zh: `interface MenuItem {
+  readonly id: number;
+  name: string;
+  price: number;
+  desc?: string;
+}
+
+const jasmine: MenuItem = { id: 1, name: "Jasmine Milk Green", price: 16 };
+
+jasmine.price = 18;  // ✓ 涨价可以
+jasmine.id = 2;      // 在这被拦下
+jasmine.desc.trim(); // 这里也是`,
+};
+
 /* ---------- §07 interface vs type ---------- */
 
 const S7_IFACE = `interface MenuItem {
@@ -731,6 +761,52 @@ function makeOrder(
   return { item, size, toppings, total: item.price + sizeFee + toppingFee };
 }`,
 };
+
+/* §08 实验室:同一份签名,四次调用。文件主体固定,只换最后一行,
+   所以三份「错法」稿子和初始稿逐行对齐,报错的行号永远是最后一行。
+   presets 的代码不分语言(注释一律英文),免得中英切换把读者改过的代码换掉。 */
+const S8_LAB_BODY = `type Size = "small" | "medium" | "large";
+type Topping = "boba" | "pudding" | "taro balls";
+
+interface MenuItem { readonly id: number; name: string; price: number }
+interface Order { item: MenuItem; size: Size; toppings: Topping[]; total: number }
+
+function makeOrder(item: MenuItem, size: Size, toppings: Topping[] = []): Order {
+  const fee = size === "large" ? 3 : size === "medium" ? 1 : 0;
+  return { item, size, toppings, total: item.price + fee + toppings.length * 2 };
+}
+
+const milkTea: MenuItem = { id: 1, name: "Jasmine Milk Green", price: 16 };
+`;
+
+const s8Draft = (comment: string, call: string) =>
+  `${S8_LAB_BODY}\n// ${comment}\n${call}\n`;
+
+const LAB_ORDER: Loc<string> = {
+  en: s8Draft(
+    "This call keeps the contract. Now break it.",
+    `makeOrder(milkTea, "large", ["boba"]);`,
+  ),
+  zh: s8Draft(
+    "这次调用是守约的。接下来轮到你违约。",
+    `makeOrder(milkTea, "large", ["boba"]);`,
+  ),
+};
+
+const ORDER_WRONG_SIZE = s8Draft(
+  "A cup size that is not on the list.",
+  `makeOrder(milkTea, "grande", ["boba"]);`,
+);
+
+const ORDER_TOO_FEW = s8Draft(
+  "size is required, and it is missing.",
+  `makeOrder(milkTea);`,
+);
+
+const ORDER_TOO_MANY = s8Draft(
+  "One argument more than the signature accepts.",
+  `makeOrder(milkTea, "large", ["boba"], 2);`,
+);
 
 export default function FunctionsPage() {
   return (
@@ -1674,6 +1750,41 @@ export default function FunctionsPage() {
           <T
             en={
               <>
+                That is a claim you can check rather than believe. In the window
+                below, the line that assigns <code>id</code> is underlined. Open
+                the <b>Compiled JS</b> tab and look for the word{" "}
+                <code>readonly</code>: it is not in the output at all. The check
+                ran, and then it was erased. The second red line comes from the
+                other modifier — <code>desc</code> may be missing, so it has to
+                be checked before it is used. Delete the word{" "}
+                <code>readonly</code> and its error goes with it.
+              </>
+            }
+            zh={
+              <>
+                这个说法不用信,可以当场验。下面这个窗口里,给 <code>id</code>{" "}
+                赋值那一行被画了波浪线;切到<b>编译产物 JS</b> 页签,
+                再找 <code>readonly</code> 这个词 —— 产物里根本没有它。
+                检查发生过,然后被擦掉了。第二条红线来自另一个修饰:
+                <code>desc</code> 可能不存在,用之前必须先检查。
+                把 <code>readonly</code> 这个词删掉,它那条报错就跟着没了。
+              </>
+            }
+          />
+        </p>
+        <TsLab
+          code={LAB_READONLY}
+          emit="js"
+          note={{
+            en: "Two modifiers, two errors, zero trace in the output.",
+            zh: "两个修饰,两条报错,产物里一点痕迹都没有。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
                 Sometimes you cannot list the <b>keys</b> in advance. A stock
                 table may get any SKU tomorrow. An{" "}
                 <b>index signature</b> describes only the type of the keys and
@@ -2028,6 +2139,121 @@ export default function FunctionsPage() {
           />
         </p>
         <CallCheck />
+
+        <p className="sec-desc" style={{ marginTop: 18 }}>
+          <T
+            en={
+              <>
+                Guessing is half of it. The other half is breaking the contract
+                with your own hands. The window below holds the same signature,
+                and the call on the last line keeps to it. Change the size to
+                something that is not on the list, delete an argument, add a
+                fourth one — every message you get back is produced on the
+                spot, by the compiler itself. The three drafts in the title bar
+                are the usual ways to get it wrong.
+              </>
+            }
+            zh={
+              <>
+                猜是一半,另一半是自己动手违约。
+                下面这个窗口里是同一份签名,最后一行那次调用守约。
+                把杯型改成名单外的字符串、删掉一个实参、再多塞一个 ——
+                你拿到的每一句都是当场生成的,出自编译器本人。
+                标题栏那三份稿子,是最常见的三种错法。
+              </>
+            }
+          />
+        </p>
+        <TsLab
+          code={LAB_ORDER}
+          presets={[
+            {
+              label: { en: "wrong size", zh: "杯型不在名单上" },
+              code: ORDER_WRONG_SIZE,
+            },
+            {
+              label: { en: "one missing", zh: "少传一个" },
+              code: ORDER_TOO_FEW,
+            },
+            {
+              label: { en: "one too many", zh: "多传一个" },
+              code: ORDER_TOO_MANY,
+            },
+          ]}
+          note={{
+            en: "Every error code below is the real one.",
+            zh: "下面每一个错误码都是真的。",
+          }}
+        />
+
+        <p className="sec-desc" style={{ marginTop: 18 }}>
+          <T
+            en={
+              <>
+                The two drafts that get the count wrong both report{" "}
+                <code>TS2554</code>:{" "}
+                <code>Expected 2-3 arguments, but got 1.</code> and{" "}
+                <code>Expected 2-3 arguments, but got 4.</code> The range{" "}
+                <b>2-3</b> is the signature counted out loud: two required
+                parameters, and a third one that may be left out. Nobody wrote
+                that range down anywhere. The compiler counted it off the
+                signature, and it will recount it the moment you change one.
+              </>
+            }
+            zh={
+              <>
+                两份把参数个数搞错的稿子,报的都是 <code>TS2554</code>:
+                <code>Expected 2-3 arguments, but got 1.</code> 和{" "}
+                <code>Expected 2-3 arguments, but got 4.</code>
+                那个 <b>2-3</b> 的范围,就是这份签名念出来的样子:
+                两个必填参数,加一个可以不写的。这个范围没有人写在任何地方,
+                是编译器从签名上数出来的 —— 你改一下签名,它当场重数一遍。
+              </>
+            }
+          />
+        </p>
+
+        <Callout
+          tone="idea"
+          title={{
+            en: "Click makeOrder and read how the compiler writes it down",
+            zh: "点一下 makeOrder,看编译器怎么把这份签名写出来",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  It comes back as{" "}
+                  <code>
+                    makeOrder(item: MenuItem, size: Size, toppings?: Topping[]):
+                    Order
+                  </code>
+                  . The third parameter was declared with a{" "}
+                  <b>default value</b>, and it is shown with a{" "}
+                  <b>question mark</b>. From the caller&apos;s side those two
+                  really are the same thing: the argument may be left out. The
+                  difference, as section 02 said, is inside the body — with a
+                  default there is no <code>undefined</code> left to check.
+                </>
+              }
+              zh={
+                <>
+                  它给的是{" "}
+                  <code>
+                    makeOrder(item: MenuItem, size: Size, toppings?: Topping[]):
+                    Order
+                  </code>
+                  。第三个参数声明时写的是<b>默认值</b>,
+                  显示出来却带着一个<b>问号</b>。
+                  因为站在调用方这一侧,两者确实是同一件事:这个实参可以不写。
+                  区别在函数体内部,§02 讲过 —— 有默认值,就没有{" "}
+                  <code>undefined</code> 需要检查了。
+                </>
+              }
+            />
+          </p>
+        </Callout>
 
         <Callout
           tone="story"

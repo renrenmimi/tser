@@ -39,6 +39,20 @@ locally in the browser.
 
 Every compiler error quoted in the course is `tsc` output.
 
+## The compiler ships with the course
+
+Chapters carry live labs, and the compiler in them is the real one: TypeScript 5.9.3
+runs in a Web Worker, so the code you type is checked by `tsc` itself. Errors carry
+real codes and real message text, underlined on the exact range the compiler reports.
+Click a name to read the type it inferred; open the output tabs to see the JavaScript
+and the `.d.ts` it actually emits; flip `strict` and watch the verdict change.
+
+Turn a three-state union into a four-state one and the compiler names the branch you
+forgot. That is the point of the course, and it is not a recording.
+
+The compiler is loaded on demand, cached, and shared by every lab on the site. If it
+cannot load, labs fall back to a static view and the course reads as before.
+
 ## Running locally
 
 Requires Node 22:

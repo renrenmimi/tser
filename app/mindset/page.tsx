@@ -7,7 +7,13 @@
 //
 // 代码示例:可执行行在两种语言里逐字节相同,只有注释分 en / zh;
 // 因此 hl 行号在两种语言下一致。编译器报错原文一律不翻译。
-// 所有报错文案与推断结果均已用 tsc 5.9 核对。
+// 所有报错文案与推断结果均已用 tsc 5.9.3 核对。
+//
+// 真编译器实验室(lib/tslab.tsx)两处:
+//  - §01 trio:TrioLab 之后,presets 给四份稿子(注解 / as / satisfies /
+//    as 缺字段),读者点变量名看真实推断;
+//  - §03 unknown:边界校验函数之后,presets 给 unknown / 类型谓词 / any 三稿。
+// TsLabPreset.code 是纯字符串(不支持 Loc),所以 preset 里一律不写注释。
 
 import "./chapter.css";
 
@@ -21,9 +27,170 @@ import {
 import { CodeBlock, CodePair } from "@/lib/code";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
+import { TsLab } from "@/lib/tslab";
 import { T, type Loc } from "@/lib/i18n";
 import { LABS, QUIZ } from "@/lib/mindset-data";
 import { HeroCreed, TrioLab, EraseFlow, RoadMap } from "./viz";
+
+/* ---------- §01 真编译器实验室:注解 / as / satisfies ---------- */
+
+// 四份稿子只差一行。tsc 5.9.3 实测(--strict,target es2022):
+//   : Config            0 处报错;config.theme 推断成 "light" | "dark"
+//   as Config           0 处报错;config.theme 也是 "light" | "dark"
+//   satisfies Config    TS2367 —— 因为 config.theme 保留成字面量 "dark",
+//                       和 "light" 比较「没有重叠」
+//   as Config(缺字段)  0 处报错,连 config.maxSugar.toFixed(1) 都放行
+// 另测三种写法对同一处错误的反应:
+//   缺 maxSugar:注解 TS2741 / as 放行 / satisfies TS1360
+//   写成 thema :注解 TS2561 / as TS2352 / satisfies TS2561
+//   maxSugar: "7":注解 TS2322 / as TS2352 / satisfies TS2322
+// presets 的 code 是纯字符串(不支持双语),所以四份稿子一律不写注释,
+// 解释放在周围的双语正文里。
+const TRIO_BODY = `
+
+if (config.theme === "light") {
+  console.log("light mode");
+}`;
+
+const TRIO_HEAD = `interface Config {
+  shop: string;
+  theme: "light" | "dark";
+  maxSugar: number;
+}
+
+`;
+
+const TRIO_ANNO =
+  TRIO_HEAD +
+  `const config: Config = {
+  shop: "Sunrise Tea",
+  theme: "dark",
+  maxSugar: 7,
+};` +
+  TRIO_BODY;
+
+const TRIO_AS =
+  TRIO_HEAD +
+  `const config = {
+  shop: "Sunrise Tea",
+  theme: "dark",
+  maxSugar: 7,
+} as Config;` +
+  TRIO_BODY;
+
+const TRIO_SATISFIES =
+  TRIO_HEAD +
+  `const config = {
+  shop: "Sunrise Tea",
+  theme: "dark",
+  maxSugar: 7,
+} satisfies Config;` +
+  TRIO_BODY;
+
+const TRIO_HOLE =
+  TRIO_HEAD +
+  `const config = {
+  shop: "Sunrise Tea",
+  theme: "dark",
+} as Config;
+
+console.log(config.maxSugar.toFixed(1));`;
+
+const TRIO_LAB_CODE: Loc<string> = {
+  en: `// Click the word config, then theme, and read the
+// type the compiler inferred. Then switch drafts.
+interface Config {
+  shop: string;
+  theme: "light" | "dark";
+  maxSugar: number;
+}
+
+const config: Config = {
+  shop: "Sunrise Tea",
+  theme: "dark",
+  maxSugar: 7,
+};
+
+if (config.theme === "light") {
+  console.log("light mode");
+}`,
+  zh: `// 点一下 config,再点一下 theme,
+// 读编译器推断出的类型。然后换稿子。
+interface Config {
+  shop: string;
+  theme: "light" | "dark";
+  maxSugar: number;
+}
+
+const config: Config = {
+  shop: "Sunrise Tea",
+  theme: "dark",
+  maxSugar: 7,
+};
+
+if (config.theme === "light") {
+  console.log("light mode");
+}`,
+};
+
+/* ---------- §03 真编译器实验室:unknown ---------- */
+
+// tsc 5.9.3 实测(--strict):
+//   unknown 直接用            → TS18046: 'data' is of type 'unknown'.
+//   加类型谓词 isOrder 收窄后  → 0 处报错
+//   改成 any                   → 0 处报错,连 data.totl 和 data.anything 都放行
+const UNKNOWN_GUARD = `interface Order {
+  id: string;
+  total: number;
+}
+
+function isOrder(v: unknown): v is Order {
+  return (
+    typeof v === "object" &&
+    v !== null &&
+    typeof (v as Order).id === "string" &&
+    typeof (v as Order).total === "number"
+  );
+}
+
+const data: unknown = JSON.parse('{"id":"A-101","total":22}');
+
+if (isOrder(data)) {
+  console.log(data.total.toFixed(2));
+} else {
+  console.log("not an order");
+}`;
+
+const UNKNOWN_ANY = `interface Order {
+  id: string;
+  total: number;
+}
+
+const data: any = JSON.parse('{"id":"A-101","total":22}');
+
+console.log(data.totl.toFixed(2));
+console.log(data.anything.at.all());`;
+
+const UNKNOWN_LAB_CODE: Loc<string> = {
+  en: `interface Order {
+  id: string;
+  total: number;
+}
+
+// Whatever came back over the network. Click data.
+const data: unknown = JSON.parse('{"id":"A-101","total":22}');
+
+console.log(data.total);`,
+  zh: `interface Order {
+  id: string;
+  total: number;
+}
+
+// 网络那头回来的东西。点一下 data。
+const data: unknown = JSON.parse('{"id":"A-101","total":22}');
+
+console.log(data.total);`,
+};
 
 /* ---------- §01 as const ---------- */
 
@@ -497,6 +664,185 @@ export default function MindsetPage() {
         </Callout>
 
         <TrioLab />
+
+        <Callout
+          tone="win"
+          title={{
+            en: "Same object, judged by the compiler itself",
+            zh: "同一个对象,这次由编译器判",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  The comparison above is written down. The window below is the
+                  real TypeScript compiler, running in your browser. Four drafts
+                  of the same object are behind the buttons in the title bar, and
+                  they differ by one line. Switch between them and{" "}
+                  <b>click the word</b> <code>theme</code> — the strip under the
+                  editor shows the type the compiler inferred, not one we wrote
+                  down.
+                </>
+              }
+              zh={
+                <>
+                  上面那份对照是写好的。下面这个窗口里跑的是真正的 TypeScript
+                  编译器,就在你的浏览器里。同一个对象的四份稿子藏在标题栏的按钮后面,
+                  彼此只差一行。切着看,并且<b>点一下</b> <code>theme</code>{" "}
+                  这个词 —— 编辑器下面那条显示的是编译器推断出的类型,
+                  不是我们写上去的。
+                </>
+              }
+            />
+          </p>
+          <p>
+            <T
+              en={
+                <>
+                  Watch the <code>if</code> at the bottom in particular. Under{" "}
+                  <code>: Config</code> and <code>as Config</code> it is fine.
+                  Under <code>satisfies Config</code> the compiler reports{" "}
+                  <code>
+                    TS2367: This comparison appears to be unintentional because
+                    the types &apos;&quot;dark&quot;&apos; and
+                    &apos;&quot;light&quot;&apos; have no overlap.
+                  </code>{" "}
+                  That single error <b>is</b> the difference between the three
+                  forms, stated by the compiler: only under{" "}
+                  <code>satisfies</code> does it still remember that{" "}
+                  <code>theme</code> is <code>&quot;dark&quot;</code>.
+                </>
+              }
+              zh={
+                <>
+                  特别留意底下那个 <code>if</code>。在 <code>: Config</code> 和{" "}
+                  <code>as Config</code> 下它没问题;换成{" "}
+                  <code>satisfies Config</code>,编译器报的是{" "}
+                  <code>
+                    TS2367: This comparison appears to be unintentional because
+                    the types &apos;&quot;dark&quot;&apos; and
+                    &apos;&quot;light&quot;&apos; have no overlap.
+                  </code>{" "}
+                  这一处报错<b>本身</b>就是三种写法的差别,由编译器说出口:
+                  只有 <code>satisfies</code> 之后,它还记得 <code>theme</code>{" "}
+                  是 <code>&quot;dark&quot;</code>。
+                </>
+              }
+            />
+          </p>
+        </Callout>
+
+        <TsLab
+          code={TRIO_LAB_CODE}
+          flags={{ strict: true, target: "es2022" }}
+          presets={[
+            { label: { en: ": Config", zh: ": Config" }, code: TRIO_ANNO },
+            { label: { en: "as Config", zh: "as Config" }, code: TRIO_AS },
+            {
+              label: { en: "satisfies Config", zh: "satisfies Config" },
+              code: TRIO_SATISFIES,
+            },
+            {
+              label: { en: "as, with a hole", zh: "as · 缺一个字段" },
+              code: TRIO_HOLE,
+            },
+          ]}
+          note={{
+            en: "Same object every time. One line differs.",
+            zh: "每次都是同一个对象,只差一行。",
+          }}
+        />
+
+        <Callout
+          tone="warn"
+          title={{
+            en: "What as actually lets through",
+            zh: "as 到底放行了什么",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  The fourth draft is worth a minute. <code>maxSugar</code> is
+                  simply not there, and the file reports{" "}
+                  <b>no errors at all</b> — including the line that calls{" "}
+                  <code>config.maxSugar.toFixed(1)</code>, which is a
+                  guaranteed <code>TypeError</code> at runtime. Now change that{" "}
+                  <code>as Config</code> to <code>: Config</code> yourself, in
+                  the editor. The compiler answers immediately:{" "}
+                  <code>
+                    TS2741: Property &apos;maxSugar&apos; is missing in type
+                    &apos;{"{ shop: string; theme: \"dark\"; }"}&apos; but
+                    required in type &apos;Config&apos;.
+                  </code>{" "}
+                  Change it to <code>satisfies Config</code> and you get{" "}
+                  <code>TS1360</code> saying the same thing.
+                </>
+              }
+              zh={
+                <>
+                  第四份稿子值得花一分钟。<code>maxSugar</code> 根本不在里面,
+                  而这个文件<b>一处报错都没有</b> —— 包括调用{" "}
+                  <code>config.maxSugar.toFixed(1)</code> 那一行,
+                  它在运行时是一个必然发生的 <code>TypeError</code>。
+                  现在你自己在编辑器里把那个 <code>as Config</code> 改成{" "}
+                  <code>: Config</code>,编译器立刻回话:
+                  <code>
+                    TS2741: Property &apos;maxSugar&apos; is missing in type
+                    &apos;{"{ shop: string; theme: \"dark\"; }"}&apos; but
+                    required in type &apos;Config&apos;.
+                  </code>{" "}
+                  改成 <code>satisfies Config</code>,得到的是说同一件事的{" "}
+                  <code>TS1360</code>。
+                </>
+              }
+            />
+          </p>
+          <p>
+            <T
+              en={
+                <>
+                  But <code>as</code> is not a blanket pass, and that is worth
+                  getting right rather than guessing. It requires the two types
+                  to still be <b>comparable</b> — one of them assignable to the
+                  other. A missing field passes that test, because{" "}
+                  <code>Config</code> is assignable to the smaller shape you
+                  wrote. Change <code>maxSugar: 7</code> to{" "}
+                  <code>maxSugar: &quot;7&quot;</code> and it does not:{" "}
+                  <code>
+                    TS2352: Conversion of type … may be a mistake because
+                    neither type sufficiently overlaps with the other.
+                  </code>{" "}
+                  So the honest summary of <code>as</code> is narrower and more
+                  useful than &quot;it lets anything through&quot;:{" "}
+                  <b>
+                    it will not catch what you left out, and it still refuses
+                    what plainly contradicts.
+                  </b>
+                </>
+              }
+              zh={
+                <>
+                  但 <code>as</code> 不是万能通行证 ——
+                  这一点值得弄准,不要靠猜。它要求两个类型仍然
+                  <b>可比较(comparable)</b>:其中一个能赋给另一个。
+                  少一个字段是过关的,因为 <code>Config</code>{" "}
+                  可以赋给你写下的那个更小的形状。而把 <code>maxSugar: 7</code>{" "}
+                  改成 <code>maxSugar: &quot;7&quot;</code> 就过不去:
+                  <code>
+                    TS2352: Conversion of type … may be a mistake because
+                    neither type sufficiently overlaps with the other.
+                  </code>{" "}
+                  所以关于 <code>as</code> 的老实说法比「什么都放行」
+                  更窄、也更有用:
+                  <b>它不会替你发现漏掉的东西,但明摆着矛盾的它仍然拒绝。</b>
+                </>
+              }
+            />
+          </p>
+        </Callout>
 
         <p className="sec-desc">
           <T
@@ -974,6 +1320,113 @@ export default function MindsetPage() {
             />
           }
         />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Read that as a claim and you should want to check it. The window
+                below does: three drafts of the same boundary, judged by the real
+                compiler.
+              </>
+            }
+            zh={
+              <>
+                这些都是断言,读到断言就该想验一下。
+                下面这个窗口就是验它的:同一道边界的三份稿子,由真编译器判。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={UNKNOWN_LAB_CODE}
+          flags={{ strict: true, target: "es2022" }}
+          presets={[
+            {
+              label: { en: "with a predicate", zh: "加类型谓词" },
+              code: UNKNOWN_GUARD,
+            },
+            { label: { en: "with any", zh: "改成 any" }, code: UNKNOWN_ANY },
+          ]}
+          note={{
+            en: "Click data in each draft and compare what the compiler knows.",
+            zh: "在每份稿子里点一下 data,比一比编译器知道多少。",
+          }}
+        />
+
+        <Callout
+          tone="deep"
+          title={{
+            en: "unknown refuses, any agrees",
+            zh: "unknown 会拒绝,any 会附和",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  The first draft reports{" "}
+                  <code>
+                    TS18046: &apos;data&apos; is of type &apos;unknown&apos;.
+                  </code>{" "}
+                  That is not the compiler being difficult. It is the compiler
+                  being honest: <code>JSON.parse</code> returns whatever was in
+                  the string, and reading <code>.total</code> off it is a guess.
+                  Switch to <b>with a predicate</b> and the error is gone — not
+                  because you silenced it, but because <code>isOrder</code>{" "}
+                  actually looks at the value first.
+                </>
+              }
+              zh={
+                <>
+                  第一份稿子报的是{" "}
+                  <code>
+                    TS18046: &apos;data&apos; is of type &apos;unknown&apos;.
+                  </code>{" "}
+                  这不是编译器为难你,是编译器实话实说:
+                  <code>JSON.parse</code> 返回的就是字符串里当时装着的东西,
+                  在它上面读 <code>.total</code> 是猜。切到
+                  <b>加类型谓词</b>,报错没了 —— 不是因为你把它捂住了,
+                  而是因为 <code>isOrder</code> 真的先看了一眼那个值。
+                </>
+              }
+            />
+          </p>
+          <p>
+            <T
+              en={
+                <>
+                  Then switch to <b>with any</b>. Zero errors — and look at what
+                  it accepts: <code>data.totl.toFixed(2)</code> with the field
+                  misspelled, and <code>data.anything.at.all()</code>, which is
+                  not even pretending. <b>
+                    unknown and any both mean &quot;I do not know what this
+                    is&quot;. The difference is what happens next
+                  </b>
+                  : <code>unknown</code> makes you find out,{" "}
+                  <code>any</code> agrees with whatever you say. At a boundary
+                  you are choosing between those two sentences, and one of them
+                  is a decision to stop checking.
+                </>
+              }
+              zh={
+                <>
+                  再切到<b>改成 any</b>。零报错 —— 而它放行的是这些:字段拼错的{" "}
+                  <code>data.totl.toFixed(2)</code>,以及连装都不装的{" "}
+                  <code>data.anything.at.all()</code>。
+                  <b>
+                    unknown 和 any 说的都是「我不知道这是什么」,
+                    差别在下一步
+                  </b>
+                  :<code>unknown</code> 逼你去弄清楚,<code>any</code>{" "}
+                  是你说什么它都点头。站在边界上,你选的就是这两句话之一,
+                  而其中一句等于决定不再检查。
+                </>
+              }
+            />
+          </p>
+        </Callout>
 
         <Callout
           tone="idea"

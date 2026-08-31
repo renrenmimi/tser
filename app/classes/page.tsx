@@ -9,6 +9,7 @@ import "./chapter.css";
 
 import { Hero, Section, Callout, KeyPoints, ChapterFooter } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { LABS, QUIZ } from "@/lib/classes-data";
@@ -124,6 +125,69 @@ shop.name;        // ✓ public
 // shop.recipe;   // ✕ ts(2445):protected,类外读不到`,
 };
 
+/* 实验室的初始稿:两行故意留着报错,让读者自己把修饰符改掉看它消失。
+   presets 的代码不分语言(去掉注释),免得切换语言把读者改过的稿子换走。 */
+const LAB_ACCESS: Loc<string> = {
+  en: `class MilkTeaShop {
+  public name = "Bloom Tea";
+  protected recipe = "tea base first";
+  private vaultCode = "8848";
+}
+
+class FranchiseShop extends MilkTeaShop {
+  train() {
+    return this.recipe;   // a subclass may read a protected member
+  }
+}
+
+const shop = new MilkTeaShop();
+shop.name;        // public, so this line is fine
+shop.recipe;      // delete the word protected, and this line compiles
+shop.vaultCode;   // change private to public, and this line compiles`,
+  zh: `class MilkTeaShop {
+  public name = "Bloom Tea";
+  protected recipe = "tea base first";
+  private vaultCode = "8848";
+}
+
+class FranchiseShop extends MilkTeaShop {
+  train() {
+    return this.recipe;   // 子类可以读 protected 成员
+  }
+}
+
+const shop = new MilkTeaShop();
+shop.name;        // public,这一行没问题
+shop.recipe;      // 把 protected 删掉,这一行就通过
+shop.vaultCode;   // 把 private 改成 public,这一行就通过`,
+};
+
+const LAB_ACCESS_OPEN = `class MilkTeaShop {
+  public name = "Bloom Tea";
+  public recipe = "tea base first";
+  public vaultCode = "8848";
+}
+
+class FranchiseShop extends MilkTeaShop {
+  train() {
+    return this.recipe;
+  }
+}
+
+const shop = new MilkTeaShop();
+shop.name;
+shop.recipe;
+shop.vaultCode;`;
+
+const LAB_ACCESS_NOINIT = `class MilkTeaShop {
+  name: string;
+  private vaultCode: string;
+
+  open() {
+    return this.name + this.vaultCode;
+  }
+}`;
+
 /* ---------- §03 private vs #field ---------- */
 
 const S3_PRIVATE: Loc<string> = {
@@ -167,6 +231,43 @@ s["#vaultCode"];  // undefined
 JSON.stringify(s);
 // {}`,
 };
+
+/* 招牌实验室:同一个类里放两种私有字段,产物页签当场判定谁活下来。 */
+const LAB_ERASE: Loc<string> = {
+  en: `class Shop {
+  private vaultCode = "8848";   // TypeScript's own private
+  #realCode = "9527";           // JavaScript's private field
+
+  check(guess: string) {
+    return this.vaultCode === guess || this.#realCode === guess;
+  }
+}
+
+const s = new Shop();
+s["vaultCode"];      // no error, no cast: this is allowed on purpose
+JSON.stringify(s);   // {"vaultCode":"8848"}`,
+  zh: `class Shop {
+  private vaultCode = "8848";   // TypeScript 自己的 private
+  #realCode = "9527";           // JavaScript 的私有字段
+
+  check(guess: string) {
+    return this.vaultCode === guess || this.#realCode === guess;
+  }
+}
+
+const s = new Shop();
+s["vaultCode"];      // 不报错,也不用断言:这是有意允许的
+JSON.stringify(s);   // {"vaultCode":"8848"}`,
+};
+
+const LAB_ERASE_OUTSIDE = `class Shop {
+  private vaultCode = "8848";
+  #realCode = "9527";
+}
+
+const s = new Shop();
+s.vaultCode;
+s.#realCode;`;
 
 /* ---------- §04 conveniences ---------- */
 
@@ -692,6 +793,73 @@ export default function ClassesPage() {
 
         <AccessGate />
 
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Two of those lines are errors. The quickest way to believe it is
+                to let the compiler say so itself. The window below runs the
+                real <code>tsc</code>, in your browser: delete the word{" "}
+                <code>protected</code>, or change <code>private</code> to{" "}
+                <code>public</code>, and the matching error goes away on its
+                own.
+              </>
+            }
+            zh={
+              <>
+                上面有两行是报错的。最快的确认办法,是让编译器自己说。
+                下面这个窗口里跑的是真的 <code>tsc</code>,就在你的浏览器里:
+                把 <code>protected</code> 删掉,或者把 <code>private</code>{" "}
+                改成 <code>public</code>,对应的那条报错会自己消失。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_ACCESS}
+          flags={{ strict: true }}
+          toggles={["strictPropertyInitialization"]}
+          presets={[
+            {
+              label: { en: "all public", zh: "全开 public" },
+              code: LAB_ACCESS_OPEN,
+            },
+            {
+              label: { en: "never assigned", zh: "只声明不赋值" },
+              code: LAB_ACCESS_NOINIT,
+            },
+          ]}
+          note={{
+            en: "Click a member name to see what the compiler knows about it.",
+            zh: "点一下成员名字,看编译器怎么记它。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                The title bar carries two other drafts. In{" "}
+                <b>never assigned</b>, two fields are declared and neither is
+                given a value — that is the §01 check, ts(2564). Turn{" "}
+                <code>strictPropertyInitialization</code> off with the switch
+                above the code and both errors go with it. Nothing about the
+                code changed; one compiler option did.
+              </>
+            }
+            zh={
+              <>
+                标题栏上还挂着另外两份稿子。<b>只声明不赋值</b>
+                那一份里有两个字段,一个都没给值 —— 这正是 §01
+                那道检查,ts(2564)。把代码上方的{" "}
+                <code>strictPropertyInitialization</code> 关掉,
+                两条报错一起消失:代码一个字没变,变的是一个编译选项。
+              </>
+            }
+          />
+        </p>
+
         <Callout
           tone="warn"
           title={{
@@ -760,8 +928,8 @@ export default function ClassesPage() {
           zh: "private 是编译期检查,#field 是运行时的",
         }}
         desc={{
-          en: "private hides nothing once the code runs. This section shows exactly what survives compilation.",
-          zh: "代码一旦跑起来,private 什么也藏不住。这一节看清楚编译之后到底剩下什么。",
+          en: "private hides nothing once the code runs. Compile both kinds of field below and read what actually comes out.",
+          zh: "代码一旦跑起来,private 什么也藏不住。这一节把两种字段都编译一遍,看产物里到底剩下什么。",
         }}
       >
         <p className="sec-desc">
@@ -839,6 +1007,76 @@ export default function ClassesPage() {
         </p>
 
         <ErasureViz />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                That panel is a comparison prepared in advance. This one is not.
+                One class, both kinds of private field, and the real compiler
+                underneath. Open <b>Compiled JS</b> and read the class body:{" "}
+                <code>private</code> is not there — the word was a note to the
+                type checker and nothing else — while <code>#realCode</code> is
+                still written exactly as you wrote it.
+              </>
+            }
+            zh={
+              <>
+                上面那张对照是事先摆好的,下面这个不是:一个类,两种私有字段,
+                底下是真编译器。切到<b>编译产物 JS</b> 读一遍类体 ——{" "}
+                <code>private</code> 不在里面,那个词只是给类型检查器看的;
+                而 <code>#realCode</code> 还在,和你写下的一模一样。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_ERASE}
+          emit="js"
+          targets
+          presets={[
+            {
+              label: { en: "read from outside", zh: "从类外读一读" },
+              code: LAB_ERASE_OUTSIDE,
+            },
+          ]}
+          note={{
+            en: "No errors here. The point is in the output tab.",
+            zh: "这段本身没有报错,要看的是产物页签。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Two things are worth trying. Set <code>target</code> to{" "}
+                <code>es2015</code>, a version of JavaScript that had no{" "}
+                <code>#</code> fields yet: the compiler rewrites{" "}
+                <code>#realCode</code> as a <code>WeakMap</code> keyed by the
+                instance, so that it stays unreachable even there.{" "}
+                <code>private</code> needs no such machinery, because it never
+                promised anything at run time. Then load{" "}
+                <b>read from outside</b> and compare the two errors: ts(2341)
+                comes from the type system, ts(18013) from the JavaScript
+                language.
+              </>
+            }
+            zh={
+              <>
+                有两件事值得试。把 <code>target</code> 调到{" "}
+                <code>es2015</code> —— 那个版本的 JavaScript 还没有{" "}
+                <code>#</code> 字段:编译器会把 <code>#realCode</code>{" "}
+                改写成一个以实例为键的 <code>WeakMap</code>,
+                好让它在那里也照样读不到。<code>private</code>{" "}
+                不需要这套机械,因为它在运行时本来就没许诺过什么。
+                然后换上<b>从类外读一读</b>,对比那两条报错:ts(2341)
+                来自类型系统,ts(18013) 来自 JavaScript 这门语言。
+              </>
+            }
+          />
+        </p>
 
         <div className="grid-2">
           <div className="card">

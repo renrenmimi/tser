@@ -15,6 +15,7 @@ import "./chapter.css";
 
 import { Hero, Section, Callout, KeyPoints, ChapterFooter } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { T, type Loc } from "@/lib/i18n";
@@ -317,6 +318,86 @@ const MINE_TITLE: Loc<string> = {
   en: "Your version",
   zh: "你的手写版",
 };
+
+/* §07 的实验室:判分器 —— 三个占位定义各触发一次
+   TS2344「Type 'false' does not satisfy the constraint 'true'.」,
+   填对之后 tsc 一句话都不说。stub 与答案两版均在 5.9.3 + strict 下实测。 */
+const LAB_GRADER_HEAD = {
+  en: `interface Order {
+  id: string;
+  drink: string;
+  size: "small" | "medium" | "large";
+  internalNote: string;
+}
+type Status = "queued" | "making" | "ready" | "done";
+
+// The grader. Equal<X, Y> is true only when X and Y are the same
+// type, and Expect<T> accepts nothing except true.
+type Equal<X, Y> =
+  (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2)
+    ? true
+    : false;
+type Expect<T extends true> = T;
+
+`,
+  zh: `interface Order {
+  id: string;
+  drink: string;
+  size: "small" | "medium" | "large";
+  internalNote: string;
+}
+type Status = "queued" | "making" | "ready" | "done";
+
+// 判分器。Equal<X, Y> 只有在 X 和 Y 是同一个类型时才是 true,
+// 而 Expect<T> 除了 true 什么都不收。
+type Equal<X, Y> =
+  (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2)
+    ? true
+    : false;
+type Expect<T extends true> = T;
+
+`,
+};
+
+const LAB_GRADER_TAIL = {
+  en: `
+// Three papers, one grader. No errors means all three are right.
+type Check1 = Expect<Equal<MyPartial<Order>, Partial<Order>>>;
+type Check2 = Expect<Equal<MyPick<Order, "id">, Pick<Order, "id">>>;
+type Check3 = Expect<Equal<MyExclude<Status, "done">, Exclude<Status, "done">>>;`,
+  zh: `
+// 三份卷子,一个判分器。没有报错就是三题全对。
+type Check1 = Expect<Equal<MyPartial<Order>, Partial<Order>>>;
+type Check2 = Expect<Equal<MyPick<Order, "id">, Pick<Order, "id">>>;
+type Check3 = Expect<Equal<MyExclude<Status, "done">, Exclude<Status, "done">>>;`,
+};
+
+const LAB_GRADER: Loc<string> = {
+  en:
+    LAB_GRADER_HEAD.en +
+    `// Your turn. Replace each stub with the real definition.
+type MyPartial<T> = T;
+type MyPick<T, K extends keyof T> = T;
+type MyExclude<T, U> = T;
+` +
+    LAB_GRADER_TAIL.en,
+  zh:
+    LAB_GRADER_HEAD.zh +
+    `// 轮到你了。把三个占位定义换成真的。
+type MyPartial<T> = T;
+type MyPick<T, K extends keyof T> = T;
+type MyExclude<T, U> = T;
+` +
+    LAB_GRADER_TAIL.zh,
+};
+
+const LAB_GRADER_SOLVED =
+  LAB_GRADER_HEAD.en +
+  `type MyPartial<T> = { [K in keyof T]?: T[K] };
+type MyPick<T, K extends keyof T> = { [P in K]: T[P] };
+type MyExclude<T, U> = T extends U ? never : T;
+` +
+  LAB_GRADER_TAIL.en;
 
 export default function TypeMagicPage() {
   return (
@@ -1432,6 +1513,102 @@ export default function TypeMagicPage() {
                 <code>never</code>。约束已经保证 <code>T</code>{" "}
                 是函数,正常使用时这个分支走不到。两种都对,
                 <code>never</code> 更严格一点。
+              </>
+            }
+          />
+        </p>
+
+        <h3 className="tm-tool-h">
+          <T en="Now write them yourself" zh="现在自己写一遍" />
+          <span className="tm-parts-used">
+            <T en="Graded by the compiler" zh="判分的是编译器" />
+          </span>
+        </h3>
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Reading a definition and writing one are different skills. The
+                window below starts with three stubs and a grader, and the
+                grader is only two lines of type-level code.{" "}
+                <code>{"Expect<T extends true>"}</code> is a type parameter whose
+                constraint is the single type <code>true</code>, so handing it{" "}
+                <code>false</code> is a constraint violation like any other.{" "}
+                <code>Equal&lt;X, Y&gt;</code> compares two generic function
+                types that differ only in <code>X</code> and <code>Y</code>; the
+                compiler relates two such deferred conditional types only when
+                the types they were built from are the same, which makes it a
+                stricter test than <code>X extends Y</code>. You do not have to
+                be able to derive that in order to use it &mdash; it is the
+                standard grader in type exercises.
+              </>
+            }
+            zh={
+              <>
+                读懂一个定义和写出一个定义是两回事。下面的窗口里放着三个占位定义和一个判分器,
+                判分器本身只有两行类型代码。
+                <code>{"Expect<T extends true>"}</code> 是一个类型参数,
+                它的约束就是 <code>true</code> 这一个类型,所以塞给它{" "}
+                <code>false</code>,和任何一次约束违反没有区别。
+                <code>Equal&lt;X, Y&gt;</code> 拿两个只有 <code>X</code> 和{" "}
+                <code>Y</code> 不同的泛型函数类型作比较;
+                编译器只有在两个延迟求值的条件类型「出身相同」时才认为它们相关,
+                所以这个判定比 <code>X extends Y</code> 严格。
+                能用它,不需要能推导它 —— 它是类型练习里的通用判分器。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_GRADER}
+          presets={[
+            {
+              label: { en: "one solution", zh: "一份参考答案" },
+              code: LAB_GRADER_SOLVED,
+            },
+          ]}
+          note={{
+            en: "Three errors now. Get to zero without scrolling up.",
+            zh: "现在是三处报错。别往上翻,把它清成零。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Each stub costs you one{" "}
+                <code>
+                  TS2344: Type &apos;false&apos; does not satisfy the constraint
+                  &apos;true&apos;.
+                </code>{" "}
+                Fix a definition and its error disappears on its own. Get to{" "}
+                <b>no errors</b> and you have written <code>Partial</code>,{" "}
+                <code>Pick</code> and <code>Exclude</code> from scratch, each one
+                checked against the library&apos;s own version &mdash; verified
+                by the compiler, not asserted by me. The near misses are worth
+                trying too: <code>{"{ [K in keyof T]: T[K] }"}</code> without the
+                question mark, or <code>{"{ [P in keyof T]: T[P] }"}</code> for{" "}
+                <code>MyPick</code>. Both look right. Both are wrong, and the
+                grader says so at once.
+              </>
+            }
+            zh={
+              <>
+                三个占位定义,每个换来一条{" "}
+                <code>
+                  TS2344: Type &apos;false&apos; does not satisfy the constraint
+                  &apos;true&apos;.
+                </code>{" "}
+                改对一个,对应那条报错自己消失。清到<b>没有报错</b>,
+                就意味着你从零写出了 <code>Partial</code>、<code>Pick</code>、
+                <code>Exclude</code>,而且每一个都和标准库的版本核对过 ——
+                这句话是编译器验的,不是我说的。那些差一点的写法也值得试:
+                <code>{"{ [K in keyof T]: T[K] }"}</code> 少一个问号,
+                或者把 <code>MyPick</code> 写成{" "}
+                <code>{"{ [P in keyof T]: T[P] }"}</code>。两个都像对的,
+                两个都不对,判分器当场就说。
               </>
             }
           />

@@ -17,6 +17,7 @@ import {
   ChapterFooter,
 } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { T, type Loc } from "@/lib/i18n";
@@ -123,6 +124,49 @@ if (Math.random() > 0.5) firstOrder = "Oolong Tea";
 else firstOrder = "Grape Tea";`,
 };
 
+/* 实验室的初始稿:一个注解都没有,报错只会出现在参数那一行。
+   两种语言下可执行的行逐字节相同,只有注释不同。 */
+const LAB_INFER: Loc<string> = {
+  en: `// Not one type annotation in this file.
+// Click any name and the compiler will tell you its type.
+
+const drink = "Grape Tea";
+const price = 22;
+const soldOut = false;
+
+const menu = [
+  { name: "Mango Sago", price: 22, sizes: ["medium", "large"] },
+  { name: "Oolong Tea", price: 12, sizes: ["small", "large"] },
+];
+
+const cheap = menu.filter((m) => m.price < 15);
+const titles = cheap.map((m) => m.name);
+
+// Exactly one line gets underlined. That line is the boundary.
+function totalFor(qty) {
+  return price * qty;
+}`,
+  zh: `// 这份文件里一个类型注解都没有。
+// 点任意一个名字,编译器会告诉你它推断出来的类型。
+
+const drink = "Grape Tea";
+const price = 22;
+const soldOut = false;
+
+const menu = [
+  { name: "Mango Sago", price: 22, sizes: ["medium", "large"] },
+  { name: "Oolong Tea", price: 12, sizes: ["small", "large"] },
+];
+
+const cheap = menu.filter((m) => m.price < 15);
+const titles = cheap.map((m) => m.name);
+
+// 只有一行会被画上波浪线。那一行就是边界。
+function totalFor(qty) {
+  return price * qty;
+}`,
+};
+
 /* ---------- §05 字面量与拓宽 ---------- */
 
 const LITERAL_CODE: Loc<string> = {
@@ -147,6 +191,33 @@ cup = "large";            // ✓ 在名单上
 cup = "mega";             // ✗ Type '"mega"' is not
                           //   assignable to type 'Size'.`,
 };
+
+/* 拓宽实验室:初始稿是 let 版;另外两份稿子放在 presets 里。
+   presets 的代码不分语言(注释一律英文),免得中英切换把读者改过的代码换掉。 */
+const LAB_WIDEN: Loc<string> = {
+  en: `let cupSize = "small";
+cupSize = "medium";
+cupSize = "mega";
+
+// Click cupSize. Then load the other two drafts from the title bar.`,
+  zh: `let cupSize = "small";
+cupSize = "medium";
+cupSize = "mega";
+
+// 点一下 cupSize。然后从标题栏换上另外两份稿子。`,
+};
+
+const WIDEN_CONST = `const cupSize = "small";
+const sizes = ["small", "medium", "large"];
+const cup = { size: "small", sugar: 50 };
+
+// Click all three. Only the first one keeps its literal type.`;
+
+const WIDEN_UNION = `type Size = "small" | "medium" | "large";
+
+let cupSize: Size = "small";
+cupSize = "medium";
+cupSize = "mega";`;
 
 /* ---------- §06 any ---------- */
 
@@ -663,20 +734,98 @@ export default function TypesPage() {
         }}
       >
         <InferenceLens />
+
+        <Callout
+          tone="idea"
+          title={{
+            en: "The lens above is a drawing. The window below is the compiler.",
+            zh: "上面那台放大镜是示意图,下面这个是编译器本人",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  Every type in the panel above was typed out by hand to
+                  illustrate the idea. The window below runs the{" "}
+                  <b>real TypeScript compiler</b>, in your browser. Click{" "}
+                  <code>drink</code>, <code>price</code>, <code>menu</code>,{" "}
+                  <code>cheap</code> — the answers come from the same program
+                  that runs in your editor. Then look at the one line it
+                  underlines: the parameter of <code>totalFor</code>. Inference
+                  reads values, and a parameter has no value to read.
+                </>
+              }
+              zh={
+                <>
+                  上面那台放大镜里的每个类型,都是为了讲解手写进去的。
+                  下面这个窗口里跑的是<b>真正的 TypeScript 编译器</b>,
+                  就在你的浏览器里。点 <code>drink</code>、<code>price</code>、
+                  <code>menu</code>、<code>cheap</code>,
+                  给出答案的和你编辑器里那台是同一个程序。
+                  然后看它画波浪线的那一行:<code>totalFor</code> 的参数。
+                  推断读的是值,而参数没有值可读。
+                </>
+              }
+            />
+          </p>
+        </Callout>
+
+        <TsLab
+          code={LAB_INFER}
+          emit="dts"
+          note={{
+            en: "One error, and it is on the parameter.",
+            zh: "只有一处报错,在参数上。",
+          }}
+        />
+
         <p className="sec-desc" style={{ marginTop: 18 }}>
           <T
             en={
               <>
-                For a local variable that is assigned right where it is
-                declared, inference covers everything. So where do annotations
-                belong? <b>At the boundaries</b>: anywhere other code depends on
-                the type, and anywhere inference has nothing to read.
+                The second tab of that window is worth opening: it is the list
+                the compiler writes down of every type it worked out for this
+                file, all in one place. Read the last line —{" "}
+                <code>declare function totalFor(qty: any): number</code>. The
+                parameter came out as <code>any</code>, which is the compiler
+                saying it gave up on that one. Add{" "}
+                <code>totalFor(&quot;three&quot;)</code> at the bottom and
+                nothing new is reported. Section 06 is about what{" "}
+                <code>any</code> costs; chapter 09 is about what a file like
+                that second tab is for.
               </>
             }
             zh={
               <>
-                局部变量这种「声明的同时就赋值」的场合,推断全包了。
-                那注解该写在哪?<b>写在边界上</b> ——
+                那个窗口的第二个页签值得打开:
+                它是编译器把这份文件里所有推断结果一次列全的清单。
+                读最后一行 ——
+                <code>declare function totalFor(qty: any): number</code>。
+                参数推成了 <code>any</code>,这是编译器在说「这一处我放弃了」。
+                在文件末尾补一句 <code>totalFor(&quot;three&quot;)</code>,
+                不会多出任何报错。<code>any</code> 的代价是本章 §06 的内容;
+                第二个页签里那种文件是干什么用的,09 章讲。
+              </>
+            }
+          />
+        </p>
+
+        <p className="sec-desc" style={{ marginTop: 18 }}>
+          <T
+            en={
+              <>
+                That is the rule in general. For a local variable that is
+                assigned right where it is declared, inference covers
+                everything. So where do annotations belong?{" "}
+                <b>At the boundaries</b>: anywhere other code depends on the
+                type, and anywhere inference has nothing to read.
+              </>
+            }
+            zh={
+              <>
+                规律就在这里。局部变量这种「声明的同时就赋值」的场合,
+                推断全包了。那注解该写在哪?<b>写在边界上</b> ——
                 凡是别的代码要依赖这个类型的地方,以及推断无从下手的地方。
               </>
             }
@@ -876,6 +1025,76 @@ export default function TypesPage() {
             />
           }
         />
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Widening is not something to take on trust. Ask the compiler.
+                There are three drafts below: the one already loaded, and two
+                more in the title bar. In each of them, click{" "}
+                <code>cupSize</code> and read what comes back.
+              </>
+            }
+            zh={
+              <>
+                拓宽这件事,与其读结论,不如直接问编译器。
+                下面一共三份稿子:现在这份,加标题栏里的另外两份。
+                每换一份,都点一下 <code>cupSize</code>,看它回什么。
+              </>
+            }
+          />
+        </p>
+        <TsLab
+          code={LAB_WIDEN}
+          presets={[
+            {
+              label: { en: "const draft", zh: "换成 const" },
+              code: WIDEN_CONST,
+            },
+            {
+              label: { en: "union draft", zh: "换成联合" },
+              code: WIDEN_UNION,
+            },
+          ]}
+          note={{
+            en: "let → string · const → \"small\"",
+            zh: "let → string · const → \"small\"",
+          }}
+        />
+        <p className="sec-desc" style={{ marginTop: 18 }}>
+          <T
+            en={
+              <>
+                In the first draft nothing is reported: once{" "}
+                <code>cupSize</code> has widened to <code>string</code>,{" "}
+                <code>&quot;mega&quot;</code> is a perfectly good string. In the
+                third draft the same line is rejected —{" "}
+                <code>
+                  Type &apos;&quot;mega&quot;&apos; is not assignable to type
+                  &apos;Size&apos;.
+                </code>{" "}
+                Nothing about the value changed. What changed is how narrow the
+                type is. The middle draft has three names to click rather than
+                one, and only the first of them keeps its literal type. The box
+                below says why.
+              </>
+            }
+            zh={
+              <>
+                第一份稿子什么都不报:<code>cupSize</code> 一旦拓宽成{" "}
+                <code>string</code>,<code>&quot;mega&quot;</code>{" "}
+                当然是个合格的字符串。第三份稿子里同一行被拒了 ——
+                <code>
+                  Type &apos;&quot;mega&quot;&apos; is not assignable to type
+                  &apos;Size&apos;.
+                </code>{" "}
+                值一个字都没变,变的是类型收得多窄。
+                中间那份稿子里可点的名字有三个,而只有第一个保住了字面量类型 ——
+                原因在下面这张卡片里。
+              </>
+            }
+          />
+        </p>
         <Callout
           tone="warn"
           title={{

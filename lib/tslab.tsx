@@ -153,6 +153,7 @@ export interface TsLabPreset {
 
 export function TsLab({
   code,
+  // 编译器内部固定用 main.ts 报位置,窗口名跟着它,别让读者看到两个名字
   title = "main.ts",
   flags: initialFlags,
   toggles,
@@ -590,6 +591,8 @@ export function TsLab({
                 type="button"
                 key={i}
                 className={`tsl-diag ${d.severity}`}
+                // 悬停能看到 tsc 命令行会打印的原样一行
+                title={d.cli}
                 onClick={() => revealDiagnostic(d)}
               >
                 <span className="tsl-diag-at">

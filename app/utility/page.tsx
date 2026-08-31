@@ -23,6 +23,7 @@ import {
   ChapterFooter,
 } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { T, type Loc } from "@/lib/i18n";
@@ -258,6 +259,45 @@ const menu: Menu = {
 menu["Oolong Tea"];
 // MenuItem,不是 MenuItem | undefined —— 尽管这个键并不存在`,
 };
+
+/* §04 的实验室:点等号左边的别名,编译器把工具类型算完的形状整个展开。
+   展开结果与 Pick 的 TS2344 均在 tsc 5.9.3 + strict 下实测。 */
+const LAB_ORDER_HEAD = `type Size = "small" | "medium" | "large";
+
+interface Order {
+  id: string;
+  drink: string;
+  size: Size;
+  toppings: string[];
+  internalNote: string;
+}
+`;
+
+const LAB_SHAPES: Loc<string> = {
+  en:
+    LAB_ORDER_HEAD +
+    `
+// Click a name on the left of "=" to see the shape it computes to.
+type DraftOrder = Partial<Order>;
+type ListRow = Pick<Order, "id" | "drink" | "size">;
+type PublicOrder = Omit<Order, "internalNote">;
+type CupStock = Record<Size, number>;`,
+  zh:
+    LAB_ORDER_HEAD +
+    `
+// 点等号左边的名字,看这个工具类型算出来的形状。
+type DraftOrder = Partial<Order>;
+type ListRow = Pick<Order, "id" | "drink" | "size">;
+type PublicOrder = Omit<Order, "internalNote">;
+type CupStock = Record<Size, number>;`,
+};
+
+const LAB_TYPO =
+  LAB_ORDER_HEAD +
+  `
+// The same misspelled key, once to Omit and once to Pick.
+type Leaky = Omit<Order, "internalNotes">;
+type Checked = Pick<Order, "internalNotes">;`;
 
 /* ---------- §05 筛联合 ---------- */
 
@@ -1059,7 +1099,10 @@ export default function UtilityPage() {
                   compiles and the property is still there. Use a{" "}
                   <code>Pick</code> allow-list for that, so the compiler checks
                   the names, or write a strict <code>Omit</code> of your own
-                  after Chapter 07.
+                  after Chapter 07. The lab at the end of this section lets you
+                  watch the leak happen: the misspelled <code>Omit</code>{" "}
+                  computes to a shape that still contains{" "}
+                  <code>internalNote</code>, and it is reported nowhere.
                 </p>
               </>
             }
@@ -1081,6 +1124,9 @@ export default function UtilityPage() {
                   那么一个拼错的键会顺利编译,属性照样在里面。
                   这种场合用 <code>Pick</code> 白名单,让编译器帮你核对名字;
                   或者学完第 07 章,自己写一个严格版的 <code>Omit</code>。
+                  本节末尾的实验室里可以亲眼看这个洞漏出来:拼错的{" "}
+                  <code>Omit</code> 算出来的形状里,<code>internalNote</code>{" "}
+                  原封不动地还在,而没有任何地方报错。
                 </p>
               </>
             }
@@ -1136,6 +1182,101 @@ export default function UtilityPage() {
             />
           }
         />
+
+        <h3 className="ut-tool-h">
+          <T en="Ask the compiler for the shape" zh="直接问编译器要形状" />
+        </h3>
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Every comment in this chapter that spells out what a utility
+                type expands to can be checked in one click. In the window
+                below, click a name on the <b>left of the equals sign</b> &mdash;{" "}
+                <code>DraftOrder</code>, <code>ListRow</code>,{" "}
+                <code>PublicOrder</code>, <code>CupStock</code> &mdash; and the
+                compiler prints the finished shape, with every property spelled
+                out. <code>Partial</code> comes back as{" "}
+                <code>{"{ id?: string | undefined; drink?: string | undefined; … }"}</code>
+                , which shows both halves of what it does at once: the question
+                mark, and the <code>undefined</code> added to each property type.
+              </>
+            }
+            zh={
+              <>
+                这一章里每一处写着「展开成什么样」的注释,都可以一键核对。在下面的窗口里点
+                <b>等号左边</b>的名字 —— <code>DraftOrder</code>、
+                <code>ListRow</code>、<code>PublicOrder</code>、
+                <code>CupStock</code> —— 编译器就把算完的形状整个打出来,
+                每个属性都写全。<code>Partial</code> 展开是{" "}
+                <code>{"{ id?: string | undefined; drink?: string | undefined; … }"}</code>
+                ,一眼能看到它做的两件事:加上问号,同时把{" "}
+                <code>undefined</code> 并进每个属性的类型里。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_SHAPES}
+          presets={[
+            {
+              label: { en: "the misspelled key", zh: "拼错的那个键" },
+              code: LAB_TYPO,
+            },
+          ]}
+          note={{
+            en: "Click Omit itself and its constraint appears: K extends keyof any.",
+            zh: "点 Omit 这个名字本身,它的约束就出来了:K extends keyof any。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Then press <b>the misspelled key</b>. One error appears, and it
+                is on the <code>Pick</code> line:{" "}
+                <code>
+                  TS2344: Type &apos;&quot;internalNotes&quot;&apos; does not
+                  satisfy the constraint &apos;keyof Order&apos;.
+                </code>{" "}
+                The <code>Omit</code> line above it is silent. Click{" "}
+                <code>Leaky</code> and read what it computed to:{" "}
+                <code>internalNote</code> is still in the shape, exactly as it
+                was. A key that does not exist removes nothing, and{" "}
+                <b>nothing in the type system objects to that</b>. Click{" "}
+                <code>Omit</code> itself and the reason is on screen too:{" "}
+                <code>
+                  type Omit&lt;T, K extends keyof any&gt; ={" "}
+                  {"{ [P in Exclude<keyof T, K>]: T[P]; }"}
+                </code>
+                . Of this pair, <code>Omit</code> is the one whose key you have
+                to spell correctly on your own.
+              </>
+            }
+            zh={
+              <>
+                然后按<b>拼错的那个键</b>。只冒出一处报错,而且是在{" "}
+                <code>Pick</code> 那一行:
+                <code>
+                  TS2344: Type &apos;&quot;internalNotes&quot;&apos; does not
+                  satisfy the constraint &apos;keyof Order&apos;.
+                </code>{" "}
+                它上面的 <code>Omit</code> 一声不吭。点一下 <code>Leaky</code>{" "}
+                看它算出来的形状:<code>internalNote</code>{" "}
+                原样还在。一个不存在的键删不掉任何东西,
+                <b>而类型系统对此没有意见</b>。再点一下 <code>Omit</code>{" "}
+                这个名字,原因也在屏幕上:
+                <code>
+                  type Omit&lt;T, K extends keyof any&gt; ={" "}
+                  {"{ [P in Exclude<keyof T, K>]: T[P]; }"}
+                </code>
+                。这一对工具里,只有 <code>Omit</code> 的键名要靠你自己拼对。
+              </>
+            }
+          />
+        </p>
       </Section>
 
       {/* ================= §05 筛联合 ================= */}

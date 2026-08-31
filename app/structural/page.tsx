@@ -16,6 +16,7 @@ import {
   ChapterFooter,
 } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { LABS, QUIZ } from "@/lib/structural-data";
@@ -128,7 +129,10 @@ const b: FruitTea = a;
 
 /* ---------- §03 the direction of assignability ---------- */
 
-const S3_COMPAT: Loc<string> = {
+/* Preset code stays in one language: the identifiers are the same either
+   way, and switching languages must not overwrite what the reader typed. */
+
+const LAB_COMPAT: Loc<string> = {
   en: `type Staff = { name: string };
 
 const barista = {
@@ -137,15 +141,12 @@ const barista = {
   years: 3,
 };
 
-// more members ⭢ fewer members: accepted
-const s: Staff = barista; // ✓
+// more members ⭢ fewer members
+const asStaff: Staff = barista;
 
-// fewer members ⭢ more members: rejected
-const staff = { name: "New hire" };
-// const b: typeof barista = staff;
-// ✕ Type '{ name: string; }' is missing the following
-//   properties from type '{ name: string; makeTea:
-//   () => void; years: number; }': makeTea, years ts(2739)`,
+// fewer members ⭢ more members
+const newHire = { name: "New hire" };
+const asBarista: typeof barista = newHire;`,
   zh: `type Staff = { name: string };
 
 const barista = {
@@ -154,16 +155,38 @@ const barista = {
   years: 3,
 };
 
-// 成员多 ⭢ 成员少:通过
-const s: Staff = barista; // ✓
+// 成员多 ⭢ 成员少
+const asStaff: Staff = barista;
 
-// 成员少 ⭢ 成员多:拒绝
-const staff = { name: "New hire" };
-// const b: typeof barista = staff;
-// ✕ Type '{ name: string; }' is missing the following
-//   properties from type '{ name: string; makeTea:
-//   () => void; years: number; }': makeTea, years ts(2739)`,
+// 成员少 ⭢ 成员多
+const newHire = { name: "New hire" };
+const asBarista: typeof barista = newHire;`,
 };
+
+const LAB_COMPAT_CATCHUP = `type Staff = { name: string };
+
+const barista = {
+  name: "Zhen",
+  makeTea: () => {},
+  years: 3,
+};
+
+const asStaff: Staff = barista;
+
+// now the new hire has every member barista has
+const newHire = { name: "New hire", makeTea: () => {}, years: 0 };
+const asBarista: typeof barista = newHire;`;
+
+const LAB_COMPAT_RAISED = `// Staff now asks for one member more than barista has
+type Staff = { name: string; tips: number };
+
+const barista = {
+  name: "Zhen",
+  makeTea: () => {},
+  years: 3,
+};
+
+const asStaff: Staff = barista;`;
 
 const S3_OPTIONAL: Loc<string> = {
   en: `type A = { note?: string };            // the key may be absent
@@ -247,6 +270,77 @@ makeOrder(draft); // ✓ 编译通过
 // 但 sweetness 从没被赋值,
 // 顾客要的半糖就这么丢了`,
 };
+
+/* ---------- §04 lab: the same object, written two ways ---------- */
+
+const LAB_EXCESS: Loc<string> = {
+  en: `type Order = {
+  item: string;
+  sweetness?: string;
+};
+
+function makeOrder(o: Order) {}
+
+// 1 · the literal is written right here, at the call site
+makeOrder({
+  item: "Boba milk tea",
+  sweetnes: "half sugar",
+});
+
+// 2 · the same object, stored in a variable first
+const draft = {
+  item: "Boba milk tea",
+  sweetnes: "half sugar",
+};
+makeOrder(draft);`,
+  zh: `type Order = {
+  item: string;
+  sweetness?: string;
+};
+
+function makeOrder(o: Order) {}
+
+// 1 · 字面量直接写在调用处
+makeOrder({
+  item: "Boba milk tea",
+  sweetnes: "half sugar",
+});
+
+// 2 · 同一个对象,先存进变量
+const draft = {
+  item: "Boba milk tea",
+  sweetnes: "half sugar",
+};
+makeOrder(draft);`,
+};
+
+const LAB_EXCESS_VARIABLE = `type Order = {
+  item: string;
+  sweetness?: string;
+};
+
+function makeOrder(o: Order) {}
+
+// the same object as before, stored in a variable first
+const draft = {
+  item: "Boba milk tea",
+  sweetnes: "half sugar",
+};
+
+makeOrder(draft); // no error - and no half sugar either`;
+
+const LAB_EXCESS_UNKNOWN = `type Order = {
+  item: string;
+  sweetness?: string;
+};
+
+function makeOrder(o: Order) {}
+
+// 'cup' resembles nothing in Order
+makeOrder({
+  item: "Boba milk tea",
+  cup: "large",
+});`;
 
 /* ---------- §05 traps that come with identical shapes ---------- */
 
@@ -697,15 +791,95 @@ export default function StructuralPage() {
       >
         <CompatPlayground />
 
-        <CodeBlock
-          lang="ts"
-          title={{
-            en: "compat.ts · the same two directions, written out",
-            zh: "compat.ts · 上面两个方向的代码版",
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Here are the same two directions, in front of the real compiler.
+                Line 10 goes the allowed way and passes without a word. Line 14
+                goes the other way and is reported:{" "}
+                <code>
+                  Type &apos;&#123; name: string; &#125;&apos; is missing the
+                  following properties from type &apos;&#123; name: string;
+                  makeTea: () =&gt; void; years: number; &#125;&apos;: makeTea,
+                  years
+                </code>{" "}
+                — the message names exactly what is missing, which is what makes
+                this class of error quick to fix.
+              </>
+            }
+            zh={
+              <>
+                同样这两个方向,现在摆在真编译器面前。第 10
+                行走的是允许的方向,一声不响地通过;第 14 行反着走,被报出来:
+                <code>
+                  Type &apos;&#123; name: string; &#125;&apos; is missing the
+                  following properties from type &apos;&#123; name: string;
+                  makeTea: () =&gt; void; years: number; &#125;&apos;: makeTea,
+                  years
+                </code>
+                —— 消息里点明了到底缺哪几个成员,所以这类报错改起来很快。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_COMPAT}
+          presets={[
+            {
+              label: {
+                en: "let the new hire catch up",
+                zh: "让新人补齐成员",
+              },
+              code: LAB_COMPAT_CATCHUP,
+            },
+            {
+              label: { en: "raise the bar for Staff", zh: "抬高 Staff 的要求" },
+              code: LAB_COMPAT_RAISED,
+            },
+          ]}
+          note={{
+            en: "Click asStaff or barista to see the inferred type.",
+            zh: "点 asStaff 或 barista,看推断出来的类型。",
           }}
-          hl={[10]}
-          code={S3_COMPAT}
         />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                The second preset moves the requirement instead of the value:{" "}
+                <code>Staff</code> now asks for a <code>tips</code> member that{" "}
+                <code>barista</code> does not have, so a line that used to
+                compile stops compiling —{" "}
+                <code>
+                  Property &apos;tips&apos; is missing in type &apos;&#123;
+                  name: string; makeTea: () =&gt; void; years: number;
+                  &#125;&apos; but required in type &apos;Staff&apos;.
+                </code>{" "}
+                Nothing about <code>barista</code> changed. Compatibility is not
+                a property of a value; it is recomputed every time, against
+                whatever the target requires.
+              </>
+            }
+            zh={
+              <>
+                第二个预设动的不是值,而是要求:<code>Staff</code>{" "}
+                现在多要一个 <code>barista</code> 没有的 <code>tips</code>{" "}
+                成员,于是原本通得过的那一行不通了 ——
+                <code>
+                  Property &apos;tips&apos; is missing in type &apos;&#123;
+                  name: string; makeTea: () =&gt; void; years: number;
+                  &#125;&apos; but required in type &apos;Staff&apos;.
+                </code>{" "}
+                注意:<code>barista</code> 本身一个字没改。
+                可见「兼容」不是某个值自带的属性,
+                而是每次对着目标的要求重新算出来的。
+              </>
+            }
+          />
+        </p>
 
         <Callout
           tone="deep"
@@ -1064,6 +1238,85 @@ export default function StructuralPage() {
             }
           />
         </Callout>
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Until now this section has only described the rule. The window
+                below runs the real compiler, so it can prove it. The same
+                object is written twice: once as a literal at the call site,
+                once through a variable. Both misspell <code>sweetness</code>.
+                Only one of them is reported, and it is the literal on line 11 —
+                the one place where the extra property cannot have any other
+                purpose.
+              </>
+            }
+            zh={
+              <>
+                到这里为止,这条规则都只是被描述了一遍。
+                下面这个窗口跑的是真编译器,它可以直接证明。
+                同一个对象在里面写了两遍:一遍是直接写在调用处的字面量,
+                一遍先过了一次变量,两遍都把 <code>sweetness</code> 拼错了。
+                只有一处被报出来,就是第 11 行那个字面量 ——
+                在那个位置,多出来的属性不可能有别的用途。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_EXCESS}
+          presets={[
+            {
+              label: { en: "store it first", zh: "先存进变量" },
+              code: LAB_EXCESS_VARIABLE,
+            },
+            {
+              label: {
+                en: "a name with no lookalike",
+                zh: "换个不像拼错的属性",
+              },
+              code: LAB_EXCESS_UNKNOWN,
+            },
+          ]}
+          note={{
+            en: "The same object twice. Only the literal is checked.",
+            zh: "同一个对象两遍,只有字面量那处被查。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Four things are worth doing in that window. Switch to the first
+                preset: the literal is gone, the error is gone, and so is the
+                half sugar — which is the whole cost of the exemption. Switch to
+                the second: <code>cup</code> resembles nothing in{" "}
+                <code>Order</code>, so the suggestion disappears and the code
+                changes to <b>ts(2353)</b>. Then fix it properly by typing the
+                missing <code>s</code> into <code>sweetnes</code>. And if you
+                want to see what <code>as</code> actually buys you, write{" "}
+                <code>as Order</code> after the literal: the error goes away and
+                the typo stays.
+              </>
+            }
+            zh={
+              <>
+                在那个窗口里,有四件事值得动手做一遍。切到第一个预设:
+                字面量没了,报错也没了,顾客要的半糖同样没了 ——
+                这就是这道豁免的全部代价。切到第二个预设:<code>cup</code>{" "}
+                和 <code>Order</code> 里的任何成员都不像,
+                建议随之消失,错误码变成 <b>ts(2353)</b>。然后用正确的方式修:
+                给 <code>sweetnes</code> 补上那个 <code>s</code>。
+                最后,想知道 <code>as</code> 到底买到了什么,
+                就在字面量后面加一句 <code>as Order</code> ——
+                报错走了,错字还在。
+              </>
+            }
+          />
+        </p>
       </Section>
 
       {/* ================= §05 same-shape traps ================= */}

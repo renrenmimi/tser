@@ -8,6 +8,11 @@
 // 代码示例:可执行行在两种语言里逐字节相同,只有注释分 en / zh;
 // 因此 hl 行号在两种语言下一致。编译器报错原文一律不翻译。
 //
+// 真编译器实验室(lib/tslab.tsx)两处,都紧跟在对应的手绘示意图之后:
+//  - §02 strict:StrictPanel 之后,toggles 暴露 strict / noImplicitAny /
+//    strictNullChecks / noUncheckedIndexedAccess,读者亲手拨出报错;
+//  - §04 output:TargetSwitch 之后,targets + emit="js",亲眼看降级产物。
+//
 // 本章所有报错码、报错文案、产物代码与选项行为均在 TypeScript 5.9.3 下实测。
 // 关键事实(与旧版内容的差异):
 //  - strict 家族是 9 项,不是 8 项 —— TS 5.6 加入了 strictBuiltinIteratorReturn。
@@ -25,6 +30,7 @@ import { Hero, Section, Callout, KeyPoints, ChapterFooter } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
+import { TsLab } from "@/lib/tslab";
 import { T, type Loc } from "@/lib/i18n";
 import { LABS, QUIZ } from "@/lib/tsconfig-data";
 import {
@@ -216,6 +222,53 @@ if (order !== null) {
 // 这就是第 03 章的收窄。`,
 };
 
+// §02 真编译器实验室。三处问题,三个不同的开关负责。
+// tsc 5.9.3 实测(target es2022,其余选项与 worker 一致):
+//   无开关                            → 0 处报错
+//   --noImplicitAny                   → TS7006 (item)
+//   --strictNullChecks                → TS18048 'hit' is possibly 'undefined'.
+//   --noUncheckedIndexedAccess 单开   → 0 处报错(它要靠 strictNullChecks)
+//   --strict                          → TS7006 + TS18048(hit);menu[5] 依然静默
+//   --strict --noUncheckedIndexedAccess → 再加 TS18048 'picked' is possibly 'undefined'.
+const S2_LAB: Loc<string> = {
+  en: `// The switches above are real: flip one and this file
+// is compiled again under the new rules.
+function priceOf(item) {
+  return item.price;
+}
+
+const menu = [
+  { drink: "Jasmine Milk Tea", price: 22 },
+  { drink: "Taro Latte", price: 26 },
+];
+
+// find() can come back with nothing
+const hit = menu.find((m) => m.drink === "Taro Latte");
+console.log(hit.price);
+
+// there is no menu[5]
+const picked = menu[5];
+console.log(priceOf(picked), picked.drink);`,
+  zh: `// 上面那排开关是真的:拨一下,这个文件
+// 就按新规则重新编译一次。
+function priceOf(item) {
+  return item.price;
+}
+
+const menu = [
+  { drink: "Jasmine Milk Tea", price: 22 },
+  { drink: "Taro Latte", price: 26 },
+];
+
+// find() 可能什么都找不到
+const hit = menu.find((m) => m.drink === "Taro Latte");
+console.log(hit.price);
+
+// menu[5] 并不存在
+const picked = menu[5];
+console.log(priceOf(picked), picked.drink);`,
+};
+
 /* ---------- §03 家族之外 ---------- */
 
 const S3_NUIA_OFF: Loc<string> = {
@@ -325,6 +378,60 @@ const last = [1, 2, 3].at(-1);
 // tsconfig: { "target": "es5", "lib": ["es2022"] }
 // 两个错都消失,而产出的 JavaScript 一字不差 ——
 // lib 不参与产物生成,也不会替你加 polyfill。`,
+};
+
+// §04 真编译器实验室。五个 target 的产物均已用 tsc 5.9.3 实测:
+//   esnext / es2022  产物几乎等于源码(只擦类型、加 "use strict")
+//   es2020           class 字段搬进构造函数(useDefineForClassFields 在
+//                    target < es2022 时默认关);note 这个只声明的字段消失
+//   es2015           ?? 与 ?. 降级成 _a !== null && _a !== void 0 那套写法
+//   es5              class 变成 IIFE + prototype;模板字符串变 "".concat();
+//                    for...of 变下标循环
+// 代码只用 es5 lib 里就有的 API(push/toUpperCase/console),
+// 这样切到 es5 时不会冒出与 target 无关的 lib 报错。
+const S4_TARGET_LAB: Loc<string> = {
+  en: `// Modern syntax: class fields, ??, ?., template
+// literals, for...of. Change target and watch the
+// Compiled JS tab.
+class Cup {
+  size = "medium";
+  toppings: string[] = [];
+  note?: string;
+
+  add(t: string) {
+    this.toppings.push(t);
+    return this;
+  }
+}
+
+const cup = new Cup().add("pearl").add("pudding");
+const shown = cup.note ?? "no note";
+const initial = cup.note?.toUpperCase();
+
+for (const t of cup.toppings) {
+  console.log(\`\${cup.size} + \${t} (\${shown}\${initial})\`);
+}`,
+  zh: `// 现代语法:class 字段、??、?.、模板字符串、
+// for...of。换一个 target,看「编译产物 JS」
+// 那一页。
+class Cup {
+  size = "medium";
+  toppings: string[] = [];
+  note?: string;
+
+  add(t: string) {
+    this.toppings.push(t);
+    return this;
+  }
+}
+
+const cup = new Cup().add("pearl").add("pudding");
+const shown = cup.note ?? "no note";
+const initial = cup.note?.toUpperCase();
+
+for (const t of cup.toppings) {
+  console.log(\`\${cup.size} + \${t} (\${shown}\${initial})\`);
+}`,
 };
 
 const S4_NODE = `{
@@ -775,6 +882,147 @@ export default function TsconfigPage() {
         </p>
 
         <StrictPanel />
+
+        <Callout
+          tone="win"
+          title={{
+            en: "That panel is a drawing. This one is the compiler.",
+            zh: "上面是示意图,下面是真的编译器",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  The switches below are wired to the real thing. TypeScript is
+                  running in your browser, and every time you flip a switch the
+                  file is compiled again under the new options — the same way a
+                  changed <code>tsconfig.json</code> changes what{" "}
+                  <code>tsc</code> says. Nothing here is a recording.
+                </>
+              }
+              zh={
+                <>
+                  下面那排开关接的是真东西。TypeScript
+                  就跑在你的浏览器里,每拨一次开关,这个文件就按新选项重新编译一遍 ——
+                  和你改 <code>tsconfig.json</code> 之后 <code>tsc</code>{" "}
+                  改口是同一回事。这里没有任何预录的内容。
+                </>
+              }
+            />
+          </p>
+          <p>
+            <T
+              en={
+                <>
+                  Three things are wrong in the file, and each one is caught by a
+                  different switch. Start with everything off and read the
+                  verdict: <b>no errors</b>. Then turn on{" "}
+                  <code>noImplicitAny</code> alone, then{" "}
+                  <code>strictNullChecks</code> alone, then <code>strict</code>.
+                  The code never changes. Only the rules do.
+                </>
+              }
+              zh={
+                <>
+                  文件里埋了三处问题,每一处由不同的开关负责。
+                  先全部关掉,读一下结论:<b>没有报错</b>。
+                  再单独打开 <code>noImplicitAny</code>,再单独打开{" "}
+                  <code>strictNullChecks</code>,最后打开 <code>strict</code>。
+                  代码一个字没动,变的只有规则。
+                </>
+              }
+            />
+          </p>
+        </Callout>
+
+        <TsLab
+          code={S2_LAB}
+          flags={{ strict: false, target: "es2022" }}
+          toggles={[
+            "strict",
+            "noImplicitAny",
+            "strictNullChecks",
+            "noUncheckedIndexedAccess",
+          ]}
+          note={{
+            en: "Hover a message to see the line tsc prints on the command line.",
+            zh: "把鼠标停在报错上,能看到 tsc 在命令行里打印的那一行。",
+          }}
+        />
+
+        <Callout
+          tone="warn"
+          title={{
+            en: "The third problem survives strict",
+            zh: "第三处问题活过了 strict",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  With <code>strict</code> on you get two errors:{" "}
+                  <code>TS7006</code> on <code>item</code> and{" "}
+                  <code>TS18048: &apos;hit&apos; is possibly
+                  &apos;undefined&apos;.</code> The array has two elements, and{" "}
+                  <code>menu[5]</code> is still reported as nothing at all.{" "}
+                  <b>
+                    That is <code>noUncheckedIndexedAccess</code>, and it is not
+                    a member of the family.
+                  </b>{" "}
+                  Turn it on separately and a third error appears on{" "}
+                  <code>picked</code>. This is the claim from section 03, and you
+                  have just checked it against the compiler rather than taking
+                  our word for it.
+                </>
+              }
+              zh={
+                <>
+                  开了 <code>strict</code> 之后是两处报错:<code>item</code>{" "}
+                  上的 <code>TS7006</code>,和{" "}
+                  <code>TS18048: &apos;hit&apos; is possibly
+                  &apos;undefined&apos;.</code> 而数组只有两个元素,
+                  <code>menu[5]</code> 依旧一声不响。
+                  <b>
+                    管这件事的是 <code>noUncheckedIndexedAccess</code>,
+                    它不是这个家族的成员。
+                  </b>{" "}
+                  单独把它打开,<code>picked</code> 上才出现第三处报错。
+                  §03 讲的就是这句话,而你刚刚是问编译器要的答案,
+                  不是听我们说的。
+                </>
+              }
+            />
+          </p>
+          <p>
+            <T
+              en={
+                <>
+                  One more thing worth trying: turn{" "}
+                  <code>noUncheckedIndexedAccess</code> on while{" "}
+                  <code>strictNullChecks</code> is off. The switch is on and{" "}
+                  <b>nothing happens</b> — the file reports no errors at all.
+                  Without <code>strictNullChecks</code>,{" "}
+                  <code>string | undefined</code> collapses back to{" "}
+                  <code>string</code>, so there is nothing left for the flag to
+                  say. A flag that is on and doing nothing is the failure mode of
+                  picking members by hand.
+                </>
+              }
+              zh={
+                <>
+                  还有一种组合值得试:让 <code>strictNullChecks</code> 关着,
+                  单独打开 <code>noUncheckedIndexedAccess</code>。开关是亮的,
+                  <b>但什么也没发生</b> —— 整个文件一处报错都没有。没有{" "}
+                  <code>strictNullChecks</code>,<code>string | undefined</code>{" "}
+                  会退回成 <code>string</code>,这个选项也就无话可说。
+                  「开着但什么也没做」,正是手工挑选成员时会踩的那个坑。
+                </>
+              }
+            />
+          </p>
+        </Callout>
 
         <p className="sec-desc">
           <T
@@ -1560,6 +1808,109 @@ export default function TsconfigPage() {
         </p>
 
         <TargetSwitch />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                That comparison is drawn by hand. Here is the same question put
+                to the compiler: pick a <code>target</code> from the dropdown,
+                open <b>Compiled JS</b>, and read what actually comes out. The
+                source never changes.
+              </>
+            }
+            zh={
+              <>
+                上面那份对照是手画的。下面是把同一个问题交给编译器:
+                在下拉框里挑一个 <code>target</code>,切到<b>编译产物 JS</b>,
+                读真正写出来的东西。源码全程不变。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={S4_TARGET_LAB}
+          flags={{ strict: true, target: "es2022" }}
+          targets
+          emit="js"
+          note={{
+            en: "es2022 → es2020 → es2015 → es5. Four steps down, four things rewritten.",
+            zh: "es2022 → es2020 → es2015 → es5,一级一级降,每一级各改写一样东西。",
+          }}
+        />
+
+        <Callout
+          tone="idea"
+          title={{
+            en: "What each step down rewrites",
+            zh: "每降一级,改写了什么",
+          }}
+        >
+          <p>
+            <T
+              en={
+                <>
+                  At <code>es2022</code> the output is the source with the types
+                  removed and a <code>&quot;use strict&quot;</code> added by{" "}
+                  <code>alwaysStrict</code> — that is all a modern target does.
+                  Step down to <code>es2020</code> and the class fields move into a
+                  constructor, while <code>note</code>, which was only declared,
+                  disappears entirely. At <code>es2015</code>,{" "}
+                  <code>??</code> and <code>?.</code> turn into{" "}
+                  <code>_a !== null &amp;&amp; _a !== void 0</code> and a
+                  temporary variable appears at the top of the file. At{" "}
+                  <code>es5</code> the <code>class</code> becomes an{" "}
+                  <code>IIFE</code> assigning to <code>prototype</code>, the
+                  template literal becomes <code>&quot;&quot;.concat(…)</code>,
+                  and <code>for...of</code> becomes an index loop.
+                </>
+              }
+              zh={
+                <>
+                  <code>es2022</code> 下,产物就是源码去掉类型,再由{" "}
+                  <code>alwaysStrict</code> 加一行{" "}
+                  <code>&quot;use strict&quot;</code> ——
+                  一个现代 target 做的只有这些。降到 <code>es2020</code>,
+                  class 字段搬进了构造函数,而只声明没赋值的{" "}
+                  <code>note</code> 整个消失了。到 <code>es2015</code>,
+                  <code>??</code> 和 <code>?.</code> 变成了{" "}
+                  <code>_a !== null &amp;&amp; _a !== void 0</code>,
+                  文件顶部还多出一个临时变量。到 <code>es5</code>,
+                  <code>class</code> 变成往 <code>prototype</code> 上挂方法的{" "}
+                  <code>IIFE</code>,模板字符串变成{" "}
+                  <code>&quot;&quot;.concat(…)</code>,<code>for...of</code>{" "}
+                  变成下标循环。
+                </>
+              }
+            />
+          </p>
+          <p>
+            <T
+              en={
+                <>
+                  Every one of those rewrites is code you did not write and now
+                  have to ship, debug and read in a stack trace. That is the
+                  price of a low <code>target</code>, and it is only worth paying
+                  when something out there really cannot run the newer syntax.
+                  Note also that changing <code>target</code> here changes the
+                  default <code>lib</code> along with it — the next paragraph is
+                  about why those are two different questions.
+                </>
+              }
+              zh={
+                <>
+                  这些改写,每一条都是你没写过、却要发布、要调试、
+                  要在堆栈信息里读的代码。这就是低 <code>target</code>{" "}
+                  的价钱,只有当外面真的有跑不了新语法的东西时才值得付。
+                  另外注意:在这里换 <code>target</code>,默认的{" "}
+                  <code>lib</code> 也跟着换了 ——
+                  下一段讲的正是「为什么这是两个问题」。
+                </>
+              }
+            />
+          </p>
+        </Callout>
 
         <p className="sec-desc">
           <T

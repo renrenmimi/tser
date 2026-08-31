@@ -149,6 +149,11 @@ emit 全部来自 `ts.LanguageService` —— 报错文案、错误码、字符�
 - 编译器 8.7 MB,按需加载:页面里放 1–2 个实验室,别每小节都塞;
 - 全站共享一个 worker 单例,第二个实验室是秒开的;
 - 加载失败会自动退回静态视图 + Playground 链接,课程内容不依赖它可用。
+- 实验室里的文件永远叫 `main.ts`(编译器报位置用的就是这个名字),**别传 title 改名**;
+- 片段没有 import/export 时是「全局脚本」(和 Playground 一样),顶层变量会和 DOM 全局撞名:
+  `name / length / status / origin / top / parent / event / close / open / focus / history / location`
+  这些别用作顶层变量名,否则会冒出 TS2451「Cannot redeclare block-scoped variable」;
+  确实要用就在片段末尾加一行 `export {};` 变成模块。
 
 ### lib/stepper.tsx(逐帧慢放)
 - `useStepper(total)` + `<StepControls stepper={s} step={s.step} total={n} />`

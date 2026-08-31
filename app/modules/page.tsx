@@ -20,6 +20,7 @@ import {
   ChapterFooter,
 } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { T, type Loc } from "@/lib/i18n";
@@ -176,6 +177,55 @@ import { TAX, type Order } from "./order"; // 一个值加一个类型
 export type { Order } from "./order";      // 转手导出,只出类型`,
 };
 
+/* 实验室是单文件环境,没有第二个文件可以 import ——
+   所以用同一份文件里的「值导出 + 纯类型导出」来展示擦除的分界。
+   presets 的代码不分语言,免得切换语言把读者改过的稿子换走。 */
+const LAB_TYPEONLY: Loc<string> = {
+  en: `type Size = "small" | "medium" | "large";
+
+interface Order {
+  id: string;
+  size: Size;
+}
+
+export const TAX = 0.06;
+
+export function receiptLine(order: Order, price: number) {
+  return order.id + " " + order.size + " " + (price * (1 + TAX)).toFixed(2);
+}
+
+export type { Order, Size };   // a type-only export list`,
+  zh: `type Size = "small" | "medium" | "large";
+
+interface Order {
+  id: string;
+  size: Size;
+}
+
+export const TAX = 0.06;
+
+export function receiptLine(order: Order, price: number) {
+  return order.id + " " + order.size + " " + (price * (1 + TAX)).toFixed(2);
+}
+
+export type { Order, Size };   // 一份只走类型的导出清单`,
+};
+
+const LAB_TYPEONLY_BAD = `type Size = "small" | "medium" | "large";
+
+interface Order {
+  id: string;
+  size: Size;
+}
+
+export const TAX = 0.06;
+
+export function receiptLine(order: Order, price: number) {
+  return order.id + " " + order.size + " " + (price * (1 + TAX)).toFixed(2);
+}
+
+export { Order, Size };`;
+
 const S1_CIRCULAR: Loc<string> = {
   en: `// a.js
 import { B } from "./b.js";
@@ -274,6 +324,92 @@ export declare function createOrder(items: string[]): {
 // 生成命令:
 //   npx tsc order.ts --declaration`,
 };
+
+/* 本章的核心实验室:一段真实的奶茶店 SDK 切片,
+   让编译器当场把实现抽成只剩类型的 .d.ts。EXTRA 故意不导出。 */
+const LAB_DTS: Loc<string> = {
+  en: `export type Size = "small" | "medium" | "large";
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  price: number;
+}
+
+// EXTRA is not exported. Keep that in mind when you read the .d.ts.
+const EXTRA: Record<Size, number> = { small: 0, medium: 3, large: 5 };
+
+export function priceOf(item: MenuItem, size: Size) {
+  return item.price + EXTRA[size];
+}
+
+export class Menu {
+  private items: MenuItem[] = [];
+
+  add(item: MenuItem) {
+    this.items.push(item);
+    return this;
+  }
+
+  find(id: string) {
+    return this.items.find((i) => i.id === id);
+  }
+}`,
+  zh: `export type Size = "small" | "medium" | "large";
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  price: number;
+}
+
+// EXTRA 没有导出。待会儿读 .d.ts 的时候留意这一点。
+const EXTRA: Record<Size, number> = { small: 0, medium: 3, large: 5 };
+
+export function priceOf(item: MenuItem, size: Size) {
+  return item.price + EXTRA[size];
+}
+
+export class Menu {
+  private items: MenuItem[] = [];
+
+  add(item: MenuItem) {
+    this.items.push(item);
+    return this;
+  }
+
+  find(id: string) {
+    return this.items.find((i) => i.id === id);
+  }
+}`,
+};
+
+const LAB_DTS_NOEXPORT = `export type Size = "small" | "medium" | "large";
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  price: number;
+}
+
+const EXTRA: Record<Size, number> = { small: 0, medium: 3, large: 5 };
+
+function priceOf(item: MenuItem, size: Size) {
+  return item.price + EXTRA[size];
+}
+
+export class Menu {
+  private items: MenuItem[] = [];
+
+  add(item: MenuItem) {
+    this.items.push(item);
+    return this;
+  }
+
+  find(id: string) {
+    return this.items.find((i) => i.id === id);
+  }
+}`;
 
 const S2_LIBDOM = `declare var document: Document;
 
@@ -956,6 +1092,80 @@ export default function ModulesPage() {
           }
         />
 
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                The compiler below is the real one, and it has one file to work
+                with, so there is nothing to import from. The same boundary
+                shows up anyway on the export side: four declarations, two of
+                which are types. Open <b>Compiled JS</b> — <code>TAX</code> and{" "}
+                <code>receiptLine</code> are there,{" "}
+                <code>Size</code>, <code>Order</code> and the whole{" "}
+                <code>export type</code> line are not. The output is what the
+                browser will run, and it has no idea those types existed.
+              </>
+            }
+            zh={
+              <>
+                下面这个窗口里跑的是真编译器,它手上只有一个文件,
+                所以没有别的模块可以 import。
+                同一条分界线在导出这一侧照样看得见:四个声明,其中两个是类型。
+                切到<b>编译产物 JS</b> —— <code>TAX</code> 和{" "}
+                <code>receiptLine</code> 在,<code>Size</code>、
+                <code>Order</code> 和整行 <code>export type</code> 都不在。
+                产物就是浏览器要跑的东西,它压根不知道那两个类型存在过。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_TYPEONLY}
+          emit="js"
+          toggles={["verbatimModuleSyntax"]}
+          presets={[
+            {
+              label: { en: "drop the type keyword", zh: "把 type 去掉" },
+              code: LAB_TYPEONLY_BAD,
+            },
+          ]}
+          note={{
+            en: "Type-only lines leave no trace in the output.",
+            zh: "只走类型的行,在产物里不留痕迹。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Now load <b>drop the type keyword</b>. Exporting{" "}
+                <code>Order</code> and <code>Size</code> as if they were values
+                gives ts(1205) twice. One detail is worth explaining: this lab
+                compiles one file at a time, the way a bundler does, so{" "}
+                <code>isolatedModules</code> is always on, and the message names
+                that flag. Turn <code>verbatimModuleSyntax</code> on and the
+                same error simply names the other one. Two options, one rule —{" "}
+                <b>a type must be exported as a type</b>, because the tool that
+                deletes the line has only this file to go on.
+              </>
+            }
+            zh={
+              <>
+                现在换上<b>把 type 去掉</b>。把 <code>Order</code> 和{" "}
+                <code>Size</code> 当值导出,会得到两条 ts(1205)。
+                有个细节值得说清:这个实验室一次只编译一个文件 ——
+                和打包器一样 —— 所以 <code>isolatedModules</code> 一直开着,
+                报错里点名的就是它。把 <code>verbatimModuleSyntax</code>{" "}
+                打开,同一条报错只是改口点了另一个的名字。两个选项,同一条规则
+                —— <b>类型必须以类型的身份导出</b>,
+                因为负责删掉这一行的工具,手上只有这一个文件可看。
+              </>
+            }
+          />
+        </p>
+
         <Callout
           tone="warn"
           title={{
@@ -1021,8 +1231,8 @@ export default function ModulesPage() {
           zh: ".d.ts:只有形状,没有实现",
         }}
         desc={{
-          en: "A declaration file lists everything a module exports and how each export is shaped. It emits nothing, and it cannot contain code.",
-          zh: "声明文件列出一个模块导出了什么、每个导出是什么形状。它不产出任何东西,也不能包含代码。",
+          en: "A declaration file lists everything a module exports and how each export is shaped. It emits nothing, it cannot contain code, and you almost never write one by hand — the compiler generates it.",
+          zh: "声明文件列出一个模块导出了什么、每个导出是什么形状。它不产出任何东西,也不能包含代码,而且几乎不用手写 —— 编译器会生成它。",
         }}
       >
         <p className="sec-desc">
@@ -1064,6 +1274,104 @@ export default function ModulesPage() {
             />
           }
         />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                That pair was prepared in advance. The one below is not: it is a
+                slice of a milk tea shop SDK, and the compiler underneath is
+                real. The <b>Compiled JS</b> tab holds the implementation with
+                the types stripped out; the <b>Declaration .d.ts</b> tab holds
+                the types with the implementation stripped out. Two halves of
+                the same file, and neither is written by hand.
+              </>
+            }
+            zh={
+              <>
+                上面那一对是事先摆好的,下面这个不是:
+                一段奶茶店 SDK 的切片,底下是真编译器。
+                <b>编译产物 JS</b> 页签里是去掉类型的实现,
+                <b>声明文件 .d.ts</b> 页签里是去掉实现的类型 ——
+                同一个文件的两半,哪一半都不用手写。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_DTS}
+          emit="both"
+          presets={[
+            {
+              label: { en: "unexport priceOf", zh: "撤掉 priceOf 的导出" },
+              code: LAB_DTS_NOEXPORT,
+            },
+          ]}
+          note={{
+            en: "Change the implementation; the declaration follows.",
+            zh: "改实现,声明跟着变。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Four things in that <code>.d.ts</code> are worth a second look.
+                Nobody wrote a return type for <code>priceOf</code>, yet the
+                declaration says <code>: number</code> — the compiler worked it
+                out and then wrote it down for everyone else.{" "}
+                <code>find</code> came out as{" "}
+                <code>MenuItem | undefined</code>, because{" "}
+                <code>Array.prototype.find</code> can come back
+                empty-handed. <code>private items</code> is listed with no type
+                at all: its presence still affects type compatibility
+                (chapter 08, §06), its type is nobody else&apos;s business. And{" "}
+                <code>EXTRA</code> is missing entirely, because it was never
+                exported.
+              </>
+            }
+            zh={
+              <>
+                那份 <code>.d.ts</code> 里有四处值得回头看。
+                没有人给 <code>priceOf</code> 写过返回类型,
+                声明里却写着 <code>: number</code> ——
+                编译器自己算出来,然后替你写给所有人看。
+                <code>find</code> 出来是 <code>MenuItem | undefined</code>,
+                因为 <code>Array.prototype.find</code> 可能空手而归。
+                <code>private items</code> 只列了名字、没有类型:
+                它在不在会影响类型兼容(第 08 章 §06),
+                它是什么类型则不关外人的事。而 <code>EXTRA</code>{" "}
+                整个不见了 —— 它从来没被导出过。
+              </>
+            }
+          />
+        </p>
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Load <b>unexport priceOf</b> and watch where it goes. The
+                function is still in the compiled JS, because{" "}
+                <code>tsc</code> emits every line you wrote. It is gone from the{" "}
+                <code>.d.ts</code>, because that file describes only what the
+                module offers to the outside. This is the whole job of a
+                declaration file, in one edit.
+              </>
+            }
+            zh={
+              <>
+                换上<b>撤掉 priceOf 的导出</b>,看它去了哪里。
+                这个函数还在编译产物 JS 里 —— <code>tsc</code>{" "}
+                会把你写的每一行都输出去;它从 <code>.d.ts</code> 里消失了 ——
+                那份文件只描述这个模块对外提供什么。
+                一次改动,就说完了声明文件的全部职责。
+              </>
+            }
+          />
+        </p>
 
         <Callout
           tone="warn"

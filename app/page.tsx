@@ -521,7 +521,6 @@ export default function HomePage() {
 
         <TsLab
           code={FIRST_TS}
-          title="order.ts"
           emit="js"
           presets={[
             {

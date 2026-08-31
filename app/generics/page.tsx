@@ -13,6 +13,7 @@ import "./chapter.css";
 
 import { Hero, Section, Callout, KeyPoints, ChapterFooter } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { T, type Loc } from "@/lib/i18n";
@@ -163,6 +164,32 @@ const o2 = parseJson<{ total: number }>('{"total": 25}');
 // o2 是 { total: number }。这里的类型实参非写不可。`,
 };
 
+/* §03 的实验室:四次调用,四个 T。推断结果与报错均在 tsc 5.9.3 下实测。 */
+const LAB_INFER: Loc<string> = {
+  en: `type Order = { id: string; drink: string; price: number };
+
+function first<T>(arr: T[]): T | undefined {
+  return arr[0];
+}
+
+// Click "first" in any call below to see T filled in.
+const firstDrink = first(["Jasmine Milk Green", "Grape Tea"]);
+const cheapest = first([12, 18, 24]);
+const nextOrder = first<Order>([]);
+const mystery = first([]);`,
+  zh: `type Order = { id: string; drink: string; price: number };
+
+function first<T>(arr: T[]): T | undefined {
+  return arr[0];
+}
+
+// 点下面任意一次调用里的 first,看 T 被填成了什么。
+const firstDrink = first(["Jasmine Milk Green", "Grape Tea"]);
+const cheapest = first([12, 18, 24]);
+const nextOrder = first<Order>([]);
+const mystery = first([]);`,
+};
+
 /* ---------- §04 约束 ---------- */
 
 const S4_LONGEST: Loc<string> = {
@@ -177,7 +204,7 @@ function longest<T extends { length: number }>(a: T, b: T): T {
   return a.length >= b.length ? a : b; // allowed: every T has length
 }
 
-longest("Boba milk tea", "Four Seasons tea"); // T = string
+longest("Boba milk tea", "Four Seasons tea"); // ok: string has length
 longest([1, 2, 3], [4, 5]);                   // T = number[]
 longest({ length: 3 }, { length: 7 });        // T = { length: number }
 longest(10, 100);
@@ -194,7 +221,7 @@ function longest<T extends { length: number }>(a: T, b: T): T {
   return a.length >= b.length ? a : b; // 通过:每个 T 都有 length
 }
 
-longest("Boba milk tea", "Four Seasons tea"); // T = string
+longest("Boba milk tea", "Four Seasons tea"); // 通过:string 有 length
 longest([1, 2, 3], [4, 5]);                   // T = number[]
 longest({ length: 3 }, { length: 7 });        // T = { length: number }
 longest(10, 100);
@@ -228,6 +255,61 @@ getProp(order, "topping");
 const p = getProp(order, "price"); // p 是 number
 const i = getProp(order, "item");  // i 是 string`,
 };
+
+/* §04 的实验室:两处故意留错,都是真 tsc 报的 TS2345。 */
+const LAB_CONSTRAINT: Loc<string> = {
+  en: `// T may be any type at all, as long as it has a numeric length.
+function longest<T extends { length: number }>(a: T, b: T): T {
+  return a.length >= b.length ? a : b;
+}
+
+longest([1, 2, 3], [4, 5]);
+longest({ length: 3 }, { length: 7 });
+longest(10, 100); // a number has no length
+
+// Two placeholders: K may only be a key that T really has.
+function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const menu = { drink: "Boba milk tea", price: 18 };
+const paid = getProp(menu, "price");
+getProp(menu, "topping");`,
+  zh: `// T 可以是任何类型,只要它有一个 number 类型的 length。
+function longest<T extends { length: number }>(a: T, b: T): T {
+  return a.length >= b.length ? a : b;
+}
+
+longest([1, 2, 3], [4, 5]);
+longest({ length: 3 }, { length: 7 });
+longest(10, 100); // number 没有 length
+
+// 两个占位符:K 只能是 T 上真实存在的键。
+function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const menu = { drink: "Boba milk tea", price: 18 };
+const paid = getProp(menu, "price");
+getProp(menu, "topping");`,
+};
+
+/* 换稿:去掉约束,报错从调用处搬进函数体(TS2339)。 */
+const LAB_NO_CONSTRAINT = `function longest<T>(a: T, b: T): T {
+  return a.length >= b.length ? a : b;
+}
+
+longest([1, 2, 3], [4, 5]);
+longest({ length: 3 }, { length: 7 });
+longest(10, 100);
+
+function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const menu = { drink: "Boba milk tea", price: 18 };
+const paid = getProp(menu, "price");
+getProp(menu, "topping");`;
 
 /* ---------- §05 泛型容器 ---------- */
 
@@ -805,6 +887,73 @@ export default function GenericsPage() {
           }}
         />
 
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                So far the comments above have been my claim about what{" "}
+                <code>T</code> becomes. The window below is the compiler itself,
+                so you can check the claim. Click <code>first</code> in any of
+                the four calls: the signature appears with <code>T</code>{" "}
+                already substituted, and the array of prices reads{" "}
+                <code>
+                  {"function first<number>(arr: number[]): number | undefined"}
+                </code>
+                . Click a variable name instead and you get the type of the
+                result.
+              </>
+            }
+            zh={
+              <>
+                到这里为止,「<code>T</code> 是什么」都是注释里的一句断言。
+                下面这个窗口里跑的是编译器本身,断言可以当场核对。
+                点四次调用里的任意一个 <code>first</code>:弹出来的签名里{" "}
+                <code>T</code> 已经被换成了实际类型,价格那一行是{" "}
+                <code>
+                  {"function first<number>(arr: number[]): number | undefined"}
+                </code>
+                。改点变量名,看到的则是结果的类型。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_INFER}
+          note={{
+            en: "Add a fifth call with an array of your own and watch T follow it.",
+            zh: "自己加第五次调用,传一个你想传的数组,看 T 跟着变。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                The last two lines are the ones to look at closely.{" "}
+                <code>first&lt;Order&gt;([])</code> shows{" "}
+                <code>{"function first<Order>(arr: Order[]): Order | undefined"}</code>{" "}
+                because you named the type yourself. <code>first([])</code>{" "}
+                shows <code>{"function first<never>(arr: never[]): undefined"}</code>{" "}
+                because an empty array carries no element type and{" "}
+                <code>never</code> is what is left. Nothing is reported, which is
+                exactly why this one is worth recognizing on sight.
+              </>
+            }
+            zh={
+              <>
+                值得多停一会儿的是最后两行。<code>first&lt;Order&gt;([])</code>{" "}
+                显示{" "}
+                <code>{"function first<Order>(arr: Order[]): Order | undefined"}</code>
+                ,因为类型是你自己点名的;<code>first([])</code> 显示{" "}
+                <code>{"function first<never>(arr: never[]): undefined"}</code>
+                ,因为空数组带不出元素类型,剩下的只有 <code>never</code>。
+                这一行不报错 —— 正因为不报错,才值得练成一眼认出来。
+              </>
+            }
+          />
+        </p>
+
         <Callout
           tone="deep"
           title={{
@@ -958,20 +1107,19 @@ export default function GenericsPage() {
                 <>
                   One more thing the constraint does <b>not</b> do: it does not
                   replace T with the constraint.{" "}
-                  <code>longest(&quot;a&quot;, &quot;b&quot;)</code> returns{" "}
-                  <code>string</code>, not <code>{"{ length: number }"}</code>.
-                  The constraint is only a condition on the argument. The
-                  placeholder still holds the full type that was passed in.
+                  <code>longest([1, 2, 3], [4, 5])</code> returns{" "}
+                  <code>number[]</code>, not{" "}
+                  <code>{"{ length: number }"}</code>. The constraint is only a
+                  condition on the argument. The placeholder still holds the
+                  full type that was passed in.
                 </>
               }
               zh={
                 <>
                   还有一件事约束<b>不会</b>做:它不会把 T 换成约束本身。
-                  <code>
-                    longest(&quot;a&quot;, &quot;b&quot;)
-                  </code> 返回的是 <code>string</code>,不是{" "}
-                  <code>{"{ length: number }"}</code>。
-                  约束只是对实参的一个条件,占位符里装的仍然是传进来的完整类型。
+                  <code>longest([1, 2, 3], [4, 5])</code> 返回的是{" "}
+                  <code>number[]</code>,不是 <code>{"{ length: number }"}</code>
+                  。约束只是对实参的一个条件,占位符里装的仍然是传进来的完整类型。
                 </>
               }
             />
@@ -1013,6 +1161,89 @@ export default function GenericsPage() {
             ),
           }}
         />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Both constraints are in the window below, already broken on
+                purpose. <code>longest(10, 100)</code> gets{" "}
+                <code>
+                  TS2345: Argument of type &apos;number&apos; is not assignable
+                  to parameter of type &apos;{"{ length: number; }"}&apos;.
+                </code>{" "}
+                and <code>getProp(menu, &quot;topping&quot;)</code> gets the same
+                code with the two real key names in it. Click either error to
+                jump to the call. Then press <b>drop the constraint</b>: the two
+                errors at the call sites disappear and{" "}
+                <code>
+                  TS2339: Property &apos;length&apos; does not exist on type
+                  &apos;T&apos;.
+                </code>{" "}
+                appears inside the function body instead.
+              </>
+            }
+            zh={
+              <>
+                下面这个窗口里,两个约束都已经被故意违反了。
+                <code>longest(10, 100)</code> 拿到的是{" "}
+                <code>
+                  TS2345: Argument of type &apos;number&apos; is not assignable
+                  to parameter of type &apos;{"{ length: number; }"}&apos;.
+                </code>
+                ,<code>getProp(menu, &quot;topping&quot;)</code>{" "}
+                拿到的是同一个错误码,里面列着那个对象真有的两个键名。
+                点报错可以跳到出问题的调用。然后按一下<b>把约束去掉</b>:
+                调用处的两处报错消失,函数体里换成了{" "}
+                <code>
+                  TS2339: Property &apos;length&apos; does not exist on type
+                  &apos;T&apos;.
+                </code>
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_CONSTRAINT}
+          presets={[
+            {
+              label: { en: "drop the constraint", zh: "把约束去掉" },
+              code: LAB_NO_CONSTRAINT,
+            },
+          ]}
+          note={{
+            en: "Click a call to see which type T was solved to for that call alone.",
+            zh: "点某次调用,看编译器单独为这一次调用解出的 T。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                That one swap is the whole trade.{" "}
+                <b>
+                  A constraint moves the complaint from the body of the function
+                  to the call site
+                </b>
+                , which is where a human can act on it: the author of{" "}
+                <code>longest</code> gets to write <code>a.length</code> without
+                arguing with the compiler, and whoever passes a{" "}
+                <code>number</code> is told so at the line they wrote.
+              </>
+            }
+            zh={
+              <>
+                这一次切换,就是整笔交易。
+                <b>约束把抱怨从函数体挪到了调用处</b> ——
+                而调用处才是人能动手的地方:写 <code>longest</code> 的人可以放心写{" "}
+                <code>a.length</code>,不用和编译器争辩;
+                传了 <code>number</code> 进来的人,在自己写的那一行上就被拦住。
+              </>
+            }
+          />
+        </p>
       </Section>
 
       {/* ================= §05 泛型容器 ================= */}

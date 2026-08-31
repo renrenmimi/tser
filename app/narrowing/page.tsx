@@ -15,6 +15,7 @@ import {
   ChapterFooter,
 } from "@/lib/kit";
 import { CodeBlock, CodePair } from "@/lib/code";
+import { TsLab } from "@/lib/tslab";
 import { LabSet } from "@/lib/labs";
 import { Quiz } from "@/lib/quiz";
 import { LABS, QUIZ } from "@/lib/narrowing-data";
@@ -74,6 +75,46 @@ const S1_FIXED: Loc<string> = {
   return id.toFixed(0);      // 能走到这一行的,只可能是 number
 }`,
 };
+
+/* ---------- §03 lab: a check that lets null through ----------
+   Preset code stays in one language: the identifiers are the same either
+   way, and swapping languages must not overwrite what the reader typed. */
+
+const LAB_GUARD: Loc<string> = {
+  en: `// The note on an order: free text, a structured note, or nothing.
+type Note = string | { text: string } | null;
+
+function render(note: Note) {
+  if (typeof note === "object") {
+    return note.text;
+  }
+  return note.toUpperCase();
+}`,
+  zh: `// 订单备注:一段自由文本、一个结构化备注,或者根本没有备注。
+type Note = string | { text: string } | null;
+
+function render(note: Note) {
+  if (typeof note === "object") {
+    return note.text;
+  }
+  return note.toUpperCase();
+}`,
+};
+
+const LAB_GUARD_NONE = `type Note = string | { text: string } | null;
+
+function render(note: Note) {
+  // no check at all
+  return note.toUpperCase();
+}`;
+
+const LAB_GUARD_NULLFIRST = `type Note = string | { text: string } | null;
+
+function render(note: Note) {
+  if (note === null) return "";
+  if (typeof note === "object") return note.text;
+  return note.toUpperCase();
+}`;
 
 /* ---------- §04 where narrowing is lost ---------- */
 
@@ -276,30 +317,98 @@ const S6_EXHAUSTIVE: Loc<string> = {
 }`,
 };
 
-const S6_NEW_STATUS: Loc<string> = {
+/* ---------- §06 lab: add a state, let the compiler find the holes ---------- */
+
+const LAB_EXH: Loc<string> = {
   en: `type Order =
   | { status: "pending"; createdAt: Date }
   | { status: "paid"; createdAt: Date; paidAt: Date }
   | { status: "delivered"; createdAt: Date;
-      paidAt: Date; deliveredAt: Date }
-  | { status: "refunded"; refundedAt: Date }; // ← the new state
+      paidAt: Date; deliveredAt: Date };
 
-// The moment you save the file, the default branch of report reports:
-// Type '{ status: "refunded"; refundedAt: Date; }' is
-//   not assignable to type 'never'.
-// In plain words: one state is not handled yet. Add the missing case.`,
+function report(order: Order): string {
+  switch (order.status) {
+    case "pending":
+      return "Preparing your order";
+    case "paid":
+      return "Paid at " + order.paidAt.toLocaleTimeString();
+    case "delivered":
+      return "Delivered at " + order.deliveredAt.toLocaleTimeString();
+    default: {
+      // Add a fourth member to Order above. Change nothing here.
+      const _exhaustive: never = order;
+      return _exhaustive;
+    }
+  }
+}`,
   zh: `type Order =
   | { status: "pending"; createdAt: Date }
   | { status: "paid"; createdAt: Date; paidAt: Date }
   | { status: "delivered"; createdAt: Date;
-      paidAt: Date; deliveredAt: Date }
-  | { status: "refunded"; refundedAt: Date }; // ← 新增的状态
+      paidAt: Date; deliveredAt: Date };
 
-// 保存文件的一瞬间,report 的 default 分支就报错:
-// Type '{ status: "refunded"; refundedAt: Date; }' is
-//   not assignable to type 'never'.
-// 说人话:还有一个状态没处理,去补上那个 case。`,
+function report(order: Order): string {
+  switch (order.status) {
+    case "pending":
+      return "Preparing your order";
+    case "paid":
+      return "Paid at " + order.paidAt.toLocaleTimeString();
+    case "delivered":
+      return "Delivered at " + order.deliveredAt.toLocaleTimeString();
+    default: {
+      // 往上面的 Order 里加第四个成员。这里一个字都不要动。
+      const _exhaustive: never = order;
+      return _exhaustive;
+    }
+  }
+}`,
 };
+
+const LAB_EXH_ADDED = `type Order =
+  | { status: "pending"; createdAt: Date }
+  | { status: "paid"; createdAt: Date; paidAt: Date }
+  | { status: "delivered"; createdAt: Date;
+      paidAt: Date; deliveredAt: Date }
+  | { status: "refunded"; createdAt: Date; refundedAt: Date };
+
+function report(order: Order): string {
+  switch (order.status) {
+    case "pending":
+      return "Preparing your order";
+    case "paid":
+      return "Paid at " + order.paidAt.toLocaleTimeString();
+    case "delivered":
+      return "Delivered at " + order.deliveredAt.toLocaleTimeString();
+    default: {
+      const _exhaustive: never = order;
+      return _exhaustive;
+    }
+  }
+}`;
+
+const LAB_EXH_HANDLED = `type Order =
+  | { status: "pending"; createdAt: Date }
+  | { status: "paid"; createdAt: Date; paidAt: Date }
+  | { status: "delivered"; createdAt: Date;
+      paidAt: Date; deliveredAt: Date }
+  | { status: "refunded"; createdAt: Date; refundedAt: Date };
+
+function report(order: Order): string {
+  switch (order.status) {
+    case "pending":
+      return "Preparing your order";
+    case "paid":
+      return "Paid at " + order.paidAt.toLocaleTimeString();
+    case "delivered":
+      return "Delivered at " + order.deliveredAt.toLocaleTimeString();
+    case "refunded":
+      return "Refunded at " + order.refundedAt.toLocaleTimeString();
+    default: {
+      const _exhaustive: never = order;
+      return _exhaustive;
+    }
+  }
+}`;
 
 /* ---------- §07 predicates and assertions ---------- */
 
@@ -753,6 +862,77 @@ export default function NarrowingPage() {
             />
           </p>
         </Callout>
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                The second mistake is better seen than read. The window below
+                runs the real compiler. An order note can be free text, a
+                structured note, or nothing at all — and the branch guarded by{" "}
+                <code>typeof note === &quot;object&quot;</code> lets{" "}
+                <code>null</code> in with the objects. Line 6 says so:{" "}
+                <code>&apos;note&apos; is possibly &apos;null&apos;.</code> The
+                two presets are the version with no check at all, and the
+                version that rules out <code>null</code> first.
+              </>
+            }
+            zh={
+              <>
+                第二个错误,与其读,不如亲眼看一次。下面这个窗口跑的是真编译器。
+                订单备注可能是一段自由文本、一个结构化备注,也可能根本没有;
+                而 <code>typeof note === &quot;object&quot;</code>{" "}
+                守住的那个分支,把 <code>null</code> 和对象一起放了进来。
+                第 6 行直接点名:
+                <code>&apos;note&apos; is possibly &apos;null&apos;.</code>{" "}
+                两个预设分别是「完全不检查」的版本,和「先排除 null」的版本。
+              </>
+            }
+          />
+        </p>
+
+        <TsLab
+          code={LAB_GUARD}
+          toggles={["strictNullChecks"]}
+          presets={[
+            {
+              label: { en: "no check at all", zh: "完全不检查" },
+              code: LAB_GUARD_NONE,
+            },
+            {
+              label: { en: "rule out null first", zh: "先排除 null" },
+              code: LAB_GUARD_NULLFIRST,
+            },
+          ]}
+          note={{
+            en: "Click note on any line to see its type there.",
+            zh: "点不同行上的 note,看它在那一行是什么类型。",
+          }}
+        />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                The <code>strictNullChecks</code> switch above the code is a
+                separate lesson. Turn it off and the error disappears — not
+                because the code became safe, but because{" "}
+                <code>null</code> is no longer tracked as a possibility at all.
+                That switch is part of <code>strict</code>, and chapter 10 is
+                about what else comes with it.
+              </>
+            }
+            zh={
+              <>
+                代码上方那个 <code>strictNullChecks</code>{" "}
+                开关是另一件事。关掉它,报错就消失了 ——
+                不是因为代码变安全了,而是因为 <code>null</code>{" "}
+                这种可能性根本不再被追踪。这个开关属于 <code>strict</code>{" "}
+                家族,它还带来了什么,第 10 章会讲。
+              </>
+            }
+          />
+        </p>
       </Section>
 
       {/* ================= §04 where narrowing is lost ================= */}
@@ -1180,28 +1360,88 @@ export default function NarrowingPage() {
           <T
             en={
               <>
-                The value shows up later. Three months on, the product needs
-                refunds, so you add a fourth state to the type — and you do not
-                touch the function.
+                The value shows up later. Three months on, the shop starts
+                issuing refunds, so a fourth state has to be added to the type —
+                and nobody plans to touch the function. Do it in the window
+                below, which runs the real compiler: add a line to the union,{" "}
+                <code>
+                  | &#123; status: &quot;refunded&quot;; createdAt: Date;
+                  refundedAt: Date &#125;
+                </code>
+                , and change nothing else. The <code>default</code> branch
+                reports it on its own:{" "}
+                <code>
+                  Type &apos;&#123; status: &quot;refunded&quot;; createdAt:
+                  Date; refundedAt: Date; &#125;&apos; is not assignable to type
+                  &apos;never&apos;.
+                </code>
               </>
             }
             zh={
               <>
-                它的价值在后面。三个月后产品要支持退款,
-                你给类型加了第四个状态 —— 而那个函数你根本没动。
+                它的价值在后面。三个月后店里开始支持退款,
+                类型要加第四个状态 —— 而那个函数没人打算动。
+                就在下面这个窗口里做,它跑的是真编译器:往联合里加一行{" "}
+                <code>
+                  | &#123; status: &quot;refunded&quot;; createdAt: Date;
+                  refundedAt: Date &#125;
+                </code>
+                ,别处一个字都不改。<code>default</code> 分支自己就会报出来:
+                <code>
+                  Type &apos;&#123; status: &quot;refunded&quot;; createdAt:
+                  Date; refundedAt: Date; &#125;&apos; is not assignable to type
+                  &apos;never&apos;.
+                </code>
               </>
             }
           />
         </p>
-        <CodeBlock
-          lang="ts"
-          title={{
-            en: "The moment a state is added",
-            zh: "新增状态的那一刻",
+
+        <TsLab
+          code={LAB_EXH}
+          presets={[
+            {
+              label: { en: "add the fourth state", zh: "加上第四个状态" },
+              code: LAB_EXH_ADDED,
+            },
+            {
+              label: { en: "handle it", zh: "补上那个 case" },
+              code: LAB_EXH_HANDLED,
+            },
+          ]}
+          note={{
+            en: "Click order in the default branch to see its type.",
+            zh: "点 default 分支里的 order,看它此刻的类型。",
           }}
-          code={S6_NEW_STATUS}
-          hl={[6]}
         />
+
+        <p className="sec-desc">
+          <T
+            en={
+              <>
+                Read the message as a sentence and it is a to-do item:{" "}
+                <code>refunded</code> is still on the table when execution
+                reaches <code>default</code>, so the claim{" "}
+                <code>&quot;nothing is left here&quot;</code> is no longer true.
+                Click <code>order</code> inside <code>default</code> before and
+                after adding the state — the type goes from{" "}
+                <code>never</code> to the member you forgot. Add the missing{" "}
+                <code>case</code> and the error clears itself.
+              </>
+            }
+            zh={
+              <>
+                把这条消息读成一句话,它就是一条待办:走到{" "}
+                <code>default</code> 时 <code>refunded</code> 还在场,
+                所以「这里什么都不剩了」这句断言不再成立。
+                加状态前后各点一次 <code>default</code> 里的{" "}
+                <code>order</code>:它的类型会从 <code>never</code>{" "}
+                变成你漏掉的那个成员。补上缺的 <code>case</code>,
+                报错自己就消失了。
+              </>
+            }
+          />
+        </p>
         <Callout
           tone="win"
           title={{
@@ -1245,18 +1485,22 @@ export default function NarrowingPage() {
               en={
                 <>
                   The protection comes from the <code>never</code> assignment,
-                  not from having a <code>default</code> branch. A{" "}
-                  <code>default</code> that just returns{" "}
-                  <code>&quot;unknown status&quot;</code> tells the compiler you
-                  handled it, and the new state passes without a word.
+                  not from having a <code>default</code> branch. Try it in the
+                  window above: with the fourth state in place, replace the
+                  whole <code>default</code> block with{" "}
+                  <code>default: return &quot;unknown status&quot;;</code>.
+                  Every error disappears, including the one for the state you
+                  never handled. You just told the compiler you had it covered.
                 </>
               }
               zh={
                 <>
                   保护来自那行 <code>never</code> 赋值,而不是「有 default
-                  分支」。如果 <code>default</code> 里只是{" "}
-                  <code>return &quot;unknown status&quot;</code>,
-                  就等于告诉编译器你已经处理过了,新状态会一声不响地通过。
+                  分支」。在上面那个窗口里试一次:留着第四个状态,把整个{" "}
+                  <code>default</code> 块换成{" "}
+                  <code>default: return &quot;unknown status&quot;;</code>,
+                  所有报错都会消失,包括那个你根本没处理的状态 ——
+                  你等于告诉编译器,这事你管过了。
                 </>
               }
             />
