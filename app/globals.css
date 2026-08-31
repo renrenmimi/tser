@@ -2905,6 +2905,14 @@ html[data-lang="en"] .codewin-note::before {
 .tsl-st-ms,
 .tsl-st-note { color: rgba(230, 235, 250, 0.4); }
 .tsl-st-note { margin-left: auto; }
+/* The neutral marker shown in place of a lesson note once the learner has
+   edited the sample. Quieter than a lesson note, and clearly not prose. */
+.tsl-st-note.tsl-st-live {
+  color: rgba(230, 235, 250, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
 
 /* ---- 浅色主题:代码区保持深色(和 .codewin 一致),只调外框 ---- */
 
