@@ -16,6 +16,10 @@ Sister sites: [APIer](https://apier-eta.vercel.app) (APIs) and
 
 *Generics, with code you can paste into the Playground*
 
+![The compiler lab: edit the code and the real tsc answers with its own error codes](docs/compiler-lab.jpg)
+
+*The compiler lab — TypeScript 5.9.3 itself, running in a Web Worker. Edit the code and the diagnostics are the compiler’s own: real codes, real positions, and the declaration file it would emit.*
+
 ## Chapters
 
 | # | Chapter | What it covers |
