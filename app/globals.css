@@ -1198,6 +1198,10 @@ li code {
 /* 分段控制器 */
 .seg {
   display: inline-flex;
+  /* 窄屏放不下就换行。早先是单行不折,整组按钮撑出容器后被父级的
+     overflow: hidden 裁掉 —— 露在外面的那几个按钮根本点不到。 */
+  flex-wrap: wrap;
+  max-width: 100%;
   padding: 3px;
   gap: 3px;
   border-radius: 12px;
