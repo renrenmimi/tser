@@ -177,11 +177,16 @@
 }
 .tp-lens-body {
   padding: 10px 0 14px;
+  /* 代码行不折行(white-space: pre),窄屏下会比窗口宽。这里让它横向滚出来,
+     否则 .tp-lens-win 的圆角裁剪会把行尾直接切掉 —— 看不见,也够不着。 */
+  overflow-x: auto;
 }
 .tp-lens-line {
   display: flex;
   gap: 13px;
-  width: 100%;
+  /* 至少铺满一行(选中/hover 的背景要通栏),内容更长时把滚动区撑开。 */
+  width: max-content;
+  min-width: 100%;
   text-align: left;
   border: 0;
   background: transparent;
