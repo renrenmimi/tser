@@ -370,9 +370,7 @@ export default function TypesPage() {
           ),
           zh: (
             <>
-              string、number、boolean…… 类型没那么神秘,
-              就是每个值随身带的一张标签。更省事的是:
-              大多数标签不用你写 —— TypeScript
+              string、number、boolean…… 类型没那么神秘,就是每个值随身带的一张标签。更省事的是:大多数标签不用你写 —— TypeScript
               看一眼值,自己就填好了。这手本事叫推断。
             </>
           ),
@@ -440,21 +438,18 @@ export default function TypesPage() {
             zh={
               <>
                 <p>
-                  你是店长。进货间堆着几十个箱子,每个箱子上贴着标签:
-                  「珍珠 · 袋装 · 5kg」「椰浆 · 罐装 · 易腐」。
+                  你是店长。进货间堆着几十个箱子,每个箱子上贴着标签:「珍珠 · 袋装 · 5kg」「椰浆 · 罐装 · 易腐」。
                   <b>不用开箱,你就知道每箱能干什么、不能干什么。</b>
                 </p>
                 <p>
                   TypeScript 给程序里的每个值也贴这么一张标签,学名叫
                   <b>类型(type)</b>:name 这一栏是 string,price 这一栏是
-                  number。之后你每次用这个值,编译器都先看一眼标签:
-                  拿 string 去做乘法?标签不允许,报错。
+                  number。之后你每次用这个值,编译器都先看一眼标签:拿 string 去做乘法?标签不允许,报错。
                 </p>
                 <p>
                   大多数标签你从来不用写。写下 <code>let price = 22</code>,TS
                   看一眼右边的 22 就把标签填好了 —— 这叫
-                  <b>推断(inference)</b>。只有少数地方需要你亲手写,
-                  也就是<b>注解(annotation)</b>,§04 讲清楚是哪几处。
+                  <b>推断(inference)</b>。只有少数地方需要你亲手写,也就是<b>注解(annotation)</b>,§04 讲清楚是哪几处。
                 </p>
               </>
             }
@@ -479,8 +474,7 @@ export default function TypesPage() {
                 }
                 zh={
                   <>
-                    程序里真实存在的东西:22、&quot;Oolong Tea&quot;、
-                    一个订单对象。运行时真正干活的是它们。
+                    程序里真实存在的东西:22、&quot;Oolong Tea&quot;、一个订单对象。运行时真正干活的是它们。
                   </>
                 }
               />
@@ -507,8 +501,7 @@ export default function TypesPage() {
                 }
                 zh={
                   <>
-                    对值的描述:是什么、有哪些字段。类型只在编译期存在。
-                    编译器会把所有注解、<code>type</code>、
+                    对值的描述:是什么、有哪些字段。类型只在编译期存在。编译器会把所有注解、<code>type</code>、
                     <code>interface</code> 全部删掉,产出普通 JavaScript ——
                     所以运行时没有任何类型检查,除非那段检查是你自己写的。
                   </>
@@ -534,8 +527,7 @@ export default function TypesPage() {
                 }
                 zh={
                   <>
-                    它负责填标签(推断)和读标签(检查)。
-                    发现某个操作和标签对不上,就在代码运行之前报错。
+                    它负责填标签(推断)和读标签(检查)。发现某个操作和标签对不上,就在代码运行之前报错。
                   </>
                 }
               />
@@ -589,17 +581,13 @@ export default function TypesPage() {
             zh={
               <>
                 <p>
-                  日常写码 95% 的时间在跟 string、number、boolean、null、
-                  undefined 打交道。<b>null 和 undefined 的区别值得记一句</b>:
-                  undefined 是「从来没人赋过值」时你拿到的东西(没写初始值、
-                  属性不存在、函数没有 return);null 是有人特意赋进去的、
-                  表示「空」的值。
+                  日常写码 95% 的时间在跟 string、number、boolean、null、undefined 打交道。<b>null 和 undefined 的区别值得记一句</b>:
+                  undefined 是「从来没人赋过值」时你拿到的东西(没写初始值、属性不存在、函数没有 return);null 是有人特意赋进去的、表示「空」的值。
                 </p>
                 <p>
                   它们之所以是两个独立的类型,是因为{" "}
                   <code>strictNullChecks</code> 开着。这个开关一关,
-                  null 和 undefined 可以赋给任何类型,这一整类错误编译器就不再管了。
-                  开关本身第 10 章细讲。
+                  null 和 undefined 可以赋给任何类型,这一整类错误编译器就不再管了。开关本身第 10 章细讲。
                 </p>
               </>
             }
@@ -637,8 +625,7 @@ export default function TypesPage() {
               zh={
                 <>
                   <code>string[]</code> 读作「string 的数组」。
-                  <code>Array&lt;string&gt;</code> 是完全相同的意思。
-                  元素类型简单时,社区习惯用前者,因为短。
+                  <code>Array&lt;string&gt;</code> 是完全相同的意思。元素类型简单时,社区习惯用前者,因为短。
                 </>
               }
             />
@@ -672,14 +659,11 @@ export default function TypesPage() {
               zh={
                 <>
                   <code>number[]</code> 这样的数组类型完全不说明元素有几个;
-                  <code>[string, number]</code> 这样的元组则明确说「就两个」,
-                  并且规定每个位置是什么。有一个反直觉的点:
+                  <code>[string, number]</code> 这样的元组则明确说「就两个」,并且规定每个位置是什么。有一个反直觉的点:
                   <b>
                     元组上的 <code>push</code> 依然合法
                   </b>
-                  ,因为元组在运行时仍然是个普通数组。
-                  固定长度只在构造这个值和用下标取值时检查,后续修改不查。
-                  想连修改一起禁掉,给它加 <code>readonly</code>。
+                  ,因为元组在运行时仍然是个普通数组。固定长度只在构造这个值和用下标取值时检查,后续修改不查。想连修改一起禁掉,给它加 <code>readonly</code>。
                 </>
               }
             />
@@ -708,8 +692,7 @@ export default function TypesPage() {
               zh={
                 <>
                   <code>{"{ name: string; price: number }"}</code>{" "}
-                  本身就是一个类型,直接写在原地,叫<b>对象类型字面量</b>,
-                  属性之间用分号隔开。形状能嵌套、能进数组 ——
+                  本身就是一个类型,直接写在原地,叫<b>对象类型字面量</b>,属性之间用分号隔开。形状能嵌套、能进数组 ——
                   真实项目的数据几乎都是这样描述出来的。可选属性{" "}
                   <code>?</code>、<code>interface</code> 和 <code>type</code>{" "}
                   别名,是下一章的全部内容。
@@ -758,13 +741,8 @@ export default function TypesPage() {
               }
               zh={
                 <>
-                  上面那台放大镜里的每个类型,都是为了讲解手写进去的。
-                  下面这个窗口里跑的是<b>真正的 TypeScript 编译器</b>,
-                  就在你的浏览器里。点 <code>drink</code>、<code>price</code>、
-                  <code>menu</code>、<code>cheap</code>,
-                  给出答案的和你编辑器里那台是同一个程序。
-                  然后看它画波浪线的那一行:<code>totalFor</code> 的参数。
-                  推断读的是值,而参数没有值可读。
+                  上面那台放大镜里的每个类型,都是为了讲解手写进去的。下面这个窗口里跑的是<b>真正的 TypeScript 编译器</b>,就在你的浏览器里。点 <code>drink</code>、<code>price</code>、
+                  <code>menu</code>、<code>cheap</code>,给出答案的和你编辑器里那台是同一个程序。然后看它画波浪线的那一行:<code>totalFor</code> 的参数。推断读的是值,而参数没有值可读。
                 </>
               }
             />
@@ -798,14 +776,8 @@ export default function TypesPage() {
             }
             zh={
               <>
-                那个窗口的第二个页签值得打开:
-                它是编译器把这份文件里所有推断结果一次列全的清单。
-                读最后一行 ——
-                <code>declare function totalFor(qty: any): number</code>。
-                参数推成了 <code>any</code>,这是编译器在说「这一处我放弃了」。
-                在文件末尾补一句 <code>totalFor(&quot;three&quot;)</code>,
-                不会多出任何报错。<code>any</code> 的代价是本章 §06 的内容;
-                第二个页签里那种文件是干什么用的,09 章讲。
+                那个窗口的第二个页签值得打开:它是编译器把这份文件里所有推断结果一次列全的清单。读最后一行 ——
+                <code>declare function totalFor(qty: any): number</code>。参数推成了 <code>any</code>,这是编译器在说「这一处我放弃了」。在文件末尾补一句 <code>totalFor(&quot;three&quot;)</code>,不会多出任何报错。<code>any</code> 的代价是本章 §06 的内容;第二个页签里那种文件是干什么用的,09 章讲。
               </>
             }
           />
@@ -824,8 +796,7 @@ export default function TypesPage() {
             }
             zh={
               <>
-                规律就在这里。局部变量这种「声明的同时就赋值」的场合,
-                推断全包了。那注解该写在哪?<b>写在边界上</b> ——
+                规律就在这里。局部变量这种「声明的同时就赋值」的场合,推断全包了。那注解该写在哪?<b>写在边界上</b> ——
                 凡是别的代码要依赖这个类型的地方,以及推断无从下手的地方。
               </>
             }
@@ -856,8 +827,7 @@ export default function TypesPage() {
                 zh={
                   <>
                     参数是外面塞进来的,推断没有材料;开着{" "}
-                    <code>noImplicitAny</code> 时<b>必须写</b>。
-                    返回值可以推断,但写出来等于把承诺讲明白 ——
+                    <code>noImplicitAny</code> 时<b>必须写</b>。返回值可以推断,但写出来等于把承诺讲明白 ——
                     对外导出的函数建议写。
                   </>
                 }
@@ -882,8 +852,7 @@ export default function TypesPage() {
                 }
                 zh={
                   <>
-                    导出的常量、全店共用的菜单结构 —— 给它们一个具名类型。
-                    这份类型就是契约,谁塞错东西,就在那一行报错。
+                    导出的常量、全店共用的菜单结构 —— 给它们一个具名类型。这份类型就是契约,谁塞错东西,就在那一行报错。
                   </>
                 }
               />
@@ -937,8 +906,7 @@ export default function TypesPage() {
               zh={
                 <>
                   <b>注解是承诺,推断是观察。</b>
-                  观察已经对了的地方再加一个冒号,不会让代码更安全,
-                  只会让真正的契约更难被看见。§08 还会说到它。
+                  观察已经对了的地方再加一个冒号,不会让代码更安全,只会让真正的契约更难被看见。§08 还会说到它。
                 </>
               }
             />
@@ -978,13 +946,10 @@ export default function TypesPage() {
             zh={
               <>
                 类型可以很宽(「是个字符串」),也可以很窄(「就是{" "}
-                <code>&quot;small&quot;</code> 这个字符串」)。
-                窄的那种叫<b>字面量类型(literal type)</b>。
-                拿到哪一种,取决于变量是怎么声明的:<code>let</code>{" "}
+                <code>&quot;small&quot;</code> 这个字符串」)。窄的那种叫<b>字面量类型(literal type)</b>。拿到哪一种,取决于变量是怎么声明的:<code>let</code>{" "}
                 会把字面量放宽成 string,这个动作叫<b>拓宽(widening)</b>;
                 <code>const</code> 则保留字面量。道理很直白:
-                <code>let</code> 变量本来就是要重新赋值的,
-                类型只允许一个值就没法用了。
+                <code>let</code> 变量本来就是要重新赋值的,类型只允许一个值就没法用了。
               </>
             }
           />
@@ -1016,9 +981,7 @@ export default function TypesPage() {
                   <code>
                     &quot;small&quot; | &quot;medium&quot; | &quot;large&quot;
                   </code>{" "}
-                  读作「三者之一」,这就是<b>字面量联合</b>:
-                  把「只能取这几个值」写进类型本身,
-                  错杯型在你保存文件那一刻就被拦下。竖线 <code>|</code>{" "}
+                  读作「三者之一」,这就是<b>字面量联合</b>:把「只能取这几个值」写进类型本身,错杯型在你保存文件那一刻就被拦下。竖线 <code>|</code>{" "}
                   是第 03 章的主角。
                 </>
               }
@@ -1037,9 +1000,7 @@ export default function TypesPage() {
             }
             zh={
               <>
-                拓宽这件事,与其读结论,不如直接问编译器。
-                下面一共三份稿子:现在这份,加标题栏里的另外两份。
-                每换一份,都点一下 <code>cupSize</code>,看它回什么。
+                拓宽这件事,与其读结论,不如直接问编译器。下面一共三份稿子:现在这份,加标题栏里的另外两份。每换一份,都点一下 <code>cupSize</code>,看它回什么。
               </>
             }
           />
@@ -1088,8 +1049,7 @@ export default function TypesPage() {
                   Type &apos;&quot;mega&quot;&apos; is not assignable to type
                   &apos;Size&apos;.
                 </code>{" "}
-                值一个字都没变,变的是类型收得多窄。
-                中间那份稿子里可点的名字有三个,而只有第一个保住了字面量类型 ——
+                值一个字都没变,变的是类型收得多窄。中间那份稿子里可点的名字有三个,而只有第一个保住了字面量类型 ——
                 原因在下面这张卡片里。
               </>
             }
@@ -1168,10 +1128,7 @@ export default function TypesPage() {
             }
             zh={
               <>
-                用 string 存杯型,&quot;mega&quot;、&quot;Large&quot;、
-                &quot;LARGE&quot; 全都合法,写错的代价照旧发生在运行时。
-                用字面量联合,名单之外的值<b>编译期直接拒收</b>。
-                合法值的范围收得越窄,编译器能替你挡的就越多 ——
+                用 string 存杯型,&quot;mega&quot;、&quot;Large&quot;、&quot;LARGE&quot; 全都合法,写错的代价照旧发生在运行时。用字面量联合,名单之外的值<b>编译期直接拒收</b>。合法值的范围收得越窄,编译器能替你挡的就越多 ——
                 这是贯穿全书的思路,03 章开始大量使用。
               </>
             }
@@ -1212,9 +1169,7 @@ export default function TypesPage() {
               zh={
                 <>
                   两行高亮都藏着真错误:键名 <code>prise</code>{" "}
-                  拼错了,没人报;然后 <code>total</code> 也成了 any,
-                  于是拿一个数字调 <code>toUpperCase()</code> 同样被放行。
-                  两个错都活到了运行时 —— 和裸写 JavaScript 一模一样。
+                  拼错了,没人报;然后 <code>total</code> 也成了 any,于是拿一个数字调 <code>toUpperCase()</code> 同样被放行。两个错都活到了运行时 —— 和裸写 JavaScript 一模一样。
                 </>
               }
             />
@@ -1255,22 +1210,16 @@ export default function TypesPage() {
             zh={
               <>
                 <p>
-                  <b>一,关掉检查。</b>值一旦是 any,
-                  对它做任何操作编译器都放行:属性拼错、方法不存在、参数传错,
-                  全部沉默。
+                  <b>一,关掉检查。</b>值一旦是 any,对它做任何操作编译器都放行:属性拼错、方法不存在、参数传错,全部沉默。
                 </p>
                 <p>
                   <b>二,会扩散。</b>从 any
-                  值上取的属性、由它算出的结果、把它传进去的回调参数,
-                  统统变成 any。一个 any 能让一整条数据流失去检查。
+                  值上取的属性、由它算出的结果、把它传进去的回调参数,统统变成 any。一个 any 能让一整条数据流失去检查。
                 </p>
                 <p>
                   这不等于永远不能用。迁移老 JavaScript
                   项目时它有用,偶尔也可以当临时出口(终章专门讨论「何时 any
-                  合理」)。原则是:<b>有意识地用,并且清楚自己关掉了什么</b>。
-                  另外还有一个安全的替代品 <code>unknown</code>:
-                  它接受任何值,但在你检查清楚它到底是什么之前,
-                  几乎什么都不让你做。03 章细讲。
+                  合理」)。原则是:<b>有意识地用,并且清楚自己关掉了什么</b>。另外还有一个安全的替代品 <code>unknown</code>:它接受任何值,但在你检查清楚它到底是什么之前,几乎什么都不让你做。03 章细讲。
                 </p>
               </>
             }
@@ -1294,9 +1243,7 @@ export default function TypesPage() {
                 还有一种你没写、自己长出来的 any ——
                 最常见的来源是没标类型的函数参数。<code>strict</code> 家族里的{" "}
                 <code>noImplicitAny</code>{" "}
-                专门管这个:凡是类型悄悄退化成 any 的地方一律报错。
-                TypeScript Playground 默认开着 <code>strict</code>,
-                所以你在动手任务里会亲眼见到它工作。
+                专门管这个:凡是类型悄悄退化成 any 的地方一律报错。TypeScript Playground 默认开着 <code>strict</code>,所以你在动手任务里会亲眼见到它工作。
               </>
             }
           />
@@ -1368,8 +1315,7 @@ export default function TypesPage() {
                   zh={
                     <>
                       推断照单全收,<code>prise</code>{" "}
-                      被当成一个真实字段记了下来。
-                      在 <code>filter</code> 用到 <code>price</code>{" "}
+                      被当成一个真实字段记了下来。在 <code>filter</code> 用到 <code>price</code>{" "}
                       之前什么都不报,而报错时指向的是
                       <b>并没有写错的那段代码</b>。
                     </>
@@ -1401,9 +1347,7 @@ export default function TypesPage() {
                   zh={
                     <>
                       立了 <code>MenuItem</code> 这份契约之后,错误
-                      <b>精确落在写错的那一行</b>,还附带改法。
-                      这就是「在边界上注解」的回报:
-                      报错的位置就是犯错的位置。
+                      <b>精确落在写错的那一行</b>,还附带改法。这就是「在边界上注解」的回报:报错的位置就是犯错的位置。
                     </>
                   }
                 />
@@ -1474,8 +1418,7 @@ export default function TypesPage() {
               <>
                 大写的 <code>String</code> 是 <code>new String()</code>{" "}
                 造出来的那个包装对象的类型,不是原始字符串。
-                <code>String</code> 不能赋给 <code>string</code>,
-                写了它就会遇到一串莫名其妙的兼容错误。
+                <code>String</code> 不能赋给 <code>string</code>,写了它就会遇到一串莫名其妙的兼容错误。
                 <b>注解一律用小写</b>:string、number、boolean。大写的{" "}
                 <code>String</code> / <code>Number</code> /{" "}
                 <code>Boolean</code>,当它们不存在。
@@ -1504,9 +1447,7 @@ export default function TypesPage() {
             zh={
               <>
                 <code>let count: number = 0</code>{" "}
-                里的注解,只是把编译器从 0 那里已经读到的信息又说了一遍。
-                它占地方,还会把真正重要的注解淹没掉。
-                显而易见的地方交给推断,注解留给 §04 说的三种边界 ——
+                里的注解,只是把编译器从 0 那里已经读到的信息又说了一遍。它占地方,还会把真正重要的注解淹没掉。显而易见的地方交给推断,注解留给 §04 说的三种边界 ——
                 这样读代码的人一眼就能看出契约在哪。
               </>
             }
@@ -1536,9 +1477,7 @@ export default function TypesPage() {
               <>
                 空数组没有元素,推断不出元素类型,TS 只能先记成{" "}
                 <code>any[]</code>。它接着会尝试从同一作用域后面的{" "}
-                <code>push</code> 反推类型,这叫「演化数组」。
-                但只要这个值离开函数,或者在填进内容之前就被使用,
-                这套猜测就失效了,<code>noImplicitAny</code> 会当场报错。
+                <code>push</code> 反推类型,这叫「演化数组」。但只要这个值离开函数,或者在填进内容之前就被使用,这套猜测就失效了,<code>noImplicitAny</code> 会当场报错。
                 <b>好习惯:空箱子出生就贴标签。</b>
               </>
             }
@@ -1587,8 +1526,7 @@ export default function TypesPage() {
                     Variable &apos;items&apos; implicitly has an
                     &apos;any[]&apos; type
                   </i>
-                  。注意顶层那行 <code>toppings</code> 完全不报错,
-                  它的类型就是 <code>any[]</code>。一行注解{" "}
+                  。注意顶层那行 <code>toppings</code> 完全不报错,它的类型就是 <code>any[]</code>。一行注解{" "}
                   <code>const safe: string[] = []</code>{" "}
                   就能解决全部问题,之后每一次 <code>push</code> 都受检。
                 </>
@@ -1637,9 +1575,7 @@ export default function TypesPage() {
             ),
             zh: (
               <>
-                类型就是值随身带的标签。<b>推断 = 编译器替你读这张标签</b>,
-                所以大多数局部变量一个冒号都不用写。
-                类型在编译时被删除:程序运行时没有任何东西再检查它们。
+                类型就是值随身带的标签。<b>推断 = 编译器替你读这张标签</b>,所以大多数局部变量一个冒号都不用写。类型在编译时被删除:程序运行时没有任何东西再检查它们。
               </>
             ),
           },
@@ -1694,9 +1630,7 @@ export default function TypesPage() {
               <>
                 <code>let</code> 拓宽(<code>&quot;small&quot;</code> →
                 string),<code>const</code> 保留字面量类型。但{" "}
-                <code>const</code> 锁不住<b>内容</b>:
-                数组元素和对象属性照样拓宽,除非写 <code>as const</code>。
-                字面量联合(<code>&quot;small&quot; | &quot;medium&quot; |
+                <code>const</code> 锁不住<b>内容</b>:数组元素和对象属性照样拓宽,除非写 <code>as const</code>。字面量联合(<code>&quot;small&quot; | &quot;medium&quot; |
                 &quot;large&quot;</code>)是 03 章的入口。
               </>
             ),
@@ -1714,8 +1648,7 @@ export default function TypesPage() {
             zh: (
               <>
                 <code>any</code> 关掉检查,并顺着表达式扩散;空的{" "}
-                <code>[]</code> 会先落成 <code>any[]</code>。
-                两者当临时手段可以,长期留着不行。<code>noImplicitAny</code>{" "}
+                <code>[]</code> 会先落成 <code>any[]</code>。两者当临时手段可以,长期留着不行。<code>noImplicitAny</code>{" "}
                 负责报出那些你没亲手写的 any。
               </>
             ),

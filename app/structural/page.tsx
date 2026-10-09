@@ -427,10 +427,7 @@ export default function StructuralPage() {
           ),
           zh: (
             <>
-              TypeScript 从不问一个类型叫什么名字,
-              它只把值实际拥有的成员和目标要求的成员比一遍。
-              这一章讲透这条贯穿全书的地基规则,
-              再拆掉几乎每个新手都会撞上的那个例外:多余属性检查。
+              TypeScript 从不问一个类型叫什么名字,它只把值实际拥有的成员和目标要求的成员比一遍。这一章讲透这条贯穿全书的地基规则,再拆掉几乎每个新手都会撞上的那个例外:多余属性检查。
             </>
           ),
         }}
@@ -507,16 +504,10 @@ export default function StructuralPage() {
             zh={
               <>
                 <p>
-                  奶茶店缺人,老板贴出要求:<b>有名字,会做茶</b>。
-                  来了个应聘者,没带任何证书 —— 老板不在乎。名字?有。做茶?
-                  当场做了一杯。录用。至于这人以前叫「正式工」还是
-                  「隔壁店员工」,<b>没人问</b>。
+                  奶茶店缺人,老板贴出要求:<b>有名字,会做茶</b>。来了个应聘者,没带任何证书 —— 老板不在乎。名字?有。做茶?当场做了一杯。录用。至于这人以前叫「正式工」还是「隔壁店员工」,<b>没人问</b>。
                 </p>
                 <p>
-                  这就是结构化类型(structural typing)的全部内容:
-                  一个值属不属于某个类型,<b>只取决于它有哪些成员</b>,
-                  而不取决于它曾经声明过自己是谁。
-                  这个想法还有一个更早的名字:鸭子测试(duck test)——
+                  这就是结构化类型(structural typing)的全部内容:一个值属不属于某个类型,<b>只取决于它有哪些成员</b>,而不取决于它曾经声明过自己是谁。这个想法还有一个更早的名字:鸭子测试(duck test)——
                   走路像鸭子、叫声像鸭子,那就当它是鸭子。
                 </p>
               </>
@@ -544,8 +535,7 @@ export default function StructuralPage() {
               }
               zh={
                 <>
-                  <b>zhen</b> 和 <code>Staff</code> 之间没有任何声明过的关系。
-                  编译器把 <code>zhen</code> 的成员和 <code>Staff</code>{" "}
+                  <b>zhen</b> 和 <code>Staff</code> 之间没有任何声明过的关系。编译器把 <code>zhen</code> 的成员和 <code>Staff</code>{" "}
                   要求的成员比了一遍,全都找到了,于是放行。
                 </>
               }
@@ -572,8 +562,7 @@ export default function StructuralPage() {
                 }
                 zh={
                   <>
-                    <code>Staff</code> 是你给某个形状贴的标签,方便人读代码。
-                    编译器比较类型时,标签不参与比较。
+                    <code>Staff</code> 是你给某个形状贴的标签,方便人读代码。编译器比较类型时,标签不参与比较。
                   </>
                 }
               />
@@ -598,8 +587,7 @@ export default function StructuralPage() {
                 zh={
                   <>
                     有哪些成员、每个成员是什么类型 ——
-                    这份清单才是编译器眼里的类型。
-                    清单相同的两个类型,是同一样东西的两个名字。
+                    这份清单才是编译器眼里的类型。清单相同的两个类型,是同一样东西的两个名字。
                   </>
                 }
               />
@@ -624,8 +612,7 @@ export default function StructuralPage() {
                 }
                 zh={
                   <>
-                    目标要求的成员你都有,而且类型也对得上,检查就通过。
-                    不需要任何声明 —— 兼容关系是算出来的,不是登记出来的。
+                    目标要求的成员你都有,而且类型也对得上,检查就通过。不需要任何声明 —— 兼容关系是算出来的,不是登记出来的。
                   </>
                 }
               />
@@ -658,9 +645,7 @@ export default function StructuralPage() {
                   不是。<code>interface A {"{ x: number }"}</code> 和{" "}
                   <code>interface B {"{ x: number }"}</code>{" "}
                   可以互相赋值,两个方向都行 —— 名字只是标签,形状相同。
-                  <code>type</code> 在这里和 <code>interface</code> 表现完全一致:
-                  两者都不会仅仅因为名字不同就造出一个独立的类型。
-                  真要让同形状的两个类型互不相通,§05 会给出标准做法。
+                  <code>type</code> 在这里和 <code>interface</code> 表现完全一致:两者都不会仅仅因为名字不同就造出一个独立的类型。真要让同形状的两个类型互不相通,§05 会给出标准做法。
                 </>
               }
             />
@@ -723,12 +708,9 @@ export default function StructuralPage() {
             }
             zh={
               <>
-                名义类型系统比较的是<b>声明</b>:两个类型有关系,
-                必须有一方用 <code>extends</code> 或 <code>implements</code>{" "}
-                说出来。结构化类型系统比较的是<b>成员</b>,什么都不用声明。
-                再看一眼右边:在 TypeScript 里,<b>连 class 都按形状比</b> ——
-                这是从 Java 转过来的人最先撞上的一条。
-                例外只有一个,而且要类里出现 <code>private</code> 或{" "}
+                名义类型系统比较的是<b>声明</b>:两个类型有关系,必须有一方用 <code>extends</code> 或 <code>implements</code>{" "}
+                说出来。结构化类型系统比较的是<b>成员</b>,什么都不用声明。再看一眼右边:在 TypeScript 里,<b>连 class 都按形状比</b> ——
+                这是从 Java 转过来的人最先撞上的一条。例外只有一个,而且要类里出现 <code>private</code> 或{" "}
                 <code>protected</code> 成员才会触发,第 08 章会讲。
               </>
             }
@@ -761,14 +743,8 @@ export default function StructuralPage() {
               }
               zh={
                 <>
-                  因为它的任务是描述已经存在的 JavaScript。
-                  想想日常的 JS 值长什么样:随手写下的对象字面量、
-                  <code>JSON.parse</code> 返回的数据、
-                  几个函数拼出来的对象 —— <b>它们谁都没有声明过什么</b>。
-                  如果兼容必须先有声明,那所有现存的 JS 文件都得先改写一遍
-                  才能被 TypeScript 标注,没人会这么干。
-                  结构化类型让 TypeScript 能按 JS 本来的写法去描述它,
-                  这正是「JavaScript 超集」这句承诺的技术前提。
+                  因为它的任务是描述已经存在的 JavaScript。想想日常的 JS 值长什么样:随手写下的对象字面量、
+                  <code>JSON.parse</code> 返回的数据、几个函数拼出来的对象 —— <b>它们谁都没有声明过什么</b>。如果兼容必须先有声明,那所有现存的 JS 文件都得先改写一遍才能被 TypeScript 标注,没人会这么干。结构化类型让 TypeScript 能按 JS 本来的写法去描述它,这正是「JavaScript 超集」这句承诺的技术前提。
                 </>
               }
             />
@@ -873,9 +849,7 @@ export default function StructuralPage() {
                   name: string; makeTea: () =&gt; void; years: number;
                   &#125;&apos; but required in type &apos;Staff&apos;.
                 </code>{" "}
-                注意:<code>barista</code> 本身一个字没改。
-                可见「兼容」不是某个值自带的属性,
-                而是每次对着目标的要求重新算出来的。
+                注意:<code>barista</code> 本身一个字没改。可见「兼容」不是某个值自带的属性,而是每次对着目标的要求重新算出来的。
               </>
             }
           />
@@ -925,10 +899,8 @@ export default function StructuralPage() {
                   描述的集合小得多 —— 要求越多,合格的值越少。
                 </p>
                 <p>
-                  所以「成员多」=「更具体」=「集合更小」。
-                  小集合里的每个值同时也在大集合里,所以 <code>Barista</code>{" "}
-                  总能用在要 <code>Staff</code> 的位置,反过来不行。
-                  第 03 章的联合类型、第 05 章的泛型约束,靠的都是这同一个方向。
+                  所以「成员多」=「更具体」=「集合更小」。小集合里的每个值同时也在大集合里,所以 <code>Barista</code>{" "}
+                  总能用在要 <code>Staff</code> 的位置,反过来不行。第 03 章的联合类型、第 05 章的泛型约束,靠的都是这同一个方向。
                 </p>
               </>
             }
@@ -960,8 +932,7 @@ export default function StructuralPage() {
                   这两种写法很像,形状却不同。
                   <code>{"{ note?: string }"}</code> 表示这个键可以不存在;
                   <code>{"{ note: string | undefined }"}</code>{" "}
-                  表示这个键必须存在,只是它的值可以是 <code>undefined</code>。
-                  后者要求了一个前者并不要求的成员,所以前者不能赋给后者。
+                  表示这个键必须存在,只是它的值可以是 <code>undefined</code>。后者要求了一个前者并不要求的成员,所以前者不能赋给后者。
                 </>
               }
             />
@@ -991,8 +962,7 @@ export default function StructuralPage() {
             }
             zh={
               <>
-                成员是函数时同样按形状比较,只是它的参数和返回值方向相反。
-                这部分第 02 章已经讲全了,包括{" "}
+                成员是函数时同样按形状比较,只是它的参数和返回值方向相反。这部分第 02 章已经讲全了,包括{" "}
                 <code>strictFunctionTypes</code> 开关,以及方法语法的例外。
               </>
             }
@@ -1055,13 +1025,9 @@ export default function StructuralPage() {
             }
             zh={
               <>
-                两边的对象一模一样。写在调用处报错,先存进变量就通过。
-                这不是 bug,而是一道独立的、更严格的检查:
-                <b>多余属性检查(excess property check)</b>。
-                它只对<b>新鲜的对象字面量</b>生效 ——
-                也就是直接写在「需要某个类型」的位置上的字面量。
-                它<b>不属于</b>可赋值性规则本身,这正是先存进变量它就消失的原因。
-                这样设计的理由,是下面两种情形的区别:
+                两边的对象一模一样。写在调用处报错,先存进变量就通过。这不是 bug,而是一道独立的、更严格的检查:
+                <b>多余属性检查(excess property check)</b>。它只对<b>新鲜的对象字面量</b>生效 ——
+                也就是直接写在「需要某个类型」的位置上的字面量。它<b>不属于</b>可赋值性规则本身,这正是先存进变量它就消失的原因。这样设计的理由,是下面两种情形的区别:
               </>
             }
           />
@@ -1089,10 +1055,8 @@ export default function StructuralPage() {
                 }
                 zh={
                   <>
-                    这个对象是当场写出来、当场交出去的,没有第二个用途。
-                    所以多出来的属性只有两种可能:<b>拼错了</b>(
-                    <code>sweetnes</code>),或者<b>误解了类型</b>。
-                    两种都是 bug,编译器于是报出来 ——
+                    这个对象是当场写出来、当场交出去的,没有第二个用途。所以多出来的属性只有两种可能:<b>拼错了</b>(
+                    <code>sweetnes</code>),或者<b>误解了类型</b>。两种都是 bug,编译器于是报出来 ——
                     左边那杯半糖就是这么被救回来的。
                   </>
                 }
@@ -1124,10 +1088,7 @@ export default function StructuralPage() {
                 }
                 zh={
                   <>
-                    存在变量里的对象,可能在别处有<b>完全正当的用途</b>:
-                    它也许本来就是信息更全的 <code>Barista</code>,
-                    顺带被当成 <code>Staff</code> 用。§03 允许这件事,
-                    编译器就允许。代价是拼错的属性会一路混过去 ——
+                    存在变量里的对象,可能在别处有<b>完全正当的用途</b>:它也许本来就是信息更全的 <code>Barista</code>,顺带被当成 <code>Staff</code> 用。§03 允许这件事,编译器就允许。代价是拼错的属性会一路混过去 ——
                     右边那杯半糖就是这么丢的。
                   </>
                 }
@@ -1165,8 +1126,7 @@ export default function StructuralPage() {
                     {'makeOrder({ item: "Boba milk tea", sweetnes: "half sugar" } as Order)'}
                   </code>{" "}
                   确实能让报错消失。但错字还在,半糖照样丢。
-                  <code>as</code> 只是让编译器别再检查,它不会改变这个对象。
-                  正确的修法永远是同一个:看清报错里的属性名,把拼写改对。
+                  <code>as</code> 只是让编译器别再检查,它不会改变这个对象。正确的修法永远是同一个:看清报错里的属性名,把拼写改对。
                 </>
               }
             />
@@ -1221,8 +1181,7 @@ export default function StructuralPage() {
                   </code>
                 </p>
                 <p>
-                  当多出来的属性和目标类型里的任何成员都不像时,
-                  就没有建议,错误码也不同:
+                  当多出来的属性和目标类型里的任何成员都不像时,就没有建议,错误码也不同:
                   <code>
                     Object literal may only specify known properties, and
                     &apos;cup&apos; does not exist in type &apos;Order&apos;.
@@ -1230,8 +1189,7 @@ export default function StructuralPage() {
                   </code>
                 </p>
                 <p>
-                  两条说的是同一件事:对象字面量只能写目标类型认识的属性。
-                  看到 <b>ts(2561)</b> 反而是好事 ——
+                  两条说的是同一件事:对象字面量只能写目标类型认识的属性。看到 <b>ts(2561)</b> 反而是好事 ——
                   编译器已经替你算出了正确的拼写。
                 </p>
               </>
@@ -1254,11 +1212,7 @@ export default function StructuralPage() {
             }
             zh={
               <>
-                到这里为止,这条规则都只是被描述了一遍。
-                下面这个窗口跑的是真编译器,它可以直接证明。
-                同一个对象在里面写了两遍:一遍是直接写在调用处的字面量,
-                一遍先过了一次变量,两遍都把 <code>sweetness</code> 拼错了。
-                只有一处被报出来,就是第 11 行那个字面量 ——
+                到这里为止,这条规则都只是被描述了一遍。下面这个窗口跑的是真编译器,它可以直接证明。同一个对象在里面写了两遍:一遍是直接写在调用处的字面量,一遍先过了一次变量,两遍都把 <code>sweetness</code> 拼错了。只有一处被报出来,就是第 11 行那个字面量 ——
                 在那个位置,多出来的属性不可能有别的用途。
               </>
             }
@@ -1304,14 +1258,9 @@ export default function StructuralPage() {
             }
             zh={
               <>
-                在那个窗口里,有四件事值得动手做一遍。切到第一个预设:
-                字面量没了,报错也没了,顾客要的半糖同样没了 ——
+                在那个窗口里,有四件事值得动手做一遍。切到第一个预设:字面量没了,报错也没了,顾客要的半糖同样没了 ——
                 这就是这道豁免的全部代价。切到第二个预设:<code>cup</code>{" "}
-                和 <code>Order</code> 里的任何成员都不像,
-                建议随之消失,错误码变成 <b>ts(2353)</b>。然后用正确的方式修:
-                给 <code>sweetnes</code> 补上那个 <code>s</code>。
-                最后,想知道 <code>as</code> 到底买到了什么,
-                就在字面量后面加一句 <code>as Order</code> ——
+                和 <code>Order</code> 里的任何成员都不像,建议随之消失,错误码变成 <b>ts(2353)</b>。然后用正确的方式修:给 <code>sweetnes</code> 补上那个 <code>s</code>。最后,想知道 <code>as</code> 到底买到了什么,就在字面量后面加一句 <code>as Order</code> ——
                 报错走了,错字还在。
               </>
             }
@@ -1356,13 +1305,7 @@ export default function StructuralPage() {
               }
               zh={
                 <>
-                  店里有两个类型:外卖平台用的 <code>DeliveryAddress</code>,
-                  和到店自取用的 <code>PickupInfo</code>。
-                  两拨人分头定义,结果都是一个电话加一句备注。
-                  某天有人把自取单传给了打快递面单的函数,
-                  编译器<b>一声没吭</b> —— 成员对得上,它没有理由拦。
-                  当晚,骑手照着面单上的备注,
-                  去店里取了一单根本不存在的外卖。
+                  店里有两个类型:外卖平台用的 <code>DeliveryAddress</code>,和到店自取用的 <code>PickupInfo</code>。两拨人分头定义,结果都是一个电话加一句备注。某天有人把自取单传给了打快递面单的函数,编译器<b>一声没吭</b> —— 成员对得上,它没有理由拦。当晚,骑手照着面单上的备注,去店里取了一单根本不存在的外卖。
                 </>
               }
             />
@@ -1390,9 +1333,7 @@ export default function StructuralPage() {
               }
               zh={
                 <>
-                  结构化类型的判断完全正确:两个类型的成员相同。
-                  问题在于「外卖」和「自取」的区别<b>只存在于我们脑子里</b>,
-                  从没写进形状 —— 而编译器只读形状。
+                  结构化类型的判断完全正确:两个类型的成员相同。问题在于「外卖」和「自取」的区别<b>只存在于我们脑子里</b>,从没写进形状 —— 而编译器只读形状。
                 </>
               }
             />
@@ -1414,9 +1355,7 @@ export default function StructuralPage() {
             zh={
               <>
                 更常见的版本是 ID 混用:<code>UserId</code> 和{" "}
-                <code>PostId</code> 都是 <code>string</code>,
-                于是「拿帖子 ID 去查用户」全程编译通过。
-                真正的解法只有一个:<b>把区别写进形状</b> ——
+                <code>PostId</code> 都是 <code>string</code>,于是「拿帖子 ID 去查用户」全程编译通过。真正的解法只有一个:<b>把区别写进形状</b> ——
                 既然只比形状,那就让形状不同。
               </>
             }
@@ -1450,14 +1389,10 @@ export default function StructuralPage() {
               }
               zh={
                 <>
-                  让每个类型和一个带标记成员的对象类型求交集,
-                  两个形状就不一样了,两个 string 也就不再能互换。
-                  <code>__brand</code> 只存在于编译期,运行时没有任何开销。
-                  代价也要说清楚:普通 <code>string</code> 不能赋给{" "}
-                  <code>UserId</code>,所以造一个出来总得断言一次。
-                  通常的做法是只写一个 <code>toUserId(s: string)</code>{" "}
-                  函数来做这次断言,只在数据进入系统的入口调用它,
-                  别处一律不写 <code>as UserId</code>。§06 的第 3
+                  让每个类型和一个带标记成员的对象类型求交集,两个形状就不一样了,两个 string 也就不再能互换。
+                  <code>__brand</code> 只存在于编译期,运行时没有任何开销。代价也要说清楚:普通 <code>string</code> 不能赋给{" "}
+                  <code>UserId</code>,所以造一个出来总得断言一次。通常的做法是只写一个 <code>toUserId(s: string)</code>{" "}
+                  函数来做这次断言,只在数据进入系统的入口调用它,别处一律不写 <code>as UserId</code>。§06 的第 3
                   个任务会带你走一遍。
                 </>
               }
@@ -1495,12 +1430,9 @@ export default function StructuralPage() {
                   把鸭子测试推到极限:<code>{"{}"}</code> 要求
                   <b>零个成员</b>,而一份空要求几乎人人满足。
                   <code>42</code>、<code>&quot;tea&quot;</code>、
-                  <code>true</code>、函数、数组、任何对象,
-                  统统能赋给 <code>{"{}"}</code>。只有 <code>null</code> 和{" "}
+                  <code>true</code>、函数、数组、任何对象,统统能赋给 <code>{"{}"}</code>。只有 <code>null</code> 和{" "}
                   <code>undefined</code> 进不来,而且这还是靠{" "}
-                  <code>strictNullChecks</code> 开着。所以:
-                  想表达「任意对象」写 <code>object</code>;
-                  想表达「什么值都可能、用之前先收窄」写{" "}
+                  <code>strictNullChecks</code> 开着。所以:想表达「任意对象」写 <code>object</code>;想表达「什么值都可能、用之前先收窄」写{" "}
                   <code>unknown</code>。<code>{"{}"}</code>{" "}
                   看着像一条要求,其实什么都没要求。
                 </>
@@ -1548,8 +1480,7 @@ export default function StructuralPage() {
             ),
             zh: (
               <>
-                TypeScript 用的是<b>结构化类型</b>:兼容取决于成员,不取决于名字。
-                名字是标签,成员清单才是类型本体。class 也按同一套规则比较。
+                TypeScript 用的是<b>结构化类型</b>:兼容取决于成员,不取决于名字。名字是标签,成员清单才是类型本体。class 也按同一套规则比较。
               </>
             ),
           },
@@ -1564,8 +1495,7 @@ export default function StructuralPage() {
             ),
             zh: (
               <>
-                方向很重要:<b>成员多的类型可以赋给成员少的</b>,反过来不行。
-                用集合观最好记 —— 要求越多,集合越小,小集合被包含在大集合里。
+                方向很重要:<b>成员多的类型可以赋给成员少的</b>,反过来不行。用集合观最好记 —— 要求越多,集合越小,小集合被包含在大集合里。
               </>
             ),
           },
@@ -1580,10 +1510,7 @@ export default function StructuralPage() {
             ),
             zh: (
               <>
-                多余属性检查只对<b>新鲜的对象字面量</b>生效:
-                写在调用处报错,先存进变量就放行。
-                它是叠加在可赋值性之上的一道额外检查,目标是抓拼写错误,
-                不是一条通用规则。
+                多余属性检查只对<b>新鲜的对象字面量</b>生效:写在调用处报错,先存进变量就放行。它是叠加在可赋值性之上的一道额外检查,目标是抓拼写错误,不是一条通用规则。
               </>
             ),
           },
@@ -1598,8 +1525,7 @@ export default function StructuralPage() {
             ),
             zh: (
               <>
-                用 <code>as</code> 压掉这个报错,只是把错字藏起来,并没有修好。
-                读报错里的属性名,把拼写改对。<b>ts(2561)</b>{" "}
+                用 <code>as</code> 压掉这个报错,只是把错字藏起来,并没有修好。读报错里的属性名,把拼写改对。<b>ts(2561)</b>{" "}
                 连正确的名字都告诉你了,<b>ts(2353)</b> 是同一个错误,只是没有建议。
               </>
             ),
@@ -1620,8 +1546,7 @@ export default function StructuralPage() {
             zh: (
               <>
                 形状相同就能互换,哪怕两者的含义毫不相干。
-                <code>UserId</code> 混 <code>PostId</code> 这类事故,
-                用品牌类型把区别写进形状。另外记住:
+                <code>UserId</code> 混 <code>PostId</code> 这类事故,用品牌类型把区别写进形状。另外记住:
                 <code>{"{ a?: number }"}</code> 不等于{" "}
                 <code>{"{ a: number | undefined }"}</code>;<code>{"{}"}</code>{" "}
                 什么都不要求 —— 想说「任意对象」请写 <code>object</code>。

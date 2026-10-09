@@ -538,8 +538,7 @@ export default function GenericsPage() {
           ),
           zh: (
             <>
-              先别急着说是什么类型 —— 留一个洞 <code>&lt;T&gt;</code>,
-              调用的人来填。同一个签名里的每个 <code>T</code>{" "}
+              先别急着说是什么类型 —— 留一个洞 <code>&lt;T&gt;</code>,调用的人来填。同一个签名里的每个 <code>T</code>{" "}
               都是同一个,所以返回值的类型始终和参数的类型绑在一起。
             </>
           ),
@@ -607,10 +606,8 @@ export default function GenericsPage() {
               }
               zh={
                 <>
-                  一个小店的点单系统要「取订单列表的第一单」
-                  「取菜单的第一项」「取杯型选项的第一个」——
-                  同一个动作做三遍,面对三种不同的数组类型。
-                  用现有的写法,你有三条路,<b>三条都不体面</b>。
+                  一个小店的点单系统要「取订单列表的第一单」「取菜单的第一项」「取杯型选项的第一个」——
+                  同一个动作做三遍,面对三种不同的数组类型。用现有的写法,你有三条路,<b>三条都不体面</b>。
                 </>
               }
             />
@@ -669,9 +666,7 @@ export default function GenericsPage() {
                 看右边这版:一份代码通吃所有数组,而且输入和输出是
                 <b>连着的</b> —— 喂它 <code>string[]</code>,拿回来的东西和{" "}
                 <code>string</code> 有关;喂它 <code>Order[]</code>, 拿回来的就和{" "}
-                <code>Order</code> 有关。
-                中间那一版丢掉的正是这条联系。下一节把一次调用放慢,
-                看它是怎么建立起来的。
+                <code>Order</code> 有关。中间那一版丢掉的正是这条联系。下一节把一次调用放慢,看它是怎么建立起来的。
               </>
             }
           />
@@ -712,8 +707,7 @@ export default function GenericsPage() {
                 zh={
                   <>
                     函数名后面的尖括号声明了一个占位符,并给它取名 <code>T</code>
-                    。它叫<b>类型参数</b>:
-                    和普通参数一样是参数,只不过里面装的是类型,不是值。
+                    。它叫<b>类型参数</b>:和普通参数一样是参数,只不过里面装的是类型,不是值。
                   </>
                 }
               />
@@ -736,8 +730,7 @@ export default function GenericsPage() {
                 }
                 zh={
                   <>
-                    签名里每个 <code>T</code> 指的都是那一个占位符。
-                    这就是它的承诺:<b>数组里装的和返回的是同一种类型</b>。
+                    签名里每个 <code>T</code> 指的都是那一个占位符。这就是它的承诺:<b>数组里装的和返回的是同一种类型</b>。
                     <code>any</code> 说不出这句话。
                   </>
                 }
@@ -763,8 +756,7 @@ export default function GenericsPage() {
                 }
                 zh={
                   <>
-                    写这个函数的人不知道 <code>T</code> 会是什么,也不需要知道。
-                    每次调用各自带着实参过来,编译器就为这一次调用单独解出{" "}
+                    写这个函数的人不知道 <code>T</code> 会是什么,也不需要知道。每次调用各自带着实参过来,编译器就为这一次调用单独解出{" "}
                     <code>T</code>。
                   </>
                 }
@@ -795,9 +787,7 @@ export default function GenericsPage() {
             }
             zh={
               <>
-                编译器从第一个实参读出 <code>T = string</code>,
-                再拿第二个实参去对。想让两个位置各是各的类型,
-                那就声明两个占位符:<code>{"pair<A, B>(a: A, b: B)"}</code> ——
+                编译器从第一个实参读出 <code>T = string</code>,再拿第二个实参去对。想让两个位置各是各的类型,那就声明两个占位符:<code>{"pair<A, B>(a: A, b: B)"}</code> ——
                 动手任务里有一题练这个。
               </>
             }
@@ -832,8 +822,7 @@ export default function GenericsPage() {
                   <code>T</code> 取自 Type。你也可以叫它 <code>Item</code>、
                   <code>Row</code>,就像普通参数可以叫 <code>x</code> 也可以叫{" "}
                   <code>count</code>。常见的还有 <code>K</code> / <code>V</code>
-                  (键和值)、<code>E</code>(元素)。名字短,是因为这个占位符
-                  常常真的什么都可能是。一旦它有明确含义,就该起个真名: 使用处写{" "}
+                  (键和值)、<code>E</code>(元素)。名字短,是因为这个占位符常常真的什么都可能是。一旦它有明确含义,就该起个真名: 使用处写{" "}
                   <code>{"Paginated<Order>"}</code> 比{" "}
                   <code>{"Paginated<T>"}</code> 好读。
                 </>
@@ -879,9 +868,7 @@ export default function GenericsPage() {
               <>
                 推断的原料只有一个来源:<b>实参</b>。空数组带不出元素类型, 于是{" "}
                 <code>T</code> 被推成 <code>never</code>,结果是{" "}
-                <code>undefined</code>。这不是报错,但通常不是你要的。
-                在意料之外的地方看到 <code>never</code>,
-                就该想到去把类型实参写出来。
+                <code>undefined</code>。这不是报错,但通常不是你要的。在意料之外的地方看到 <code>never</code>,就该想到去把类型实参写出来。
               </>
             ),
           }}
@@ -905,9 +892,7 @@ export default function GenericsPage() {
             }
             zh={
               <>
-                到这里为止,「<code>T</code> 是什么」都是注释里的一句断言。
-                下面这个窗口里跑的是编译器本身,断言可以当场核对。
-                点四次调用里的任意一个 <code>first</code>:弹出来的签名里{" "}
+                到这里为止,「<code>T</code> 是什么」都是注释里的一句断言。下面这个窗口里跑的是编译器本身,断言可以当场核对。点四次调用里的任意一个 <code>first</code>:弹出来的签名里{" "}
                 <code>T</code> 已经被换成了实际类型,价格那一行是{" "}
                 <code>
                   {"function first<number>(arr: number[]): number | undefined"}
@@ -947,8 +932,7 @@ export default function GenericsPage() {
                 <code>{"function first<Order>(arr: Order[]): Order | undefined"}</code>
                 ,因为类型是你自己点名的;<code>first([])</code> 显示{" "}
                 <code>{"function first<never>(arr: never[]): undefined"}</code>
-                ,因为空数组带不出元素类型,剩下的只有 <code>never</code>。
-                这一行不报错 —— 正因为不报错,才值得练成一眼认出来。
+                ,因为空数组带不出元素类型,剩下的只有 <code>never</code>。这一行不报错 —— 正因为不报错,才值得练成一眼认出来。
               </>
             }
           />
@@ -974,9 +958,7 @@ export default function GenericsPage() {
               }
               zh={
                 <>
-                  空数组好歹还是个实参,编译器手里<i>有东西</i>。
-                  更极端的情况是:类型参数只出现在<b>返回值类型</b>里。
-                  这时没有任何实参提到它,编译器就回落到 <code>unknown</code>。
+                  空数组好歹还是个实参,编译器手里<i>有东西</i>。更极端的情况是:类型参数只出现在<b>返回值类型</b>里。这时没有任何实参提到它,编译器就回落到 <code>unknown</code>。
                 </>
               }
             />
@@ -1005,10 +987,7 @@ export default function GenericsPage() {
               zh={
                 <>
                   这种写法在解析数据、请求数据的代码里很常见,但要小心:
-                  <code>parseJson</code> 承诺返回一个 <code>T</code>,
-                  却没有任何东西检查解析出来的内容真的长成那样。
-                  类型实参是调用方的一句断言,不是编译器给的保证。
-                  拿到这种值之后怎么检查,是第 03 章的内容。
+                  <code>parseJson</code> 承诺返回一个 <code>T</code>,却没有任何东西检查解析出来的内容真的长成那样。类型实参是调用方的一句断言,不是编译器给的保证。拿到这种值之后怎么检查,是第 03 章的内容。
                 </>
               }
             />
@@ -1028,8 +1007,7 @@ export default function GenericsPage() {
             }
             zh={
               <>
-                经验法则:<b>默认交给推断</b>。
-                只有在实参给不出信息时才手写类型实参 ——
+                经验法则:<b>默认交给推断</b>。只有在实参给不出信息时才手写类型实参 ——
                 比如空数组、没有参数的调用、类型参数只出现在返回值里 ——
                 或者推出来的类型不是你想要的那个。
               </>
@@ -1152,8 +1130,7 @@ export default function GenericsPage() {
             zh: (
               <>
                 两个占位符。<code>T</code> 是那个对象;<code>K</code> 被约束成{" "}
-                <code>keyof T</code>,也就是这个对象的键名联合。
-                安全性正是这个约束给的:既然 <code>K</code> 只能是 <code>T</code>{" "}
+                <code>keyof T</code>,也就是这个对象的键名联合。安全性正是这个约束给的:既然 <code>K</code> 只能是 <code>T</code>{" "}
                 真有的键,索引访问 <code>T[K]</code>{" "}
                 取到的就一定是存在的类型,写错键名也会在程序运行前被拦下。
                 <code>keyof</code> 和 <code>T[K]</code> 的完整用法在第 07 章。
@@ -1192,9 +1169,7 @@ export default function GenericsPage() {
                   to parameter of type &apos;{"{ length: number; }"}&apos;.
                 </code>
                 ,<code>getProp(menu, &quot;topping&quot;)</code>{" "}
-                拿到的是同一个错误码,里面列着那个对象真有的两个键名。
-                点报错可以跳到出问题的调用。然后按一下<b>把约束去掉</b>:
-                调用处的两处报错消失,函数体里换成了{" "}
+                拿到的是同一个错误码,里面列着那个对象真有的两个键名。点报错可以跳到出问题的调用。然后按一下<b>把约束去掉</b>:调用处的两处报错消失,函数体里换成了{" "}
                 <code>
                   TS2339: Property &apos;length&apos; does not exist on type
                   &apos;T&apos;.
@@ -1238,8 +1213,7 @@ export default function GenericsPage() {
                 这一次切换,就是整笔交易。
                 <b>约束把抱怨从函数体挪到了调用处</b> ——
                 而调用处才是人能动手的地方:写 <code>longest</code> 的人可以放心写{" "}
-                <code>a.length</code>,不用和编译器争辩;
-                传了 <code>number</code> 进来的人,在自己写的那一行上就被拦住。
+                <code>a.length</code>,不用和编译器争辩;传了 <code>number</code> 进来的人,在自己写的那一行上就被拦住。
               </>
             }
           />
@@ -1306,10 +1280,8 @@ export default function GenericsPage() {
             ),
             zh: (
               <>
-                区别在于<b>占位符什么时候定下来</b>。
-                泛型类是每个实例定一次,所有成员共用它,所以一个{" "}
-                <code>Basket&lt;string&gt;</code> 从头到尾只收 string。
-                泛型方法是每次调用定一次,所以同一个 <code>Counter</code>{" "}
+                区别在于<b>占位符什么时候定下来</b>。泛型类是每个实例定一次,所有成员共用它,所以一个{" "}
+                <code>Basket&lt;string&gt;</code> 从头到尾只收 string。泛型方法是每次调用定一次,所以同一个 <code>Counter</code>{" "}
                 实例可以先数 number,再数 string。
               </>
             ),
@@ -1338,7 +1310,7 @@ export default function GenericsPage() {
               <>
                 <code>{"<T extends string>"}</code> 限制哪些类型被允许;
                 <code>{"<T = string>"}</code>{" "}
-                是在既没写、也推不出来时补一个类型。 两者回答的是不同的问题,
+                是在既没写、也推不出来时补一个类型。两者回答的是不同的问题,
                 <code>{'<T extends string = "small">'}</code> 就是同时用上。
               </>
             ),
@@ -1371,8 +1343,7 @@ export default function GenericsPage() {
                   的简写,而 <code>Array</code> 就是一个泛型接口。
                   <code>Promise&lt;Order&gt;</code> 表示「将来会是一个{" "}
                   <code>Order</code>」。<code>Map&lt;string, number&gt;</code>{" "}
-                  有两个占位符。读懂了尖括号,
-                  标准库的类型签名就变成了可以读的说明书。
+                  有两个占位符。读懂了尖括号,标准库的类型签名就变成了可以读的说明书。
                 </>
               }
             />
@@ -1395,7 +1366,7 @@ export default function GenericsPage() {
                   <code>Array&lt;Animal&gt;</code>, 哪怕这样就能往原数组里{" "}
                   <code>push</code> 一个非 <code>Dog</code>。这是关于{" "}
                   <code>Array</code>{" "}
-                  的方法如何比较的一个有意为之的决定,不是泛型的通则。 第 02 章
+                  的方法如何比较的一个有意为之的决定,不是泛型的通则。第 02 章
                   §04 讲透了这件事。
                 </>
               }
@@ -1462,8 +1433,7 @@ export default function GenericsPage() {
                 和所有注解,都在编译过程中被去掉。所以程序运行时没法问{" "}
                 <code>T</code> 是什么,也写不出 <code>new T()</code> 或{" "}
                 <code>if (T === String)</code>。泛型函数并不知道自己的类型实参
-                —— 知道的是编译器,而且是在编译之前就知道。
-                真要在运行时按类型分支,那得对<b>值</b>做真正的运行时检查, 那是第
+                —— 知道的是编译器,而且是在编译之前就知道。真要在运行时按类型分支,那得对<b>值</b>做真正的运行时检查, 那是第
                 03 章的内容。
               </>
             }
@@ -1497,9 +1467,7 @@ export default function GenericsPage() {
                   <code>
                     {"function log<T>(x: T): void { console.log(x) }"}
                   </code>{" "}
-                  声明了 <code>T</code>,然后只提到它一次。
-                  它没把任何东西和任何东西联系起来,也就什么都没承诺。
-                  一条好用的规矩:<b>类型参数至少要出现两次</b> ——
+                  声明了 <code>T</code>,然后只提到它一次。它没把任何东西和任何东西联系起来,也就什么都没承诺。一条好用的规矩:<b>类型参数至少要出现两次</b> ——
                   联系两个参数,或者联系参数和返回值。只出现一次的话, 直接写{" "}
                   <code>{"(x: unknown)"}</code> 更诚实。
                 </>
@@ -1529,11 +1497,8 @@ export default function GenericsPage() {
               }
               zh={
                 <>
-                  <code>any</code> 是<b>放弃</b>类型:不管进去的是什么,
-                  出来的都不再受检查。泛型是<b>保住</b>类型:
-                  <code>T</code> 在调用那一刻被解成一个具体类型,
-                  输入和输出全程受检。两者方向相反,
-                  看起来像,只是因为它们都「什么类型都收」。
+                  <code>any</code> 是<b>放弃</b>类型:不管进去的是什么,出来的都不再受检查。泛型是<b>保住</b>类型:
+                  <code>T</code> 在调用那一刻被解成一个具体类型,输入和输出全程受检。两者方向相反,看起来像,只是因为它们都「什么类型都收」。
                 </>
               }
             />
@@ -1616,8 +1581,7 @@ export default function GenericsPage() {
             ),
             zh: (
               <>
-                类型参数是一个<b>类型的占位符</b>,在调用处才被填上。
-                同一个签名里的每个 <code>T</code> 都是同一个 ——
+                类型参数是一个<b>类型的占位符</b>,在调用处才被填上。同一个签名里的每个 <code>T</code> 都是同一个 ——
                 返回值的类型就是这样和参数的类型绑在一起的。
               </>
             ),
@@ -1649,8 +1613,7 @@ export default function GenericsPage() {
             ),
             zh: (
               <>
-                <b>推断是默认</b>,它的原料是实参。
-                实参给不出信息时才手写类型实参 —— 空数组会得到{" "}
+                <b>推断是默认</b>,它的原料是实参。实参给不出信息时才手写类型实参 —— 空数组会得到{" "}
                 <code>never</code>,只出现在返回值里的类型参数会得到{" "}
                 <code>unknown</code>。
               </>
@@ -1689,8 +1652,7 @@ export default function GenericsPage() {
             zh: (
               <>
                 类型参数会被<b>擦除</b>:编译之后没有 <code>T</code>{" "}
-                可查,泛型函数在运行时并不知道自己的类型实参。
-                泛型类的占位符按实例定一次,泛型方法的按调用定一次。
+                可查,泛型函数在运行时并不知道自己的类型实参。泛型类的占位符按实例定一次,泛型方法的按调用定一次。
               </>
             ),
           },

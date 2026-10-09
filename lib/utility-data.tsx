@@ -173,8 +173,7 @@ export const LABS: Lab[] = [
             造出三个变体:<code>DraftOrder</code>(全部属性可选)、
             <code>PublicOrder</code>(没有 <code>internalNote</code>
             ,其余属性全部只读)、<code>CheckoutPatch</code>(只有{" "}
-            <code>size</code> 和 <code>toppings</code>,且都可选)。
-            再给每个类型各声明一个变量。给 <code>PublicOrder</code> 的变量写{" "}
+            <code>size</code> 和 <code>toppings</code>,且都可选)。再给每个类型各声明一个变量。给 <code>PublicOrder</code> 的变量写{" "}
             <code>internalNote</code> 属性,必须报错。
           </p>
         }
@@ -193,8 +192,7 @@ export const LABS: Lab[] = [
         zh={
           <>
             第二、第三个变体各要套两层。从里往外想:先决定「有哪些属性」(
-            <code>Pick</code> 或 <code>Omit</code>),
-            再决定「这些属性怎么用」(<code>Partial</code> 或{" "}
+            <code>Pick</code> 或 <code>Omit</code>),再决定「这些属性怎么用」(<code>Partial</code> 或{" "}
             <code>Readonly</code>)。
           </>
         }
@@ -220,9 +218,7 @@ export const LABS: Lab[] = [
           }
           zh={
             <p>
-              高亮的三行就是全部答案,六个属性一个都没重抄。
-              以后 <code>Order</code> 增加属性,三个变体自动跟着变。
-              工具类型省下的不是打字,而是「维护多份副本」的成本。
+              高亮的三行就是全部答案,六个属性一个都没重抄。以后 <code>Order</code> 增加属性,三个变体自动跟着变。工具类型省下的不是打字,而是「维护多份副本」的成本。
             </p>
           }
         />
@@ -258,8 +254,7 @@ export const LABS: Lab[] = [
             还是 Playground 里那个 <code>Order</code>。故意把键名拼错:先写{" "}
             <code>Omit&lt;Order, &quot;internalNotes&quot;&gt;</code>(多一个{" "}
             <code>s</code>),再写{" "}
-            <code>Pick&lt;Order, &quot;internalNotes&quot;&gt;</code>。
-            看哪一个报错、哪一个一声不吭。然后悬停在 <code>Omit</code>{" "}
+            <code>Pick&lt;Order, &quot;internalNotes&quot;&gt;</code>。看哪一个报错、哪一个一声不吭。然后悬停在 <code>Omit</code>{" "}
             那个类型别名上,数一数它到底产出了几个属性。
           </p>
         }
@@ -276,8 +271,7 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            重点在悬停:类型别名会展开成完整的属性列表,
-            删掉了谁、没删掉谁,一眼就能看清。
+            重点在悬停:类型别名会展开成完整的属性列表,删掉了谁、没删掉谁,一眼就能看清。
           </>
         }
       />
@@ -302,10 +296,7 @@ export const LABS: Lab[] = [
           }
           zh={
             <p>
-              记住这条规则:<b>Pick 会检查键,Omit 不检查</b>。
-              当你删掉一个属性是因为它绝对不能外泄时,一个不报错的拼写错误
-              就意味着这个属性还在。这种场合改用 <code>Pick</code> 白名单,
-              或者学完第 07 章,自己写一个严格版的 <code>Omit</code>。
+              记住这条规则:<b>Pick 会检查键,Omit 不检查</b>。当你删掉一个属性是因为它绝对不能外泄时,一个不报错的拼写错误就意味着这个属性还在。这种场合改用 <code>Pick</code> 白名单,或者学完第 07 章,自己写一个严格版的 <code>Omit</code>。
             </p>
           }
         />
@@ -336,10 +327,8 @@ export const LABS: Lab[] = [
         }
         zh={
           <p>
-            用 <code>Record&lt;Size, number&gt;</code> 给三个杯型建一张库存表。
-            然后删掉 <code>large</code> 这一项,读一下报错。再声明一个类型为{" "}
-            <code>{"{ [k: string]: number }"}</code> 的版本,同样只写两项,
-            想清楚它为什么能编译过。
+            用 <code>Record&lt;Size, number&gt;</code> 给三个杯型建一张库存表。然后删掉 <code>large</code> 这一项,读一下报错。再声明一个类型为{" "}
+            <code>{"{ [k: string]: number }"}</code> 的版本,同样只写两项,想清楚它为什么能编译过。
           </p>
         }
       />
@@ -389,11 +378,8 @@ export const LABS: Lab[] = [
           zh={
             <p>
               一条实用规则:键是一份已知的、有限的名单时,用{" "}
-              <code>Record</code> 配字面量联合,编译器会帮你查有没有漏;
-              键真的开放(用户输入、动态字典),再退回索引签名或{" "}
-              <code>Record&lt;string, V&gt;</code>。注意最后两行:
-              两种写法在读取属性时都不会加上 <code>| undefined</code>。
-              那是另一个编译选项 <code>noUncheckedIndexedAccess</code>{" "}
+              <code>Record</code> 配字面量联合,编译器会帮你查有没有漏;键真的开放(用户输入、动态字典),再退回索引签名或{" "}
+              <code>Record&lt;string, V&gt;</code>。注意最后两行:两种写法在读取属性时都不会加上 <code>| undefined</code>。那是另一个编译选项 <code>noUncheckedIndexedAccess</code>{" "}
               的事,第 10 章再讲。
             </p>
           }
@@ -476,9 +462,7 @@ export const LABS: Lab[] = [
           }
           zh={
             <p>
-              第 7 行在真实项目里出现得很频繁。很多库只导出函数,
-              不导出返回结果的类型,这一行就是取回你需要的类型的标准写法。
-              库以后改了返回类型,这一行也依然是对的。
+              第 7 行在真实项目里出现得很频繁。很多库只导出函数,不导出返回结果的类型,这一行就是取回你需要的类型的标准写法。库以后改了返回类型,这一行也依然是对的。
             </p>
           }
         />
@@ -601,8 +585,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            类型在编译后会被擦除(第 01 章讲过),所以类型不可能产生任何运行时行为。
-            默认值还是得你自己写。
+            类型在编译后会被擦除(第 01 章讲过),所以类型不可能产生任何运行时行为。默认值还是得你自己写。
           </>
         ),
       },
@@ -654,8 +637,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            不报错。新类型有 <code>Order</code> 的全部六个属性,
-            拼错等于什么都没删。
+            不报错。新类型有 <code>Order</code> 的全部六个属性,拼错等于什么都没删。
           </>
         ),
       },
@@ -691,8 +673,7 @@ export const QUIZ: QuizItem[] = [
           <>
             那是 <code>Pick</code> 的行为:它的键参数受{" "}
             <code>K extends keyof T</code> 约束。<code>Omit</code>{" "}
-            的键参数只受 <code>keyof any</code> 约束,
-            任何 string、number、symbol 都收。
+            的键参数只受 <code>keyof any</code> 约束,任何 string、number、symbol 都收。
           </>
         ),
       },
@@ -707,8 +688,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>Omit</code> 返回的是对象类型,不是 <code>never</code>。
-            它删掉名单上的键,名单上一个都对不上,就一个都不删。
+            <code>Omit</code> 返回的是对象类型,不是 <code>never</code>。它删掉名单上的键,名单上一个都对不上,就一个都不删。
           </>
         ),
       },
@@ -722,8 +702,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            TypeScript 没有介于报错和通过之间的「警告」这一档。
-            这里就是干干净净地通过 —— 危险正在这里。
+            TypeScript 没有介于报错和通过之间的「警告」这一档。这里就是干干净净地通过 —— 危险正在这里。
           </>
         ),
       },
@@ -739,9 +718,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>Omit</code> 的键参数只要求是一个合法的属性键,
-          不要求真的存在于 <code>T</code> 上。拼错照样编译通过,属性照样留着。
-          删属性是为了防外泄时,优先用 <code>Pick</code> 白名单。
+          <code>Omit</code> 的键参数只要求是一个合法的属性键,不要求真的存在于 <code>T</code> 上。拼错照样编译通过,属性照样留着。删属性是为了防外泄时,优先用 <code>Pick</code> 白名单。
         </>
       ),
     },
@@ -757,8 +734,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          已有 <code>const o: Readonly&lt;Order&gt; = …</code>,
-          下面哪一行会被编译器拒绝?
+          已有 <code>const o: Readonly&lt;Order&gt; = …</code>,下面哪一行会被编译器拒绝?
         </>
       ),
     },
@@ -817,8 +793,7 @@ export const QUIZ: QuizItem[] = [
           <>
             这一行合法。<code>Readonly</code> 是浅的:它拦住「给{" "}
             <code>o.toppings</code> 赋值」,但拦不住修改{" "}
-            <code>o.toppings</code> 指向的那个数组。
-            想连 <code>push</code> 一起拦,属性类型得写成{" "}
+            <code>o.toppings</code> 指向的那个数组。想连 <code>push</code> 一起拦,属性类型得写成{" "}
             <code>readonly string[]</code>。
           </>
         ),
@@ -847,8 +822,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            只有赋值那一行被拒绝。读取不受限制,改动数组内容的方法也不受限制,
-            因为 <code>Readonly</code> 是浅的。
+            只有赋值那一行被拒绝。读取不受限制,改动数组内容的方法也不受限制,因为 <code>Readonly</code> 是浅的。
           </>
         ),
       },
@@ -865,8 +839,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>readonly</code> 拒绝的是「给属性赋值」,<code>o.size = …</code>{" "}
-          正是这种。<code>push</code> 没有给 <code>o.toppings</code> 赋值,
-          它改的是这个属性已经指向的那个数组。
+          正是这种。<code>push</code> 没有给 <code>o.toppings</code> 赋值,它改的是这个属性已经指向的那个数组。
         </>
       ),
     },
@@ -882,8 +855,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          下面哪些工具类型接受一个联合类型,
-          并返回一个「留下或去掉部分成员」的联合类型?(多选)
+          下面哪些工具类型接受一个联合类型,并返回一个「留下或去掉部分成员」的联合类型?(多选)
         </>
       ),
     },
@@ -922,8 +894,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           你选中的有一个是作用在对象属性上的。<code>Partial</code>、
-          <code>Pick</code>、<code>Readonly</code> 改的是对象类型的<b>属性</b>。
-          问自己一句:我手上这个类型,是一组属性,还是一份候选名单?
+          <code>Pick</code>、<code>Readonly</code> 改的是对象类型的<b>属性</b>。问自己一句:我手上这个类型,是一组属性,还是一份候选名单?
         </>
       ),
     },
@@ -941,8 +912,7 @@ export const QUIZ: QuizItem[] = [
         <>
           三个作用在联合成员上:<code>Exclude</code> 去掉匹配的成员,
           <code>Extract</code> 只留下匹配的成员,<code>NonNullable</code>{" "}
-          清掉 <code>null</code> 和 <code>undefined</code>。
-          三者都是条件类型,会对每个成员分别求值。第 07 章会讲这是怎么做到的。
+          清掉 <code>null</code> 和 <code>undefined</code>。三者都是条件类型,会对每个成员分别求值。第 07 章会讲这是怎么做到的。
         </>
       ),
     },
@@ -979,8 +949,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>Record&lt;Size, number&gt;</code> 要求三个键都在,少一个就报错;
-            索引签名没有「必须齐全」的键名单。
+            <code>Record&lt;Size, number&gt;</code> 要求三个键都在,少一个就报错;索引签名没有「必须齐全」的键名单。
           </>
         ),
       },
@@ -1039,8 +1008,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            两者的值类型都可以任意写,对象、数组、函数都行。区别在<b>键</b>:
-            一边是有限的名单,一边是无限的集合。
+            两者的值类型都可以任意写,对象、数组、函数都行。区别在<b>键</b>:一边是有限的名单,一边是无限的集合。
           </>
         ),
       },
@@ -1054,8 +1022,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            两者都是类型,编译时都会被擦除。运行时的数据结构就是那个对象字面量本身,
-            跟你用哪种类型标注无关。
+            两者都是类型,编译时都会被擦除。运行时的数据结构就是那个对象字面量本身,跟你用哪种类型标注无关。
           </>
         ),
       },
@@ -1073,8 +1040,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           键类型是有限的字面量联合时,<code>Record</code>{" "}
-          会检查每个键都在,这就是它比索引签名严格的地方。
-          两者在读取属性时都不会加上 <code>| undefined</code>,除非开启{" "}
+          会检查每个键都在,这就是它比索引签名严格的地方。两者在读取属性时都不会加上 <code>| undefined</code>,除非开启{" "}
           <code>noUncheckedIndexedAccess</code>。
         </>
       ),
@@ -1171,8 +1137,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            它不做任何检查,只负责取类型。取到的类型合不合适,
-            由外面 <code>ReturnType</code> 的约束来判断。
+            它不做任何检查,只负责取类型。取到的类型合不合适,由外面 <code>ReturnType</code> 的约束来判断。
           </>
         ),
       },
@@ -1186,8 +1151,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            类型碰不到正在运行的程序,这里一行代码都不会执行。
-            类型是编译器算出来的,不是跑出来看到的。
+            类型碰不到正在运行的程序,这里一行代码都不会执行。类型是编译器算出来的,不是跑出来看到的。
           </>
         ),
       },
@@ -1203,9 +1167,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>makeOrder</code> 是值,而 <code>ReturnType</code> 需要类型。
-          类型位置上的 <code>typeof</code> 就是「从值取到它的类型」的桥。
-          它和运行时的同名运算符做的不是一件事,第 07 章会详细讲。
+          <code>makeOrder</code> 是值,而 <code>ReturnType</code> 需要类型。类型位置上的 <code>typeof</code> 就是「从值取到它的类型」的桥。它和运行时的同名运算符做的不是一件事,第 07 章会详细讲。
         </>
       ),
     },
@@ -1238,8 +1200,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>Awaited</code> 会一直拆:一层不够就再拆一层,
-          直到没有 <code>Promise</code> 为止。这和运行时 <code>await</code>{" "}
+          <code>Awaited</code> 会一直拆:一层不够就再拆一层,直到没有 <code>Promise</code> 为止。这和运行时 <code>await</code>{" "}
           的行为一致。
         </>
       ),
@@ -1255,8 +1216,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>Awaited</code> 会递归地拆壳,两层 <code>Promise</code>{" "}
-          都被拆掉,剩下 <code>number</code>。
-          类型为什么可以递归,第 07 章会讲。
+          都被拆掉,剩下 <code>number</code>。类型为什么可以递归,第 07 章会讲。
         </>
       ),
     },
@@ -1345,8 +1305,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            那是「深 Partial」的行为。内置的这个是浅的:
-            它只给最外层对象的属性加 <code>?</code>,不会进到属性类型内部。
+            那是「深 Partial」的行为。内置的这个是浅的:它只给最外层对象的属性加 <code>?</code>,不会进到属性类型内部。
           </>
         ),
       },
@@ -1360,8 +1319,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            方向反了。<code>Partial</code> 处理的是外层对象的键,
-            这里只有 <code>meta</code> 一个。
+            方向反了。<code>Partial</code> 处理的是外层对象的键,这里只有 <code>meta</code> 一个。
           </>
         ),
       },
@@ -1386,9 +1344,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>Partial</code> 是浅的:它给最外层属性加 <code>?</code>,
-          对这些属性的类型不做任何处理。深版本得自己写,
-          用到第 07 章的映射类型和条件类型。
+          <code>Partial</code> 是浅的:它给最外层属性加 <code>?</code>,对这些属性的类型不做任何处理。深版本得自己写,用到第 07 章的映射类型和条件类型。
         </>
       ),
     },
@@ -1481,8 +1437,7 @@ export const QUIZ: QuizItem[] = [
           <>
             这是常见的猜法,但 <code>Required</code> 是用 <code>-?</code>{" "}
             定义的,去掉 <code>?</code> 的同时也从属性类型里去掉了{" "}
-            <code>undefined</code>,结果是 <code>string</code>。注意:
-            如果属性本来写成 <code>note: string | undefined</code>(没有{" "}
+            <code>undefined</code>,结果是 <code>string</code>。注意:如果属性本来写成 <code>note: string | undefined</code>(没有{" "}
             <code>?</code>),那个 <code>undefined</code> 会保留。
           </>
         ),
@@ -1496,8 +1451,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            什么都没丢。<code>Required</code> 只改可选标记,
-            属性类型仍然是 <code>string</code>。
+            什么都没丢。<code>Required</code> 只改可选标记,属性类型仍然是 <code>string</code>。
           </>
         ),
       },
@@ -1510,8 +1464,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            把可选属性变成必填正是 <code>Required</code> 的用途,
-            不会有任何东西变成 <code>never</code>。
+            把可选属性变成必填正是 <code>Required</code> 的用途,不会有任何东西变成 <code>never</code>。
           </>
         ),
       },
@@ -1530,8 +1483,7 @@ export const QUIZ: QuizItem[] = [
         <>
           <code>Required&lt;A&gt;</code> 得到 <code>note: string</code>:去掉{" "}
           <code>?</code> 的同时,属性类型里的 <code>undefined</code>{" "}
-          也被去掉。这只适用于本来写了 <code>?</code> 的属性;
-          必填属性上显式写的 <code>| undefined</code> 不受影响。
+          也被去掉。这只适用于本来写了 <code>?</code> 的属性;必填属性上显式写的 <code>| undefined</code> 不受影响。
         </>
       ),
     },

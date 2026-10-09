@@ -604,9 +604,7 @@ export default function TsconfigPage() {
                 <>
                   <code>tsconfig.json</code> 有两个读者。一个是{" "}
                   <code>tsc</code>,你在终端或 CI 里跑的那个命令;另一个是
-                  <b>类型服务</b> —— 编辑器在后台跑的进程,
-                  你打字时的红线就是它画的。两者读的是同一份文件,
-                  所以编辑器里的红线和 CI 里的失败说的是同一句话。
+                  <b>类型服务</b> —— 编辑器在后台跑的进程,你打字时的红线就是它画的。两者读的是同一份文件,所以编辑器里的红线和 CI 里的失败说的是同一句话。
                 </>
               }
             />
@@ -622,8 +620,7 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  它还决定检查有多严 —— 这一点很像游戏里的难度设置:
-                  同一份代码,规则不同,结论就不同。生成这个文件只要一句命令。
+                  它还决定检查有多严 —— 这一点很像游戏里的难度设置:同一份代码,规则不同,结论就不同。生成这个文件只要一句命令。
                 </>
               }
             />
@@ -663,11 +660,8 @@ export default function TsconfigPage() {
                 <>
                   有两点值得注意。一是那个多余的逗号和这些注释:
                   <code>tsconfig.json</code> 是 JSONC ——
-                  允许写注释的 JSON,所以你可以在里面记下「为什么开这一项」。
-                  二是段落名。<code>strict</code> 在「Recommended Options」里,
-                  而 <code>noUncheckedIndexedAccess</code> 和{" "}
-                  <code>exactOptionalPropertyTypes</code> 被单列成另一段。
-                  这个分家是语言层面的事实,§03 就讲它。
+                  允许写注释的 JSON,所以你可以在里面记下「为什么开这一项」。二是段落名。<code>strict</code> 在「Recommended Options」里,而 <code>noUncheckedIndexedAccess</code> 和{" "}
+                  <code>exactOptionalPropertyTypes</code> 被单列成另一段。这个分家是语言层面的事实,§03 就讲它。
                 </>
               }
             />
@@ -695,8 +689,7 @@ export default function TsconfigPage() {
                 zh={
                   <>
                     <code>noImplicitAny</code>、<code>strictNullChecks</code>{" "}
-                    以及另外七项,决定编译器拒绝多少东西。
-                    这是本章的重点,§02 逐项讲。
+                    以及另外七项,决定编译器拒绝多少东西。这是本章的重点,§02 逐项讲。
                   </>
                 }
               />
@@ -718,8 +711,7 @@ export default function TsconfigPage() {
                 }
                 zh={
                   <>
-                    产出的 JavaScript 用哪一代语法、哪种模块格式、
-                    放进哪个目录。§04 讲这一组 ——
+                    产出的 JavaScript 用哪一代语法、哪种模块格式、放进哪个目录。§04 讲这一组 ——
                     也讲它们在什么情况下完全不起作用。
                   </>
                 }
@@ -777,11 +769,8 @@ export default function TsconfigPage() {
               zh={
                 <>
                   <code>tsc</code> 做两件互相独立的事:<b>检查</b>类型,和
-                  <b>写出</b> JavaScript —— 每个输入文件对应一个输出文件。
-                  它不是打包器,从不把你的模块合成一个文件。
-                  而这两件事确实是独立的:
-                  <b>类型报错不会阻止 JavaScript 被写出来</b>,
-                  除非你同时开 <code>noEmitOnError</code>。
+                  <b>写出</b> JavaScript —— 每个输入文件对应一个输出文件。它不是打包器,从不把你的模块合成一个文件。而这两件事确实是独立的:
+                  <b>类型报错不会阻止 JavaScript 被写出来</b>,除非你同时开 <code>noEmitOnError</code>。
                 </>
               }
             />
@@ -812,8 +801,7 @@ export default function TsconfigPage() {
                 <>
                   今天大多数项目会把这两件事分开:打包器,或者 <code>swc</code>{" "}
                   / <code>esbuild</code>,负责擦掉类型、产出 JavaScript,而{" "}
-                  <code>tsc --noEmit</code> 只用来做类型检查。
-                  这种配置下,<b>tsconfig 里的产物类选项不影响上线的东西</b>{" "}
+                  <code>tsc --noEmit</code> 只用来做类型检查。这种配置下,<b>tsconfig 里的产物类选项不影响上线的东西</b>{" "}
                   —— 决定权在另一个工具的配置里。花时间调{" "}
                   <code>target</code> 之前,先确认你的项目属于哪一种。
                 </>
@@ -871,9 +859,7 @@ export default function TsconfigPage() {
                 <code>useUnknownInCatchVariables</code>、
                 <code>alwaysStrict</code>。这个名单是会变长的 ——
                 <code>strictBuiltinIteratorReturn</code> 是 TypeScript 5.6
-                才加进来的 —— 所以要确认某个具体版本的成员,
-                查那个版本的文档,别凭记忆。还有几个听起来像成员、
-                其实不是的:<code>noImplicitOverride</code>、
+                才加进来的 —— 所以要确认某个具体版本的成员,查那个版本的文档,别凭记忆。还有几个听起来像成员、其实不是的:<code>noImplicitOverride</code>、
                 <code>noUnusedLocals</code>、<code>noImplicitReturns</code>{" "}
                 都在模板另一段「Style Options」里,而且是关着的。
               </>
@@ -925,11 +911,8 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  文件里埋了三处问题,每一处由不同的开关负责。
-                  先全部关掉,读一下结论:<b>没有报错</b>。
-                  再单独打开 <code>noImplicitAny</code>,再单独打开{" "}
-                  <code>strictNullChecks</code>,最后打开 <code>strict</code>。
-                  代码一个字没动,变的只有规则。
+                  文件里埋了三处问题,每一处由不同的开关负责。先全部关掉,读一下结论:<b>没有报错</b>。再单独打开 <code>noImplicitAny</code>,再单独打开{" "}
+                  <code>strictNullChecks</code>,最后打开 <code>strict</code>。代码一个字没动,变的只有规则。
                 </>
               }
             />
@@ -985,12 +968,9 @@ export default function TsconfigPage() {
                   &apos;undefined&apos;.</code> 而数组只有两个元素,
                   <code>menu[5]</code> 依旧一声不响。
                   <b>
-                    管这件事的是 <code>noUncheckedIndexedAccess</code>,
-                    它不是这个家族的成员。
-                  </b>{" "}
-                  单独把它打开,<code>picked</code> 上才出现第三处报错。
-                  §03 讲的就是这句话,而你刚刚是问编译器要的答案,
-                  不是听我们说的。
+                    管这件事的是 <code>noUncheckedIndexedAccess</code>,它不是这个家族的成员。
+                  </b>
+                  单独把它打开,<code>picked</code> 上才出现第三处报错。§03 讲的就是这句话,而你刚刚是问编译器要的答案,不是听我们说的。
                 </>
               }
             />
@@ -1012,12 +992,10 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  还有一种组合值得试:让 <code>strictNullChecks</code> 关着,
-                  单独打开 <code>noUncheckedIndexedAccess</code>。开关是亮的,
+                  还有一种组合值得试:让 <code>strictNullChecks</code> 关着,单独打开 <code>noUncheckedIndexedAccess</code>。开关是亮的,
                   <b>但什么也没发生</b> —— 整个文件一处报错都没有。没有{" "}
                   <code>strictNullChecks</code>,<code>string | undefined</code>{" "}
-                  会退回成 <code>string</code>,这个选项也就无话可说。
-                  「开着但什么也没做」,正是手工挑选成员时会踩的那个坑。
+                  会退回成 <code>string</code>,这个选项也就无话可说。「开着但什么也没做」,正是手工挑选成员时会踩的那个坑。
                 </>
               }
             />
@@ -1036,9 +1014,7 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                九项里有两项值得细看。第一项是 <b>noImplicitAny</b>。
-                当编译器自己推不出类型时,这项检查会让它报错,
-                而不是悄悄按 <code>any</code> 处理:
+                九项里有两项值得细看。第一项是 <b>noImplicitAny</b>。当编译器自己推不出类型时,这项检查会让它报错,而不是悄悄按 <code>any</code> 处理:
               </>
             }
           />
@@ -1064,8 +1040,7 @@ export default function TsconfigPage() {
                   zh={
                     <>
                       推不出类型就当 <code>any</code>,而 <code>any</code>{" "}
-                      会让由它派生出的一切都不受检查。
-                      写错的字段、传错的参数,全都通过。
+                      会让由它派生出的一切都不受检查。写错的字段、传错的参数,全都通过。
                       <b>那几行只是名义上的 TypeScript。</b>
                     </>
                   }
@@ -1094,8 +1069,7 @@ export default function TsconfigPage() {
                   }
                   zh={
                     <>
-                      规则就是:编译器推不出来,你就得自己写。
-                      一旦类型写下来了,<code>pirce</code>{" "}
+                      规则就是:编译器推不出来,你就得自己写。一旦类型写下来了,<code>pirce</code>{" "}
                       这个拼写错误就在它所在的那一行报错。
                     </>
                   }
@@ -1118,10 +1092,8 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                第二项是 <b>strictNullChecks</b>,
-                它是对存量代码影响最大的一员。它关着时,<code>null</code> 和{" "}
-                <code>undefined</code> 可以赋给<b>任何</b>类型,
-                于是「这个值可能没有」这句话根本没法写进类型:
+                第二项是 <b>strictNullChecks</b>,它是对存量代码影响最大的一员。它关着时,<code>null</code> 和{" "}
+                <code>undefined</code> 可以赋给<b>任何</b>类型,于是「这个值可能没有」这句话根本没法写进类型:
               </>
             }
           />
@@ -1179,8 +1151,7 @@ export default function TsconfigPage() {
                   }
                   zh={
                     <>
-                      「可能没有」现在写进了类型,所以取属性之前必须先检查。
-                      凌晨两点的 <code>TypeError</code>{" "}
+                      「可能没有」现在写进了类型,所以取属性之前必须先检查。凌晨两点的 <code>TypeError</code>{" "}
                       变成了今天下午的一条红线。
                     </>
                   }
@@ -1212,9 +1183,7 @@ export default function TsconfigPage() {
               zh={
                 <>
                   null 引用是 Tony Hoare 在 1965 年引入的,他在 2009
-                  年公开为此道歉,称之为自己的「十亿美元错误」。
-                  问题不在这个值本身,而在于多数语言里每个类型都默默包含它,
-                  于是编译器没法告诉你哪里漏了检查。
+                  年公开为此道歉,称之为自己的「十亿美元错误」。问题不在这个值本身,而在于多数语言里每个类型都默默包含它,于是编译器没法告诉你哪里漏了检查。
                   <code>strictNullChecks</code> 是 TypeScript 给出的回答:
                   <b>值可能没有,就写进类型;要用,先检查。</b>
                   如果这一族里只能开一项,就开它。
@@ -1234,8 +1203,7 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                剩下七项,一张表过。要读的是最后一列:
-                这项检查关着时,什么会被漏掉。
+                剩下七项,一张表过。要读的是最后一列:这项检查关着时,什么会被漏掉。
               </>
             }
           />
@@ -1278,8 +1246,7 @@ export default function TsconfigPage() {
                     }
                     zh={
                       <>
-                        只能处理 <code>Cat</code> 的函数,
-                        被放到了要求处理任意 <code>Animal</code> 的位置。
+                        只能处理 <code>Cat</code> 的函数,被放到了要求处理任意 <code>Animal</code> 的位置。
                         <code>TS2322</code>
                       </>
                     }
@@ -1347,8 +1314,7 @@ export default function TsconfigPage() {
                     }
                     zh={
                       <>
-                        打算「回头再赋值」的属性一直是 <code>undefined</code>,
-                        直到有人去读它。<code>TS2564</code>
+                        打算「回头再赋值」的属性一直是 <code>undefined</code>,直到有人去读它。<code>TS2564</code>
                       </>
                     }
                   />
@@ -1370,8 +1336,7 @@ export default function TsconfigPage() {
                     zh={
                       <>
                         内置迭代器的 <code>next()</code> 返回{" "}
-                        <code>IteratorResult&lt;T, undefined&gt;</code>,
-                        而不是 <code>&lt;T, any&gt;</code>
+                        <code>IteratorResult&lt;T, undefined&gt;</code>,而不是 <code>&lt;T, any&gt;</code>
                       </>
                     }
                   />
@@ -1425,8 +1390,7 @@ export default function TsconfigPage() {
                     }
                     zh={
                       <>
-                        游离函数里的 <code>this</code> 是 <code>any</code>,
-                        从它上面读的每个属性都不受检查。<code>TS2683</code>
+                        游离函数里的 <code>this</code> 是 <code>any</code>,从它上面读的每个属性都不受检查。<code>TS2683</code>
                       </>
                     }
                   />
@@ -1528,10 +1492,7 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  <code>strictPropertyInitialization</code> 没法单独成立。
-                  「没赋值」的意思就是「值是 <code>undefined</code>」,
-                  而 <code>strictNullChecks</code> 关着时这句话不成立。
-                  编译器不是忽略这个组合,而是直接拒绝:
+                  <code>strictPropertyInitialization</code> 没法单独成立。「没赋值」的意思就是「值是 <code>undefined</code>」,而 <code>strictNullChecks</code> 关着时这句话不成立。编译器不是忽略这个组合,而是直接拒绝:
                   <code>
                     TS5052: Option
                     &apos;strictPropertyInitialization&apos; cannot be specified
@@ -1554,9 +1515,7 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  这也是为什么推荐直接写 <code>strict: true</code>,
-                  而不是把成员一条条列出来:它们本来是配套设计的,
-                  自己挑一部分,很容易挑出一个「开着但什么也没做」的选项。
+                  这也是为什么推荐直接写 <code>strict: true</code>,而不是把成员一条条列出来:它们本来是配套设计的,自己挑一部分,很容易挑出一个「开着但什么也没做」的选项。
                 </>
               }
             />
@@ -1591,9 +1550,7 @@ export default function TsconfigPage() {
             zh={
               <>
                 第一项是 <b>noUncheckedIndexedAccess</b>。读{" "}
-                <code>arr[0]</code> 得到的是元素类型,
-                编译器默认下标不会越界。即便 <code>strict</code> 家族全开,
-                左边这段照样能编译:
+                <code>arr[0]</code> 得到的是元素类型,编译器默认下标不会越界。即便 <code>strict</code> 家族全开,左边这段照样能编译:
               </>
             }
           />
@@ -1621,8 +1578,7 @@ export default function TsconfigPage() {
                   zh={
                     <>
                       数组只有三个元素,所以运行时 <code>sizes[3]</code> 是{" "}
-                      <code>undefined</code>。而类型说它是 <code>string</code>,
-                      没有任何东西反驳这句话。
+                      <code>undefined</code>。而类型说它是 <code>string</code>,没有任何东西反驳这句话。
                     </>
                   }
                 />
@@ -1651,8 +1607,7 @@ export default function TsconfigPage() {
                   }
                   zh={
                     <>
-                      每次下标取值都变成 <code>T | undefined</code>,
-                      想用就得先收窄。注意它的依赖:这个选项需要{" "}
+                      每次下标取值都变成 <code>T | undefined</code>,想用就得先收窄。注意它的依赖:这个选项需要{" "}
                       <code>strictNullChecks</code>。后者关着时,
                       <code>string | undefined</code> 会退回成{" "}
                       <code>string</code>,于是这个选项完全没有效果。
@@ -1676,9 +1631,7 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                第二项是 <b>exactOptionalPropertyTypes</b>。
-                可选属性平时把两件事混在一起,它把它们分开:
-                键不存在,和键存在但值是 <code>undefined</code>。
+                第二项是 <b>exactOptionalPropertyTypes</b>。可选属性平时把两件事混在一起,它把它们分开:键不存在,和键存在但值是 <code>undefined</code>。
               </>
             }
           />
@@ -1705,8 +1658,7 @@ export default function TsconfigPage() {
                 <>
                   这个区分听着像抬杠,直到你写一个运行时判断。
                   <code>{`"topping" in o`}</code> 和{" "}
-                  <code>Object.keys(o)</code> 问的是「键在不在」。
-                  只有开了这个选项,答案才和类型对得上 —— 用 <code>in</code>{" "}
+                  <code>Object.keys(o)</code> 问的是「键在不在」。只有开了这个选项,答案才和类型对得上 —— 用 <code>in</code>{" "}
                   收窄之后拿到的是 <code>string</code>,而不是{" "}
                   <code>string | undefined</code>。
                 </>
@@ -1739,10 +1691,7 @@ export default function TsconfigPage() {
                 <>
                   这两项针对的都是存量代码里到处都有的写法。
                   <code>noUncheckedIndexedAccess</code> 对<b>每一次</b>
-                  下标读取都有话说,所以在一个大项目里打开它,
-                  可能冒出几百个错 —— 单个都很小,加起来是一个项目。
-                  把它们放在 <code>strict</code> 之外,
-                  存量项目就可以先采用 <code>strict</code>,不必同时接下这件事。
+                  下标读取都有话说,所以在一个大项目里打开它,可能冒出几百个错 —— 单个都很小,加起来是一个项目。把它们放在 <code>strict</code> 之外,存量项目就可以先采用 <code>strict</code>,不必同时接下这件事。
                 </>
               }
             />
@@ -1762,8 +1711,7 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  新项目没有这个包袱,<code>tsc --init</code> 也体现了这一点:
-                  它把两个选项都写成 <code>true</code>。另外注意,
+                  新项目没有这个包袱,<code>tsc --init</code> 也体现了这一点:它把两个选项都写成 <code>true</code>。另外注意,
                   <code>exactOptionalPropertyTypes</code> 和{" "}
                   <code>strictPropertyInitialization</code> 有同样的硬依赖 ——
                   不开 <code>strictNullChecks</code> 就设它,编译器会报{" "}
@@ -1799,9 +1747,7 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                <b>target</b> 决定编译器写出哪一代 JavaScript 语法。
-                比 target 更新的写法,都会被改写成较旧的等价形式。
-                拨一下对比看看:
+                <b>target</b> 决定编译器写出哪一代 JavaScript 语法。比 target 更新的写法,都会被改写成较旧的等价形式。拨一下对比看看:
               </>
             }
           />
@@ -1821,9 +1767,7 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                上面那份对照是手画的。下面是把同一个问题交给编译器:
-                在下拉框里挑一个 <code>target</code>,切到<b>编译产物 JS</b>,
-                读真正写出来的东西。源码全程不变。
+                上面那份对照是手画的。下面是把同一个问题交给编译器:在下拉框里挑一个 <code>target</code>,切到<b>编译产物 JS</b>,读真正写出来的东西。源码全程不变。
               </>
             }
           />
@@ -1875,8 +1819,7 @@ export default function TsconfigPage() {
                   class 字段搬进了构造函数,而只声明没赋值的{" "}
                   <code>note</code> 整个消失了。到 <code>es2015</code>,
                   <code>??</code> 和 <code>?.</code> 变成了{" "}
-                  <code>_a !== null &amp;&amp; _a !== void 0</code>,
-                  文件顶部还多出一个临时变量。到 <code>es5</code>,
+                  <code>_a !== null &amp;&amp; _a !== void 0</code>,文件顶部还多出一个临时变量。到 <code>es5</code>,
                   <code>class</code> 变成往 <code>prototype</code> 上挂方法的{" "}
                   <code>IIFE</code>,模板字符串变成{" "}
                   <code>&quot;&quot;.concat(…)</code>,<code>for...of</code>{" "}
@@ -1900,10 +1843,8 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  这些改写,每一条都是你没写过、却要发布、要调试、
-                  要在堆栈信息里读的代码。这就是低 <code>target</code>{" "}
-                  的价钱,只有当外面真的有跑不了新语法的东西时才值得付。
-                  另外注意:在这里换 <code>target</code>,默认的{" "}
+                  这些改写,每一条都是你没写过、却要发布、要调试、要在堆栈信息里读的代码。这就是低 <code>target</code>{" "}
+                  的价钱,只有当外面真的有跑不了新语法的东西时才值得付。另外注意:在这里换 <code>target</code>,默认的{" "}
                   <code>lib</code> 也跟着换了 ——
                   下一段讲的正是「为什么这是两个问题」。
                 </>
@@ -1934,8 +1875,7 @@ export default function TsconfigPage() {
                 <code>Promise</code>、<code>Map</code>、
                 <code>Array.prototype.at</code>、<code>document</code>{" "}
                 这些名字到底认不认识。设了 <code>target</code>{" "}
-                就顺带定了一个默认 <code>lib</code>,
-                所以在你需要把它们分开之前,这两个选项感觉像是一个:
+                就顺带定了一个默认 <code>lib</code>,所以在你需要把它们分开之前,这两个选项感觉像是一个:
               </>
             }
           />
@@ -1966,12 +1906,8 @@ export default function TsconfigPage() {
               zh={
                 <>
                   这就是让区别变明显的那种情况:你想让 <code>Promise</code>{" "}
-                  有类型,同时仍然产出 ES5 语法,于是把两个选项分开设。
-                  但要清楚你说出口的是什么。<code>lib</code>{" "}
-                  是你对运行环境的<b>声明</b>,编译器会信你的话,
-                  它不会加 polyfill。声明了 <code>es2022</code>,
-                  却跑在没有 <code>Promise</code> 的引擎上,
-                  就是运行时失败,而编译期一声不响。
+                  有类型,同时仍然产出 ES5 语法,于是把两个选项分开设。但要清楚你说出口的是什么。<code>lib</code>{" "}
+                  是你对运行环境的<b>声明</b>,编译器会信你的话,它不会加 polyfill。声明了 <code>es2022</code>,却跑在没有 <code>Promise</code> 的引擎上,就是运行时失败,而编译期一声不响。
                 </>
               }
             />
@@ -1992,12 +1928,10 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                <b>module</b> 和 <b>moduleResolution</b> 同样是两个选项,
-                不是一个。<code>module</code> 是编译器写出的模块格式,
+                <b>module</b> 和 <b>moduleResolution</b> 同样是两个选项,不是一个。<code>module</code> 是编译器写出的模块格式,
                 <code>moduleResolution</code> 是它用来找到{" "}
                 <code>import &quot;./util&quot;</code>{" "}
-                背后那个文件的算法。实际配置时你是成对选的,
-                而选哪一对取决于谁消费产物:
+                背后那个文件的算法。实际配置时你是成对选的,而选哪一对取决于谁消费产物:
               </>
             }
           />
@@ -2031,8 +1965,7 @@ export default function TsconfigPage() {
                   }
                   zh={
                     <>
-                      <code>nodenext</code> 按 Node 自己的规则来,
-                      包括 <code>package.json</code> 里的 <code>type</code> 和{" "}
+                      <code>nodenext</code> 按 Node 自己的规则来,包括 <code>package.json</code> 里的 <code>type</code> 和{" "}
                       <code>exports</code> 字段。它同时替你定下{" "}
                       <code>moduleResolution</code> —— 你写成别的会得到{" "}
                       <code>
@@ -2071,8 +2004,7 @@ export default function TsconfigPage() {
                   zh={
                     <>
                       <code>bundler</code> 对齐的是 Vite 和 esbuild
-                      实际的解析行为,这样编译器和真正干活的那个工具说的是一致的。
-                      它要求 <code>module</code> 是 <code>esnext</code>、
+                      实际的解析行为,这样编译器和真正干活的那个工具说的是一致的。它要求 <code>module</code> 是 <code>esnext</code>、
                       <code>preserve</code>,或 <code>es2015</code> 及以上 ——
                       否则报 <code>TS5095</code>。而既然 JavaScript
                       由打包器产出,这里通常就该开 <code>noEmit</code>。
@@ -2107,8 +2039,7 @@ export default function TsconfigPage() {
                 }
                 zh={
                   <>
-                    产物去哪(<code>dist</code>)、源码在哪(<code>src</code>)。
-                    不设 <code>outDir</code>,每个 <code>.js</code>{" "}
+                    产物去哪(<code>dist</code>)、源码在哪(<code>src</code>)。不设 <code>outDir</code>,每个 <code>.js</code>{" "}
                     就落在自己的 <code>.ts</code> 旁边 ——
                     源码树变得难读,也很容易误提交。
                   </>
@@ -2130,8 +2061,7 @@ export default function TsconfigPage() {
                 }
                 zh={
                   <>
-                    写出一份从产物回到源码的映射,
-                    于是调试器和堆栈信息可以指向你的 <code>.ts</code>{" "}
+                    写出一份从产物回到源码的映射,于是调试器和堆栈信息可以指向你的 <code>.ts</code>{" "}
                     那一行,而不是产物那一行。开着。
                   </>
                 }
@@ -2153,9 +2083,7 @@ export default function TsconfigPage() {
                 }
                 zh={
                   <>
-                    只当类型用的导入必须写成 <code>import type</code>,
-                    否则报 <code>TS1484</code>。这样编译器就不必猜
-                    「这个 import 能不能删」—— 它只删标了 <code>type</code>{" "}
+                    只当类型用的导入必须写成 <code>import type</code>,否则报 <code>TS1484</code>。这样编译器就不必猜「这个 import 能不能删」—— 它只删标了 <code>type</code>{" "}
                     的那些。第 09 章讲这件事。
                   </>
                 }
@@ -2177,8 +2105,7 @@ export default function TsconfigPage() {
                 }
                 zh={
                   <>
-                    拒绝那些无法「一个文件一个文件单独编译」的写法。
-                    比如不写 <code>export type</code> 就转发一个类型,会报{" "}
+                    拒绝那些无法「一个文件一个文件单独编译」的写法。比如不写 <code>export type</code> 就转发一个类型,会报{" "}
                     <code>TS1205</code>。当产物由 Babel、<code>swc</code>{" "}
                     或 esbuild 这类单文件转译器生成时,这一项是必要的 ——
                     它们看不到你的其他文件。
@@ -2207,14 +2134,12 @@ export default function TsconfigPage() {
                 zh={
                   <>
                     让你可以对一个用 <code>export =</code> 的 CommonJS 模块写{" "}
-                    <code>import legacy from &quot;legacy&quot;</code>。
-                    不开会报{" "}
+                    <code>import legacy from &quot;legacy&quot;</code>。不开会报{" "}
                     <code>
                       TS1259: Module can only be default-imported using the
                       &apos;esModuleInterop&apos; flag
                     </code>
-                    。它同时会改变产物里的互操作代码,
-                    所以现代配置里默认是开的。
+                    。它同时会改变产物里的互操作代码,所以现代配置里默认是开的。
                   </>
                 }
               />
@@ -2237,8 +2162,7 @@ export default function TsconfigPage() {
                   <>
                     <code>noEmit</code>:只检查、不写文件 ——
                     JavaScript 由别的工具产出时,就该用它。
-                    <code>noEmitOnError</code>:只在没有报错时才写产物。
-                    这是两个不同的问题,而两者默认都是关的。
+                    <code>noEmitOnError</code>:只在没有报错时才写产物。这是两个不同的问题,而两者默认都是关的。
                   </>
                 }
               />
@@ -2273,10 +2197,7 @@ export default function TsconfigPage() {
                   <b>
                     <code>.d.ts</code> 文件内部
                   </b>
-                  的类型检查 —— 全部 <code>.d.ts</code>,
-                  包括你自己写的那些。它不跳过你的 <code>.ts</code> 代码,
-                  也不影响这些声明继续被用来检查你的代码。
-                  它跳过的只是「声明文件自己有没有毛病」这一项。
+                  的类型检查 —— 全部 <code>.d.ts</code>,包括你自己写的那些。它不跳过你的 <code>.ts</code> 代码,也不影响这些声明继续被用来检查你的代码。它跳过的只是「声明文件自己有没有毛病」这一项。
                 </>
               }
             />
@@ -2295,10 +2216,7 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  严格来说这会丢信息:库的声明文件确实可能有错。
-                  但现实里那些错不归你修,而两个库的全局声明互相冲突时,
-                  还会因为一个与你的代码无关的原因让构建失败。
-                  常见的选择是打开它,把检查的力气花在自己的文件上。
+                  严格来说这会丢信息:库的声明文件确实可能有错。但现实里那些错不归你修,而两个库的全局声明互相冲突时,还会因为一个与你的代码无关的原因让构建失败。常见的选择是打开它,把检查的力气花在自己的文件上。
                 </>
               }
             />
@@ -2324,15 +2242,12 @@ export default function TsconfigPage() {
               zh={
                 <>
                   有个相关的选项值得知道:<code>erasableSyntaxOnly</code>
-                  (TypeScript 5.8 起)会拒绝一切有运行时效果、
-                  因此无法「只擦类型」就去掉的语法 —— <code>enum</code>、
-                  带实现的 <code>namespace</code>、构造函数参数属性。报错是{" "}
+                  (TypeScript 5.8 起)会拒绝一切有运行时效果、因此无法「只擦类型」就去掉的语法 —— <code>enum</code>、带实现的 <code>namespace</code>、构造函数参数属性。报错是{" "}
                   <code>
                     TS1294: This syntax is not allowed when
                     &apos;erasableSyntaxOnly&apos; is enabled.
                   </code>{" "}
-                  如果你希望自己的文件能被「只擦类型」的工具直接运行
-                  (比如较新版本的 Node),这一项就有意义。
+                  如果你希望自己的文件能被「只擦类型」的工具直接运行(比如较新版本的 Node),这一项就有意义。
                 </>
               }
             />
@@ -2367,10 +2282,7 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                失败的做法是一次做完:所有文件改名,<code>strict</code> 开满,
-                然后面对四百个报错,又没法只上线一部分修复。
-                有效的做法是<b>渐进</b>:每一步系统都在跑,
-                每一步都比上一步严。一帧一帧走一遍:
+                失败的做法是一次做完:所有文件改名,<code>strict</code> 开满,然后面对四百个报错,又没法只上线一部分修复。有效的做法是<b>渐进</b>:每一步系统都在跑,每一步都比上一步严。一帧一帧走一遍:
               </>
             }
           />
@@ -2391,8 +2303,7 @@ export default function TsconfigPage() {
             zh={
               <>
                 第 2 天那一步其实不必动 tsconfig。在某个 <code>.js</code>{" "}
-                文件顶部写两行注释就够了:一行打开检查,
-                一行给它一个可以对照的类型。
+                文件顶部写两行注释就够了:一行打开检查,一行给它一个可以对照的类型。
               </>
             }
           />
@@ -2426,8 +2337,7 @@ export default function TsconfigPage() {
                   为这个文件打开检查。<code>@type</code> 注释给{" "}
                   <code>menu</code> 一个类型 —— 没有它,<code>menu</code> 是{" "}
                   <code>any</code>,而在 <code>any</code> 上读{" "}
-                  <code>it.pirce</code> 是合法的,拼写错误就不会被报出来。
-                  JSDoc 类型是迁移期的桥,不是终点:等文件改成{" "}
+                  <code>it.pirce</code> 是合法的,拼写错误就不会被报出来。JSDoc 类型是迁移期的桥,不是终点:等文件改成{" "}
                   <code>.ts</code>,它们就变成普通的类型标注。
                 </>
               }
@@ -2446,8 +2356,7 @@ export default function TsconfigPage() {
             }
             zh={
               <>
-                每次迁移都会有今天修不了的错。
-                压住一行有两种注释,而它们随时间的表现差得很远:
+                每次迁移都会有今天修不了的错。压住一行有两种注释,而它们随时间的表现差得很远:
               </>
             }
           />
@@ -2492,8 +2401,7 @@ export default function TsconfigPage() {
                   }
                   zh={
                     <>
-                      它说的是「我预期这里有错」。错误消失时,
-                      这句话变成假的,于是注释自己报错。
+                      它说的是「我预期这里有错」。错误消失时,这句话变成假的,于是注释自己报错。
                       <b>迁移期用它</b>,并在后面写上原因。
                     </>
                   }
@@ -2537,12 +2445,8 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  顺序反了。<code>strict</code> 的成本随代码量增长。
-                  第一天它是零:每个错都在你写下那一行的那一分钟被纠正。
-                  三个月后,它是散落在你已经记不清的代码里的几百个错,
-                  外加一个「要不就这样吧」的念头。渐进地打开{" "}
-                  <code>strict</code> 是<b>存量代码</b>的合理策略;
-                  对新代码来说,它只是一张延后的账单。
+                  顺序反了。<code>strict</code> 的成本随代码量增长。第一天它是零:每个错都在你写下那一行的那一分钟被纠正。三个月后,它是散落在你已经记不清的代码里的几百个错,外加一个「要不就这样吧」的念头。渐进地打开{" "}
+                  <code>strict</code> 是<b>存量代码</b>的合理策略;对新代码来说,它只是一张延后的账单。
                 </>
               }
             />
@@ -2571,10 +2475,7 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  每一个 <code>@ts-ignore</code> 都是检查器不再读的一行。
-                  偶尔为之是合理的取舍;成为习惯,就是一行一行地拆掉类型系统,
-                  而且没有任何地方记着拆在哪里:项目看起来是有检查的,
-                  实际上到处是没人列得出来的豁免。真的修不了的时候,用{" "}
+                  每一个 <code>@ts-ignore</code> 都是检查器不再读的一行。偶尔为之是合理的取舍;成为习惯,就是一行一行地拆掉类型系统,而且没有任何地方记着拆在哪里:项目看起来是有检查的,实际上到处是没人列得出来的豁免。真的修不了的时候,用{" "}
                   <code>@ts-expect-error</code> 并在旁边写上原因 ——
                   问题消失后,这条记录会自己要求被删掉。
                 </>
@@ -2605,13 +2506,8 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  <code>target</code> 不是用来比新的版本号,
-                  它是你对「产物要跑在什么环境里」的陈述。
-                  如果那个环境是某个公司内网里锁定在旧版本的浏览器,
-                  把它定成 <code>esnext</code>,就是把一个{" "}
-                  <code>SyntaxError</code> 送到真实用户面前。
-                  编译器没法提醒你,因为<b>只有你知道产物跑在哪</b>。
-                  先回答「谁来跑」。
+                  <code>target</code> 不是用来比新的版本号,它是你对「产物要跑在什么环境里」的陈述。如果那个环境是某个公司内网里锁定在旧版本的浏览器,把它定成 <code>esnext</code>,就是把一个{" "}
+                  <code>SyntaxError</code> 送到真实用户面前。编译器没法提醒你,因为<b>只有你知道产物跑在哪</b>。先回答「谁来跑」。
                 </>
               }
             />
@@ -2631,8 +2527,7 @@ export default function TsconfigPage() {
               zh={
                 <>
                   这个误区还有另一半:在一个由打包器产出 JavaScript
-                  的项目里花时间调 <code>target</code>。那种配置下,
-                  上线的语法由打包器自己的 target 决定,tsconfig 里的{" "}
+                  的项目里花时间调 <code>target</code>。那种配置下,上线的语法由打包器自己的 target 决定,tsconfig 里的{" "}
                   <code>target</code> 只影响类型检查,以及 <code>tsc</code>{" "}
                   自己写出的那些文件。
                 </>
@@ -2663,13 +2558,9 @@ export default function TsconfigPage() {
               }
               zh={
                 <>
-                  不存在唯一正确的配置。
-                  从别的项目抄一份过来,通常会一起抄来一些描述
-                  「那个项目的环境」而不是你的环境的设置。
-                  值得抄的是判断依据。两个问题就决定了这个文件的大半:
+                  不存在唯一正确的配置。从别的项目抄一份过来,通常会一起抄来一些描述「那个项目的环境」而不是你的环境的设置。值得抄的是判断依据。两个问题就决定了这个文件的大半:
                   <b>谁运行产物</b> —— 直接是 Node,还是打包器;以及
-                  <b>谁生成产物</b> —— <code>tsc</code>,
-                  还是另一个工具加上 <code>tsc --noEmit</code> 做检查。
+                  <b>谁生成产物</b> —— <code>tsc</code>,还是另一个工具加上 <code>tsc --noEmit</code> 做检查。
                 </>
               }
             />
@@ -2688,10 +2579,7 @@ export default function TsconfigPage() {
               zh={
                 <>
                   有两件事可以一般性地说。开 <code>strict</code> ——
-                  对新代码来说,没有反对的理由。以及,
-                  把你手上这份文件读一遍,而不是继承它:
-                  里面每一个选项都是关于你的项目的一句断言,
-                  而其中有些可能已经不成立了。
+                  对新代码来说,没有反对的理由。以及,把你手上这份文件读一遍,而不是继承它:里面每一个选项都是关于你的项目的一句断言,而其中有些可能已经不成立了。
                 </>
               }
             />
@@ -2740,8 +2628,7 @@ export default function TsconfigPage() {
             zh: (
               <>
                 <code>tsconfig.json</code> 由 <code>tsc</code>{" "}
-                和编辑器的类型服务共同读取,所以同一份代码在两边得到同一个答案。
-                它的选项分三类:检查多严、产物长什么样、管哪些文件。
+                和编辑器的类型服务共同读取,所以同一份代码在两边得到同一个答案。它的选项分三类:检查多严、产物长什么样、管哪些文件。
               </>
             ),
           },
@@ -2790,8 +2677,7 @@ export default function TsconfigPage() {
                 <code>strict</code> 不等于全部检查。
                 <code>noUncheckedIndexedAccess</code>(下标取值变成{" "}
                 <code>T | undefined</code>)和{" "}
-                <code>exactOptionalPropertyTypes</code> 都在它之外,
-                要单独开。两者都需要 <code>strictNullChecks</code> 才起作用。
+                <code>exactOptionalPropertyTypes</code> 都在它之外,要单独开。两者都需要 <code>strictNullChecks</code> 才起作用。
               </>
             ),
           },
@@ -2810,11 +2696,8 @@ export default function TsconfigPage() {
             zh: (
               <>
                 <code>target</code> 定产出的语法代次,并顺带定一个默认{" "}
-                <code>lib</code>;<code>lib</code> 决定有哪些类型声明存在,
-                不会加 polyfill。<code>module</code> 是写出的模块格式,
-                <code>moduleResolution</code> 是怎么找到 import 的东西。
-                直接给 Node 跑:<code>module: nodenext</code>;
-                交给打包器:
+                <code>lib</code>;<code>lib</code> 决定有哪些类型声明存在,不会加 polyfill。<code>module</code> 是写出的模块格式,
+                <code>moduleResolution</code> 是怎么找到 import 的东西。直接给 Node 跑:<code>module: nodenext</code>;交给打包器:
                 <code>esnext + moduleResolution: bundler</code>。
               </>
             ),
@@ -2834,10 +2717,8 @@ export default function TsconfigPage() {
               <>
                 <code>tsc</code> 会检查,并为每个输入文件写出一个{" "}
                 <code>.js</code>;它不打包,而且除非设了{" "}
-                <code>noEmitOnError</code>,类型报错也不会阻止它写产物。
-                如果 JavaScript 是打包器或 <code>swc</code> 产出的、
-                <code>tsc --noEmit</code> 只负责检查,
-                那么产物类选项不影响上线的东西。
+                <code>noEmitOnError</code>,类型报错也不会阻止它写产物。如果 JavaScript 是打包器或 <code>swc</code> 产出的、
+                <code>tsc --noEmit</code> 只负责检查,那么产物类选项不影响上线的东西。
               </>
             ),
           },
@@ -2859,8 +2740,7 @@ export default function TsconfigPage() {
                 <code>checkJs</code> 或 <code>@ts-check</code> 加 JSDoc 类型 →
                 一次一个文件改成 <code>.ts</code> → <code>strict</code>{" "}
                 的成员一项一项开。压住某一行用{" "}
-                <code>@ts-expect-error</code>,不用 <code>@ts-ignore</code>:
-                错误消失后它会报 <code>TS2578</code>,所以这笔账丢不了。
+                <code>@ts-expect-error</code>,不用 <code>@ts-ignore</code>:错误消失后它会报 <code>TS2578</code>,所以这笔账丢不了。
               </>
             ),
           },

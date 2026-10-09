@@ -201,10 +201,7 @@ export const LABS: Lab[] = [
             }
             zh={
               <>
-                新建一个空目录,跑 <code>npx tsc --init</code>。
-                打开生成的 <code>tsconfig.json</code> 读一遍,
-                记下哪些选项已经是 <code>true</code>,
-                以及模板给它们分的段落名。
+                新建一个空目录,跑 <code>npx tsc --init</code>。打开生成的 <code>tsconfig.json</code> 读一遍,记下哪些选项已经是 <code>true</code>,以及模板给它们分的段落名。
               </>
             }
           />
@@ -220,8 +217,7 @@ export const LABS: Lab[] = [
             }
             zh={
               <>
-                然后把 §02 调节台里那段演示代码存成 <code>order.ts</code>。
-                文件顶部补两行,免得报「找不到名字」:
+                然后把 §02 调节台里那段演示代码存成 <code>order.ts</code>。文件顶部补两行,免得报「找不到名字」:
               </>
             }
           />
@@ -248,8 +244,7 @@ declare function submit(x: unknown): void;`}
                 跑 <code>npx tsc --noEmit</code>,数一数报错。然后把{" "}
                 <code>strict</code>、<code>noUncheckedIndexedAccess</code>、
                 <code>exactOptionalPropertyTypes</code> 都改成{" "}
-                <code>false</code> 再跑一次。两个数字的差,
-                就是这份配置替你做的事。
+                <code>false</code> 再跑一次。两个数字的差,就是这份配置替你做的事。
               </>
             }
           />
@@ -269,8 +264,7 @@ declare function submit(x: unknown): void;`}
       zh: (
         <>
           <code>--noEmit</code> 的意思是只检查、不写文件。模板把{" "}
-          <code>strict</code> 放在「Recommended Options」,
-          另外两个放在「Stricter Typechecking Options」——
+          <code>strict</code> 放在「Recommended Options」,另外两个放在「Stricter Typechecking Options」——
           这个分段本身就回答了「noUncheckedIndexedAccess 属于 strict 吗」。
         </>
       ),
@@ -295,8 +289,7 @@ declare function submit(x: unknown): void;`}
             }
             zh={
               <>
-                再把 <code>strict</code> 单独开回来,另外两个仍然关着:
-                报错是 <b>4</b> 个,不是 5 个。少掉的那个正是{" "}
+                再把 <code>strict</code> 单独开回来,另外两个仍然关着:报错是 <b>4</b> 个,不是 5 个。少掉的那个正是{" "}
                 <code>sizes[3]</code> 那一行。一次实验就够了 ——{" "}
                 <code>noUncheckedIndexedAccess</code> 不属于{" "}
                 <code>strict</code>。
@@ -333,9 +326,7 @@ declare function submit(x: unknown): void;`}
             }
             zh={
               <>
-                把下面这段存成 <code>boss.js</code>,
-                用带 TypeScript 支持的编辑器打开。
-                里面有两个写错的属性名:<code>pirce</code> 和{" "}
+                把下面这段存成 <code>boss.js</code>,用带 TypeScript 支持的编辑器打开。里面有两个写错的属性名:<code>pirce</code> 和{" "}
                 <code>nmae</code>。在第一行加上{" "}
                 <code>{"// @ts-check"}</code>,看编辑器报出几个。
               </>
@@ -353,8 +344,7 @@ declare function submit(x: unknown): void;`}
             }
             zh={
               <>
-                答案是 <b>0 个</b>。先自己想清楚为什么,
-                再想办法让编辑器把两个都报出来。
+                答案是 <b>0 个</b>。先自己想清楚为什么,再想办法让编辑器把两个都报出来。
               </>
             }
           />
@@ -377,8 +367,7 @@ declare function submit(x: unknown): void;`}
       zh: (
         <>
           <code>cheapest</code> 的参数没有类型,所以 <code>list</code> 是{" "}
-          <code>any</code>。在 <code>any</code> 上取任何属性都是合法的,
-          所以此刻 <code>it.pirce</code> 还不算错。用 JSDoc 给参数补一个类型:
+          <code>any</code>。在 <code>any</code> 上取任何属性都是合法的,所以此刻 <code>it.pirce</code> 还不算错。用 JSDoc 给参数补一个类型:
           <code>
             {"/** @param {{ name: string, price: number }[]} list */"}
           </code>
@@ -410,12 +399,8 @@ declare function submit(x: unknown): void;`}
               }
               zh={
                 <>
-                  一个文件,两个教训。<code>@ts-check</code> 只用一行,
-                  就为单个 <code>.js</code> 文件打开了检查。
-                  但检查需要有类型可对照 —— 没有类型,就没有可矛盾的东西。
-                  <code>checkJs: true</code> 做的是同一件事,
-                  只不过一次覆盖所有 <code>.js</code> 文件,
-                  也有同样的局限。
+                  一个文件,两个教训。<code>@ts-check</code> 只用一行,就为单个 <code>.js</code> 文件打开了检查。但检查需要有类型可对照 —— 没有类型,就没有可矛盾的东西。
+                  <code>checkJs: true</code> 做的是同一件事,只不过一次覆盖所有 <code>.js</code> 文件,也有同样的局限。
                 </>
               }
             />
@@ -470,11 +455,9 @@ declare function submit(x: unknown): void;`}
             }
             zh={
               <>
-                会出现两个错。读一读:两个都建议你改 <code>lib</code>,
-                不是 <code>target</code>。现在把 <code>lib</code> 设成{" "}
+                会出现两个错。读一读:两个都建议你改 <code>lib</code>,不是 <code>target</code>。现在把 <code>lib</code> 设成{" "}
                 <code>ES2022</code>,<code>target</code> 仍然留在{" "}
-                <code>ES5</code>,报错就消失了。然后切到 <b>.JS</b> 标签,
-                看看产出的代码有没有变。
+                <code>ES5</code>,报错就消失了。然后切到 <b>.JS</b> 标签,看看产出的代码有没有变。
               </>
             }
           />
@@ -527,10 +510,7 @@ declare function submit(x: unknown): void;`}
                 <>
                   改 <code>lib</code> 前后,产出的 JavaScript 一字不差 —— 因为{" "}
                   <code>lib</code> 不参与产物生成。这里的风险值得记住:
-                  <code>lib</code> 是你对运行环境的<b>声明</b>,
-                  而编译器会信你。声明了 <code>es2022</code>,
-                  却把代码跑在没有 <code>Promise</code> 的引擎上,
-                  就是运行时失败,而编译期一声不响。<code>lib</code>{" "}
+                  <code>lib</code> 是你对运行环境的<b>声明</b>,而编译器会信你。声明了 <code>es2022</code>,却把代码跑在没有 <code>Promise</code> 的引擎上,就是运行时失败,而编译期一声不响。<code>lib</code>{" "}
                   不会替你加 polyfill。
                 </>
               }
@@ -566,10 +546,8 @@ declare function submit(x: unknown): void;`}
             }
             zh={
               <>
-                建一个小项目:三个互相 import 的 <code>.js</code> 文件。
-                故意埋两个写错的属性名,再埋一个「可能返回 null
-                而调用处没判」的函数。然后照 §05 的路线走一遍,
-                每一步都记下 <code>npx tsc --noEmit</code> 的输出。
+                建一个小项目:三个互相 import 的 <code>.js</code> 文件。故意埋两个写错的属性名,再埋一个「可能返回 null
+                而调用处没判」的函数。然后照 §05 的路线走一遍,每一步都记下 <code>npx tsc --noEmit</code> 的输出。
               </>
             }
           />
@@ -585,8 +563,7 @@ declare function submit(x: unknown): void;`}
             }
             zh={
               <>
-                重点不是最后那个数字。重点是每一步系统都在跑,
-                而且每一步都比上一步严。
+                重点不是最后那个数字。重点是每一步系统都在跑,而且每一步都比上一步严。
               </>
             }
           />
@@ -631,8 +608,7 @@ declare function submit(x: unknown): void;`}
               }
               zh={
                 <>
-                  真实项目做完这件事要几个月,但节奏是一样的。
-                  开工前先知道一件事:类型报错并不会阻止 <code>tsc</code>{" "}
+                  真实项目做完这件事要几个月,但节奏是一样的。开工前先知道一件事:类型报错并不会阻止 <code>tsc</code>{" "}
                   把 JavaScript 写出来。除非你同时开{" "}
                   <code>noEmitOnError</code>,否则报错期间构建照样出产物。
                 </>
@@ -694,8 +670,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            noImplicitAny 在家族里。它的作用是:不许因为「推不出类型」
-            就悄悄按 <code>any</code> 处理。
+            noImplicitAny 在家族里。它的作用是:不许因为「推不出类型」就悄悄按 <code>any</code> 处理。
           </>
         ),
       },
@@ -752,8 +727,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>findOrder</code> 声明的返回类型是 <code>Order | null</code>,
-          你直接写 <code>findOrder(id).total</code>。关着{" "}
+          <code>findOrder</code> 声明的返回类型是 <code>Order | null</code>,你直接写 <code>findOrder(id).total</code>。关着{" "}
           <code>strictNullChecks</code> 时会发生什么?
         </>
       ),
@@ -823,8 +797,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            编译器从不添加这类运行时行为。它只做两件事:擦掉类型、报告错误。
-            判空代码永远得你自己写。
+            编译器从不添加这类运行时行为。它只做两件事:擦掉类型、报告错误。判空代码永远得你自己写。
           </>
         ),
       },
@@ -857,8 +830,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           关掉 <code>strictNullChecks</code>,<code>null</code> 和{" "}
-          <code>undefined</code> 可以赋给任何类型。「这个值可能没有」
-          从类型里消失了,也就没什么可检查的。开着时,同一行会报{" "}
+          <code>undefined</code> 可以赋给任何类型。「这个值可能没有」从类型里消失了,也就没什么可检查的。开着时,同一行会报{" "}
           <code>TS18047: &apos;order&apos; is possibly &apos;null&apos;.</code>{" "}
           如果这一族里只能开一个,就开它。
         </>
@@ -972,8 +944,7 @@ export const QUIZ: QuizItem[] = [
           <code>es2022</code> 则原样保留、只擦掉类型。它还会顺带定一个默认{" "}
           <code>lib</code>,而那是另一件事:<code>lib</code>{" "}
           决定有哪些类型声明可用。另外注意:如果你的 JavaScript
-          是打包器、<code>swc</code> 或 <code>esbuild</code> 产出的,
-          那么上线的语法代次由那个工具的 target 决定,tsconfig 里的{" "}
+          是打包器、<code>swc</code> 或 <code>esbuild</code> 产出的,那么上线的语法代次由那个工具的 target 决定,tsconfig 里的{" "}
           <code>target</code> 说了不算。
         </>
       ),
@@ -1060,8 +1031,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            两者能压住的错误是同一批,都作用于下一行。
-            差别在于错误消失之后会发生什么。
+            两者能压住的错误是同一批,都作用于下一行。差别在于错误消失之后会发生什么。
           </>
         ),
       },
@@ -1074,8 +1044,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>@ts-ignore</code> 仍然是合法的 TypeScript。
-            问题在于它永远沉默 —— 债还清了也不吭声。
+            <code>@ts-ignore</code> 仍然是合法的 TypeScript。问题在于它永远沉默 —— 债还清了也不吭声。
           </>
         ),
       },
@@ -1089,8 +1058,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            两者都是编译期指令,和环境无关。编译器读到就生效,
-            不区分开发和生产。
+            两者都是编译期指令,和环境无关。编译器读到就生效,不区分开发和生产。
           </>
         ),
       },
@@ -1108,8 +1076,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>@ts-expect-error</code> 的意思是「我预期这里有错」。
-          一旦下一行不再报错,这行注释自己就变成了错误:
+          <code>@ts-expect-error</code> 的意思是「我预期这里有错」。一旦下一行不再报错,这行注释自己就变成了错误:
           <code>TS2578: Unused &apos;@ts-expect-error&apos; directive.</code>{" "}
           这就是「以后找得回来的债」和「找不回来的债」的区别。
         </>
@@ -1170,8 +1137,7 @@ export const QUIZ: QuizItem[] = [
           的类型变成 <code>string | undefined</code>,想用先收窄。它要靠{" "}
           <code>strictNullChecks</code> 才有效果 —— 后者关着时,
           <code>string | undefined</code> 会退回成 <code>string</code>。它不在{" "}
-          <code>strict</code> 里,因为它会对每一次下标读取发话,
-          存量项目一开工作量很大。而 <code>tsc --init</code>{" "}
+          <code>strict</code> 里,因为它会对每一次下标读取发话,存量项目一开工作量很大。而 <code>tsc --init</code>{" "}
           给新项目是默认开的。
         </>
       ),
@@ -1231,8 +1197,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             <code>bundler</code> 描述的是 Vite / esbuild
-            这类打包器的解析方式。产物不经打包直接给 Node 跑,
-            就该按 Node 自己的规矩来:<code>nodenext</code>。
+            这类打包器的解析方式。产物不经打包直接给 Node 跑,就该按 Node 自己的规矩来:<code>nodenext</code>。
           </>
         ),
       },
@@ -1262,8 +1227,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>amd</code> 是 RequireJS 时代的浏览器模块格式,
-            和 Node 后端没有关系。
+            <code>amd</code> 是 RequireJS 时代的浏览器模块格式,和 Node 后端没有关系。
           </>
         ),
       },
@@ -1290,15 +1254,13 @@ export const QUIZ: QuizItem[] = [
         <>
           两条路,按「谁消费产物」来分。产物直接给 Node 跑:
           <code>module: nodenext</code> —— 它同时把{" "}
-          <code>moduleResolution</code> 钉在 <code>nodenext</code>,
-          你写成别的,编译器会报{" "}
+          <code>moduleResolution</code> 钉在 <code>nodenext</code>,你写成别的,编译器会报{" "}
           <code>
             TS5109: Option &apos;moduleResolution&apos; must be set to
             &apos;NodeNext&apos;
           </code>
           。产物交给打包器:
-          <code>module: esnext + moduleResolution: bundler</code>,
-          把模块解析整个交给打包器。这两个选项别混:<code>module</code>{" "}
+          <code>module: esnext + moduleResolution: bundler</code>,把模块解析整个交给打包器。这两个选项别混:<code>module</code>{" "}
           是编译器写出的模块格式,<code>moduleResolution</code> 是它怎么找到你
           import 的东西。
         </>
@@ -1410,8 +1372,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          有一项选多了。要么是把「渐进开 <code>strict</code>」
-          这个存量项目的策略错套在了新项目上,要么是把一件 <code>tsc</code>{" "}
+          有一项选多了。要么是把「渐进开 <code>strict</code>」这个存量项目的策略错套在了新项目上,要么是把一件 <code>tsc</code>{" "}
           不做的事算在了它头上。
         </>
       ),
@@ -1437,8 +1398,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          A:一份配置两个读者,所以编辑器的红线和 CI 的失败是一致的。B:
-          库的声明文件有错不归你修,而两个库的全局声明打架还会拖垮你的构建。D:
+          A:一份配置两个读者,所以编辑器的红线和 CI 的失败是一致的。B:库的声明文件有错不归你修,而两个库的全局声明打架还会拖垮你的构建。D:
           <code>useUnknownInCatchVariables</code> 是家族成员。C 说反了 ——
           第一天开 <code>strict</code> 成本为零,成本随代码量增长。E 不对:
           <code>tsc</code> 是每个输入文件产出一个 <code>.js</code>,从不打包。
@@ -1463,8 +1423,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          你接手一套九百行的 JavaScript 点单系统,负责人要求「一天都不能停」。
-          第一步该做什么?
+          你接手一套九百行的 JavaScript 点单系统,负责人要求「一天都不能停」。第一步该做什么?
         </>
       ),
     },
@@ -1520,8 +1479,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            把 <code>.js</code> 后缀全改成 <code>.ts</code>,
-            内容不用动就已经是 TypeScript 了
+            把 <code>.js</code> 后缀全改成 <code>.ts</code>,内容不用动就已经是 TypeScript 了
           </>
         ),
       },
@@ -1538,8 +1496,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这样会一次冒出几百个错,又没法只上线一部分修复,最后只能回滚。
-            渐进的做法能让系统一直跑着。
+            这样会一次冒出几百个错,又没法只上线一部分修复,最后只能回滚。渐进的做法能让系统一直跑着。
           </>
         ),
       },
@@ -1554,8 +1511,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>@ts-ignore</code> 是把检查关掉,不是把问题修好。
-            整个文件都压住,等于装了 TypeScript 却什么都没得到。
+            <code>@ts-ignore</code> 是把检查关掉,不是把问题修好。整个文件都压住,等于装了 TypeScript 却什么都没得到。
           </>
         ),
       },
@@ -1572,8 +1528,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             改后缀不改变代码本身。隐式 <code>any</code> 的参数、没判的{" "}
-            <code>null</code> 一个都没少,而且现在会一起报出来、
-            把所有人挡住。应该先用 <code>allowJs</code>{" "}
+            <code>null</code> 一个都没少,而且现在会一起报出来、把所有人挡住。应该先用 <code>allowJs</code>{" "}
             把文件收进来,再一个个迁移。
           </>
         ),
@@ -1592,8 +1547,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           路线是:<code>allowJs</code> 把 <code>.js</code> 文件收进编译,
-          <code>checkJs</code> 或 <code>@ts-check</code> 开始检查它们,
-          然后一次改一个文件成 <code>.ts</code>,再把 <code>strict</code>{" "}
+          <code>checkJs</code> 或 <code>@ts-check</code> 开始检查它们,然后一次改一个文件成 <code>.ts</code>,再把 <code>strict</code>{" "}
           的成员一项一项开。每一步系统都在跑,每一步都比上一步严。
         </>
       ),

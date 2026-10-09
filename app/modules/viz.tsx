@@ -167,11 +167,8 @@ export function LibShelf() {
           zh={
             <>
               不写 <b>lib</b> 时,TypeScript 会按 <b>target</b>{" "}
-              选一套默认的声明文件,而这套默认里包含 DOM。
-              自己写 <code>lib</code> 是<b>替换</b>默认值,不是往上追加。
-              所以一个只跑 Node 的项目写了{" "}
-              <code>&quot;lib&quot;: [&quot;es2022&quot;]</code> 之后就没有 DOM,
-              这时用 <code>document</code> 会报 <code>ts(2584)</code>。
+              选一套默认的声明文件,而这套默认里包含 DOM。自己写 <code>lib</code> 是<b>替换</b>默认值,不是往上追加。所以一个只跑 Node 的项目写了{" "}
+              <code>&quot;lib&quot;: [&quot;es2022&quot;]</code> 之后就没有 DOM,这时用 <code>document</code> 会报 <code>ts(2584)</code>。
             </>
           }
         />
@@ -277,9 +274,7 @@ export function ErasedImports() {
             }
             zh={
               <>
-                类型会被擦除,所以纯类型导入没有东西可导入,整行就消失了;
-                值导入则被原样保留。把只当类型用的名字标上 <b>type</b>,
-                这个结果在任何构建工具下都一样。
+                类型会被擦除,所以纯类型导入没有东西可导入,整行就消失了;值导入则被原样保留。把只当类型用的名字标上 <b>type</b>,这个结果在任何构建工具下都一样。
               </>
             }
           />
@@ -294,8 +289,7 @@ export function ErasedImports() {
             }
             zh={
               <>
-                三行导入,两种东西:值 —— 代码运行时要用到;
-                类型 —— 只存在于编译期。切到 <b>编译后 .js</b>{" "}
+                三行导入,两种东西:值 —— 代码运行时要用到;类型 —— 只存在于编译期。切到<b>编译后 .js</b>{" "}
                 看它们各自的结果。
               </>
             }
@@ -369,8 +363,7 @@ const QUEST_FRAMES: QuestFrameDef[] = [
         zh={
           <>
             你写下 <code>import {"{ debounce }"} from &quot;lodash&quot;</code>
-            。编译器现在需要知道 <code>debounce</code> 的类型,
-            于是开始找它的声明。它会按顺序看三个地方,哪一个有结果就停。
+            。编译器现在需要知道 <code>debounce</code> 的类型,于是开始找它的声明。它会按顺序看三个地方,哪一个有结果就停。
           </>
         }
       />
@@ -394,9 +387,7 @@ const QUEST_FRAMES: QuestFrameDef[] = [
         zh={
           <>
             <b>第一站:包里面。</b>编译器读 lodash 的{" "}
-            <code>package.json</code>,找 <code>types</code> 字段,
-            或者 <code>exports</code> 里的 <code>types</code> 条件 —— 没有。
-            lodash 是纯 JavaScript 写的,自己不带声明。
+            <code>package.json</code>,找 <code>types</code> 字段,或者 <code>exports</code> 里的 <code>types</code> 条件 —— 没有。lodash 是纯 JavaScript 写的,自己不带声明。
           </>
         }
       />
@@ -445,10 +436,8 @@ const QUEST_FRAMES: QuestFrameDef[] = [
         }
         zh={
           <>
-            <b>假如第二站也是空的</b>(冷门库很常见),还剩最后一个地方:
-            你项目里自己的声明文件。写一段{" "}
-            <code>declare module &quot;lodash&quot;</code>,
-            把你真正用到的部分描出来。
+            <b>假如第二站也是空的</b>(冷门库很常见),还剩最后一个地方:你项目里自己的声明文件。写一段{" "}
+            <code>declare module &quot;lodash&quot;</code>,把你真正用到的部分描出来。
           </>
         }
       />
@@ -474,8 +463,7 @@ const QUEST_FRAMES: QuestFrameDef[] = [
           <>
             <b>三个地方全是空的。</b>那 <code>debounce</code> 就是隐式{" "}
             <code>any</code>;打开 <code>noImplicitAny</code>
-            (<code>strict</code> 的一部分)时会报 <b>ts(7016)</b>。
-            报错原文自己就写出了剩下两条路:&quot;Try{" "}
+            (<code>strict</code> 的一部分)时会报 <b>ts(7016)</b>。报错原文自己就写出了剩下两条路:&quot;Try{" "}
             <code>npm i --save-dev @types/lodash</code> if it exists or add a
             new declaration (.d.ts) file containing{" "}
             <code>declare module &apos;lodash&apos;;</code>&quot;
@@ -499,8 +487,7 @@ const QUEST_FRAMES: QuestFrameDef[] = [
         zh={
           <>
             再看一遍顺序:<b>① 包自带的类型 → ② @types → ③ 你自己写的声明</b>
-            ,第一个有结果的胜出。给项目挑库时按这个顺序查一遍,
-            装之前就知道它的类型支持要付多少代价。
+            ,第一个有结果的胜出。给项目挑库时按这个顺序查一遍,装之前就知道它的类型支持要付多少代价。
           </>
         }
       />

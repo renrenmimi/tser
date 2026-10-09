@@ -428,8 +428,7 @@ export default function TypeMagicPage() {
           ),
           zh: (
             <>
-              上一章那些工具类型,拆开都是同一批零件:<code>keyof</code>、
-              条件类型、<code>infer</code>、映射类型。 这一章把零件一个个认全 ——
+              上一章那些工具类型,拆开都是同一批零件:<code>keyof</code>、条件类型、<code>infer</code>、映射类型。这一章把零件一个个认全 ——
               章末,你会亲手把那五个工具类型重新写一遍。
             </>
           ),
@@ -513,9 +512,7 @@ export default function TypeMagicPage() {
               zh={
                 <>
                   上一章你用 <code>Partial</code>、<code>Pick</code>{" "}
-                  用得挺顺,没问过它们怎么工作。拆开看,里面没有特别的东西:
-                  一个读键的、一个读类型的、一个做判断的、一个做循环的。
-                  把它们拼起来,类型系统就成了一门可以编程的语言:
+                  用得挺顺,没问过它们怎么工作。拆开看,里面没有特别的东西:一个读键的、一个读类型的、一个做判断的、一个做循环的。把它们拼起来,类型系统就成了一门可以编程的语言:
                   <b>输入是类型,输出也是类型,而且只在编译时运行</b>。
                 </>
               }
@@ -534,8 +531,7 @@ export default function TypeMagicPage() {
             }
             zh={
               <>
-                你熟悉的 JavaScript 操作,大多在类型这一侧有个对应的写法。
-                下面这张表就是本章的地图:每一行对应一节。
+                你熟悉的 JavaScript 操作,大多在类型这一侧有个对应的写法。下面这张表就是本章的地图:每一行对应一节。
               </>
             }
           />
@@ -645,8 +641,7 @@ export default function TypeMagicPage() {
               }
               zh={
                 <>
-                  这一章的所有东西都发生在 <code>tsc</code> 检查代码的时候。
-                  检查完,它们全部被去掉。这就是类型擦除,和第 00
+                  这一章的所有东西都发生在 <code>tsc</code> 检查代码的时候。检查完,它们全部被去掉。这就是类型擦除,和第 00
                   章讲的是同一条规则。所以复杂的类型只会花掉编译时间和可读性,
                   <b>打包出来的 JavaScript 一个字节都不会多</b>。
                 </>
@@ -696,8 +691,7 @@ export default function TypeMagicPage() {
               <>
                 对比着记:<code>Object.keys(order)</code>{" "}
                 在程序运行时给你一个字符串数组;<code>keyof Order</code>{" "}
-                在编译时给你一个<b>字符串字面量联合</b>。
-                这个联合的每个成员都是真实存在的键 —— 所以{" "}
+                在编译时给你一个<b>字符串字面量联合</b>。这个联合的每个成员都是真实存在的键 —— 所以{" "}
                 <code>&quot;cup&quot;</code> 会被拒绝。
               </>
             ),
@@ -769,12 +763,10 @@ export default function TypeMagicPage() {
               }
               zh={
                 <>
-                  JavaScript 的 <code>typeof</code> 在运行时执行,
-                  返回八种字符串之一,比如 <code>&quot;string&quot;</code>、
+                  JavaScript 的 <code>typeof</code> 在运行时执行,返回八种字符串之一,比如 <code>&quot;string&quot;</code>、
                   <code>&quot;object&quot;</code>(第 03
                   章拿它做过收窄)。TypeScript 的 <code>typeof</code> 只出现在
-                  <b>类型位置</b> —— <code>type</code> 声明的等号右边、
-                  注解的冒号后面 —— 编译时会被去掉。
+                  <b>类型位置</b> —— <code>type</code> 声明的等号右边、注解的冒号后面 —— 编译时会被去掉。
                 </>
               }
             />
@@ -844,10 +836,9 @@ export default function TypeMagicPage() {
                 说明:联合里如果一个成员已经覆盖了另一个,后者就会被吸收 ——
                 <code>Size</code> 是字符串组成的联合,而联合里本来就有{" "}
                 <code>string</code>,所以 <code>Size</code> 消失了。第二,
-                <code>T[number]</code> 是读取数组元素类型的标准写法。 配上{" "}
+                <code>T[number]</code> 是读取数组元素类型的标准写法。配上{" "}
                 <code>as const</code>
-                (它把数组变成由字面量类型组成的只读元组),
-                一份数据同时成了一份可选值名单:改一处,两边一起变。
+                (它把数组变成由字面量类型组成的只读元组),一份数据同时成了一份可选值名单:改一处,两边一起变。
               </>
             ),
           }}
@@ -865,8 +856,7 @@ export default function TypeMagicPage() {
             zh={
               <>
                 三个零件齐了:<code>keyof</code> 读键,<code>typeof</code>{" "}
-                读值的类型,<code>T[K]</code> 读属性的类型。
-                本章后面的东西都建在它们上面。
+                读值的类型,<code>T[K]</code> 读属性的类型。本章后面的东西都建在它们上面。
               </>
             }
           />
@@ -905,7 +895,7 @@ export default function TypeMagicPage() {
             zh: (
               <>
                 这里的 <code>extends</code> 是「能不能赋给」的意思 —— 和第 04
-                章的兼容判断是同一件事,现在被用作三元表达式的条件。 成立就取{" "}
+                章的兼容判断是同一件事,现在被用作三元表达式的条件。成立就取{" "}
                 <code>X</code>,不成立就取 <code>Y</code>。
               </>
             ),
@@ -925,8 +915,7 @@ export default function TypeMagicPage() {
             }
             zh={
               <>
-                单看没什么。重要的行为出现在被判断的类型是联合的时候。
-                上一章说过 <code>Exclude</code> 的定义只有一行 ——
+                单看没什么。重要的行为出现在被判断的类型是联合的时候。上一章说过 <code>Exclude</code> 的定义只有一行 ——
                 就是下面这行。可是一个三元表达式,怎么能从联合里
                 <b>删掉</b>成员?
               </>
@@ -970,11 +959,8 @@ export default function TypeMagicPage() {
                 <b>
                   只有 <code>extends</code> 左边是裸类型参数时才会发生
                 </b>{" "}
-                —— 也就是光秃秃的 <code>T</code>,外面什么都没包。
-                发生分发时,如果 <code>T</code> 是 <code>A | B</code>,
-                编译器就把整个条件类型改写成{" "}
-                <code>(A extends U ? X : Y) | (B extends U ? X : Y)</code>。
-                规则就这么多。不知道这条,谁都没法预测条件类型会返回什么。
+                —— 也就是光秃秃的 <code>T</code>,外面什么都没包。发生分发时,如果 <code>T</code> 是 <code>A | B</code>,编译器就把整个条件类型改写成{" "}
+                <code>(A extends U ? X : Y) | (B extends U ? X : Y)</code>。规则就这么多。不知道这条,谁都没法预测条件类型会返回什么。
               </>
             }
           />
@@ -1011,10 +997,8 @@ export default function TypeMagicPage() {
               zh={
                 <>
                   <b>这是设计,不是缺陷。</b>想让每个成员各自处理(
-                  <code>Exclude</code> 那种),就用裸 <code>T</code>;
-                  想把联合当成一个类型来判断,就把<b>两边</b>
-                  都包进单元素元组:<code>[T] extends [U]</code>。
-                  只包一边会改变比较的对象,所以两边都要包。
+                  <code>Exclude</code> 那种),就用裸 <code>T</code>;想把联合当成一个类型来判断,就把<b>两边</b>
+                  都包进单元素元组:<code>[T] extends [U]</code>。只包一边会改变比较的对象,所以两边都要包。
                 </>
               }
             />
@@ -1052,12 +1036,9 @@ export default function TypeMagicPage() {
               }
               zh={
                 <>
-                  <code>never</code> 是没有成员的联合。对它分发,
-                  判断跑零次,所以结果是 <code>never</code>。
-                  这不是编译器里的特例,只是根本没有东西可以分发。 而{" "}
+                  <code>never</code> 是没有成员的联合。对它分发,判断跑零次,所以结果是 <code>never</code>。这不是编译器里的特例,只是根本没有东西可以分发。而{" "}
                   <code>boolean</code> 也不是单个类型,它是{" "}
-                  <code>true | false</code>,所以分布式条件类型会对它跑两次。
-                  记住这两点,条件类型大部分「怪结果」就不怪了。
+                  <code>true | false</code>,所以分布式条件类型会对它跑两次。记住这两点,条件类型大部分「怪结果」就不怪了。
                 </>
               }
             />
@@ -1104,8 +1085,7 @@ export default function TypeMagicPage() {
                 <code>Promise&lt;某个类型&gt;</code> 的样子, 就把那个类型记作{" "}
                 <code>U</code> 并返回 <code>U</code>。<code>infer</code> 在{" "}
                 <code>extends</code>{" "}
-                后面的模式里声明一个类型变量,由编译器在匹配时填上。
-                相当于对类型做解构。这个变量只能在真分支里使用。
+                后面的模式里声明一个类型变量,由编译器在匹配时填上。相当于对类型做解构。这个变量只能在真分支里使用。
               </>
             ),
           }}
@@ -1133,8 +1113,7 @@ export default function TypeMagicPage() {
               <>
                 第 7 行就是上一章 <code>ReturnType</code> 的核心:如果{" "}
                 <code>T</code> 是函数,就把返回值类型抓出来。TypeScript
-                还允许给这个变量加约束(<code>infer U extends …</code>),
-                本章不用它。
+                还允许给这个变量加约束(<code>infer U extends …</code>),本章不用它。
               </>
             ),
           }}
@@ -1219,10 +1198,8 @@ export default function TypeMagicPage() {
               zh={
                 <>
                   写成 <code>{"{ [K in keyof T]: … }"}</code>{" "}
-                  这个形式时,映射类型做的不只是造一个新对象类型。
-                  它会保留源类型的 <code>?</code> 和 <code>readonly</code>
-                  (只要你没去改它们),而且数组进去还是数组,元组进去还是元组。
-                  这样的映射类型叫<b>同态(homomorphic)</b>映射类型。 这也正是{" "}
+                  这个形式时,映射类型做的不只是造一个新对象类型。它会保留源类型的 <code>?</code> 和 <code>readonly</code>
+                  (只要你没去改它们),而且数组进去还是数组,元组进去还是元组。这样的映射类型叫<b>同态(homomorphic)</b>映射类型。这也正是{" "}
                   <code>-?</code> 和 <code>-readonly</code>{" "}
                   必须存在的原因:修饰符默认会被照抄,否则就没办法去掉它们。
                 </>
@@ -1426,8 +1403,7 @@ export default function TypeMagicPage() {
                   这就是 <code>Pick</code> 拼错键会报错、<code>Omit</code>{" "}
                   不报的原因
                 </b>
-                :<code>Omit</code> 的键约束是 <code>keyof any</code>。
-                上一章留下的问题,到这里有答案了。
+                :<code>Omit</code> 的键约束是 <code>keyof any</code>。上一章留下的问题,到这里有答案了。
               </>
             }
           />
@@ -1545,16 +1521,11 @@ export default function TypeMagicPage() {
             }
             zh={
               <>
-                读懂一个定义和写出一个定义是两回事。下面的窗口里放着三个占位定义和一个判分器,
-                判分器本身只有两行类型代码。
-                <code>{"Expect<T extends true>"}</code> 是一个类型参数,
-                它的约束就是 <code>true</code> 这一个类型,所以塞给它{" "}
+                读懂一个定义和写出一个定义是两回事。下面的窗口里放着三个占位定义和一个判分器,判分器本身只有两行类型代码。
+                <code>{"Expect<T extends true>"}</code> 是一个类型参数,它的约束就是 <code>true</code> 这一个类型,所以塞给它{" "}
                 <code>false</code>,和任何一次约束违反没有区别。
                 <code>Equal&lt;X, Y&gt;</code> 拿两个只有 <code>X</code> 和{" "}
-                <code>Y</code> 不同的泛型函数类型作比较;
-                编译器只有在两个延迟求值的条件类型「出身相同」时才认为它们相关,
-                所以这个判定比 <code>X extends Y</code> 严格。
-                能用它,不需要能推导它 —— 它是类型练习里的通用判分器。
+                <code>Y</code> 不同的泛型函数类型作比较;编译器只有在两个延迟求值的条件类型「出身相同」时才认为它们相关,所以这个判定比 <code>X extends Y</code> 严格。能用它,不需要能推导它 —— 它是类型练习里的通用判分器。
               </>
             }
           />
@@ -1601,14 +1572,11 @@ export default function TypeMagicPage() {
                   TS2344: Type &apos;false&apos; does not satisfy the constraint
                   &apos;true&apos;.
                 </code>{" "}
-                改对一个,对应那条报错自己消失。清到<b>没有报错</b>,
-                就意味着你从零写出了 <code>Partial</code>、<code>Pick</code>、
+                改对一个,对应那条报错自己消失。清到<b>没有报错</b>,就意味着你从零写出了 <code>Partial</code>、<code>Pick</code>、
                 <code>Exclude</code>,而且每一个都和标准库的版本核对过 ——
                 这句话是编译器验的,不是我说的。那些差一点的写法也值得试:
-                <code>{"{ [K in keyof T]: T[K] }"}</code> 少一个问号,
-                或者把 <code>MyPick</code> 写成{" "}
-                <code>{"{ [P in keyof T]: T[P] }"}</code>。两个都像对的,
-                两个都不对,判分器当场就说。
+                <code>{"{ [K in keyof T]: T[K] }"}</code> 少一个问号,或者把 <code>MyPick</code> 写成{" "}
+                <code>{"{ [P in keyof T]: T[P] }"}</code>。两个都像对的,两个都不对,判分器当场就说。
               </>
             }
           />
@@ -1641,10 +1609,8 @@ export default function TypeMagicPage() {
                   五个工具类型全部亲手写过,而且你的版本和标准库几乎一字不差。
                   <b>零件只有这么几个,剩下的是组合。</b>在 VS Code 里按住 Cmd 或
                   Ctrl 点一下 <code>Partial</code>,跳进{" "}
-                  <code>lib.es5.d.ts</code>:上一章还读不下去的地方,
-                  现在就是普通代码。内置类型不够用的时候(深层{" "}
-                  <code>Readonly</code>、严格的 <code>Omit</code>),
-                  你已经能自己写 —— 下面的动手任务里就有一个。
+                  <code>lib.es5.d.ts</code>:上一章还读不下去的地方,现在就是普通代码。内置类型不够用的时候(深层{" "}
+                  <code>Readonly</code>、严格的 <code>Omit</code>),你已经能自己写 —— 下面的动手任务里就有一个。
                 </>
               }
             />
@@ -1677,10 +1643,8 @@ export default function TypeMagicPage() {
               zh={
                 <>
                   类型层面的代码和普通代码守同一条规矩:
-                  <b>一眼能读懂的,别写成三层嵌套的条件类型</b>。 一个{" "}
-                  <code>interface</code> 说得清的事,不用上条件类型。
-                  同事悬停十秒还看不懂的类型是成本,不是成绩。
-                  这条线画在哪,终章「类型思维」会再谈。
+                  <b>一眼能读懂的,别写成三层嵌套的条件类型</b>。一个{" "}
+                  <code>interface</code> 说得清的事,不用上条件类型。同事悬停十秒还看不懂的类型是成本,不是成绩。这条线画在哪,终章「类型思维」会再谈。
                 </>
               }
             />
@@ -1726,8 +1690,7 @@ export default function TypeMagicPage() {
             ),
             zh: (
               <>
-                类型自己是一门小语言:输入类型、输出类型,只在编译时运行,
-                之后被去掉。值层面的操作大多在类型层面有个对应写法。
+                类型自己是一门小语言:输入类型、输出类型,只在编译时运行,之后被去掉。值层面的操作大多在类型层面有个对应写法。
               </>
             ),
           },
@@ -1769,8 +1732,7 @@ export default function TypeMagicPage() {
                 <code>T extends U ? X : Y</code> 是类型世界的三元表达式。
                 <b>只有被判断的类型是裸类型参数时才会对联合分发</b>:
                 <code>A | B</code> 会变成{" "}
-                <code>(A extends U ? X : Y) | (B extends U ? X : Y)</code>。
-                变成 <code>never</code> 的成员会消失,因为 <code>never</code>{" "}
+                <code>(A extends U ? X : Y) | (B extends U ? X : Y)</code>。变成 <code>never</code> 的成员会消失,因为 <code>never</code>{" "}
                 就是空联合。<code>Exclude</code> 全部内容就是这些。
               </>
             ),
@@ -1787,8 +1749,7 @@ export default function TypeMagicPage() {
             ),
             zh: (
               <>
-                两边都包起来 —— <code>[T] extends [U]</code> —— 就关掉分发。
-                两个推论:对 <code>never</code> 分发没有成员可判,结果是{" "}
+                两边都包起来 —— <code>[T] extends [U]</code> —— 就关掉分发。两个推论:对 <code>never</code> 分发没有成员可判,结果是{" "}
                 <code>never</code>;<code>boolean</code> 是{" "}
                 <code>true | false</code>,所以会分发两次。
               </>
@@ -1809,8 +1770,7 @@ export default function TypeMagicPage() {
             zh: (
               <>
                 <code>infer</code> 从匹配到的形状里抓出类型。映射类型{" "}
-                <code>{"{ [K in keyof T]: … }"}</code> 逐键重建类型,
-                照抄它没改的修饰符,并支持 <code>?</code>、<code>-?</code>、
+                <code>{"{ [K in keyof T]: … }"}</code> 逐键重建类型,照抄它没改的修饰符,并支持 <code>?</code>、<code>-?</code>、
                 <code>readonly</code>、<code>-readonly</code>
                 。配合模板字面量类型 的 <code>
                   as
@@ -1830,8 +1790,7 @@ export default function TypeMagicPage() {
             ),
             zh: (
               <>
-                上一章那五个工具类型你已经全部亲手写过。
-                随之而来的是克制:可读性优先于聪明, 而递归类型仍然有深度上限(
+                上一章那五个工具类型你已经全部亲手写过。随之而来的是克制:可读性优先于聪明, 而递归类型仍然有深度上限(
                 <code>ts(2589)</code>)。
               </>
             ),

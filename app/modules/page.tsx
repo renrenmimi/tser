@@ -655,11 +655,8 @@ export default function ModulesPage() {
           ),
           zh: (
             <>
-              模块把自己的顶层名字留在自己手里;
-              声明文件描述一个模块导出了什么,而不包含任何代码。
-              这一章讲这几件事:什么让一个文件成为模块、一行 import
-              到底带着什么,以及当一个 JavaScript 库自己没有类型时,
-              它的类型从哪里来。
+              模块把自己的顶层名字留在自己手里;声明文件描述一个模块导出了什么,而不包含任何代码。这一章讲这几件事:什么让一个文件成为模块、一行 import
+              到底带着什么,以及当一个 JavaScript 库自己没有类型时,它的类型从哪里来。
             </>
           ),
         }}
@@ -717,10 +714,8 @@ export default function ModulesPage() {
             zh={
               <>
                 先说其他一切都建立在上面的那条规则。一个文件只有在顶层写了{" "}
-                <code>import</code> 或 <code>export</code> 时,才是<b>模块</b>;
-                两者都没有的文件是<b>脚本</b>,它的顶层声明会进入
-                <b>全局作用域</b> —— 而程序里所有脚本共用这一个作用域。
-                这就是为什么两个从没打算共享名字的文件会撞车。
+                <code>import</code> 或 <code>export</code> 时,才是<b>模块</b>;两者都没有的文件是<b>脚本</b>,它的顶层声明会进入
+                <b>全局作用域</b> —— 而程序里所有脚本共用这一个作用域。这就是为什么两个从没打算共享名字的文件会撞车。
               </>
             }
           />
@@ -745,8 +740,7 @@ export default function ModulesPage() {
               }
               zh={
                 <>
-                  <code>export {"{}"}</code> 什么都不导出,
-                  它唯一的作用就是让这个文件获得模块作用域。
+                  <code>export {"{}"}</code> 什么都不导出,它唯一的作用就是让这个文件获得模块作用域。
                   <b>§04</b> 还会再见到它 —— <code>declare global</code>{" "}
                   需要这个前提。
                 </>
@@ -785,15 +779,12 @@ export default function ModulesPage() {
                 <p>
                   <code>tsconfig.json</code> 里的 <code>module</code>{" "}
                   选的是<i>输出格式</i>:<code>esnext</code>、
-                  <code>commonjs</code> 之类。
-                  它不决定某个文件是不是模块 ——
+                  <code>commonjs</code> 之类。它不决定某个文件是不是模块 ——
                   只有文件自己能决定,靠顶层的 import 或 export。
                 </p>
                 <p>
-                  这一点在 <code>.d.ts</code> 里最要紧,
-                  因为那种文件很容易两者都没有。同一段{" "}
-                  <code>declare module</code> 放在哪种文件里,
-                  含义完全不同。§04 会把两种都演一遍。
+                  这一点在 <code>.d.ts</code> 里最要紧,因为那种文件很容易两者都没有。同一段{" "}
+                  <code>declare module</code> 放在哪种文件里,含义完全不同。§04 会把两种都演一遍。
                 </p>
               </>
             }
@@ -816,12 +807,10 @@ export default function ModulesPage() {
             zh={
               <>
                 接下来是你会遇到的两套模块系统。<b>ES 模块</b>(ESM)用{" "}
-                <code>import</code> 和 <code>export</code>,
-                它的导入会被<b>提升</b> ——
+                <code>import</code> 和 <code>export</code>,它的导入会被<b>提升</b> ——
                 所有被导入的模块都在当前文件第一条语句之前加载并执行完 ——
                 而且导入清单不需要运行任何代码就能读出来。<b>CommonJS</b>
-                (CJS)用 <code>require</code>,那是一次普通的函数调用,
-                写在哪里就在哪里执行。
+                (CJS)用 <code>require</code>,那是一次普通的函数调用,写在哪里就在哪里执行。
               </>
             }
           />
@@ -874,15 +863,11 @@ export default function ModulesPage() {
             zh={
               <>
                 <p>
-                  ESM 的 import / export 声明必须写在顶层,名字也是固定的,
-                  所以打包器不运行程序就能算出哪些导出被用到,
-                  再把没用到的导出从产物里去掉。这种去除叫{" "}
+                  ESM 的 import / export 声明必须写在顶层,名字也是固定的,所以打包器不运行程序就能算出哪些导出被用到,再把没用到的导出从产物里去掉。这种去除叫{" "}
                   <b>tree shaking</b>。
                 </p>
                 <p>
-                  <code>require</code> 给不了这个保证:
-                  它可以写在 <code>if</code> 里面,可以接一个算出来的路径,
-                  每次还可能返回不同的对象。所以打包器通常只能把整个模块留下。
+                  <code>require</code> 给不了这个保证:它可以写在 <code>if</code> 里面,可以接一个算出来的路径,每次还可能返回不同的对象。所以打包器通常只能把整个模块留下。
                 </p>
               </>
             }
@@ -924,16 +909,12 @@ export default function ModulesPage() {
                   <code>export default x</code> 在 ES 模块上创建一个名叫{" "}
                   <code>default</code> 的具名导出;
                   <code>module.exports = x</code>{" "}
-                  则是把 CommonJS 模块的整个导出对象换掉。
-                  所以一个把函数赋给 <code>module.exports</code> 的 CommonJS
+                  则是把 CommonJS 模块的整个导出对象换掉。所以一个把函数赋给 <code>module.exports</code> 的 CommonJS
                   模块,并没有一个 <code>default</code> 属性给 ESM
                   的默认导入去读。
                 </p>
                 <p>
-                  <code>esModuleInterop</code> 就是搭在这两者之间的桥:
-                  它让编译器产出一个小助手 <code>__importDefault</code>,
-                  把非 ESM 的导出包成 <code>{"{ default: … }"}</code>,
-                  默认导入这才有东西可拿。它同时也改了类型规则 ——
+                  <code>esModuleInterop</code> 就是搭在这两者之间的桥:它让编译器产出一个小助手 <code>__importDefault</code>,把非 ESM 的导出包成 <code>{"{ default: … }"}</code>,默认导入这才有东西可拿。它同时也改了类型规则 ——
                   不开这个开关,那句默认导入会直接被拒绝。
                 </p>
               </>
@@ -990,8 +971,7 @@ export default function ModulesPage() {
             zh={
               <>
                 编译时类型会被擦除。那么,把类型带进来的那行{" "}
-                <code>import</code> 会怎么样?
-                把下面的面板从「编译前」切到「编译后」看看。
+                <code>import</code> 会怎么样?把下面的面板从「编译前」切到「编译后」看看。
               </>
             }
           />
@@ -1039,9 +1019,7 @@ export default function ModulesPage() {
               <>
                 <p>
                   <code>tsc</code> 看得到整个项目,所以它自己就能算出{" "}
-                  <code>Order</code> 只是类型、这行导入可以删。
-                  而 Vite、esbuild、SWC <b>一次只转译一个文件</b>,
-                  它们分不清 <code>Order</code> 是值还是类型 ——
+                  <code>Order</code> 只是类型、这行导入可以删。而 Vite、esbuild、SWC <b>一次只转译一个文件</b>,它们分不清 <code>Order</code> 是值还是类型 ——
                   删错一行导入,程序会在运行时坏掉。
                 </p>
                 <p>
@@ -1050,15 +1028,12 @@ export default function ModulesPage() {
                   语句会被原样输出,导入类型时不写 <code>type</code> 会报{" "}
                   <code>ts(1484)</code>,&quot;&apos;Order&apos; is a type and
                   must be imported using a type-only import when
-                  &apos;verbatimModuleSyntax&apos; is enabled.&quot;;
-                  转手导出类型时不写 <code>export type</code> 则报对应的{" "}
+                  &apos;verbatimModuleSyntax&apos; is enabled.&quot;;转手导出类型时不写 <code>export type</code> 则报对应的{" "}
                   <code>ts(1205)</code>。
                 </p>
                 <p>
                   还有第二个理由,和工具链无关:<code>.js</code>{" "}
-                  模块被加载时可以执行代码。
-                  一行纯类型导入如果活到了产物里,
-                  就会在运行时白白加载那个模块一次。
+                  模块被加载时可以执行代码。一行纯类型导入如果活到了产物里,就会在运行时白白加载那个模块一次。
                 </p>
               </>
             }
@@ -1083,9 +1058,7 @@ export default function ModulesPage() {
               }
               zh={
                 <>
-                  一个好习惯:某个名字只出现在类型位置上,
-                  导入时就给它标上 <code>type</code>。
-                  编辑器的自动导入现在默认就是这么做的。
+                  一个好习惯:某个名字只出现在类型位置上,导入时就给它标上 <code>type</code>。编辑器的自动导入现在默认就是这么做的。
                 </>
               }
             />
@@ -1108,13 +1081,9 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                下面这个窗口里跑的是真编译器,它手上只有一个文件,
-                所以没有别的模块可以 import。
-                同一条分界线在导出这一侧照样看得见:四个声明,其中两个是类型。
-                切到<b>编译产物 JS</b> —— <code>TAX</code> 和{" "}
+                下面这个窗口里跑的是真编译器,它手上只有一个文件,所以没有别的模块可以 import。同一条分界线在导出这一侧照样看得见:四个声明,其中两个是类型。切到<b>编译产物 JS</b> —— <code>TAX</code> 和{" "}
                 <code>receiptLine</code> 在,<code>Size</code>、
-                <code>Order</code> 和整行 <code>export type</code> 都不在。
-                产物就是浏览器要跑的东西,它压根不知道那两个类型存在过。
+                <code>Order</code> 和整行 <code>export type</code> 都不在。产物就是浏览器要跑的东西,它压根不知道那两个类型存在过。
               </>
             }
           />
@@ -1154,13 +1123,10 @@ export default function ModulesPage() {
             zh={
               <>
                 现在换上<b>把 type 去掉</b>。把 <code>Order</code> 和{" "}
-                <code>Size</code> 当值导出,会得到两条 ts(1205)。
-                有个细节值得说清:这个实验室一次只编译一个文件 ——
-                和打包器一样 —— 所以 <code>isolatedModules</code> 一直开着,
-                报错里点名的就是它。把 <code>verbatimModuleSyntax</code>{" "}
+                <code>Size</code> 当值导出,会得到两条 ts(1205)。有个细节值得说清:这个实验室一次只编译一个文件 ——
+                和打包器一样 —— 所以 <code>isolatedModules</code> 一直开着,报错里点名的就是它。把 <code>verbatimModuleSyntax</code>{" "}
                 打开,同一条报错只是改口点了另一个的名字。两个选项,同一条规则
-                —— <b>类型必须以类型的身份导出</b>,
-                因为负责删掉这一行的工具,手上只有这一个文件可看。
+                —— <b>类型必须以类型的身份导出</b>,因为负责删掉这一行的工具,手上只有这一个文件可看。
               </>
             }
           />
@@ -1195,16 +1161,11 @@ export default function ModulesPage() {
             zh={
               <>
                 <p>
-                  两个 ES 模块可以互相导入,规范允许,
-                  类型检查也不会报任何东西。仍然可能出问题的是<i>顺序</i>:
-                  模块是一个接一个执行的,
-                  如果一方在另一方还没走到初始化那一行时就去读它的绑定,
-                  这次读取会抛 <code>ReferenceError</code>。
+                  两个 ES 模块可以互相导入,规范允许,类型检查也不会报任何东西。仍然可能出问题的是<i>顺序</i>:模块是一个接一个执行的,如果一方在另一方还没走到初始化那一行时就去读它的绑定,这次读取会抛 <code>ReferenceError</code>。
                 </p>
                 <p>
                   晚一点再读没问题 ——
-                  比如放在两个模块都执行完之后才被调用的函数里。
-                  实际的解法是把共享的声明挪到第三个模块,两边都从那里导入。
+                  比如放在两个模块都执行完之后才被调用的函数里。实际的解法是把共享的声明挪到第三个模块,两边都从那里导入。
                 </p>
               </>
             }
@@ -1247,9 +1208,7 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                <b>声明文件</b>(<code>.d.ts</code>)描述一个模块对外的形状:
-                每个导出,连带它的类型,除此之外什么都没有。
-                这种文件不一定要手写 —— 你让编译器生成,它就会从源码里生成:
+                <b>声明文件</b>(<code>.d.ts</code>)描述一个模块对外的形状:每个导出,连带它的类型,除此之外什么都没有。这种文件不一定要手写 —— 你让编译器生成,它就会从源码里生成:
               </>
             }
           />
@@ -1289,8 +1248,7 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                上面那一对是事先摆好的,下面这个不是:
-                一段奶茶店 SDK 的切片,底下是真编译器。
+                上面那一对是事先摆好的,下面这个不是:一段奶茶店 SDK 的切片,底下是真编译器。
                 <b>编译产物 JS</b> 页签里是去掉类型的实现,
                 <b>声明文件 .d.ts</b> 页签里是去掉实现的类型 ——
                 同一个文件的两半,哪一半都不用手写。
@@ -1334,15 +1292,10 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                那份 <code>.d.ts</code> 里有四处值得回头看。
-                没有人给 <code>priceOf</code> 写过返回类型,
-                声明里却写着 <code>: number</code> ——
+                那份 <code>.d.ts</code> 里有四处值得回头看。没有人给 <code>priceOf</code> 写过返回类型,声明里却写着 <code>: number</code> ——
                 编译器自己算出来,然后替你写给所有人看。
-                <code>find</code> 出来是 <code>MenuItem | undefined</code>,
-                因为 <code>Array.prototype.find</code> 可能空手而归。
-                <code>private items</code> 只列了名字、没有类型:
-                它在不在会影响类型兼容(第 08 章 §06),
-                它是什么类型则不关外人的事。而 <code>EXTRA</code>{" "}
+                <code>find</code> 出来是 <code>MenuItem | undefined</code>,因为 <code>Array.prototype.find</code> 可能空手而归。
+                <code>private items</code> 只列了名字、没有类型:它在不在会影响类型兼容(第 08 章 §06),它是什么类型则不关外人的事。而 <code>EXTRA</code>{" "}
                 整个不见了 —— 它从来没被导出过。
               </>
             }
@@ -1363,11 +1316,9 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                换上<b>撤掉 priceOf 的导出</b>,看它去了哪里。
-                这个函数还在编译产物 JS 里 —— <code>tsc</code>{" "}
+                换上<b>撤掉 priceOf 的导出</b>,看它去了哪里。这个函数还在编译产物 JS 里 —— <code>tsc</code>{" "}
                 会把你写的每一行都输出去;它从 <code>.d.ts</code> 里消失了 ——
-                那份文件只描述这个模块对外提供什么。
-                一次改动,就说完了声明文件的全部职责。
+                那份文件只描述这个模块对外提供什么。一次改动,就说完了声明文件的全部职责。
               </>
             }
           />
@@ -1403,8 +1354,7 @@ export default function ModulesPage() {
               <>
                 <p>
                   <code>.d.ts</code> 里的一切都是环境声明(ambient
-                  declaration):关于「别处存在某样东西」的陈述。
-                  在里面写一个函数体,你会得到{" "}
+                  declaration):关于「别处存在某样东西」的陈述。在里面写一个函数体,你会得到{" "}
                   <code>
                     error TS1183: An implementation cannot be declared in ambient
                     contexts.
@@ -1458,9 +1408,7 @@ export default function ModulesPage() {
                   选项决定加载哪几本。
                 </p>
                 <p>
-                  在编辑器里按住 Ctrl 或 Cmd 点一下 <code>fetch</code>,
-                  你会跳进 <code>lib.dom.d.ts</code>。
-                  亲眼看一次,「内置」就不再像是什么特殊情况了。
+                  在编辑器里按住 Ctrl 或 Cmd 点一下 <code>fetch</code>,你会跳进 <code>lib.dom.d.ts</code>。亲眼看一次,「内置」就不再像是什么特殊情况了。
                 </p>
               </>
             }
@@ -1485,8 +1433,7 @@ export default function ModulesPage() {
               }
               zh={
                 <>
-                  注意 <code>declare</code> 这个词:实现不在这里,
-                  但运行时它会存在。<b>§04</b> 专门讲这个词。
+                  注意 <code>declare</code> 这个词:实现不在这里,但运行时它会存在。<b>§04</b> 专门讲这个词。
                 </>
               }
             />
@@ -1528,8 +1475,7 @@ export default function ModulesPage() {
                 }
                 zh={
                   <>
-                    用 TypeScript 写的库,编译时开 <code>--declaration</code>,
-                    再用 <code>package.json</code> 的 <code>types</code>{" "}
+                    用 TypeScript 写的库,编译时开 <code>--declaration</code>,再用 <code>package.json</code> 的 <code>types</code>{" "}
                     字段(或 <code>exports</code> 里的 <code>types</code>{" "}
                     条件)指向产物。装完就有类型。
                   </>
@@ -1552,10 +1498,8 @@ export default function ModulesPage() {
                 }
                 zh={
                   <>
-                    一个社区仓库,为自己不带类型的库写声明,
-                    发布成 <code>@types/*</code> 包:
-                    <code>npm i -D @types/lodash</code>。
-                    几乎所有老牌 JavaScript 库都被收录了。
+                    一个社区仓库,为自己不带类型的库写声明,发布成 <code>@types/*</code> 包:
+                    <code>npm i -D @types/lodash</code>。几乎所有老牌 JavaScript 库都被收录了。
                   </>
                 }
               />
@@ -1632,8 +1576,7 @@ export default function ModulesPage() {
                 <>
                   两种写法在真实项目里都常见。顶层的 <code>types</code>{" "}
                   字段是较早的写法;<code>exports</code> 里的{" "}
-                  <code>types</code> 条件由较新的解析模式读取,
-                  而且可以按子路径分别指定 ——
+                  <code>types</code> 条件由较新的解析模式读取,而且可以按子路径分别指定 ——
                   所以一个包能为它的 ESM 入口和 CommonJS
                   入口提供不同的类型。
                 </>
@@ -1703,13 +1646,11 @@ export default function ModulesPage() {
             zh={
               <>
                 <p>
-                  DefinitelyTyped 里的声明是志愿者写的,可能落后于库本体。
-                  你装了新的大版本 lodash,而 <code>@types/lodash</code>{" "}
+                  DefinitelyTyped 里的声明是志愿者写的,可能落后于库本体。你装了新的大版本 lodash,而 <code>@types/lodash</code>{" "}
                   还停在旧版,类型描述的就会是库已经不再有的行为。
                 </p>
                 <p>
-                  约定是 <b>@types 包的 major 和 minor 版本跟随库本体</b>。
-                  类型看起来不对的时候,先比这两个版本号。
+                  约定是 <b>@types 包的 major 和 minor 版本跟随库本体</b>。类型看起来不对的时候,先比这两个版本号。
                 </p>
               </>
             }
@@ -1760,15 +1701,11 @@ export default function ModulesPage() {
                 <p>
                   找到声明文件这件事叫<b>模块解析</b>,规则由{" "}
                   <code>moduleResolution</code> 选择。<code>node10</code>{" "}
-                  是旧的 Node 算法:沿着 <code>node_modules</code> 往上找,
-                  读 <code>main</code> 和 <code>types</code>,并且
+                  是旧的 Node 算法:沿着 <code>node_modules</code> 往上找,读 <code>main</code> 和 <code>types</code>,并且
                   <b>忽略</b> <code>exports</code> 字段。<code>node16</code>{" "}
-                  和 <code>nodenext</code> 按现代 Node 的真实行为来:
-                  认 <code>exports</code>,而且在 ESM 文件里,
-                  相对导入必须写文件扩展名(不写会报 <code>ts(2835)</code>)。
+                  和 <code>nodenext</code> 按现代 Node 的真实行为来:认 <code>exports</code>,而且在 ESM 文件里,相对导入必须写文件扩展名(不写会报 <code>ts(2835)</code>)。
                   <code>bundler</code> 对应打包器的行为:认{" "}
-                  <code>exports</code>,但允许省略扩展名。
-                  这几种没有哪一种放到哪里都对 ——
+                  <code>exports</code>,但允许省略扩展名。这几种没有哪一种放到哪里都对 ——
                   正确的那一个,是和真正加载你代码的那一方对得上的那个。
                 </p>
                 <p>
@@ -1776,11 +1713,8 @@ export default function ModulesPage() {
                   <code>tsc</code> 不会改写模块标识,所以{" "}
                   <code>import {"{ TAX }"} from &quot;@/tax&quot;</code>{" "}
                   在产物里还是这么写着,Node 于是报{" "}
-                  <code>Cannot find package &apos;@/tax&apos;</code>。
-                  Next.js、Vite、webpack 会读这些 paths,
-                  或者提供等价的别名选项 ——
-                  这就是为什么别名在应用里好用,
-                  却在你第一次用纯 <code>node</code> 跑产物时失败。
+                  <code>Cannot find package &apos;@/tax&apos;</code>。Next.js、Vite、webpack 会读这些 paths,或者提供等价的别名选项 ——
+                  这就是为什么别名在应用里好用,却在你第一次用纯 <code>node</code> 跑产物时失败。
                 </p>
               </>
             }
@@ -1807,9 +1741,7 @@ export default function ModulesPage() {
               }
               zh={
                 <>
-                  这个项目用 <code>bundler</code>,因为代码是 Next.js 加载的。
-                  一个要发布到 npm 的库通常想要 <code>nodenext</code>,
-                  这样它产出的声明才和 Node 实际的处理方式对得上。
+                  这个项目用 <code>bundler</code>,因为代码是 Next.js 加载的。一个要发布到 npm 的库通常想要 <code>nodenext</code>,这样它产出的声明才和 Node 实际的处理方式对得上。
                 </>
               }
             />
@@ -1844,15 +1776,12 @@ export default function ModulesPage() {
               <>
                 <p>
                   <code>skipLibCheck: true</code> 跳过的是{" "}
-                  <code>.d.ts</code> 文件<b>内部</b>的类型检查,
-                  包括它们之间的互相检查。
-                  你自己代码对这些库的调用,照样完整检查。
+                  <code>.d.ts</code> 文件<b>内部</b>的类型检查,包括它们之间的互相检查。你自己代码对这些库的调用,照样完整检查。
                 </p>
                 <p>
                   换来的是更快的编译,以及躲开你根本改不了的报错 ——
                   比如两个 <code>@types</code>{" "}
-                  包用不同的类型声明了同一个全局变量。
-                  代价是声明文件内部真有错时不会被报出来。
+                  包用不同的类型声明了同一个全局变量。代价是声明文件内部真有错时不会被报出来。
                 </p>
               </>
             }
@@ -1886,8 +1815,7 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                有些东西运行时确实存在,但编译器看不见:
-                构建工具注入的全局常量、由 <code>&lt;script&gt;</code>{" "}
+                有些东西运行时确实存在,但编译器看不见:构建工具注入的全局常量、由 <code>&lt;script&gt;</code>{" "}
                 标签加载进来的函数、没有类型的 npm 包。<b>declare</b>{" "}
                 就是你陈述它们类型的方式:它存在,形状是这样,请采信我。
               </>
@@ -1916,8 +1844,7 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                最常见的真实需求:有东西被挂到了 <code>window</code> 上,
-                你希望它有类型。在模块内部,这需要 <code>declare global</code>。
+                最常见的真实需求:有东西被挂到了 <code>window</code> 上,你希望它有类型。在模块内部,这需要 <code>declare global</code>。
               </>
             }
           />
@@ -1948,9 +1875,7 @@ export default function ModulesPage() {
               zh={
                 <>
                   为什么要写 <code>export {"{}"}</code>?
-                  <code>declare global</code> 只允许出现在模块里,
-                  而顶层没有 import / export 的文件是脚本。
-                  写在脚本里会得到{" "}
+                  <code>declare global</code> 只允许出现在模块里,而顶层没有 import / export 的文件是脚本。写在脚本里会得到{" "}
                   <code>
                     error TS2669: Augmentations for the global scope can only be
                     directly nested in external modules or ambient module
@@ -2006,21 +1931,16 @@ export default function ModulesPage() {
                   写在<b>脚本</b>文件里(顶层没有 import / export)的{" "}
                   <code>declare module &quot;x&quot;</code>{" "}
                   是<b>环境模块声明</b>,含义是:模块{" "}
-                  <code>&quot;x&quot;</code> 存在,类型是这些。
-                  用于自己没有类型的包。
+                  <code>&quot;x&quot;</code> 存在,类型是这些。用于自己没有类型的包。
                 </p>
                 <p>
-                  同样一段写在<b>模块</b>文件里,就是<b>模块扩充</b>,
-                  含义是:模块 <code>&quot;x&quot;</code>{" "}
-                  已经有类型了,把这些追加进去。用于扩展一个有类型的库,
-                  比如给某个 theme 接口加一个字段。
+                  同样一段写在<b>模块</b>文件里,就是<b>模块扩充</b>,含义是:模块 <code>&quot;x&quot;</code>{" "}
+                  已经有类型了,把这些追加进去。用于扩展一个有类型的库,比如给某个 theme 接口加一个字段。
                 </p>
                 <p>
-                  两者搞反会得到一个令人困惑的报错。
-                  某个文件里的 <code>declare module</code>{" "}
+                  两者搞反会得到一个令人困惑的报错。某个文件里的 <code>declare module</code>{" "}
                   本意是描述一个没有类型的包,你却给它加了{" "}
-                  <code>export {"{}"}</code>,
-                  编译器就会把它当成扩充,而那里没有东西可扩充:
+                  <code>export {"{}"}</code>,编译器就会把它当成扩充,而那里没有东西可扩充:
                   <code>
                     error TS2665: Invalid module name in augmentation. Module
                     &apos;boba-sdk&apos; resolves to an untyped module …, which
@@ -2075,9 +1995,7 @@ export default function ModulesPage() {
                   <code>gtag is not defined</code> 失败。
                 </p>
                 <p>
-                  类型检查通过、一运行就失败时,查三件事:
-                  脚本真的加载了吗?那个包真的导出了这个名字吗?
-                  名字拼对了吗?
+                  类型检查通过、一运行就失败时,查三件事:脚本真的加载了吗?那个包真的导出了这个名字吗?名字拼对了吗?
                 </p>
               </>
             }
@@ -2114,13 +2032,10 @@ export default function ModulesPage() {
                 <p>
                   在较早的声明文件里你会看到 <code>declare namespace</code>。
                   <code>namespace</code> 早于 ES 模块 ——
-                  在 JavaScript 还没有自己的模块之前,
-                  它是 TypeScript 自己的名字分组方式。它现在依然有效,
-                  而且描述「把所有东西挂在一个全局对象上」的库时依然最自然。
+                  在 JavaScript 还没有自己的模块之前,它是 TypeScript 自己的名字分组方式。它现在依然有效,而且描述「把所有东西挂在一个全局对象上」的库时依然最自然。
                 </p>
                 <p>
-                  新写的代码则推荐用模块。
-                  模块本身就给了你一个私有作用域和一份明确的导出清单 ——
+                  新写的代码则推荐用模块。模块本身就给了你一个私有作用域和一份明确的导出清单 ——
                   那正是 <code>namespace</code> 当年要解决的事。
                 </p>
               </>
@@ -2171,9 +2086,7 @@ export default function ModulesPage() {
             }
             zh={
               <>
-                设定:项目要接一个(假想的)老 JavaScript 包 <b>boba-sdk</b>,
-                它没有类型,<code>@types/boba-sdk</code> 也不存在。
-                第一次 import 就失败:
+                设定:项目要接一个(假想的)老 JavaScript 包 <b>boba-sdk</b>,它没有类型,<code>@types/boba-sdk</code> 也不存在。第一次 import 就失败:
               </>
             }
           />
@@ -2199,8 +2112,7 @@ export default function ModulesPage() {
             zh={
               <>
                 <b>第一步:先让它能编译。</b>建一个{" "}
-                <code>types/boba-sdk.d.ts</code>。放在哪里都行,
-                只要在 <code>tsconfig.json</code> 的 <code>include</code>{" "}
+                <code>types/boba-sdk.d.ts</code>。放在哪里都行,只要在 <code>tsconfig.json</code> 的 <code>include</code>{" "}
                 范围内。
               </>
             }
@@ -2227,11 +2139,8 @@ export default function ModulesPage() {
               }
               zh={
                 <>
-                  这种简写只声明模块存在,不说它的内容,
-                  所以从它导入的一切都是 <code>any</code>。
-                  让这个文件保持脚本身份:不要写顶层的{" "}
-                  <code>export</code>,否则这段会变成模块扩充,
-                  报 <code>ts(2665)</code>。
+                  这种简写只声明模块存在,不说它的内容,所以从它导入的一切都是 <code>any</code>。让这个文件保持脚本身份:不要写顶层的{" "}
+                  <code>export</code>,否则这段会变成模块扩充,报 <code>ts(2665)</code>。
                 </>
               }
             />
@@ -2277,8 +2186,7 @@ export default function ModulesPage() {
                 <>
                   从这一步开始,<code>fetchMenu</code>{" "}
                   有了真实的返回类型,给 <code>order</code>{" "}
-                  传错杯型会报错 —— 这就是「不受检查的导入」和
-                  「受检查的导入」的分界线。
+                  传错杯型会报错 —— 这就是「不受检查的导入」和「受检查的导入」的分界线。
                 </>
               }
             />
@@ -2297,8 +2205,7 @@ export default function ModulesPage() {
             zh={
               <>
                 <b>第三步:补齐其余部分。</b>boba-sdk
-                的文档里还提到一个默认导出的客户端和一个事件回调,
-                一并补上:
+                的文档里还提到一个默认导出的客户端和一个事件回调,一并补上:
               </>
             }
           />
@@ -2342,8 +2249,7 @@ export default function ModulesPage() {
                 </p>
                 <p>
                   如果你真写出了一份完整可靠的,把它提给 DefinitelyTyped。
-                  <code>@types/boba-sdk</code> 一发布,
-                  下一个用这个库的人就完全不用再做这些事了。
+                  <code>@types/boba-sdk</code> 一发布,下一个用这个库的人就完全不用再做这些事了。
                 </p>
               </>
             }
@@ -2462,8 +2368,7 @@ export default function ModulesPage() {
                 写在哪里就在哪里执行。<code>export default</code> 和{" "}
                 <code>module.exports =</code> 是两回事,
                 <code>esModuleInterop</code> 会产出{" "}
-                <code>__importDefault</code> 包装,
-                让默认导入能读到 CommonJS 的导出。
+                <code>__importDefault</code> 包装,让默认导入能读到 CommonJS 的导出。
               </>
             ),
           },
@@ -2480,10 +2385,8 @@ export default function ModulesPage() {
             zh: (
               <>
                 <code>import type</code> 和 <code>export type</code>{" "}
-                把一行标为「只有类型」,于是整行被删除,
-                运行时不会加载任何模块。<code>verbatimModuleSyntax</code>{" "}
-                把这个标注变成必需:导入报 <code>ts(1484)</code>,
-                转手导出报 <code>ts(1205)</code>。
+                把一行标为「只有类型」,于是整行被删除,运行时不会加载任何模块。<code>verbatimModuleSyntax</code>{" "}
+                把这个标注变成必需:导入报 <code>ts(1484)</code>,转手导出报 <code>ts(1205)</code>。
               </>
             ),
           },
@@ -2498,9 +2401,7 @@ export default function ModulesPage() {
             ),
             zh: (
               <>
-                <code>.d.ts</code> 描述导出,不产出任何东西,
-                也放不了实现:<code>ts(1183)</code>。
-                它同样不能替代模块本身 —— 有声明而没有对应的{" "}
+                <code>.d.ts</code> 描述导出,不产出任何东西,也放不了实现:<code>ts(1183)</code>。它同样不能替代模块本身 —— 有声明而没有对应的{" "}
                 <code>.js</code>,类型检查会通过,运行时会失败。
               </>
             ),
@@ -2542,13 +2443,10 @@ export default function ModulesPage() {
             ),
             zh: (
               <>
-                <code>declare</code> 只陈述类型、不产出代码,
-                所以断言错了会在运行时失败。<code>declare global</code>{" "}
+                <code>declare</code> 只陈述类型、不产出代码,所以断言错了会在运行时失败。<code>declare global</code>{" "}
                 是模块触及全局作用域的方式(写在别处报{" "}
                 <code>ts(2669)</code>)。<code>declare module &quot;x&quot;</code>{" "}
-                写在脚本文件里是声明一个没有类型的模块,
-                写在模块文件里是扩充一个已有类型的模块;
-                去扩充一个没有类型的模块会报 <code>ts(2665)</code>。
+                写在脚本文件里是声明一个没有类型的模块,写在模块文件里是扩充一个已有类型的模块;去扩充一个没有类型的模块会报 <code>ts(2665)</code>。
               </>
             ),
           },
@@ -2566,8 +2464,7 @@ export default function ModulesPage() {
               <>
                 解析只发生在编译期。<code>moduleResolution</code> 决定是否遵守{" "}
                 <code>exports</code> 和文件扩展名规则,而 <code>paths</code>{" "}
-                不会改动产物里的模块标识。
-                真正运行你代码的那一方,需要一份自己的对应配置。
+                不会改动产物里的模块标识。真正运行你代码的那一方,需要一份自己的对应配置。
               </>
             ),
           },

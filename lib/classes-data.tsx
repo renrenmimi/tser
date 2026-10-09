@@ -208,8 +208,7 @@ export const LABS: Lab[] = [
             <code>public</code> / <code>protected</code> / <code>private</code>{" "}
             三种成员的 <code>MilkTeaShop</code>,再写一个子类{" "}
             <code>FranchiseShop</code>。然后<b>从子类里读 private 成员</b>、
-            <b>从类外读 protected 成员</b>,把两条报错完整读一遍。
-            接着再加一行 <code>shop[&quot;vaultCode&quot;]</code> ——
+            <b>从类外读 protected 成员</b>,把两条报错完整读一遍。接着再加一行 <code>shop[&quot;vaultCode&quot;]</code> ——
             编译器会说什么吗?
           </p>
         }
@@ -227,10 +226,7 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            把鼠标停在红波浪线上就能看到报错。对比两条的措辞:
-            一条以 <code>only accessible within class</code> 结尾,
-            另一条多了 <code>and its subclasses</code>。
-            方括号那一行才是最出人意料的。
+            把鼠标停在红波浪线上就能看到报错。对比两条的措辞:一条以 <code>only accessible within class</code> 结尾,另一条多了 <code>and its subclasses</code>。方括号那一行才是最出人意料的。
           </>
         }
       />
@@ -258,8 +254,7 @@ export const LABS: Lab[] = [
                 两条报错的差别,就是两级权限的差别:<code>protected</code>{" "}
                 那条以 <code>and its subclasses</code> 结尾,
                 <code>private</code> 那条停在{" "}
-                <code>within class &apos;MilkTeaShop&apos;</code>。
-                最关键的是最后一行:<code>shop[&quot;vaultCode&quot;]</code>{" "}
+                <code>within class &apos;MilkTeaShop&apos;</code>。最关键的是最后一行:<code>shop[&quot;vaultCode&quot;]</code>{" "}
                 一点错都不报。用方括号访问私有成员是被有意允许的 ——
                 这提醒我们,<code>private</code>{" "}
                 是给改代码的人看的一道检查,不是一把锁。
@@ -296,8 +291,7 @@ export const LABS: Lab[] = [
             在 Playground 里定义本章的 <code>PaymentProvider</code> 接口(
             <code>pay</code> + <code>refund</code>),写一个{" "}
             <code>class CashPay implements PaymentProvider</code>,但
-            <b>故意漏掉 refund</b>,读一读编译器说了什么。
-            然后把它补上,并让同一个类再 implements 第二个接口{" "}
+            <b>故意漏掉 refund</b>,读一读编译器说了什么。然后把它补上,并让同一个类再 implements 第二个接口{" "}
             <code>Named {"{ name: string }"}</code>。
           </p>
         }
@@ -314,8 +308,7 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            失败时报的是 ts(2420) <code>incorrectly implements</code>,
-            第二行会点名缺了哪个成员。多个接口用逗号隔开:
+            失败时报的是 ts(2420) <code>incorrectly implements</code>,第二行会点名缺了哪个成员。多个接口用逗号隔开:
             <code>implements A, B</code>。
           </>
         }
@@ -338,10 +331,8 @@ export const LABS: Lab[] = [
             }
             zh={
               <>
-                注意报错出现的位置:在类名上,而不是散落在使用它的地方。
-                这正是 <code>implements</code> 的用处 ——
-                让类明确写出自己要符合什么,少了成员就在定义处报出来,
-                而不是等到别人调用时才暴露。
+                注意报错出现的位置:在类名上,而不是散落在使用它的地方。这正是 <code>implements</code> 的用处 ——
+                让类明确写出自己要符合什么,少了成员就在定义处报出来,而不是等到别人调用时才暴露。
               </>
             }
           />
@@ -372,10 +363,8 @@ export const LABS: Lab[] = [
         zh={
           <p>
             在 Playground 里写一个带{" "}
-            <code>private vaultCode = &quot;8848&quot;</code> 的类,
-            点开右侧的 <b>.JS 标签页</b>看编译产物;然后把{" "}
-            <code>private vaultCode</code> 改成 <code>#vaultCode</code>,
-            再看一次。最后分别从类外读一次这个字段,并对两个实例各做一次{" "}
+            <code>private vaultCode = &quot;8848&quot;</code> 的类,点开右侧的 <b>.JS 标签页</b>看编译产物;然后把{" "}
+            <code>private vaultCode</code> 改成 <code>#vaultCode</code>,再看一次。最后分别从类外读一次这个字段,并对两个实例各做一次{" "}
             <code>JSON.stringify</code>。
           </p>
         }
@@ -394,10 +383,8 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            要对比的只有一点:编译产物里,那个字段前面还剩下什么。
-            一个版本里 <code>private</code> 消失了,另一个版本里{" "}
-            <code>#</code> 原样还在。把 Playground 的 target 设为 ES2022,
-            第二个版本就不会被改写成 <code>WeakMap</code>。
+            要对比的只有一点:编译产物里,那个字段前面还剩下什么。一个版本里 <code>private</code> 消失了,另一个版本里{" "}
+            <code>#</code> 原样还在。把 Playground 的 target 设为 ES2022,第二个版本就不会被改写成 <code>WeakMap</code>。
           </>
         }
       />
@@ -422,8 +409,7 @@ export const LABS: Lab[] = [
                 .JS 面板里,<code>ShopA</code> 只剩下一个普通的{" "}
                 <code>vaultCode = &quot;8848&quot;</code> ——{" "}
                 <code>private</code> 这个词不见了;<code>ShopB</code> 的{" "}
-                <code>#vaultCode</code> 则原样保留。
-                差别就在这里:<code>private</code> 在编译时检查,
+                <code>#vaultCode</code> 则原样保留。差别就在这里:<code>private</code> 在编译时检查,
                 <code>#field</code> 在运行时生效。
               </>
             }
@@ -457,8 +443,7 @@ export const LABS: Lab[] = [
           <p>
             写一个 abstract 类 <code>Staff</code>:抽象方法{" "}
             <code>greet(): string</code>,加一个普通方法{" "}
-            <code>clockIn()</code>(内部调用 <code>this.greet()</code>)。
-            依次制造三种情况:① 直接 <code>new Staff()</code>;② 子类{" "}
+            <code>clockIn()</code>(内部调用 <code>this.greet()</code>)。依次制造三种情况:① 直接 <code>new Staff()</code>;② 子类{" "}
             <code>Barista</code> <b>不实现 greet</b>;③ 实现之后调用{" "}
             <code>clockIn()</code>。三种情况各是什么结果?
           </p>
@@ -502,10 +487,7 @@ export const LABS: Lab[] = [
             }
             zh={
               <>
-                这三个结果就是「没写完的类」的完整生命周期:
-                类本身不能实例化(①);子类在实现完每一个抽象成员之前不能用(②);
-                实现之后,它就继承到了那些已经写好的方法(③)。
-                父类固定流程的步骤,子类补上每一步的细节。
+                这三个结果就是「没写完的类」的完整生命周期:类本身不能实例化(①);子类在实现完每一个抽象成员之前不能用(②);实现之后,它就继承到了那些已经写好的方法(③)。父类固定流程的步骤,子类补上每一步的细节。
               </>
             }
           />
@@ -632,10 +614,8 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>private</code> 是编译期检查:它挡住的是改代码的人,
-            挡不住 <code>s[&quot;vaultCode&quot;]</code>、
-            <code>JSON.stringify</code>、DevTools 和普通 JavaScript。
-            要一个运行时也拿不到的字段,用 JavaScript 的 <code>#field</code>。
+            <code>private</code> 是编译期检查:它挡住的是改代码的人,挡不住 <code>s[&quot;vaultCode&quot;]</code>、
+            <code>JSON.stringify</code>、DevTools 和普通 JavaScript。要一个运行时也拿不到的字段,用 JavaScript 的 <code>#field</code>。
           </>
         }
       />
@@ -653,8 +633,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            关于 <code>protected</code> 和 <code>private</code> 的差别,
-            哪句话说对了?
+            关于 <code>protected</code> 和 <code>private</code> 的差别,哪句话说对了?
           </>
         }
       />
@@ -740,8 +719,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            字段、方法、访问器、参数属性,两个修饰符都能用。
-            它们管的是访问范围,不挑成员种类。
+            字段、方法、访问器、参数属性,两个修饰符都能用。它们管的是访问范围,不挑成员种类。
           </>
         }
       />,
@@ -775,8 +753,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             <code>public</code>:任何代码。<code>protected</code>
-            :本类,以及任何 extends 它的类。<code>private</code>:只有类体自己。
-            三者都在编译期检查。
+            :本类,以及任何 extends 它的类。<code>private</code>:只有类体自己。三者都在编译期检查。
           </>
         }
       />
@@ -795,8 +772,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>strict</code> 下 <code>name: string;</code> 报了 ts(2564):
-            声明了却从未赋值。下面哪种改法<b>不能</b>消掉这个错误?
+            <code>strict</code> 下 <code>name: string;</code> 报了 ts(2564):声明了却从未赋值。下面哪种改法<b>不能</b>消掉这个错误?
           </>
         }
       />
@@ -896,9 +872,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>!</code> 确实能消掉报错。
-            代价是这份保证从编译器转到了你身上,那是另一回事;
-            但就「检查能不能通过」而言,它是有效的。
+            <code>!</code> 确实能消掉报错。代价是这份保证从编译器转到了你身上,那是另一回事;但就「检查能不能通过」而言,它是有效的。
           </>
         }
       />,
@@ -917,8 +891,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             编译器<b>不跨方法追踪赋值</b>:它无法确定 <code>init()</code>{" "}
-            一定会被调用,也无法确定它在每条路径上都赋了值。
-            就地初始化、构造器里赋值,或者用 <code>!</code> ——
+            一定会被调用,也无法确定它在每条路径上都赋了值。就地初始化、构造器里赋值,或者用 <code>!</code> ——
             绕道 <code>init</code> 是唯一无效的那条路。
           </>
         }
@@ -971,9 +944,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             <code>abstract</code> 类是一个没写完的类:标了{" "}
-            <code>abstract</code> 的成员只有签名没有方法体,
-            子类必须把它们全部实现。直接对它 <code>new</code> 会报 ts(2511)。
-            那些已经实现好的方法,子类照常继承。
+            <code>abstract</code> 的成员只有签名没有方法体,子类必须把它们全部实现。直接对它 <code>new</code> 会报 ts(2511)。那些已经实现好的方法,子类照常继承。
           </>
         }
       />
@@ -1008,8 +979,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            编译期核对这个类有没有接口列出的成员。它不提供任何东西,
-            也不留下运行时痕迹
+            编译期核对这个类有没有接口列出的成员。它不提供任何东西,也不留下运行时痕迹
           </>
         }
       />,
@@ -1052,8 +1022,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            没有东西可复制。interface 只描述形状,里面没有任何方法体,
-            每一个都得类自己写。
+            没有东西可复制。interface 只描述形状,里面没有任何方法体,每一个都得类自己写。
           </>
         }
       />,
@@ -1103,10 +1072,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>implements</code> 不会以任何方式改变类的类型,
-            它只是让编译器确认这个类符合接口。
-            正因为它只是一次检查,一个类可以同时接受多个接口的检查,
-            而 <code>extends</code> 只能有一个基类。
+            <code>implements</code> 不会以任何方式改变类的类型,它只是让编译器确认这个类符合接口。正因为它只是一次检查,一个类可以同时接受多个接口的检查,而 <code>extends</code> 只能有一个基类。
           </>
         }
       />
@@ -1206,8 +1172,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            这是最常见的错误预期。<code>implements</code> <b>只做检查</b>:
-            它拿你写好的类去和接口比对,绝不会把接口的类型倒推回你的参数上。
+            这是最常见的错误预期。<code>implements</code> <b>只做检查</b>:它拿你写好的类去和接口比对,绝不会把接口的类型倒推回你的参数上。
           </>
         }
       />,
@@ -1260,8 +1225,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             这个检查只有一个方向:从类到接口。
-            <code>pay(amount: number)</code> 还是要自己写,
-            编译器再拿你写的去和 <code>PaymentProvider</code> 比对。
+            <code>pay(amount: number)</code> 还是要自己写,编译器再拿你写的去和 <code>PaymentProvider</code> 比对。
           </>
         }
       />
@@ -1346,8 +1310,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            漏了一条。想一想 <code>readonly</code> 在这里算不算修饰符,
-            以及一个只做类型剥离的运行时拿这种语法能怎么办。
+            漏了一条。想一想 <code>readonly</code> 在这里算不算修饰符,以及一个只做类型剥离的运行时拿这种语法能怎么办。
           </>
         }
       />
@@ -1363,8 +1326,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            有一项选错了。参数属性会让编译器<b>生成一条赋值语句</b>,
-            而生成的语句正是留在产物里的痕迹。
+            有一项选错了。参数属性会让编译器<b>生成一条赋值语句</b>,而生成的语句正是留在产物里的痕迹。
           </>
         }
       />
@@ -1385,8 +1347,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             参数属性一行顶四行,但它会生成代码:编译器替你写下{" "}
-            <code>this.db = db</code>。
-            这就是它不能被单纯擦除、以及 <code>erasableSyntaxOnly</code>{" "}
+            <code>this.db = db</code>。这就是它不能被单纯擦除、以及 <code>erasableSyntaxOnly</code>{" "}
             会报它的原因。构造器参数前写上 <code>public</code>、
             <code>private</code>、<code>protected</code>、<code>readonly</code>{" "}
             中任意一个,都会形成参数属性。
@@ -1409,8 +1370,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>PaperCup</code> 和 <code>PlasticCup</code> 成员完全相同,
-            且各自声明了一个 <code>private stock = 0</code>。
+            <code>PaperCup</code> 和 <code>PlasticCup</code> 成员完全相同,且各自声明了一个 <code>private stock = 0</code>。
             <code>const cup: PaperCup = new PlasticCup()</code> 的结果是?
           </>
         }
@@ -1427,8 +1387,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            报错:private 成员必须来自同一处声明,
-            所以这两个类是按「出身」比较的
+            报错:private 成员必须来自同一处声明,所以这两个类是按「出身」比较的
           </>
         }
       />,
@@ -1488,8 +1447,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            TypeScript 的类型检查没有「警告」这一档,
-            赋值要么通过要么不通过 —— 这里是结结实实的 ts(2322)。
+            TypeScript 的类型检查没有「警告」这一档,赋值要么通过要么不通过 —— 这里是结结实实的 ts(2322)。
           </>
         }
       />,
@@ -1504,9 +1462,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            两个同形状且<i>没有</i>私有成员的类是可以互相赋值的,
-            第 04 章讲过。这里出问题的原因是 <code>private</code>,
-            而不是「它们是 class」。
+            两个同形状且<i>没有</i>私有成员的类是可以互相赋值的,第 04 章讲过。这里出问题的原因是 <code>private</code>,而不是「它们是 class」。
           </>
         }
       />,
@@ -1526,8 +1482,7 @@ export const QUIZ: QuizItem[] = [
           <>
             完整规则:类型按形状比较,但 <code>private</code> 和{" "}
             <code>protected</code> 成员必须来自<b>同一处声明</b>
-            (从共同基类继承下来的算)。想让它们重新兼容,
-            就让两个类 extends 同一个声明了 <code>stock</code> 的基类。
+            (从共同基类继承下来的算)。想让它们重新兼容,就让两个类 extends 同一个声明了 <code>stock</code> 的基类。
           </>
         }
       />
@@ -1619,8 +1574,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>private</code> 会被擦除,运行时就是个普通属性。
-            连在 TypeScript 里,<code>s[&quot;vaultCode&quot;]</code>{" "}
+            <code>private</code> 会被擦除,运行时就是个普通属性。连在 TypeScript 里,<code>s[&quot;vaultCode&quot;]</code>{" "}
             都能读到而且不报错。
           </>
         }
@@ -1653,8 +1607,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>readonly</code> 管的是这个属性能不能被赋值,
-            而不是谁能读它 —— 而且它同样只在编译期检查。
+            <code>readonly</code> 管的是这个属性能不能被赋值,而不是谁能读它 —— 而且它同样只在编译期检查。
           </>
         }
       />,
@@ -1672,8 +1625,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             「程序运行时读不到」是一个运行时要求,只有 JavaScript 的{" "}
-            <code>#field</code> 做得到。
-            它不属于类型系统,所以擦除类型不会把它擦掉。
+            <code>#field</code> 做得到。它不属于类型系统,所以擦除类型不会把它擦掉。
           </>
         }
       />

@@ -100,8 +100,7 @@ export function HoleFiller() {
       zh={
         <>
           先只看签名。<code>&lt;T&gt;</code> 是在<b>声明</b>占位符, 后面两个{" "}
-          <code>T</code> 是同一个占位符的两次使用。
-          现在还什么都没填。点「下一步」,让一次调用进场。
+          <code>T</code> 是同一个占位符的两次使用。现在还什么都没填。点「下一步」,让一次调用进场。
         </>
       }
     />,
@@ -119,7 +118,7 @@ export function HoleFiller() {
         <>
           编译器去读实参:<code>{run.argLit}</code> 的类型是{" "}
           <code>{run.argType}</code>。拿它对上声明的参数 <code>arr: T[]</code>
-          ,得出 <b>T = {run.fill}</b>。 这就是类型实参推断,而它的原料只有实参。
+          ,得出 <b>T = {run.fill}</b>。这就是类型实参推断,而它的原料只有实参。
         </>
       }
     />,
@@ -136,8 +135,7 @@ export function HoleFiller() {
       zh={
         <>
           只有一个占位符,所以所有使用处同时被填上:这个签名里的每个{" "}
-          <code>T</code> 现在都是 <code>{run.fill}</code>。
-          同一次调用里,不可能这头是 <code>string</code>、那头是{" "}
+          <code>T</code> 现在都是 <code>{run.fill}</code>。同一次调用里,不可能这头是 <code>string</code>、那头是{" "}
           <code>number</code>。
         </>
       }
@@ -155,7 +153,7 @@ export function HoleFiller() {
       zh={
         <>
           返回值类型跟着落定:<code>x</code> 的类型是 <code>{run.result}</code>
-          。类型信息从实参一路走到了结果。 这就是它和 <code>any</code> 的区别 ——{" "}
+          。类型信息从实参一路走到了结果。这就是它和 <code>any</code> 的区别 ——{" "}
           <code>any</code> 把类型丢在门口。
         </>
       }
@@ -297,8 +295,7 @@ const CANDS: Cand[] = [
         }
         zh={
           <>
-            <code>string</code> 本来就有 <code>.length</code>,
-            可以赋值给这个约束,调用通过,<b>T = string</b>。注意 T 并不会被削成{" "}
+            <code>string</code> 本来就有 <code>.length</code>,可以赋值给这个约束,调用通过,<b>T = string</b>。注意 T 并不会被削成{" "}
             <code>{"{ length: number }"}</code> —— 它仍然是完整的{" "}
             <code>string</code>。
           </>
@@ -322,8 +319,7 @@ const CANDS: Cand[] = [
         }
         zh={
           <>
-            数组也有 <code>.length</code>,同样通过,<b>T = string[]</b>。
-            约束问的是这个类型「有什么」,不是它「叫什么」。
+            数组也有 <code>.length</code>,同样通过,<b>T = string[]</b>。约束问的是这个类型「有什么」,不是它「叫什么」。
           </>
         }
       />
@@ -346,8 +342,7 @@ const CANDS: Cand[] = [
         zh={
           <>
             一个没名字、也没声明过类型的对象字面量,但它确实有{" "}
-            <code>length: number</code>。
-            上一章那套结构化检查,正是约束在这里用的检查。
+            <code>length: number</code>。上一章那套结构化检查,正是约束在这里用的检查。
           </>
         }
       />
@@ -373,8 +368,7 @@ const CANDS: Cand[] = [
         }
         zh={
           <>
-            <code>number</code> 身上没有 <code>length</code>,
-            所以你还在敲代码的时候这次调用就被拒绝了:
+            <code>number</code> 身上没有 <code>length</code>,所以你还在敲代码的时候这次调用就被拒绝了:
             <b>
               Argument of type &apos;number&apos; is not assignable to parameter
               of type {"'{ length: number; }'"}.
@@ -401,8 +395,7 @@ const CANDS: Cand[] = [
         }
         zh={
           <>
-            <code>boolean</code> 同样没有 <code>length</code>,拒绝。
-            约束是加在占位符上的一个条件:不是什么类型都能填进去。
+            <code>boolean</code> 同样没有 <code>length</code>,拒绝。约束是加在占位符上的一个条件:不是什么类型都能填进去。
           </>
         }
       />
@@ -478,8 +471,7 @@ export function ConstraintGate() {
             }
             zh={
               <>
-                <b>longest</b> 要比较两个值的 <code>.length</code>,
-                所以它的占位符带了一个条件:填进来的类型必须有{" "}
+                <b>longest</b> 要比较两个值的 <code>.length</code>,所以它的占位符带了一个条件:填进来的类型必须有{" "}
                 <code>length: number</code>。点上面的候选值,挨个送去检查。
               </>
             }

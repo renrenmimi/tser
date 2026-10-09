@@ -157,8 +157,7 @@ const FRAME_MSGS: ReactNode[] = [
     }
     zh={
       <>
-        第三道检查:数字也走了。每过一道检查,类型就少一个成员。
-        这就是<b>收窄</b>的含义,而且编译器是逐行跟踪的。
+        第三道检查:数字也走了。每过一道检查,类型就少一个成员。这就是<b>收窄</b>的含义,而且编译器是逐行跟踪的。
       </>
     }
   />,
@@ -192,8 +191,7 @@ const FRAME_MSGS: ReactNode[] = [
     }
     zh={
       <>
-        再假想加一道检查,把 <code>boolean</code> 也排除掉。
-        之后的类型就是 <code>never</code>:<b>空联合</b>
+        再假想加一道检查,把 <code>boolean</code> 也排除掉。之后的类型就是 <code>never</code>:<b>空联合</b>
         ,一个没有任何可能取值的类型。记住它 —— §06
         的穷尽检查完全建立在这个「空」之上。
       </>
@@ -344,8 +342,7 @@ const GUARDS: Guard[] = [
         }
         zh={
           <>
-            <code>typeof x === &quot;string&quot;</code> 为真时,
-            编译器排除掉所有不是字符串的可能;else 分支里再把字符串排除掉。
+            <code>typeof x === &quot;string&quot;</code> 为真时,编译器排除掉所有不是字符串的可能;else 分支里再把字符串排除掉。
             <code>typeof</code> 的返回值只有八种:
             <code>&quot;string&quot;</code>、<code>&quot;number&quot;</code>、
             <code>&quot;bigint&quot;</code>、<code>&quot;boolean&quot;</code>、
@@ -371,8 +368,7 @@ const GUARDS: Guard[] = [
         zh={
           <>
             <b>typeof null === &quot;object&quot;</b>。这个行为从 1995 年
-            JavaScript 的第一个版本就是如此,改动会破坏现有代码,所以不会再改。
-            也就是说 <code>typeof x === &quot;object&quot;</code> 排除不掉{" "}
+            JavaScript 的第一个版本就是如此,改动会破坏现有代码,所以不会再改。也就是说 <code>typeof x === &quot;object&quot;</code> 排除不掉{" "}
             <code>null</code>,得先写一句 <code>x !== null</code>。
           </>
         }
@@ -411,8 +407,7 @@ const GUARDS: Guard[] = [
           <>
             <code>if (count)</code> 会排除<b>所有 falsy 值</b>:
             <code>undefined</code>、<code>null</code>、<code>0</code>、
-            <code>&quot;&quot;</code>、<code>NaN</code>。
-            它一行就能收窄最多,这也正是它最容易用错的原因。
+            <code>&quot;&quot;</code>、<code>NaN</code>。它一行就能收窄最多,这也正是它最容易用错的原因。
           </>
         }
       />
@@ -430,8 +425,7 @@ const GUARDS: Guard[] = [
         zh={
           <>
             <code>0</code> 和 <code>&quot;&quot;</code> 通常是真实数据:
-            0 份配料、空的备注。真值检查却把它们当成「没填」。
-            如果你只想排除 <code>undefined</code>,就写{" "}
+            0 份配料、空的备注。真值检查却把它们当成「没填」。如果你只想排除 <code>undefined</code>,就写{" "}
             <code>count !== undefined</code>。
           </>
         }
@@ -520,9 +514,7 @@ function brew(drink: Tea | Coffee) {
         }
         zh={
           <>
-            <code>&quot;steep&quot; in drink</code> 问的是这个对象上有没有这个属性。
-            编译器保留声明了该属性的成员,排除掉其余的。
-            它适合<b>形状不同</b>的对象联合,尤其是你不想额外加一个标签字段的时候。
+            <code>&quot;steep&quot; in drink</code> 问的是这个对象上有没有这个属性。编译器保留声明了该属性的成员,排除掉其余的。它适合<b>形状不同</b>的对象联合,尤其是你不想额外加一个标签字段的时候。
           </>
         }
       />
@@ -540,11 +532,9 @@ function brew(drink: Tea | Coffee) {
         }
         zh={
           <>
-            如果那个属性声明为<b>可选</b>,else 分支就不会收窄。
-            对于{" "}
+            如果那个属性声明为<b>可选</b>,else 分支就不会收窄。对于{" "}
             <code>type A = &#123; kind: &quot;a&quot;; extra?: string &#125;</code>
-            ,一个 <code>A</code> 完全可以没有 <code>extra</code>,
-            所以编译器在 else 分支里仍然保留 <code>A</code>。
+            ,一个 <code>A</code> 完全可以没有 <code>extra</code>,所以编译器在 else 分支里仍然保留 <code>A</code>。
           </>
         }
       />
@@ -584,8 +574,7 @@ function brew(drink: Tea | Coffee) {
             <code>x instanceof Date</code> 沿着 <code>x</code>{" "}
             的原型链往上找,看 <code>Date.prototype</code>{" "}
             在不在上面。它适合类的实例:<code>Date</code>、
-            <code>Error</code>、你自己写的 class。
-            对字面量对象无效,因为它们不是由构造函数创建的。
+            <code>Error</code>、你自己写的 class。对字面量对象无效,因为它们不是由构造函数创建的。
           </>
         }
       />
@@ -624,8 +613,7 @@ function brew(drink: Tea | Coffee) {
           <>
             <code>typeof [] === &quot;object&quot;</code>,所以{" "}
             <code>typeof</code> 分不出数组和普通对象。
-            <code>Array.isArray</code> 分得出,TypeScript 也把它当作收窄检查。
-            它在标准库里就是用类型谓词声明的 —— §07 会讲这个机制。
+            <code>Array.isArray</code> 分得出,TypeScript 也把它当作收窄检查。它在标准库里就是用类型谓词声明的 —— §07 会讲这个机制。
           </>
         }
       />
@@ -659,9 +647,7 @@ function brew(drink: Tea | Coffee) {
         }
         zh={
           <>
-            前六种检查收窄的是<i>一个值</i>;这一种只比对一个字段,
-            却能把<b>整个对象</b>收窄到联合里的某一个成员,
-            连它带的其他字段一起确定。在真实代码里它最有用,§05 整节讲它。
+            前六种检查收窄的是<i>一个值</i>;这一种只比对一个字段,却能把<b>整个对象</b>收窄到联合里的某一个成员,连它带的其他字段一起确定。在真实代码里它最有用,§05 整节讲它。
           </>
         }
       />
@@ -751,8 +737,7 @@ const OS_CASES: OsCase[] = [
         zh={
           <>
             订单刚下,还没付款,所以在这个分支里读{" "}
-            <code>order.paidAt</code> 是编译错误。
-            换成纯 JavaScript,同样的代码会安静地给你一个{" "}
+            <code>order.paidAt</code> 是编译错误。换成纯 JavaScript,同样的代码会安静地给你一个{" "}
             <code>undefined</code>,然后在{" "}
             <code>.toLocaleTimeString()</code> 上抛错。
           </>
@@ -777,8 +762,7 @@ const OS_CASES: OsCase[] = [
         zh={
           <>
             只比对了一句 <code>status === &quot;paid&quot;</code>,
-            <code>paidAt</code> 就从「可能没有」变成了「一定有」。
-            你没有多写一个 <code>if</code>,也不需要 <code>!</code>。
+            <code>paidAt</code> 就从「可能没有」变成了「一定有」。你没有多写一个 <code>if</code>,也不需要 <code>!</code>。
           </>
         }
       />
@@ -800,9 +784,7 @@ const OS_CASES: OsCase[] = [
         }
         zh={
           <>
-            终态有全部三个时间戳。已送达的订单一定付过款,
-            所以这个成员里也有 <code>paidAt</code>。
-            类型把这条<b>业务规则</b>原样记了下来。
+            终态有全部三个时间戳。已送达的订单一定付过款,所以这个成员里也有 <code>paidAt</code>。类型把这条<b>业务规则</b>原样记了下来。
           </>
         }
       />

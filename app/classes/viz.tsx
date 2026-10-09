@@ -302,8 +302,7 @@ export function AccessGate() {
             <>
               九种组合都点一遍。<b>public 三处全通,protected 两通一拦,private
               一通两拦。</b>两条报错值得读细:protected 那条末尾多了{" "}
-              <code>and its subclasses</code>,private 那条没有。
-              两种检查都只发生在编译期。
+              <code>and its subclasses</code>,private 那条没有。两种检查都只发生在编译期。
             </>
           }
         />
@@ -353,10 +352,8 @@ const ERASE_TABS: EraseTab[] = [
         }
         zh={
           <>
-            <b>private 这个词被整个擦掉了。</b>编译产物里就是一个普通属性。
-            连源码里的 <code>shop[&quot;vaultCode&quot;]</code> TypeScript
-            都放行 —— 用方括号访问私有成员是它有意保留的后门,连断言都不用写。
-            运行时,<code>JSON.stringify(shop)</code>、DevTools
+            <b>private 这个词被整个擦掉了。</b>编译产物里就是一个普通属性。连源码里的 <code>shop[&quot;vaultCode&quot;]</code> TypeScript
+            都放行 —— 用方括号访问私有成员是它有意保留的后门,连断言都不用写。运行时,<code>JSON.stringify(shop)</code>、DevTools
             和任何一个普通 JavaScript 文件都看得见这个值。
           </>
         }
@@ -395,8 +392,7 @@ const ERASE_TABS: EraseTab[] = [
             <b>#vaultCode 是 JavaScript 的语法,不是 TypeScript 的。</b>
             在较新的 target 下它原样输出,运行时类外确实拿不到。类外写{" "}
             <code>shop.#vaultCode</code> 是语法错误,
-            <code>JSON.stringify(shop)</code> 打印出来是 <code>{"{}"}</code>。
-            target 较老时,编译器会改用 <code>WeakMap</code> 实现,行为一样。
+            <code>JSON.stringify(shop)</code> 打印出来是 <code>{"{}"}</code>。target 较老时,编译器会改用 <code>WeakMap</code> 实现,行为一样。
           </>
         }
       />
@@ -557,8 +553,7 @@ const CUP_FRAMES: CupFrame[] = [
         zh={
           <>
             第 04 章的规则在 class 上照常生效:<b>编译器比较的是形状,不是名字</b>
-            。这两个类声明的成员完全一样,所以要 PaperCup 的地方,
-            给一个 PlasticCup 也接受。
+            。这两个类声明的成员完全一样,所以要 PaperCup 的地方,给一个 PlasticCup 也接受。
           </>
         }
       />
@@ -582,8 +577,7 @@ const CUP_FRAMES: CupFrame[] = [
         }
         zh={
           <>
-            现在两个类各自声明了一个 <code>private stock</code>。名字一样、
-            类型一样,赋值依然失败:
+            现在两个类各自声明了一个 <code>private stock</code>。名字一样、类型一样,赋值依然失败:
             <b>
               Types have separate declarations of a private property
               &apos;stock&apos;.
@@ -615,9 +609,7 @@ const CUP_FRAMES: CupFrame[] = [
         zh={
           <>
             为什么?对 private 和 protected 成员,TypeScript 比较的是
-            <b>它们在哪里声明</b>,而不是名字和类型。两处声明就是两个不同的成员。
-            private 的用意是「这是某一个类的内部细节」,如果别的类能顶替,
-            这个用意就落空了。这是 class 唯一一处按「出身」而不是按形状比较的地方。
+            <b>它们在哪里声明</b>,而不是名字和类型。两处声明就是两个不同的成员。private 的用意是「这是某一个类的内部细节」,如果别的类能顶替,这个用意就落空了。这是 class 唯一一处按「出身」而不是按形状比较的地方。
           </>
         }
       />
@@ -644,9 +636,7 @@ const CUP_FRAMES: CupFrame[] = [
         }
         zh={
           <>
-            解法顺着规则就出来了:让两个类 <b>extends 同一个基类</b>。
-            这时 <code>private stock</code> 只有一处声明,两边都继承自它,
-            于是重新兼容。
+            解法顺着规则就出来了:让两个类 <b>extends 同一个基类</b>。这时 <code>private stock</code> 只有一处声明,两边都继承自它,于是重新兼容。
           </>
         }
       />

@@ -41,9 +41,7 @@ export const LABS: Lab[] = [
               comment next to it. Compare with the answer afterwards.</>
             }
             zh={
-              <>打开 {PLAYGROUND},贴入下面的代码 —— 里面一个注解都没有。
-              然后把鼠标依次悬停在<b>每一个变量名</b>上,
-              把 TS 推断出的类型写在旁边的注释里,写完再对答案。</>
+              <>打开 {PLAYGROUND},贴入下面的代码 —— 里面一个注解都没有。然后把鼠标依次悬停在<b>每一个变量名</b>上,把 TS 推断出的类型写在旁边的注释里,写完再对答案。</>
             }
           />
         </p>
@@ -155,8 +153,7 @@ const nothing: null        // null 的类型就是 null`,
             zh={
               <>
                 在 Playground 里逐行输入下面四行,每写一行就 hover
-                一次变量名,记下类型。最后回答:哪几行是字面量类型,
-                哪几行被拓宽了?为什么?
+                一次变量名,记下类型。最后回答:哪几行是字面量类型,哪几行被拓宽了?为什么?
               </>
             }
           />
@@ -272,8 +269,7 @@ const d = 42;      // 42      -- 同 b`,
                 <code>price</code>(数字)、<code>sizes</code>(字符串数组)、
                 <code>soldOut</code>(布尔);② 声明{" "}
                 <code>const menu: MenuItem[]</code> 并填两三款奶茶;③
-                故意把其中一款的 <code>price</code> 拼成 <code>prise</code>,
-                观察报错落在哪一行、说了什么。
+                故意把其中一款的 <code>price</code> 拼成 <code>prise</code>,观察报错落在哪一行、说了什么。
               </>
             }
           />
@@ -352,9 +348,7 @@ const menu: MenuItem[] = [
               <>
                 报错<b>精确落在错字上</b>,还给了改法。现在把{" "}
                 <code>: MenuItem[]</code> 删掉再看:错误消失了 ——
-                因为推断把 <code>prise</code> 也当成一个合法字段收下了。
-                它会在很久以后、别处读 <code>price</code> 时才重新出现。
-                这就是给共享数据立契约的价值。
+                因为推断把 <code>prise</code> 也当成一个合法字段收下了。它会在很久以后、别处读 <code>price</code> 时才重新出现。这就是给共享数据立契约的价值。
               </>
             }
           />
@@ -702,8 +696,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            推断就是编译器替你把类型算出来。<code>let</code> 加初始值,
-            类型当场就定了,你一个冒号都没写 ——
+            推断就是编译器替你把类型算出来。<code>let</code> 加初始值,类型当场就定了,你一个冒号都没写 ——
             所以「用 TS 就得到处写注解」是个误解。
           </>
         }
@@ -797,8 +790,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>const</code> 意味着变量不会再变,所以类型可以就是那个值本身。
-            字面量类型是 03 章联合类型的地基:
+            <code>const</code> 意味着变量不会再变,所以类型可以就是那个值本身。字面量类型是 03 章联合类型的地基:
             <code>
               &quot;small&quot; | &quot;medium&quot; | &quot;large&quot;
             </code>{" "}
@@ -891,8 +883,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            恰恰相反 —— 官方建议注解用小写原始类型名;
-            大写的包装对象类型是历史遗留,几乎从来不是你想要的。
+            恰恰相反 —— 官方建议注解用小写原始类型名;大写的包装对象类型是历史遗留,几乎从来不是你想要的。
           </>
         }
       />,
@@ -918,8 +909,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            口诀:<b>注解一律小写</b> —— string、number、boolean。
-            看到注解里出现 <code>String</code> / <code>Number</code> /{" "}
+            口诀:<b>注解一律小写</b> —— string、number、boolean。看到注解里出现 <code>String</code> / <code>Number</code> /{" "}
             <code>Boolean</code>,直接改。
           </>
         }
@@ -981,8 +971,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            想想「边界」两个字 —— 别人要依赖的地方,
-            以及声明时右边没有值的地方。你还漏了一个。
+            想想「边界」两个字 —— 别人要依赖的地方,以及声明时右边没有值的地方。你还漏了一个。
           </>
         }
       />
@@ -998,8 +987,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            你选的里面有一项,TS 看一眼初始值就知道了。
-            给它写注解不算错,但属于噪音 —— 就是 §08 的坑二。
+            你选的里面有一项,TS 看一眼初始值就知道了。给它写注解不算错,但属于噪音 —— 就是 §08 的坑二。
           </>
         }
       />
@@ -1018,8 +1006,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             注解是承诺,推断是观察。承诺写在边界上:参数(开着{" "}
-            <code>noImplicitAny</code> 时是必写的)、返回值、共享契约、
-            先声明后赋值的变量。局部变量交给推断,真正的契约才显眼。
+            <code>noImplicitAny</code> 时是必写的)、返回值、共享契约、先声明后赋值的变量。局部变量交给推断,真正的契约才显眼。
           </>
         }
       />
@@ -1089,8 +1076,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            不止一行。从 any 值上取的属性、由它算出的结果、
-            把它传进去的回调参数,统统也变成 any。
+            不止一行。从 any 值上取的属性、由它算出的结果、把它传进去的回调参数,统统也变成 any。
           </>
         }
       />,
@@ -1140,8 +1126,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>any</code> 的意思是「别检查这个」。当临时手段有用,
-            长期留着就等于把 TS 关掉了。<code>noImplicitAny</code>{" "}
+            <code>any</code> 的意思是「别检查这个」。当临时手段有用,长期留着就等于把 TS 关掉了。<code>noImplicitAny</code>{" "}
             这个开关,就是防止 any 从没注解的参数之类的地方悄悄溜进来。
           </>
         }
@@ -1182,8 +1167,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             <code>number[]</code> 和 <code>Array&lt;number&gt;</code>{" "}
-            是完全相同的类型。元素类型简单时,社区习惯用前者;
-            后者的尖括号是泛型语法,05 章正式拆解。
+            是完全相同的类型。元素类型简单时,社区习惯用前者;后者的尖括号是泛型语法,05 章正式拆解。
           </>
         }
       />
@@ -1232,8 +1216,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            空数组没有推断材料,类型先落成 <code>any[]</code>;
-            一旦这个值离开填充它的作用域被使用,<code>noImplicitAny</code>{" "}
+            空数组没有推断材料,类型先落成 <code>any[]</code>;一旦这个值离开填充它的作用域被使用,<code>noImplicitAny</code>{" "}
             就会报错。出生就注解最稳
           </>
         }
@@ -1316,8 +1299,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>new Array()</code> 一样看不出元素类型。
-            问题不在写法,而在缺那张标签。
+            <code>new Array()</code> 一样看不出元素类型。问题不在写法,而在缺那张标签。
           </>
         }
       />,
@@ -1333,8 +1315,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            空箱子出生就贴标签:<code>const toppings: string[] = []</code>。
-            之后 push 错任何东西都会当场报错。
+            空箱子出生就贴标签:<code>const toppings: string[] = []</code>。之后 push 错任何东西都会当场报错。
           </>
         }
       />
@@ -1353,8 +1334,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>let size = &quot;small&quot;</code> 推断成了 string,
-            但你想让 <code>size</code> 只能取三种杯型。最对路的做法是?
+            <code>let size = &quot;small&quot;</code> 推断成了 string,但你想让 <code>size</code> 只能取三种杯型。最对路的做法是?
           </>
         }
       />
@@ -1442,9 +1422,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>const</code> 的意思是「不能重新赋值」,不是「只能取这三种」。
-            它会把值固定成 <code>&quot;small&quot;</code>,
-            而订单里的杯型本来就要换。
+            <code>const</code> 的意思是「不能重新赋值」,不是「只能取这三种」。它会把值固定成 <code>&quot;small&quot;</code>,而订单里的杯型本来就要换。
           </>
         }
       />,
@@ -1459,8 +1437,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            做得到,而且这是 TS 最有用的能力之一:
-            把合法值的名单写进类型,名单外的值编译期直接拒收。
+            做得到,而且这是 TS 最有用的能力之一:把合法值的名单写进类型,名单外的值编译期直接拒收。
           </>
         }
       />,
@@ -1477,9 +1454,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            字面量联合就是把「只能是这几个」写成类型。
-            奶茶店案例在 03 章正是这样升级的:杯型、糖度、订单状态,
-            全靠这一招守住。
+            字面量联合就是把「只能是这几个」写成类型。奶茶店案例在 03 章正是这样升级的:杯型、糖度、订单状态,全靠这一招守住。
           </>
         }
       />

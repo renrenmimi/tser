@@ -494,9 +494,7 @@ export default function UtilityPage() {
           ),
           zh: (
             <>
-              工具类型接受一个你已经有的类型,返回一个与它相关的新类型。
-              TypeScript 自带一套标准工具,新类型不必手写。
-              这一章讲怎么用它们,第 07 章讲它们是怎么造出来的。
+              工具类型接受一个你已经有的类型,返回一个与它相关的新类型。TypeScript 自带一套标准工具,新类型不必手写。这一章讲怎么用它们,第 07 章讲它们是怎么造出来的。
             </>
           ),
         }}
@@ -579,15 +577,11 @@ export default function UtilityPage() {
             zh={
               <>
                 <p>
-                  草稿单:顾客还在挑,属性可以缺。锁定单:小票已经打出来,
-                  一个字都不许改。列表行:只显示三个属性。对外接口:
-                  内部备注绝不能出去。库存表:每个杯型对一个数字。
-                  五个需求,五种类型。
+                  草稿单:顾客还在挑,属性可以缺。锁定单:小票已经打出来,一个字都不许改。列表行:只显示三个属性。对外接口:内部备注绝不能出去。库存表:每个杯型对一个数字。五个需求,五种类型。
                 </p>
                 <p>
                   你当然可以照着 <code>Order</code> 把五个都手写一遍 ——
-                  六个属性抄五遍。然后 <code>Order</code> 加了一个属性,
-                  五个地方都得改。漏掉一处,这些类型之间就悄悄不一致了。
+                  六个属性抄五遍。然后 <code>Order</code> 加了一个属性,五个地方都得改。漏掉一处,这些类型之间就悄悄不一致了。
                 </p>
               </>
             }
@@ -614,8 +608,7 @@ export default function UtilityPage() {
               zh={
                 <>
                   这就是第 01 章那个奶茶店类型;§05 会再把第 03
-                  章的订单状态联合加进来。把这份定义贴进 Playground,
-                  本章后面的例子都能接着它跑。
+                  章的订单状态联合加进来。把这份定义贴进 Playground,本章后面的例子都能接着它跑。
                 </>
               }
             />
@@ -639,11 +632,9 @@ export default function UtilityPage() {
             zh={
               <>
                 TypeScript 的解法是随语言自带一批<b>工具类型</b>(utility
-                types)。每一个都接受一个已有的类型,产出一个新类型。
-                写法看起来像函数调用,只是圆括号换成了尖括号:
+                types)。每一个都接受一个已有的类型,产出一个新类型。写法看起来像函数调用,只是圆括号换成了尖括号:
                 <code>Partial&lt;Order&gt;</code>。这和第 05
-                章的泛型是同一套写法,原因也一样:尖括号里的类型是一个实参。
-                上面五个需求,一个工具类型对应一个。
+                章的泛型是同一套写法,原因也一样:尖括号里的类型是一个实参。上面五个需求,一个工具类型对应一个。
               </>
             }
           />
@@ -719,8 +710,7 @@ export default function UtilityPage() {
                 }
                 zh={
                   <>
-                    一行只显示订单号、饮品和杯型。这是白名单:
-                    点到名的留下,其余不带走。
+                    一行只显示订单号、饮品和杯型。这是白名单:点到名的留下,其余不带走。
                   </>
                 }
               />
@@ -744,8 +734,7 @@ export default function UtilityPage() {
                 }
                 zh={
                   <>
-                    <code>internalNote</code> 只给店员看。这是黑名单:
-                    点到名的删掉,其余原样保留。
+                    <code>internalNote</code> 只给店员看。这是黑名单:点到名的删掉,其余原样保留。
                   </>
                 }
               />
@@ -773,10 +762,8 @@ export default function UtilityPage() {
             }
             zh={
               <p>
-                工具类型不发明新东西:它读一个已有的类型,返回一个新类型。
-                它也从不改动输入 —— <code>Partial&lt;Order&gt;</code>{" "}
-                造出草稿类型之后,<code>Order</code> 依然是那六个必填属性。
-                本章每一个工具类型都是这样,下面的流水线可以直接看到这一点。
+                工具类型不发明新东西:它读一个已有的类型,返回一个新类型。它也从不改动输入 —— <code>Partial&lt;Order&gt;</code>{" "}
+                造出草稿类型之后,<code>Order</code> 依然是那六个必填属性。本章每一个工具类型都是这样,下面的流水线可以直接看到这一点。
               </p>
             }
           />
@@ -811,11 +798,8 @@ export default function UtilityPage() {
             }
             zh={
               <>
-                注意三件事。进去的是类型,出来的也是类型,没有任何代码在运行。
-                换工具只改变输出,从不改动输入。还有:被 <code>Pick</code> 或{" "}
-                <code>Omit</code> 排除掉的属性,只是在<b>新</b>类型里没有。
-                它在 <code>Order</code> 里还好好地待着,
-                用到 <code>Order</code> 的代码不受任何影响。
+                注意三件事。进去的是类型,出来的也是类型,没有任何代码在运行。换工具只改变输出,从不改动输入。还有:被 <code>Pick</code> 或{" "}
+                <code>Omit</code> 排除掉的属性,只是在<b>新</b>类型里没有。它在 <code>Order</code> 里还好好地待着,用到 <code>Order</code> 的代码不受任何影响。
               </>
             }
           />
@@ -861,10 +845,8 @@ export default function UtilityPage() {
               zh={
                 <>
                   第 02 章手动给属性加过 <code>?</code>,<code>Partial</code>{" "}
-                  就是对每个属性都做一次。留意最后一行:
-                  因为这个属性可能不存在,读它拿到的是{" "}
-                  <code>string | undefined</code>,用之前要先收窄。
-                  收窄是第 03 章的内容。
+                  就是对每个属性都做一次。留意最后一行:因为这个属性可能不存在,读它拿到的是{" "}
+                  <code>string | undefined</code>,用之前要先收窄。收窄是第 03 章的内容。
                 </>
               }
             />
@@ -902,8 +884,7 @@ export default function UtilityPage() {
                   就可选标记而言,<code>Partial</code> 和 <code>Required</code>{" "}
                   是相反的一对,但它们并不是严格互逆的。<code>Partial</code>{" "}
                   加上 <code>?</code>,连带把 <code>undefined</code>{" "}
-                  加进属性类型;<code>Required</code> 把两者一起去掉。
-                  所以上面的 <code>Required&lt;A&gt;</code> 是{" "}
+                  加进属性类型;<code>Required</code> 把两者一起去掉。所以上面的 <code>Required&lt;A&gt;</code> 是{" "}
                   <code>{"{ note: string }"}</code>,而不是{" "}
                   <code>{"{ note: string | undefined }"}</code>。
                 </>
@@ -937,8 +918,7 @@ export default function UtilityPage() {
               zh={
                 <>
                   最后两行是本节的重点。<code>readonly</code> 拒绝的是
-                  <b>给属性赋值</b>。它对属性指向的那个对象或数组不作任何限制,
-                  所以 <code>push</code> 依然合法。
+                  <b>给属性赋值</b>。它对属性指向的那个对象或数组不作任何限制,所以 <code>push</code> 依然合法。
                 </>
               }
             />
@@ -983,16 +963,13 @@ export default function UtilityPage() {
               <>
                 <p>
                   <code>Partial</code>、<code>Required</code>、
-                  <code>Readonly</code> 只处理最外层对象的属性,
-                  不会进到属性类型的内部。在{" "}
+                  <code>Readonly</code> 只处理最外层对象的属性,不会进到属性类型的内部。在{" "}
                   <code>Partial&lt;{"{ meta: { note: string } }"}&gt;</code> 里,
                   <code>meta</code> 变成了可选,<code>meta.note</code>{" "}
                   仍然必填。
                 </p>
                 <p>
-                  <code>Readonly</code> 这一点值得再说一遍,因为它的名字听起来
-                  比它做的事更强。它阻止的是<b>给属性赋值</b>,
-                  并不会冻结属性指向的那个对象,而且它在运行时完全不存在 ——
+                  <code>Readonly</code> 这一点值得再说一遍,因为它的名字听起来比它做的事更强。它阻止的是<b>给属性赋值</b>,并不会冻结属性指向的那个对象,而且它在运行时完全不存在 ——
                   <code>Object.freeze</code> 是另一件事,发生在运行时。
                 </p>
                 <p>
@@ -1114,17 +1091,11 @@ export default function UtilityPage() {
                   <code>T</code> 上真实存在的键。<code>Omit&lt;T, K&gt;</code>{" "}
                   声明的是 <code>K extends keyof any</code>,任何{" "}
                   <code>string</code>、<code>number</code>、
-                  <code>symbol</code> 都收。这个更宽的约束是官方故意的:
-                  它让你可以对一个「可能存在也可能不存在」的键写{" "}
+                  <code>symbol</code> 都收。这个更宽的约束是官方故意的:它让你可以对一个「可能存在也可能不存在」的键写{" "}
                   <code>Omit</code>。代价就是拼错不报错。
                 </p>
                 <p>
-                  而这恰好在最想用 <code>Omit</code> 的场合最危险:
-                  如果你删掉一个属性是因为它不能发给客户端,
-                  那么一个拼错的键会顺利编译,属性照样在里面。
-                  这种场合用 <code>Pick</code> 白名单,让编译器帮你核对名字;
-                  或者学完第 07 章,自己写一个严格版的 <code>Omit</code>。
-                  本节末尾的实验室里可以亲眼看这个洞漏出来:拼错的{" "}
+                  而这恰好在最想用 <code>Omit</code> 的场合最危险:如果你删掉一个属性是因为它不能发给客户端,那么一个拼错的键会顺利编译,属性照样在里面。这种场合用 <code>Pick</code> 白名单,让编译器帮你核对名字;或者学完第 07 章,自己写一个严格版的 <code>Omit</code>。本节末尾的实验室里可以亲眼看这个洞漏出来:拼错的{" "}
                   <code>Omit</code> 算出来的形状里,<code>internalNote</code>{" "}
                   原封不动地还在,而没有任何地方报错。
                 </p>
@@ -1167,13 +1138,9 @@ export default function UtilityPage() {
               zh={
                 <>
                   <code>Record&lt;Size, number&gt;</code> 比{" "}
-                  <code>{"{ [k: string]: number }"}</code> 严格,
-                  因为 <code>Size</code> 是有限的联合,
-                  编译器清楚知道必须有哪几个键。键类型换成{" "}
+                  <code>{"{ [k: string]: number }"}</code> 严格,因为 <code>Size</code> 是有限的联合,编译器清楚知道必须有哪几个键。键类型换成{" "}
                   <code>string</code> 之后,<code>Record</code>{" "}
-                  就等于一个索引签名,没有名单可以核对。
-                  注意最后一行:索引签名承诺每个键都有值,
-                  所以读一个不存在的键能通过类型检查,运行时却拿到{" "}
+                  就等于一个索引签名,没有名单可以核对。注意最后一行:索引签名承诺每个键都有值,所以读一个不存在的键能通过类型检查,运行时却拿到{" "}
                   <code>undefined</code>。想让编译器在这里补上{" "}
                   <code>| undefined</code>,要开{" "}
                   <code>noUncheckedIndexedAccess</code>(第 10 章)。
@@ -1207,8 +1174,7 @@ export default function UtilityPage() {
                 这一章里每一处写着「展开成什么样」的注释,都可以一键核对。在下面的窗口里点
                 <b>等号左边</b>的名字 —— <code>DraftOrder</code>、
                 <code>ListRow</code>、<code>PublicOrder</code>、
-                <code>CupStock</code> —— 编译器就把算完的形状整个打出来,
-                每个属性都写全。<code>Partial</code> 展开是{" "}
+                <code>CupStock</code> —— 编译器就把算完的形状整个打出来,每个属性都写全。<code>Partial</code> 展开是{" "}
                 <code>{"{ id?: string | undefined; drink?: string | undefined; … }"}</code>
                 ,一眼能看到它做的两件事:加上问号,同时把{" "}
                 <code>undefined</code> 并进每个属性的类型里。
@@ -1338,14 +1304,11 @@ export default function UtilityPage() {
                   <code>Partial</code>、<code>Pick</code>、<code>Omit</code>{" "}
                   接受的是<b>对象类型</b>,处理它的属性;<code>Exclude</code>、
                   <code>Extract</code>、<code>NonNullable</code> 接受的是
-                  <b>联合类型</b>,处理它的成员。不确定该用哪个时问自己:
-                  我手上这个类型,是一组属性,还是一份候选名单?
+                  <b>联合类型</b>,处理它的成员。不确定该用哪个时问自己:我手上这个类型,是一组属性,还是一份候选名单?
                 </p>
                 <p>
-                  这一组三个都是对联合的每个成员分别求值的,
-                  所以 <code>Exclude&lt;A | B | C, B&gt;</code> 得到的是{" "}
-                  <code>A | C</code>,而不是把整个联合当成一个整体去比较。
-                  第 07 章会给出产生这种行为的那一行定义。
+                  这一组三个都是对联合的每个成员分别求值的,所以 <code>Exclude&lt;A | B | C, B&gt;</code> 得到的是{" "}
+                  <code>A | C</code>,而不是把整个联合当成一个整体去比较。第 07 章会给出产生这种行为的那一行定义。
                 </p>
               </>
             }
@@ -1393,9 +1356,7 @@ export default function UtilityPage() {
                   注意 <code>typeof makeOrder</code>。<code>makeOrder</code>{" "}
                   是一个<b>值</b>,而 <code>ReturnType</code> 需要一个
                   <b>类型</b>。出现在类型位置上的 <code>typeof</code>{" "}
-                  会取出一个值的类型,这就是两者之间的桥。
-                  忘了写它是这里最常见的错误,最后三行就是那条报错。
-                  这个 <code>typeof</code> 和 JavaScript
+                  会取出一个值的类型,这就是两者之间的桥。忘了写它是这里最常见的错误,最后三行就是那条报错。这个 <code>typeof</code> 和 JavaScript
                   的同名运算符做的不是一件事,第 07 章会讲。
                 </>
               }
@@ -1418,10 +1379,8 @@ export default function UtilityPage() {
             }
             zh={
               <>
-                什么时候用得上?库导出了函数、却没导出结果类型的时候;
-                以及你不想专门给一个内部函数的结果起名字的时候。注意{" "}
-                <code>Parameters&lt;T&gt;</code> 返回的是一个<b>元组</b>,
-                不是联合也不是对象,所以 <code>MakeOrderArgs[1]</code> 就是{" "}
+                什么时候用得上?库导出了函数、却没导出结果类型的时候;以及你不想专门给一个内部函数的结果起名字的时候。注意{" "}
+                <code>Parameters&lt;T&gt;</code> 返回的是一个<b>元组</b>,不是联合也不是对象,所以 <code>MakeOrderArgs[1]</code> 就是{" "}
                 <code>Size</code>,这个元组也可以直接展开传进一次调用。
               </>
             }
@@ -1497,13 +1456,11 @@ export default function UtilityPage() {
                   <code>&quot;LARGE&quot;</code>,<code>Lowercase</code>{" "}
                   方向相反;<code>Capitalize&lt;&quot;size&quot;&gt;</code>{" "}
                   得到 <code>&quot;Size&quot;</code>,<code>Uncapitalize</code>{" "}
-                  方向相反。四个都只作用在字符串字面量类型上,
-                  配上第 07 章的模板字面量类型才真正有用。现在先认个脸。
+                  方向相反。四个都只作用在字符串字面量类型上,配上第 07 章的模板字面量类型才真正有用。现在先认个脸。
                 </p>
                 <p>
                   另外还有一个 <code>NoInfer&lt;T&gt;</code>,TypeScript 5.4
-                  加进来的。它标记某个参数位置,让编译器在推断类型实参时不使用它。
-                  很冷门,知道它存在就够了。
+                  加进来的。它标记某个参数位置,让编译器在推断类型实参时不使用它。很冷门,知道它存在就够了。
                 </p>
               </>
             }
@@ -1544,9 +1501,7 @@ export default function UtilityPage() {
               }
               zh={
                 <>
-                  从里往外读。第 2 行先挑出两个属性,再把两者都变成可选。
-                  第 9 行先从状态联合里去掉两个成员,
-                  再把剩下的当成 <code>Record</code> 的键集合。
+                  从里往外读。第 2 行先挑出两个属性,再把两者都变成可选。第 9 行先从状态联合里去掉两个成员,再把剩下的当成 <code>Record</code> 的键集合。
                 </>
               }
             />
@@ -1565,9 +1520,7 @@ export default function UtilityPage() {
             }
             zh={
               <>
-                顺序有影响吗?有时有。作用在同一层级上的两个工具,
-                换顺序往往结果相同;作用在不同层级上的两个,通常就不同。
-                与其背规则,不如悬停在类型别名上直接看结果:
+                顺序有影响吗?有时有。作用在同一层级上的两个工具,换顺序往往结果相同;作用在不同层级上的两个,通常就不同。与其背规则,不如悬停在类型别名上直接看结果:
               </>
             }
           />
@@ -1661,8 +1614,7 @@ export default function UtilityPage() {
                   <b>
                     三,<code>Omit</code> 的键拼错不报错。
                   </b>
-                  为了安全去掉一个属性时,把拼写再核对一遍;
-                  或者用 <code>Pick</code> 白名单,让编译器替你核对。
+                  为了安全去掉一个属性时,把拼写再核对一遍;或者用 <code>Pick</code> 白名单,让编译器替你核对。
                 </p>
               </>
             }
@@ -1692,8 +1644,7 @@ export default function UtilityPage() {
                 这套工具很好用,但它们一点都不特殊。<code>Partial</code>{" "}
                 的定义只有一行 TypeScript,<code>Exclude</code> 更短。第 07
                 章会把它们拆开:映射类型、条件类型、<code>keyof</code>、
-                <code>infer</code>。零件就那么几个,拆完之后,
-                这一章用过的每一个工具,你都能自己写出来。
+                <code>infer</code>。零件就那么几个,拆完之后,这一章用过的每一个工具,你都能自己写出来。
               </p>
             }
           />
@@ -1738,8 +1689,7 @@ export default function UtilityPage() {
             ),
             zh: (
               <>
-                工具类型接受一个类型,返回一个新类型。写法像用尖括号的函数调用,
-                输入的类型永远不会被改动。
+                工具类型接受一个类型,返回一个新类型。写法像用尖括号的函数调用,输入的类型永远不会被改动。
               </>
             ),
           },
@@ -1776,8 +1726,7 @@ export default function UtilityPage() {
               <>
                 挑属性:<code>Pick</code> 是白名单,<code>Omit</code> 是黑名单,
                 <code>Record&lt;K, V&gt;</code> 现造一个对象类型 —— 当{" "}
-                <code>K</code> 是有限联合时,它要求每个键都在。
-                只有 <code>Pick</code> 会检查键。
+                <code>K</code> 是有限联合时,它要求每个键都在。只有 <code>Pick</code> 会检查键。
               </>
             ),
           },
@@ -1794,8 +1743,7 @@ export default function UtilityPage() {
               <>
                 筛联合:<code>Exclude</code> 去掉匹配的成员,
                 <code>Extract</code> 只留下它们,<code>NonNullable</code> 清掉{" "}
-                <code>null</code> 和 <code>undefined</code>。
-                这一组作用在成员上,不是属性上。
+                <code>null</code> 和 <code>undefined</code>。这一组作用在成员上,不是属性上。
               </>
             ),
           },
@@ -1829,8 +1777,7 @@ export default function UtilityPage() {
             zh: (
               <>
                 它们可以组合,结果从里往外读。这里缺的东西(深{" "}
-                <code>Readonly</code>、严格版 <code>Omit</code>),
-                第 07 章你自己就能造出来。
+                <code>Readonly</code>、严格版 <code>Omit</code>),第 07 章你自己就能造出来。
               </>
             ),
           },
