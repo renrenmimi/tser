@@ -38,8 +38,13 @@ Sister sites: [APIer](https://apier-eta.vercel.app) (APIs) and
 | ✦ | Finale — thinking in types | `satisfies` · `as const` · `unknown` as the safe default · type challenges · final quiz |
 
 Each chapter follows the same rhythm: an intuition first, then an interactive
-visualization, then code you can paste into the TypeScript Playground, then the common mistakes, then a hands-on task, then a quiz. Progress is stored
-locally in the browser.
+visualization, then code you can paste into the TypeScript Playground, then the common
+mistakes, then a hands-on task, then a chapter quiz. Progress is stored locally in the
+browser and stays in step across open tabs.
+
+The whole course is in English and Chinese; switch with the EN / 中文 toggle in the toolbar.
+Every page works from the keyboard, meets WCAG AA contrast in both themes, and reads
+without JavaScript.
 
 Every compiler error quoted in the course is `tsc` output.
 
@@ -54,8 +59,10 @@ and the `.d.ts` it actually emits; flip `strict` and watch the verdict change.
 Turn a three-state union into a four-state one and the compiler names the branch you
 forgot. That is the point of the course, and it is not a recording.
 
-The compiler is loaded on demand, cached, and shared by every lab on the site. If it
-cannot load, labs fall back to a static view and the course reads as before.
+The compiler is loaded on demand (about 2 MB on the first visit), cached, and shared by
+every lab on the site. While it loads, and if it cannot load, a banner above the editor
+says so; the code stays readable, and the banner offers a retry and a link that opens the
+same code in the official Playground.
 
 ## Running locally
 
@@ -67,14 +74,23 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
-Build with type checking: `npm run build`.
+Build with type checking: `npm run build`. Run the tests with `npm test` (Vitest); they
+cover the compiler worker, the labs, the shell, the quiz and the stylesheet, and check that
+the Chinese copy has no stray spaces. CI runs the type check, the tests, the build and a
+check that the compiler stays out of the page bundle on every push to `master` and every
+pull request.
+
+`npm run dev`, `npm run build` and `npm test` first copy the compiler from
+`node_modules/typescript` into `public/tslab/`; those copies are not tracked.
 
 ## Structure
 
 Next.js 15 (App Router) + TypeScript + React 19, plain CSS. No API routes, so the whole site prerenders to static pages.
 
-Each chapter is one folder under `app/` holding its page, its visualizations (`viz.tsx`) and
-its own stylesheet, paired with a data file under `lib/` for labs and quizzes.
+Each chapter is one folder under `app/` holding its page, its visualizations (`viz.tsx`), its
+own stylesheet and a server `layout.tsx` that gives the chapter its own title and
+description; it is paired with a data file under `lib/` for labs and quizzes. The fonts are
+self-hosted from `app/fonts/`, and English pages download no Chinese font.
 
 ---
 
