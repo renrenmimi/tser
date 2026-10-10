@@ -427,7 +427,7 @@ export default function StructuralPage() {
           ),
           zh: (
             <>
-              TypeScript 从不问一个类型叫什么名字,它只把值实际拥有的成员和目标要求的成员比一遍。这一章讲透这条贯穿全书的地基规则,再拆掉几乎每个新手都会撞上的那个例外:多余属性检查。
+              TypeScript 从不问一个类型叫什么名字,它只把值实际拥有的成员和目标要求的成员比一遍。这一章讲透这条贯穿全书的地基规则,再拆掉几乎每个新手都会遇到的那个例外:多余属性检查。
             </>
           ),
         }}
@@ -451,7 +451,7 @@ export default function StructuralPage() {
           {
             id: "traps",
             n: "05",
-            label: { en: "Same-shape traps", zh: "同形状的坑" },
+            label: { en: "Same-shape traps", zh: "形状相同的误区" },
           },
           { id: "labs", n: "06", label: { en: "Practice", zh: "动手" } },
           { id: "quiz", n: "07", label: { en: "Quiz", zh: "测验" } },
@@ -710,7 +710,7 @@ export default function StructuralPage() {
               <>
                 名义类型系统比较的是<b>声明</b>:两个类型有关系,必须有一方用 <code>extends</code> 或 <code>implements</code>{" "}
                 说出来。结构化类型系统比较的是<b>成员</b>,什么都不用声明。再看一眼右边:在 TypeScript 里,<b>连 class 都按形状比</b> ——
-                这是从 Java 转过来的人最先撞上的一条。例外只有一个,而且要类里出现 <code>private</code> 或{" "}
+                这是从 Java 转过来的人最先遇到的一条。例外只有一个,而且要类里出现 <code>private</code> 或{" "}
                 <code>protected</code> 成员才会触发,第 08 章会讲。
               </>
             }
@@ -1274,7 +1274,7 @@ export default function StructuralPage() {
         index="05"
         title={{
           en: "When identical shapes are a problem",
-          zh: "同形状的坑:长得一样,不代表是一回事",
+          zh: "形状相同的误区:长得一样,不代表是一回事",
         }}
         desc={{
           en: "Two types that mean completely different things can be swapped freely, as long as their members happen to line up.",
@@ -1305,7 +1305,7 @@ export default function StructuralPage() {
               }
               zh={
                 <>
-                  店里有两个类型:外卖平台用的 <code>DeliveryAddress</code>,和到店自取用的 <code>PickupInfo</code>。两拨人分头定义,结果都是一个电话加一句备注。某天有人把自取单传给了打快递面单的函数,编译器<b>一声没吭</b> —— 成员对得上,它没有理由拦。当晚,骑手照着面单上的备注,去店里取了一单根本不存在的外卖。
+                  店里有两个类型:外卖平台用的 <code>DeliveryAddress</code>,和到店自取用的 <code>PickupInfo</code>。两拨人分头定义,结果都是一个电话加一句备注。某天有人把自取单传给了打快递面单的函数,编译器<b>没有任何报错</b> —— 成员对得上,它没有理由拦。当晚,骑手照着面单上的备注,去店里取了一单根本不存在的外卖。
                 </>
               }
             />
@@ -1459,7 +1459,7 @@ export default function StructuralPage() {
       <Section
         id="quiz"
         index="07"
-        title={{ en: "Chapter quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Eight questions. After this chapter you should be able to answer “how does TypeScript decide that two types are compatible” from shapes, to sets, to the special treatment of object literals.",
           zh: "八道题。答完这一章,「TypeScript 怎么判断两个类型兼容」这个问题,你能从形状讲到集合,再讲到对象字面量的特殊待遇。",

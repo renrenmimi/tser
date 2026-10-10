@@ -149,6 +149,7 @@ export function CompatPlayground() {
           <button
             type="button"
             className={`seg-btn${dir === "toStaff" ? " on" : ""}`}
+            aria-pressed={dir === "toStaff"}
             onClick={() => setDir("toStaff")}
           >
             Barista ⭢ Staff
@@ -156,6 +157,7 @@ export function CompatPlayground() {
           <button
             type="button"
             className={`seg-btn${dir === "toBarista" ? " on" : ""}`}
+            aria-pressed={dir === "toBarista"}
             onClick={() => setDir("toBarista")}
           >
             Staff ⭢ Barista
@@ -596,6 +598,7 @@ export function ShapeMatcher() {
           <button
             type="button"
             className={`seg-btn${literal ? " on" : ""}`}
+            aria-pressed={literal}
             onClick={() => setMode(true)}
           >
             <T en="Pass a literal" zh="字面量直传" />
@@ -603,6 +606,7 @@ export function ShapeMatcher() {
           <button
             type="button"
             className={`seg-btn${!literal ? " on" : ""}`}
+            aria-pressed={!literal}
             onClick={() => setMode(false)}
           >
             <T en="Store in a variable" zh="先存变量" />

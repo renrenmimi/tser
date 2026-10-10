@@ -20,7 +20,7 @@ import { T, type Loc } from "@/lib/i18n";
 import { LABS, QUIZ } from "@/lib/generics-data";
 import { HeroMold, HoleFiller, ConstraintGate } from "./viz";
 
-/* ---------- §01 先痛一下 ---------- */
+/* ---------- §01 问题从哪里来 ---------- */
 
 const S1_DUP: Loc<string> = {
   en: `function firstString(arr: string[]): string | undefined {
@@ -544,7 +544,7 @@ export default function GenericsPage() {
           ),
         }}
         chips={[
-          { id: "pain", n: "01", label: { en: "The problem", zh: "先痛一下" } },
+          { id: "pain", n: "01", label: { en: "The problem", zh: "问题从哪里来" } },
           {
             id: "hole",
             n: "02",
@@ -573,13 +573,13 @@ export default function GenericsPage() {
         <HeroMold />
       </Hero>
 
-      {/* ================= §01 先痛一下 ================= */}
+      {/* ================= §01 问题从哪里来 ================= */}
       <Section
         id="pain"
         index="01"
         title={{
           en: "The problem: three bad versions of one small function",
-          zh: "先痛一下:一个 first 函数的三种坏写法",
+          zh: "问题从哪里来:一个 first 函数的三种坏写法",
         }}
         desc={{
           en: "The task is as small as it gets: return the first element of an array. Without generics there is no good way to write it once.",
@@ -597,16 +597,17 @@ export default function GenericsPage() {
             <T
               en={
                 <>
-                  A small shop&apos;s ordering system needs the first order in a
-                  list, the first item on a menu, and the first order in a
-                  history. It is the same action three times, over three
-                  different array types. Without generics you have three ways to
+                  A small shop&apos;s ordering system needs the first name in a
+                  list of cup sizes (<code>string[]</code>), the first price in a
+                  price list (<code>number[]</code>), and the first order in an
+                  order list (<code>Order[]</code>). It is the same action three
+                  times, over three different array types. Without generics you have three ways to
                   write it, and <b>all three are unsatisfying</b>.
                 </>
               }
               zh={
                 <>
-                  一个小店的点单系统要「取订单列表的第一单」「取菜单的第一项」「取杯型选项的第一个」——
+                  一个小店的点单系统要取一组杯型名称(<code>string[]</code>)的第一个、一组价格(<code>number[]</code>)的第一个、订单列表(<code>Order[]</code>)的第一单 ——
                   同一个动作做三遍,面对三种不同的数组类型。用现有的写法,你有三条路,<b>三条都不体面</b>。
                 </>
               }
@@ -838,7 +839,7 @@ export default function GenericsPage() {
         index="03"
         title={{
           en: "Filling the hole: inference first, explicit when needed",
-          zh: "填洞的两种姿势:先靠推断,不行才点名",
+          zh: "填入类型参数的两种方式:先靠推断,不行才显式写出",
         }}
         desc={{
           en: "Most of the time you never see T being filled in. The compiler reads it from the arguments. Writing the type argument by hand is the exception, and it is worth knowing when it is required.",
@@ -1151,13 +1152,15 @@ export default function GenericsPage() {
                 </code>{" "}
                 and <code>getProp(menu, &quot;topping&quot;)</code> gets the same
                 code with the two real key names in it. Click either error to
-                jump to the call. Then press <b>drop the constraint</b>: the two
-                errors at the call sites disappear and{" "}
+                jump to the call. Then press <b>drop the constraint</b>: the error
+                on <code>longest(10, 100)</code> disappears, and{" "}
                 <code>
                   TS2339: Property &apos;length&apos; does not exist on type
                   &apos;T&apos;.
                 </code>{" "}
-                appears inside the function body instead.
+                appears twice inside <code>longest</code> instead.{" "}
+                <code>getProp</code> keeps its constraint, so its error stays for
+                comparison.
               </>
             }
             zh={
@@ -1169,11 +1172,12 @@ export default function GenericsPage() {
                   to parameter of type &apos;{"{ length: number; }"}&apos;.
                 </code>
                 ,<code>getProp(menu, &quot;topping&quot;)</code>{" "}
-                拿到的是同一个错误码,里面列着那个对象真有的两个键名。点报错可以跳到出问题的调用。然后按一下<b>把约束去掉</b>:调用处的两处报错消失,函数体里换成了{" "}
+                拿到的是同一个错误码,里面列着那个对象真有的两个键名。点报错可以跳到出问题的调用。然后按一下<b>把约束去掉</b>:<code>longest(10, 100)</code> 的报错消失,<code>longest</code> 函数体里换成两处{" "}
                 <code>
                   TS2339: Property &apos;length&apos; does not exist on type
                   &apos;T&apos;.
                 </code>
+                。<code>getProp</code> 的约束没有动,它的报错保留,用来对照。
               </>
             }
           />
@@ -1385,7 +1389,7 @@ export default function GenericsPage() {
         }}
         desc={{
           en: "One last calibration: a type parameter is a compile-time thing only. Then three ideas that beginners often get wrong.",
-          zh: "最后校准一次:类型参数完全是编译期的东西。再顺手掰直三个新手常见的想岔。",
+          zh: "最后再确认一次:类型参数完全是编译期的东西。随后纠正三个新手常见的误解。",
         }}
       >
         <CodePair
@@ -1433,8 +1437,7 @@ export default function GenericsPage() {
                 和所有注解,都在编译过程中被去掉。所以程序运行时没法问{" "}
                 <code>T</code> 是什么,也写不出 <code>new T()</code> 或{" "}
                 <code>if (T === String)</code>。泛型函数并不知道自己的类型实参
-                —— 知道的是编译器,而且是在编译之前就知道。真要在运行时按类型分支,那得对<b>值</b>做真正的运行时检查, 那是第
-                03 章的内容。
+                —— 知道它的是编译器,而且是在编译(类型检查)时,也就是程序运行之前。真要在运行时按类型分支,那得对<b>值</b>做真正的运行时检查,那是第 03 章的内容。
               </>
             }
           />
@@ -1555,11 +1558,11 @@ export default function GenericsPage() {
         <LabSet ch="generics" items={LABS} />
       </Section>
 
-      {/* ================= §08 通关测验 ================= */}
+      {/* ================= §08 本章测验 ================= */}
       <Section
         id="quiz"
         index="08"
-        title={{ en: "Quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Eight questions. After this chapter, a signature like <T extends X = Y> should read as: a placeholder, with a condition on it, and a value to use when none is given.",
           zh: "八道题。答完这章,再看到 <T extends X = Y> 这种签名,你读到的应该是:一个占位符,带一个条件,外加一个没给时用的默认值。",

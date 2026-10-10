@@ -1,6 +1,6 @@
 "use client";
 
-// 第 05 章 · 泛型 —— 动手任务 LABS + 通关测验 QUIZ 数据(双语)。
+// 第 05 章 · 泛型 —— 动手任务 LABS + 本章测验 QUIZ 数据(双语)。
 // 参考做法里的代码:可执行行在两种语言里逐字节相同,只有注释分 en / zh。
 // 编译器报错原文一律不翻译;所有报错与推断结果在 TypeScript 5.9 + strict 下实测过。
 
@@ -313,7 +313,7 @@ export const LABS: Lab[] = [
             <p>
               看最后两行:同一个 <code>paginate</code>,一个结果的{" "}
               <code>list</code> 只认 <code>Order</code> 的成员,另一个只认{" "}
-              <code>MenuItem</code> 的。容器是通用的,内容的类型一点没糊。
+              <code>MenuItem</code> 的。容器是通用的,内容的类型一点也没有丢失。
             </p>
           }
         />
@@ -428,7 +428,7 @@ export const LABS: Lab[] = [
             <code>{"swap<A, B>(pair: [A, B]): [B, A]"}</code>, 交换一个二元组;②{" "}
             <code>{"zip<A, B>(as: A[], bs: B[]): [A, B][]"}</code>,把两个数组按位配对,以短的那个为准。验收标准:
             <code>{'swap(["Boba milk tea", 18])'}</code> 悬停显示{" "}
-            <code>[number, string]</code>,而且配出来的每一对,两个位置各自的类型都不糊。
+            <code>[number, string]</code>,而且配出来的每一对,两个位置各自的类型都保持精确。
           </p>
         }
       />

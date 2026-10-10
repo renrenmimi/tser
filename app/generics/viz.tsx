@@ -173,6 +173,7 @@ export function HoleFiller() {
               key={r.id}
               type="button"
               className={`seg-btn${runIdx === i ? " on" : ""}`}
+              aria-pressed={runIdx === i}
               onClick={() => pick(i)}
             >
               {r.seg}
