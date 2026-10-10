@@ -42,7 +42,8 @@
   background-repeat: repeat-x;
   background-position: 0 100%;
   padding-bottom: 3px;
-  animation: hm-squig-pulse 3.6s ease-in-out infinite;
+  /* 进场时脉动几次就停:无限循环的 background-position 动画让静止的页面每帧重算样式 */
+  animation: hm-squig-pulse 3.6s ease-in-out 3;
 }
 @keyframes hm-squig-pulse {
   0%, 100% { background-position-y: 100%; }
@@ -66,7 +67,8 @@
   box-shadow:
     0 10px 26px oklch(0% 0 0 / 0.35),
     0 2px 8px oklch(0% 0 0 / 0.22);
-  animation: hm-tip-pop 3.6s ease-in-out infinite;
+  /* 与波浪线同步弹出三次;结束后停在显示状态 */
+  animation: hm-tip-pop 3.6s ease-in-out 3;
 }
 /* 指向错词的小箭头:斜切菱形,和气泡同底同边框,像编辑器的错误悬浮卡 */
 .hm-squig-tip::before {
@@ -143,6 +145,10 @@
   background: oklch(75% 0.14 90 / 0.12);
   border-color: oklch(75% 0.14 90 / 0.4);
 }
+/* 浅色主题:亮黄字在浅色底上只有约 2:1 */
+[data-theme="light"] .hm-lane[data-tone="js"] .hm-lane-name {
+  color: oklch(47% 0.11 90);
+}
 .hm-lane[data-tone="ts"] .hm-lane-name {
   color: var(--acc-ink);
   background: var(--acc-soft);
@@ -181,7 +187,8 @@
   border-color: var(--risk);
   background: oklch(60% 0.2 25 / 0.12);
   box-shadow: 0 0 0 3px oklch(60% 0.2 25 / 0.14);
-  animation: hm-boom 0.9s ease-in-out infinite alternate;
+  /* 有限次数:这一帧停留多久,闪烁都不会一直占用主线程 */
+  animation: hm-boom 0.9s ease-in-out 6 alternate;
 }
 @keyframes hm-boom {
   from { box-shadow: 0 0 0 2px oklch(60% 0.2 25 / 0.1); }

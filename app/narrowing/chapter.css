@@ -93,10 +93,11 @@
   background: color-mix(in oklab, var(--m) 12%, transparent);
   transition: opacity 0.3s, transform 0.3s;
 }
-.nr-chip[data-m="string"]  { --m: var(--tk-str); }
-.nr-chip[data-m="number"]  { --m: var(--tk-num); }
-.nr-chip[data-m="boolean"] { --m: var(--tk-kw); }
-.nr-chip[data-m="null"]    { --m: var(--text-3); }
+/* -ink:浅色主题下画在浅色面板上用的深色语法色(深色主题与语法色相同) */
+.nr-chip[data-m="string"]  { --m: var(--tk-str-ink); }
+.nr-chip[data-m="number"]  { --m: var(--tk-num-ink); }
+.nr-chip[data-m="boolean"] { --m: var(--tk-kw-ink); }
+.nr-chip[data-m="null"]    { --m: var(--text-2); }
 .nr-chip.caught {
   opacity: 0.75;
   border-style: dashed;
@@ -267,6 +268,8 @@
   font-size: 13.5px;
   line-height: 1.8;
   color: var(--text-2);
+  /* 中文用「、」连接的一串行内代码之间没有断行机会,允许在必要时任意处断行 */
+  overflow-wrap: anywhere;
 }
 .nr-gx-view {
   background: var(--info-bg);
@@ -301,7 +304,8 @@
 }
 @media (max-width: 880px) {
   .nr-gx {
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr):别让收窄手段网格把这一列撑出视口 */
+    grid-template-columns: minmax(0, 1fr);
   }
   .nr-gx-grid {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));

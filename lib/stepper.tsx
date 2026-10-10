@@ -5,29 +5,25 @@
 // 帧数据由各章自己写。自由形态的动画请在章节内自建组件,
 // 复用 useStepper + <StepControls /> 和 .viz/.viz-stage/.viz-msg/.viz-ctl 样式。
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { T, useL, type Loc } from "@/lib/i18n";
 
 export function useStepper(total: number, intervalMs = 1400) {
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // 每走一帧排一次定时器;到最后一帧时在 effect 里停下。
+  // (不在 setStep 的更新函数里调用 setPlaying:更新函数必须是纯函数,
+  //  Strict Mode 与并发渲染可能把它调用不止一次。)
   useEffect(() => {
     if (!playing) return;
-    timer.current = setInterval(() => {
-      setStep((s) => {
-        if (s >= total - 1) {
-          setPlaying(false);
-          return s;
-        }
-        return s + 1;
-      });
-    }, intervalMs);
-    return () => {
-      if (timer.current) clearInterval(timer.current);
-    };
-  }, [playing, total, intervalMs]);
+    if (step >= total - 1) {
+      setPlaying(false);
+      return;
+    }
+    const id = setTimeout(() => setStep((s) => Math.min(total - 1, s + 1)), intervalMs);
+    return () => clearTimeout(id);
+  }, [playing, step, total, intervalMs]);
 
   return {
     step,

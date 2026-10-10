@@ -97,7 +97,7 @@ export function Hero({
       <p className="hero-essence">{L(essence)}</p>
       {children}
       {chips && chips.length > 0 && (
-        <nav className="hero-nav">
+        <nav className="hero-nav" aria-label={L({ en: "On this page", zh: "本页目录" })}>
           {chips.map((c) => (
             <a key={c.id} href={`#${c.id}`} className="hero-chip">
               <span className="n">§{c.n}</span>
@@ -216,7 +216,7 @@ export function Status({ code, text }: { code: number; text?: string }) {
 
 const KP_TITLE: Loc<ReactNode> = {
   en: "What to take away from this chapter",
-  zh: "这一章,真正要带走的",
+  zh: "本章要点",
 };
 
 export function KeyPoints({
