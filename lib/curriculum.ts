@@ -52,7 +52,7 @@ export const CHAPTERS: Chapter[] = [
     en: { en: "Compile time vs. runtime", zh: "Why TypeScript" },
     essence: {
       en: "A JavaScript mistake shows up at night, in production. A TypeScript mistake shows up when you save the file.",
-      zh: "JavaScript 的错误在半夜的线上炸,TypeScript 的错误在你保存文件时炸。",
+      zh: "JavaScript 的错误在深夜的线上环境里暴露,TypeScript 的错误在你保存文件时就被指出。",
     },
     hue: 210,
     camp: "core",

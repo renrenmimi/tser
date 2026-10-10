@@ -1,6 +1,6 @@
 "use client";
 
-// 第 01 章 · 基础类型与推断:动手任务 LABS + 通关测验 QUIZ 数据(双语)。
+// 第 01 章 · 基础类型与推断:动手任务 LABS + 本章测验 QUIZ 数据(双语)。
 // 约定:代码里的可执行行在 en / zh 两版中逐字节相同,只有注释分语言;
 // 编译器报错原文一律保持英文原样。
 
@@ -26,7 +26,7 @@ export const LABS: Lab[] = [
     id: "hover-infer",
     title: {
       en: "Hover over everything: what type did inference give?",
-      zh: "hover 大巡查:看推断给每个值发了什么类型",
+      zh: "悬停检查:看推断给每个值定了什么类型",
     },
     d: "easy",
     tags: { en: ["Playground", "inference"], zh: ["Playground", "推断"] },
@@ -152,8 +152,7 @@ const nothing: null        // null 的类型就是 null`,
             }
             zh={
               <>
-                在 Playground 里逐行输入下面四行,每写一行就 hover
-                一次变量名,记下类型。最后回答:哪几行是字面量类型,哪几行被拓宽了?为什么?
+                在 Playground 里逐行输入下面四行,每写一行就悬停一次变量名,记下类型。最后回答:哪几行是字面量类型,哪几行被拓宽了?为什么?
               </>
             }
           />
@@ -360,7 +359,7 @@ const menu: MenuItem[] = [
     id: "empty-array",
     title: {
       en: "The empty array trap: watch any[] appear",
-      zh: "空数组的坑:亲眼看 any[] 长出来",
+      zh: "空数组的误区:亲眼看 any[] 出现",
     },
     d: "medium",
     tags: {
@@ -987,7 +986,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            你选的里面有一项,TS 看一眼初始值就知道了。给它写注解不算错,但属于噪音 —— 就是 §08 的坑二。
+            你选的里面有一项,TS 看一眼初始值就知道了。给它写注解不算错,但属于噪音 —— 就是 §08 的误区二。
           </>
         }
       />
@@ -1069,14 +1068,13 @@ export const QUIZ: QuizItem[] = [
         key="a"
         en={
           <>
-            It reaches further than one line. A property read from an any value,
-            a result computed from it, and a callback it is passed to all become
-            any as well.
+            It reaches further than one line. A property read from an any value
+            and the result of calling it are any as well.
           </>
         }
         zh={
           <>
-            不止一行。从 any 值上取的属性、由它算出的结果、把它传进去的回调参数,统统也变成 any。
+            不止一行。从 any 值上读出的属性、调用它得到的返回值,也都是 any。
           </>
         }
       />,

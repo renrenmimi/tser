@@ -1,6 +1,6 @@
 "use client";
 
-// 序章 · 动手任务 LABS + 通关测验 QUIZ 数据。
+// 序章 · 动手任务 LABS + 本章测验 QUIZ 数据。
 
 import type { Lab } from "@/lib/labs";
 import type { QuizItem } from "@/lib/quiz";
@@ -121,7 +121,7 @@ const menu = [
     id: "typo-read",
     title: {
       en: "Make a typo on purpose, then read the error in your own words",
-      zh: "亲手拼错一次,把报错读成人话",
+      zh: "亲手拼错一次,用自己的话复述报错",
     },
     d: "easy",
     tags: { en: ["Playground", "error messages"], zh: ["Playground", "报错"] },
@@ -179,20 +179,18 @@ const menu = [
               <>
                 In plain words: this object has the shape{" "}
                 {"{ name: string; price: number }"} and there is no prise in it,
-                did you mean price? Every message has three parts:{" "}
+                did you mean price? Most messages can be read in three parts:{" "}
                 <b>
                   what is wrong, what it was compared against (the type), and what
                   to do
                 </b>
-                . Once you have read three of them, they stop being intimidating.
+                . Not every message has the last part, but once you have read
+                three of them, they stop being intimidating.
               </>
             }
             zh={
               <>
-                人话版:「这个对象的形状是 {"{ name: string; price: number }"}
-                ,里面没有 prise 这一栏 —— 你是不是想写 price?」三段式:
-                <b>哪里错了 → 依据是什么(类型)→ 建议怎么改</b>。以后每条 TS
-                报错都是这个句式,读三条就不怕了。
+                用日常语言说就是:「这个对象的形状是 {"{ name: string; price: number }"},里面没有 prise 这一栏 —— 你是不是想写 price?」多数报错都可以按三段来读:<b>哪里错了 → 依据是什么(类型)→ 建议怎么改</b>。并不是每条报错都带最后一段的建议,但读过三条之后,就不会再觉得它难懂。
               </>
             }
           />
@@ -204,7 +202,7 @@ const menu = [
     id: "erase-tab",
     title: {
       en: "Watch type erasure happen in the Playground",
-      zh: "在 Playground 里围观类型擦除",
+      zh: "在 Playground 里观察类型擦除",
     },
     d: "easy",
     tags: { en: ["Playground", "type erasure"], zh: ["Playground", "类型擦除"] },
@@ -361,21 +359,25 @@ diff order.ts order.js`}
           <T
             en={
               <>
-                The diff lists every difference: the type line is gone, both
-                annotations are gone, everything else is the same. Run{" "}
-                <code>node order.js</code> and it prints <code>large 22</code>,
-                exactly as plain JavaScript would. Then change size to{" "}
-                <code>&quot;mega&quot;</code> and run <code>npx tsc</code> again
-                to see the compiler refuse: it reports the error and writes no
-                output for that file.
+                In the diff, the type line and both annotations are gone. You will
+                also see three added lines: <code>&quot;use strict&quot;</code>, an{" "}
+                <code>Object.defineProperty(exports, …)</code> line and a{" "}
+                <code>sourceMappingURL</code> comment at the end, and there are{" "}
+                <code>.d.ts</code> and <code>.map</code> files next to the output.
+                They come from the settings <code>tsc --init</code> wrote (module
+                format, declaration files, source maps), not from type erasure;
+                chapter 10 explains each one. Run <code>node order.js</code> and it
+                prints <code>large 22</code>, exactly as plain JavaScript would.
+                Then change size to <code>&quot;mega&quot;</code> and run{" "}
+                <code>npx tsc</code> again. The compiler reports TS2322 and exits
+                with a non-zero code, but <code>order.js</code> is still written: a
+                type error is a report, not a barrier. Chapter 10 shows how{" "}
+                <code>noEmitOnError</code> makes it one.
               </>
             }
             zh={
               <>
-                diff 会列出所有差异:type 行没了、两个注解没了,其余原样。再跑 <code>node order.js</code>,输出 <code>large 22</code> ——
-                和写 JS 没有任何区别。顺手把 size 改成{" "}
-                <code>&quot;mega&quot;</code> 再 <code>npx tsc</code>
-                ,感受一下编译器把关的样子:报错、拒绝放行。
+                diff 里,type 行和两个注解都没了。你还会看到多出三行:<code>&quot;use strict&quot;</code>、一行 <code>Object.defineProperty(exports, …)</code> 和末尾的 <code>sourceMappingURL</code> 注释;目录里也多了 <code>.d.ts</code> 和 <code>.map</code> 文件。它们来自 <code>tsc --init</code> 生成的配置(模块格式、声明文件、source map),与类型擦除无关,第 10 章逐项解释。再运行 <code>node order.js</code>,输出 <code>large 22</code>,和直接写 JS 没有区别。然后把 size 改成 <code>&quot;mega&quot;</code>,重新运行 <code>npx tsc</code>:编译器报出 TS2322,并以非零状态码退出,但 <code>order.js</code> 仍然被重新写出。类型错误是一份报告,不会自动拦下产物;要让它拦下,需要开 <code>noEmitOnError</code>(第 10 章)。
               </>
             }
           />
@@ -439,15 +441,15 @@ export const QUIZ: QuizItem[] = [
         key="a"
         en={
           <>
-            The opposite is true. A superset means any valid JavaScript is a valid
-            starting point. Rename .js to .ts and you have begun, without
-            rewriting a line.
+            The opposite is true. A superset means any valid JavaScript is valid
+            TypeScript syntax, so renaming .js to .ts is a real start. The type
+            checker may then point out problems, but nothing has to be rewritten
+            first.
           </>
         }
         zh={
           <>
-            恰恰相反 —— 超集(superset)意味着任何合法的 JS 都是合法的 TS
-            起点,把 .js 改成 .ts 就能开始,一行都不用重写。
+            恰恰相反 —— 超集(superset)意味着任何合法的 JS 在语法上都是合法的 TS,把 .js 改成 .ts 就能开始;类型检查可能会指出其中的问题,但不需要先重写任何一行。
           </>
         }
       />,
@@ -595,8 +597,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            这就是主比喻:安检口设在登机前,不设在天上。JS
-            的错误在半夜的线上炸,TS 的错误在你保存文件时炸。
+            这就是主比喻:安检口设在登机前,不设在天上。JS 的错误在深夜的线上环境里暴露,TS 的错误在你保存文件时就被指出。
           </>
         }
       />
@@ -793,7 +794,7 @@ export const QUIZ: QuizItem[] = [
           <>
             三条路:① tsc 检查 + 翻译;② bundler 只擦类型不检查(检查交给编辑器和
             CI);③ Node 22.18+ 原生类型擦除直接跑(仅限可擦除语法),Deno、Bun
-            天生支持。唯独浏览器,永远只吃 JS。
+            天生支持。只有浏览器始终只能运行 JS。
           </>
         }
       />
@@ -858,7 +859,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            这是很多人「以为」的行为,也是 JS 最坑的一点 ——
+            这是很多人「以为」的行为,也是 JS 最容易出错的一点 ——
             读不存在的属性不报错,静静给你 undefined,错误当场隐身。
           </>
         }
@@ -884,14 +885,15 @@ export const QUIZ: QuizItem[] = [
         key="d"
         en={
           <>
-            Reading a missing property gives undefined, not null. null only
-            appears if someone assigns it. Chapter 01 separates the two.
+            Reading a missing property gives undefined, not null. A null is put
+            there on purpose by some code, including browser and library APIs
+            (document.querySelector returns null when nothing matches). Chapter
+            01 separates the two.
           </>
         }
         zh={
           <>
-            读不存在的属性得到的是 undefined,不是 null —— null
-            得有人亲手赋值才会出现,这两位 01 章还会细分。
+            读不存在的属性得到的是 undefined,不是 null。null 是某段代码有意放进去的空值,浏览器和库的 API 也会返回它(例如 document.querySelector 找不到元素时)。第 01 章会细分这两者。
           </>
         }
       />,
@@ -903,13 +905,12 @@ export const QUIZ: QuizItem[] = [
             undefined says nothing, multiplying it gives NaN, and NaN travels
             onward. By the time it appears on the page, you are far from the line
             that caused it. This is the main thing a compile-time check is there
-            to stop.
+            to catch.
           </>
         }
         zh={
           <>
-            undefined 不吭声,乘个数变 NaN,NaN 再一路传染 ——
-            等它在页面上露面,案发现场早离出错那行十万八千里了。这正是「编译期安检」要拦的头号危险品。
+            读到的 undefined 不会报错,乘一个数得到 NaN,NaN 又一路传下去 —— 等它出现在页面上,出问题的地方已经离写错的那一行很远了。这正是「编译期安检」要查出的首要隐患。
           </>
         }
       />
@@ -947,16 +948,15 @@ export const QUIZ: QuizItem[] = [
           <>
             tsc does two things: it <b>checks</b> your code against the types and
             reports what does not match, and it <b>translates</b> .ts into .js by
-            removing the types. <code>npx tsc --init</code> creates the config
+            removing the types. The two are independent: a type error does not
+            stop the output. <code>npx tsc --init</code> creates the config
             file, and <code>npx tsc --noEmit</code> checks without writing output.
             Both commands appear again in later chapters.
           </>
         }
         zh={
           <>
-            tsc 干两件事:<b>检查</b>(对照类型说明书报错)+ <b>翻译</b>
-            (把 .ts 擦成 .js)。<code>npx tsc --init</code> 生成配置,
-            <code>npx tsc --noEmit</code> 只检查不出产物 —— 这几个命令后面章节会一直用。
+            tsc 做两件事:<b>检查</b>(对照类型说明书报告不符之处)和<b>翻译</b>(去掉类型,把 .ts 写成 .js),两者互相独立:有类型错误时照样写出产物。<code>npx tsc --init</code> 生成配置文件,<code>npx tsc --noEmit</code> 只检查、不写产物。后面的章节会反复用到这几个命令。
           </>
         }
       />
