@@ -46,7 +46,7 @@ content in both languages. Each fix below is its own pull request, and all are m
 - The Chinese copy no longer renders the 1,572 stray spaces that JSX made from line breaks;
   a unit test guards the rule ([#9]).
 - The Chinese copy uses a formal register, one term per concept (注解, 悬停, 动手任务,
-  非空断言), and the quiz sections are called 「本章测验」 ([#17]–[#22]).
+  非空断言), and the quiz sections are called 「本章测验」 ([#17]–[#22], [#26]).
 - Fill-in answers accept full-width forms, curly quotes and single quotes ([#13], [#22]).
 
 ### Interaction and accessibility
@@ -117,3 +117,4 @@ content in both languages. Each fix below is its own pull request, and all are m
 [#21]: https://github.com/renrenmimi/tser/pull/21
 [#22]: https://github.com/renrenmimi/tser/pull/22
 [#23]: https://github.com/renrenmimi/tser/pull/23
+[#26]: https://github.com/renrenmimi/tser/pull/26
