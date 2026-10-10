@@ -1097,7 +1097,7 @@ export const QUIZ: QuizItem[] = [
               class CashPay implements PaymentProvider{" "}
               {"{ pay(amount) { … } }"}
             </code>{" "}
-            —— <code>amount</code> 没有标注类型,它的类型是什么?
+            —— <code>amount</code> 没有类型注解,它的类型是什么?
           </>
         }
       />
@@ -1189,7 +1189,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             <code>unknown</code> 是 <code>useUnknownInCatchVariables</code>{" "}
-            下 <code>catch</code> 变量的待遇。没标注的函数参数拿到的是隐式{" "}
+            下 <code>catch</code> 变量的待遇。没有注解的函数参数拿到的是隐式{" "}
             <code>any</code>,由 <code>noImplicitAny</code> 报出来。
           </>
         }

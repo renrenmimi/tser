@@ -1,6 +1,6 @@
 "use client";
 
-// 09 · Modules and declaration files —— 动手任务 LABS + 通关测验 QUIZ 数据。
+// 09 · Modules and declaration files —— 动手任务 LABS + 本章测验 QUIZ 数据。
 // 双语:内容用 { en, zh } 对;教学代码的可执行行在两种语言里逐字节相同,
 // 只有注释分 en / zh。编译器报错原文一律不翻译。
 // 所有报错文案、报错码与生成结果均已用 tsc 5.9.3 + Node 22 实测核对。
@@ -439,7 +439,7 @@ export const LABS: Lab[] = [
           message already contains it.
         </>
       ),
-      zh: <>第一次会撞上 ts(7016)。别急着查解法 —— 报错原文里就写着。</>,
+      zh: <>第一次会遇到 ts(7016)。先不必去查解法:报错原文里就写着。</>,
     },
     solution: {
       en: (
@@ -578,14 +578,15 @@ export const QUIZ: QuizItem[] = [
       en: (
         <>
           A TypeScript file has no top-level <code>import</code> and no top-level{" "}
-          <code>export</code>. What is it, and where do its top-level
-          declarations live?
+          <code>export</code>, and the project uses the default{" "}
+          <code>moduleDetection</code> setting. What is it, and where do its
+          top-level declarations live?
         </>
       ),
       zh: (
         <>
           一个 TypeScript 文件顶层既没有 <code>import</code> 也没有{" "}
-          <code>export</code>。它是什么?它的顶层声明住在哪里?
+          <code>export</code>,项目使用默认的 <code>moduleDetection</code> 设置。它是什么?它的顶层声明住在哪里?
         </>
       ),
     },
@@ -656,15 +657,16 @@ export const QUIZ: QuizItem[] = [
         en: (
           <>
             <code>module</code> chooses the output format (<code>esnext</code>,{" "}
-            <code>commonjs</code>, and so on). Whether a given file is a module
-            is decided by the file itself: does it have a top-level import or
-            export?
+            <code>commonjs</code>, and so on). With the default{" "}
+            <code>moduleDetection</code> setting, whether a given file is a
+            module is decided by the file itself: does it have a top-level
+            import or export?
           </>
         ),
         zh: (
           <>
             <code>module</code> 决定的是输出格式(<code>esnext</code>、
-            <code>commonjs</code> 等)。某个文件到底是不是模块,由文件自己决定:顶层有没有 import / export?
+            <code>commonjs</code> 等)。在默认的 <code>moduleDetection</code> 设置下,某个文件到底是不是模块,由文件自己决定:顶层有没有 import / export?
           </>
         ),
       },
@@ -921,7 +923,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            esbuild、SWC 这类单文件转译器分不清一个名字是值还是类型,显式标注让它们不必猜
+            esbuild、SWC 这类单文件转译器分不清一个名字是值还是类型,显式标记让它们不必猜
           </>
         ),
       },
@@ -1032,7 +1034,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          导入 <code>lodash</code> 时撞上 ts(7016)「Could not find a declaration
+          导入 <code>lodash</code> 时遇到 ts(7016)「Could not find a declaration
           file for module &apos;lodash&apos;」。最该先做的是什么?
         </>
       ),
@@ -1779,7 +1781,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            编译器不会拦。声明文件在,形状也对得上,导入就解析成功了。这正是这个坑容易漏过去的地方:一路绿灯,直到运行才出问题。
+            编译器不会拦。声明文件在,形状也对得上,导入就解析成功了。这正是这类问题容易被忽略的原因:一路绿灯,直到运行才出问题。
           </>
         ),
       },
