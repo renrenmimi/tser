@@ -1,6 +1,6 @@
 "use client";
 
-// 第 07 章 · 类型运算 —— 动手任务 LABS + 通关测验 QUIZ 数据(双语)。
+// 第 07 章 · 类型运算 —— 动手任务 LABS + 本章测验 QUIZ 数据(双语)。
 // 参考做法里的代码:可执行行在两种语言里逐字节相同,只有注释分 en / zh,
 // 因此 hl 行号在两种语言下一致。编译器报错原文一律不翻译。
 // 所有报错文案、报错码与推断结果均在 TypeScript 5.9 + strict 下实测过。
@@ -398,7 +398,7 @@ export const LABS: Lab[] = [
     id: "my-omit",
     title: {
       en: "Build the strict Omit the library does not ship",
-      zh: "造一把标准库没给的严格版 Omit",
+      zh: "实现一个标准库没有提供的严格版 Omit",
     },
     d: "hard",
     tags: {

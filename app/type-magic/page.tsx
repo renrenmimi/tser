@@ -961,7 +961,7 @@ export default function TypeMagicPage() {
                 <b>
                   只有 <code>extends</code> 左边是裸类型参数时才会发生
                 </b>{" "}
-                —— 也就是光秃秃的 <code>T</code>,外面什么都没包。发生分发时,如果 <code>T</code> 是 <code>A | B</code>,编译器就把整个条件类型改写成{" "}
+                —— 也就是不加任何包装的 <code>T</code>。发生分发时,如果 <code>T</code> 是 <code>A | B</code>,编译器就把整个条件类型改写成{" "}
                 <code>(A extends U ? X : Y) | (B extends U ? X : Y)</code>。规则就这么多。不知道这条,谁都没法预测条件类型会返回什么。
               </>
             }
@@ -1667,11 +1667,11 @@ export default function TypeMagicPage() {
         <LabSet ch="type-magic" items={LABS} />
       </Section>
 
-      {/* ================= §09 通关测验 ================= */}
+      {/* ================= §09 本章测验 ================= */}
       <Section
         id="quiz"
         index="09"
-        title={{ en: "Chapter quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Eight questions. Distribution and infer are where most mistakes happen; if you are unsure, replay the visualization in §04 one step at a time.",
           zh: "八道题。分发和 infer 是错得最多的地方 —— 拿不准就回 §04 把可视化一步一步再放一遍。",

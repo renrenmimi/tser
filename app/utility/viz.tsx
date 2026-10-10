@@ -41,7 +41,16 @@ const HERO_TOOLS: { tool: string; out: string; eff: ReactNode }[] = [
 export function UtHeroToolbox() {
   const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % HERO_TOOLS.length), 2600);
+    // 减少动态效果:不轮播,停在第一个工具
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    // 轮播一整圈后回到第一个工具并停下;页面不可见时不推进
+    let steps = 0;
+    const t = setInterval(() => {
+      if (document.visibilityState === "hidden") return;
+      steps += 1;
+      setI((v) => (v + 1) % HERO_TOOLS.length);
+      if (steps >= HERO_TOOLS.length) clearInterval(t);
+    }, 2600);
     return () => clearInterval(t);
   }, []);
   const cur = HERO_TOOLS[i];
