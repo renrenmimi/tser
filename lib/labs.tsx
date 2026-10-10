@@ -4,8 +4,11 @@
 // 每个任务:勾选框(写入全站进度)+ 编号 + 标题 + 难度徽章 + 标签;
 // 展开后是「任务说明」「提示」(先自己想)和「参考做法」(可附代码窗)。
 // pid = `${章节 id}/${lab id}`,进度全站互通。
+//
+// 每一行是两个并列的控件:勾选框,和负责展开的按钮。二者不能嵌套:
+// 勾选框放在可点击的整行之内时,它的 Enter 与空格会被整行接管,键盘用户就无法记录完成。
 
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { useProgress } from "@/lib/progress";
 import { T, useL, type Loc } from "@/lib/i18n";
 import type { ChapterId } from "@/lib/curriculum";
@@ -30,6 +33,7 @@ export function LabSet({ ch, items }: { ch: ChapterId; items: Lab[] }) {
   const L = useL();
   const { isDone, toggleLab, ready } = useProgress();
   const [open, setOpen] = useState<string | null>(null);
+  const listId = useId();
 
   return (
     <div className="plist">
@@ -37,58 +41,54 @@ export function LabSet({ ch, items }: { ch: ChapterId; items: Lab[] }) {
         const pid = `${ch}/${p.id}`;
         const done = ready && isDone(pid);
         const expanded = open === p.id;
+        const num = String(i + 1).padStart(2, "0");
+        const bodyId = `${listId}-${p.id}`;
         return (
           <div
             key={p.id}
             className={`prob${done ? " done" : ""}${expanded ? " open" : ""}`}
             data-d={p.d}
           >
-            <div
-              className="prob-head"
-              onClick={() => setOpen(expanded ? null : p.id)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setOpen(expanded ? null : p.id);
-                }
-              }}
-              aria-expanded={expanded}
-            >
+            <div className="prob-head">
               <button
                 type="button"
+                role="checkbox"
                 className="prob-check"
-                aria-label={
-                  done
-                    ? L({ en: "Mark as not done", zh: "标记为未完成" })
-                    : L({ en: "Mark as done", zh: "做完了,勾掉它" })
-                }
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleLab(pid);
-                }}
+                aria-checked={done}
+                aria-label={L({
+                  en: `Mark task ${num} as done`,
+                  zh: `将任务 ${num} 标记为已完成`,
+                })}
+                onClick={() => toggleLab(pid)}
               >
                 ✓
               </button>
-              <span className="prob-id">LAB {String(i + 1).padStart(2, "0")}</span>
-              <span className="prob-title">{L(p.title)}</span>
-              <span className="prob-tags">
-                {L(p.tags).map((tag) => (
-                  <span key={tag} className="prob-tag">
-                    {tag}
-                  </span>
-                ))}
-              </span>
-              <span className="lc-badge" data-d={p.d}>
-                {D_LABEL[p.d]}
-              </span>
-              <span className="prob-caret" aria-hidden>
-                ▼
-              </span>
+              <button
+                type="button"
+                className="prob-toggle"
+                aria-expanded={expanded}
+                aria-controls={bodyId}
+                onClick={() => setOpen(expanded ? null : p.id)}
+              >
+                <span className="prob-id">LAB {num}</span>
+                <span className="prob-title">{L(p.title)}</span>
+                <span className="prob-tags">
+                  {L(p.tags).map((tag) => (
+                    <span key={tag} className="prob-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </span>
+                <span className="lc-badge" data-d={p.d}>
+                  {D_LABEL[p.d]}
+                </span>
+                <span className="prob-caret" aria-hidden>
+                  ▼
+                </span>
+              </button>
             </div>
             {expanded && (
-              <div className="prob-body">
+              <div className="prob-body" id={bodyId}>
                 <div>{L(p.task)}</div>
                 <div className="prob-hint-label">
                   <T
