@@ -367,6 +367,32 @@ html[data-sidebar="collapsed"] .sidebar {
   margin-left: -288px;
 }
 
+/* 「跳到正文」:平时在屏幕外,获得键盘焦点时出现 */
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--acc-border);
+  background: var(--panel-solid);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+/* 跳转目标是正文区域本身,不需要自己的焦点环 */
+.shell-content main[tabindex="-1"]:focus,
+.shell-content[tabindex="-1"]:focus {
+  outline: none;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -639,7 +665,8 @@ html[data-sidebar="collapsed"] .sidebar {
   outline: none;
   background: transparent;
   padding: 17px 20px;
-  font-size: 15.5px;
+  /* 16px:iOS 在聚焦字号小于 16px 的输入框时会放大页面 */
+  font-size: 16px;
   color: var(--text);
   font-family: var(--font-ui);
   border-bottom: 1px solid var(--border);

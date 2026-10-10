@@ -2,10 +2,12 @@
 
 // 顶部工具条:侧栏开关 + 面包屑 + ⌘K + 语言切换 + 主题切换。
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { chapterByPath } from "@/lib/curriculum";
 import { useL, useLang } from "@/lib/i18n";
 import { useShell, useTheme } from "./theme-provider";
+import { useNarrowLayout } from "./sidebar";
 
 export default function Toolbar() {
   const path = usePathname();
@@ -13,16 +15,33 @@ export default function Toolbar() {
   const L = useL();
   const { lang, setLang } = useLang();
   const { theme, toggleTheme } = useTheme();
-  const { setSidebarOpen, toggleSidebarCollapsed, setCmdkOpen } = useShell();
+  const {
+    sidebarOpen,
+    setSidebarOpen,
+    sidebarCollapsed,
+    toggleSidebarCollapsed,
+    setCmdkOpen,
+  } = useShell();
+  const narrow = useNarrowLayout();
+
+  // 显示读者键盘上真实存在的快捷键:Mac 上是 ⌘K,其他系统是 Ctrl K
+  const [isMac, setIsMac] = useState(true);
+  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad/.test(navigator.platform));
+  }, []);
 
   return (
     <header className="toolbar">
       <button
         type="button"
+        id="sidebar-toggle"
         className="tb-btn"
         aria-label={L({ en: "Toggle sidebar", zh: "切换侧栏" })}
+        aria-controls="sidebar"
+        aria-expanded={narrow ? sidebarOpen : !sidebarCollapsed}
         onClick={() => {
-          if (window.innerWidth <= 960) setSidebarOpen((v) => !v);
+          // 与 aria-expanded 用同一个断点判断:窄屏开关抽屉,宽屏折叠侧栏
+          if (narrow) setSidebarOpen((v) => !v);
           else toggleSidebarCollapsed();
         }}
       >
@@ -51,7 +70,8 @@ export default function Toolbar() {
         onClick={() => setCmdkOpen(true)}
         aria-label={L({ en: "Open the command palette", zh: "打开命令面板" })}
       >
-        {L({ en: "Jump to", zh: "跳转" })} <span className="tb-kbd">⌘K</span>
+        {L({ en: "Jump to", zh: "跳转" })}{" "}
+        <span className="tb-kbd">{isMac ? "⌘K" : "Ctrl K"}</span>
       </button>
 
       <div
@@ -81,7 +101,11 @@ export default function Toolbar() {
         type="button"
         className="tb-btn"
         onClick={toggleTheme}
-        aria-label={L({ en: "Toggle theme", zh: "切换主题" })}
+        aria-label={
+          theme === "dark"
+            ? L({ en: "Switch to the light theme", zh: "切换到浅色主题" })
+            : L({ en: "Switch to the dark theme", zh: "切换到深色主题" })
+        }
       >
         {theme === "dark" ? "☾" : "☀"}
       </button>
