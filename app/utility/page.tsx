@@ -599,16 +599,16 @@ export default function UtilityPage() {
             <T
               en={
                 <>
-                  This is the tea shop type from Chapter 01. §05 adds the order
-                  status union from Chapter 03. Paste this definition into the
+                  This is the tea shop order type used in this chapter; its{" "}
+                  <code>Size</code> is the same as in earlier chapters. §05 adds
+                  the order status union from Chapter 03. Paste this definition into the
                   Playground and every later example in this chapter will
                   compile against it.
                 </>
               }
               zh={
                 <>
-                  这就是第 01 章那个奶茶店类型;§05 会再把第 03
-                  章的订单状态联合加进来。把这份定义贴进 Playground,本章后面的例子都能接着它跑。
+                  这是本章要用的奶茶店订单类型,其中的 <code>Size</code> 与前几章相同;§05 会再把第 03 章的订单状态联合加进来。把这份定义贴进 Playground,本章后面的例子都能接着它跑。
                 </>
               }
             />
@@ -1229,7 +1229,7 @@ export default function UtilityPage() {
                   TS2344: Type &apos;&quot;internalNotes&quot;&apos; does not
                   satisfy the constraint &apos;keyof Order&apos;.
                 </code>{" "}
-                它上面的 <code>Omit</code> 一声不吭。点一下 <code>Leaky</code>{" "}
+                它上面的 <code>Omit</code> 没有任何报错。点一下 <code>Leaky</code>{" "}
                 看它算出来的形状:<code>internalNote</code>{" "}
                 原样还在。一个不存在的键删不掉任何东西,
                 <b>而类型系统对此没有意见</b>。再点一下 <code>Omit</code>{" "}
@@ -1424,7 +1424,7 @@ export default function UtilityPage() {
           tone="deep"
           title={{
             en: "Also in the set: four string types, and one rare one",
-            zh: "顺路认脸:字符串四件套,外加一个冷门的",
+            zh: "顺带认识:四个字符串工具类型,外加一个少用的",
           }}
         >
           <T
@@ -1456,7 +1456,7 @@ export default function UtilityPage() {
                   <code>&quot;LARGE&quot;</code>,<code>Lowercase</code>{" "}
                   方向相反;<code>Capitalize&lt;&quot;size&quot;&gt;</code>{" "}
                   得到 <code>&quot;Size&quot;</code>,<code>Uncapitalize</code>{" "}
-                  方向相反。四个都只作用在字符串字面量类型上,配上第 07 章的模板字面量类型才真正有用。现在先认个脸。
+                  方向相反。四个都只作用在字符串字面量类型上,配上第 07 章的模板字面量类型才真正有用。现在先了解一下。
                 </p>
                 <p>
                   另外还有一个 <code>NoInfer&lt;T&gt;</code>,TypeScript 5.4
@@ -1664,11 +1664,11 @@ export default function UtilityPage() {
         <LabSet ch="utility" items={LABS} />
       </Section>
 
-      {/* ================= §09 通关测验 ================= */}
+      {/* ================= §09 本章测验 ================= */}
       <Section
         id="quiz"
         index="09"
-        title={{ en: "Quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Nine questions. The two that are missed most often are about shallowness and about the misspelled key in Omit, and both were covered above.",
           zh: "九道题。错得最多的一直是「浅」和「Omit 键拼错」这两处,上面都讲过了。",

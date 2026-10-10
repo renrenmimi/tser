@@ -84,7 +84,7 @@ export function TmDistribute() {
         zh={
           <>
             规则是这样的:条件类型会<b>逐个成员</b>判断, 但前提是{" "}
-            <code>extends</code> 左边是一个裸类型参数 —— 也就是光秃秃的{" "}
+            <code>extends</code> 左边是一个裸类型参数 —— 也就是不加任何包装的{" "}
             <code>T</code>,这里正是如此。所以四个成员在左边排好队,一个一个过闸。
           </>
         }

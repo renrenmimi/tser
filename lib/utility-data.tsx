@@ -1,6 +1,6 @@
 "use client";
 
-// 第 06 章 · 内置工具类型 —— 动手任务 LABS + 通关测验 QUIZ 数据(双语)。
+// 第 06 章 · 内置工具类型 —— 动手任务 LABS + 本章测验 QUIZ 数据(双语)。
 // 参考答案里的代码:可执行行在两种语言里逐字节相同,只有注释分 en / zh,
 // 因此 hl 行号在两种语言下一致。编译器报错原文一律不翻译。
 // 所有报错文案、报错码与推断结果均在 TypeScript 5.9 + strict 下实测过。
@@ -143,7 +143,7 @@ export const LABS: Lab[] = [
     id: "checkout-dto",
     title: {
       en: "Build three Order variants by composing utility types",
-      zh: "用工具类型组合出「结账页 DTO」",
+      zh: "只用工具类型,组合出 Order 的三个变体",
     },
     d: "medium",
     tags: {
@@ -254,7 +254,7 @@ export const LABS: Lab[] = [
             还是 Playground 里那个 <code>Order</code>。故意把键名拼错:先写{" "}
             <code>Omit&lt;Order, &quot;internalNotes&quot;&gt;</code>(多一个{" "}
             <code>s</code>),再写{" "}
-            <code>Pick&lt;Order, &quot;internalNotes&quot;&gt;</code>。看哪一个报错、哪一个一声不吭。然后悬停在 <code>Omit</code>{" "}
+            <code>Pick&lt;Order, &quot;internalNotes&quot;&gt;</code>。看哪一个报错、哪一个没有任何报错。然后悬停在 <code>Omit</code>{" "}
             那个类型别名上,数一数它到底产出了几个属性。
           </p>
         }
@@ -904,15 +904,19 @@ export const QUIZ: QuizItem[] = [
           Three of them work on union members: <code>Exclude</code> removes the
           matching members, <code>Extract</code> keeps only the matching
           members, and <code>NonNullable</code> removes <code>null</code> and{" "}
-          <code>undefined</code>. All three are conditional types that are
-          applied to each member separately. Chapter 07 shows how that works.
+          <code>undefined</code>. Exclude and Extract are conditional types
+          applied to each member separately; NonNullable has been written as{" "}
+          <code>T &amp; {"{}"}</code> since TypeScript 4.8, and intersecting
+          with <code>{"{}"}</code> removes <code>null</code> and{" "}
+          <code>undefined</code> in the same way. Chapter 07 shows how that
+          works.
         </>
       ),
       zh: (
         <>
           三个作用在联合成员上:<code>Exclude</code> 去掉匹配的成员,
           <code>Extract</code> 只留下匹配的成员,<code>NonNullable</code>{" "}
-          清掉 <code>null</code> 和 <code>undefined</code>。三者都是条件类型,会对每个成员分别求值。第 07 章会讲这是怎么做到的。
+          清掉 <code>null</code> 和 <code>undefined</code>。Exclude 和 Extract 是条件类型,会对每个成员分别求值;NonNullable 从 TypeScript 4.8 起写作 <code>T &amp; {"{}"}</code>,与 <code>{"{}"}</code> 取交集同样会去掉 <code>null</code> 和 <code>undefined</code>。第 07 章会讲这是怎么做到的。
         </>
       ),
     },
