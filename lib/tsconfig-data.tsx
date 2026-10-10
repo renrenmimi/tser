@@ -1044,7 +1044,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>@ts-ignore</code> 仍然是合法的 TypeScript。问题在于它永远沉默 —— 债还清了也不吭声。
+            <code>@ts-ignore</code> 仍然是合法的 TypeScript。问题在于它永远沉默 —— 即使底下的错误已经修好,它也不会提示。
           </>
         ),
       },
