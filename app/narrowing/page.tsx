@@ -967,19 +967,19 @@ export default function NarrowingPage() {
             <T
               en={
                 <>
-                  Remove the last line and the error disappears: if{" "}
-                  <code>value</code> is never reassigned anywhere in the
-                  function, the compiler treats it as fixed and keeps the
-                  narrowing inside the callback. The rule is about{" "}
-                  <b>whether the variable can change</b>, not about callbacks as
-                  such.
+                  Remove the last line and the error disappears. Since
+                  TypeScript 5.4, the compiler finds the last assignment to a{" "}
+                  <code>let</code> variable or parameter: a callback created after
+                  it keeps the narrowing, while a callback followed by another
+                  assignment cannot trust the check. Here <code>value = 42</code>{" "}
+                  comes after the callback, so the call is reported. The rule is
+                  about <b>whether the variable can still change</b>, not about
+                  callbacks as such.
                 </>
               }
               zh={
                 <>
-                  把最后一行删掉,报错就消失了:只要 <code>value</code>{" "}
-                  在整个函数里从未被重新赋值,编译器就把它当作固定不变的,回调里的收窄依然有效。这条规则真正看的是
-                  <b>这个变量还会不会变</b>,而不是「是不是回调」。
+                  把最后一行删掉,报错就消失了。从 TypeScript 5.4 起,编译器会找到 <code>let</code> 变量(或参数)的最后一次赋值:在它之后创建的回调保留外面的收窄;回调之后还有赋值,回调里就不能再相信这次检查。这里的 <code>value = 42</code> 写在回调后面,所以报错。这条规则真正看的是<b>这个变量还会不会变</b>,而不是「是不是回调」。
                 </>
               }
             />
@@ -1068,9 +1068,9 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  在同一个函数里,被收窄的属性能挺过一次普通的函数调用。写成{" "}
+                  在同一个函数里,被收窄的属性在一次普通的函数调用之后仍然保持收窄。写成{" "}
                   <code>if (d.note) &#123; clear(d); d.note.trim(); &#125;</code>
-                  ,编译器一声不吭 —— 哪怕 <code>clear</code> 可能已经把{" "}
+                  ,编译器没有任何报错 —— 哪怕 <code>clear</code> 可能已经把{" "}
                   <code>d.note</code> 改成了 <code>undefined</code>。TypeScript 是有意留下这个缺口的:如果要追踪每一次可能的修改,会有大量正确代码被误判。这是少数几个「编译通过 ≠ 值还在」的地方。
                 </>
               }
@@ -1091,15 +1091,15 @@ export default function NarrowingPage() {
                 <>
                   Assigning to a <code>let</code> resets its narrowing from that
                   line on. A callback keeps the narrowing of a variable only if
-                  that variable is never reassigned. A narrowed property is
-                  never kept inside a callback. When you hit any of the three,
+                  the variable is not assigned again after the callback is
+                  created. A narrowed property is never kept inside a callback. When you hit any of the three,
                   the fix is almost always the same: copy the checked value into
                   a <code>const</code>.
                 </>
               }
               zh={
                 <>
-                  给 <code>let</code> 赋值,会从那一行起清掉它的收窄结果。回调里能否保留收窄,取决于那个变量有没有被重新赋值过。属性的收窄则永远不会带进回调。这三种情况的解法几乎都一样:把检查过的值复制进一个{" "}
+                  给 <code>let</code> 赋值,会从那一行起清掉它的收窄结果。回调里能否保留收窄,取决于回调创建之后还有没有对这个变量的赋值。属性的收窄则永远不会带进回调。这三种情况的解法几乎都一样:把检查过的值复制进一个{" "}
                   <code>const</code>。
                 </>
               }
@@ -1585,16 +1585,19 @@ export default function NarrowingPage() {
             <T
               en={
                 <>
-                  The compiler infers a predicate only for a short callback with
-                  one parameter that immediately returns a narrowing expression.
-                  Anything longer still needs an explicit <code>is</code>, and
-                  writing it explicitly means the promise is yours again.
+                  Since TS 5.5, the compiler infers a predicate for a function
+                  that has no return type annotation, a single return statement,
+                  does not modify its parameter, and returns true exactly when
+                  the parameter has the narrower type. Arrow functions and
+                  declarations, one parameter or several, all qualify. When a
+                  condition fails (several return statements, for example) you
+                  still need an explicit <code>is</code>, and writing it
+                  explicitly means the promise is yours again.
                 </>
               }
               zh={
                 <>
-                  只有「单参数、直接返回一个收窄表达式」的简短回调,编译器才会推断出谓词。更复杂的逻辑仍然要手写{" "}
-                  <code>is</code> —— 而手写就意味着,那句承诺又归你负责了。
+                  从 TS 5.5 起,满足这几个条件的函数会被自动推断出类型谓词:没写返回类型;只有一条 return;不修改参数;返回 true 恰好意味着参数是收窄后的类型。箭头函数和普通函数、单参数和多参数都适用。条件不满足时(例如有多条 return),仍然要手写 <code>is</code> —— 而手写就意味着,那句承诺又归你负责了。
                 </>
               }
             />
@@ -1678,9 +1681,9 @@ export default function NarrowingPage() {
               en={
                 <>
                   <code>?.</code> and <code>??</code> are real JavaScript
-                  operators. They compile to real runtime checks. <code>!</code>{" "}
-                  is a TypeScript annotation and disappears when the code is
-                  compiled. It performs no check at all; it only stops the
+                  operators. They compile to real runtime checks. <code>!</code>,
+                  the <b>non-null assertion</b>, exists only in TypeScript and
+                  disappears when the code is compiled. It performs no check at all; it only stops the
                   compiler from reporting. If the value really is{" "}
                   <code>null</code> at runtime, you get the same{" "}
                   <code>TypeError</code> you would have got in JavaScript, and
@@ -1691,8 +1694,7 @@ export default function NarrowingPage() {
               zh={
                 <>
                   <code>?.</code> 和 <code>??</code> 是 JavaScript
-                  的正式操作符,编译后是真实的运行时检查。而 <code>!</code>{" "}
-                  是 TypeScript 的标注,编译后会消失。它不做任何检查,只是让编译器不再报错。运行时那个值如果真的是 <code>null</code>,你照样会拿到和
+                  的正式操作符,编译后是真实的运行时检查。而 <code>!</code> 是<b>非空断言(non-null assertion)</b>,只存在于 TypeScript 中,编译后会消失。它不做任何检查,只是让编译器不再报错。运行时那个值如果真的是 <code>null</code>,你照样会拿到和
                   JavaScript 里一样的 <code>TypeError</code>,而且这次连编译器的提醒都没有了。规矩:能用 <code>?.</code>{" "}
                   和 <code>??</code> 表达的,就不要用 <code>!</code>。
                 </>
@@ -1719,7 +1721,7 @@ export default function NarrowingPage() {
       <Section
         id="quiz"
         index="10"
-        title={{ en: "Quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Ten questions, from the shared-member rule to the real cost of !. Get them all right and the sidebar marker turns green.",
           zh: "十道题,从共有成员规则一直问到 ! 的真实代价。全部答对,侧栏的标记会变绿。",
@@ -1787,14 +1789,15 @@ export default function NarrowingPage() {
             en={
               <>
                 Narrowing is lost when a <code>let</code> is reassigned, and
-                inside a callback for any variable that can be reassigned or any
-                object property. Copy the checked value into a{" "}
+                inside a callback when the variable is assigned again after the
+                callback is created, or when the narrowed value is an object
+                property. Copy the checked value into a{" "}
                 <code>const</code>.
               </>
             }
             zh={
               <>
-                收窄会在这些地方失效:<code>let</code> 被重新赋值之后;回调内部,只要那个变量可能被重新赋值,或者它是对象属性。解法是把检查过的值复制进一个 <code>const</code>。
+                收窄会在这些地方失效:<code>let</code> 被重新赋值之后;回调内部:回调之后还有对该变量的赋值,或者被收窄的是对象属性。解法是把检查过的值复制进一个 <code>const</code>。
               </>
             }
           />,

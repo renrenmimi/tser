@@ -378,7 +378,7 @@ const GUARDS: Guard[] = [
   {
     k: "truthy",
     name: { en: "truthiness", zh: "真值检查" },
-    tagline: { en: "if (x)", zh: "if (x) 一刀切" },
+    tagline: { en: "if (x)", zh: "if (x) 一概排除" },
     code: {
       en: `function label(count: number | undefined) {
   if (count) {
@@ -675,6 +675,7 @@ export function GuardsExplorer() {
             key={x.k}
             type="button"
             className={`nr-gx-cell${sel === i ? " on" : ""}`}
+            aria-pressed={sel === i}
             onClick={() => setSel(i)}
           >
             <b>{L(x.name)}</b>
@@ -819,6 +820,7 @@ export function OrderSwitchDemo() {
             key={x.status}
             type="button"
             className={`nr-os-btn${sel === i ? " on" : ""}`}
+            aria-pressed={sel === i}
             onClick={() => setSel(i)}
           >
             case &quot;{x.status}&quot;
