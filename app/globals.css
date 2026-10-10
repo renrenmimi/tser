@@ -1455,7 +1455,7 @@ html[data-lang="en"] .codewin-note::before {
   transition: all 0.18s;
 }
 
-.q-opt:hover:not(:disabled) {
+.q-opt:hover:not(:disabled):not([aria-disabled="true"]) {
   border-color: var(--acc-border);
   background: var(--acc-soft);
   color: var(--text);
@@ -1511,8 +1511,22 @@ html[data-lang="en"] .codewin-note::before {
   color: #fff;
 }
 
-.q-opt:disabled {
+/* 作答后的选项仍可获得焦点(aria-disabled),焦点不会丢失 */
+.q-opt:disabled,
+.q-opt[aria-disabled="true"] {
   cursor: default;
+}
+
+/* 判定区可以接收程序移入的焦点(多选题检查之后),本身不需要焦点环 */
+.q-live:focus {
+  outline: none;
+}
+
+/* aria-disabled 的按钮外观与 disabled 相同,但保留键盘焦点 */
+.quiz .btn[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .q-input {
@@ -1524,7 +1538,8 @@ html[data-lang="en"] .codewin-note::before {
   background: var(--panel-2);
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 14px;
+  /* 16px:iOS 在聚焦字号小于 16px 的输入框时会放大页面 */
+  font-size: 16px;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
