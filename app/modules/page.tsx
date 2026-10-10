@@ -752,8 +752,8 @@ export default function ModulesPage() {
         <Callout
           tone="warn"
           title={{
-            en: "The file decides this, not tsconfig.json",
-            zh: "这件事由文件决定,不是 tsconfig.json",
+            en: "By default the file decides; the module option does not",
+            zh: "默认由文件内容决定,module 选项不管这件事",
           }}
         >
           <T
@@ -763,8 +763,14 @@ export default function ModulesPage() {
                   The <code>module</code> option in{" "}
                   <code>tsconfig.json</code> chooses the <i>output format</i>:{" "}
                   <code>esnext</code>, <code>commonjs</code>, and so on. It does
-                  not decide whether a given file is a module. Only the file
-                  itself does that, by having a top-level import or export.
+                  not decide whether a given file is a module. By default the
+                  file itself does that, by having a top-level import or export.
+                  A separate option, <code>moduleDetection</code>, can change the
+                  rule: with <code>&quot;force&quot;</code>, every non-declaration
+                  file is treated as a module, and that is what{" "}
+                  <code>tsc --init</code> writes in TypeScript 5.9. Declaration
+                  files are not affected; for them a top-level import or export
+                  still decides.
                 </p>
                 <p>
                   This matters most in <code>.d.ts</code> files, where it is easy
@@ -777,10 +783,7 @@ export default function ModulesPage() {
             zh={
               <>
                 <p>
-                  <code>tsconfig.json</code> 里的 <code>module</code>{" "}
-                  选的是<i>输出格式</i>:<code>esnext</code>、
-                  <code>commonjs</code> 之类。它不决定某个文件是不是模块 ——
-                  只有文件自己能决定,靠顶层的 import 或 export。
+                  <code>tsconfig.json</code> 里的 <code>module</code> 选的是<i>输出格式</i>:<code>esnext</code>、<code>commonjs</code> 之类。它不决定某个文件是不是模块 —— 默认由文件自己决定,靠顶层的 import 或 export。tsconfig 里另有一个 <code>moduleDetection</code> 选项可以改变规则:设为 <code>&quot;force&quot;</code> 时,所有非声明文件都按模块处理 —— TypeScript 5.9 的 <code>tsc --init</code> 生成的配置就是这样。<code>.d.ts</code> 文件不受它影响,仍然看顶层的 import 或 export。
                 </p>
                 <p>
                   这一点在 <code>.d.ts</code> 里最要紧,因为那种文件很容易两者都没有。同一段{" "}
@@ -1452,8 +1455,8 @@ export default function ModulesPage() {
           zh: "一个库的类型从哪里来",
         }}
         desc={{
-          en: "Three places, checked in order. The compiler stops at the first one that answers.",
-          zh: "三个地方,按顺序查。哪一个先有结果,编译器就停在那里。",
+          en: "Three sources. Check them in this order when you investigate, but a declare module you wrote yourself, once it exists, takes precedence over the other two.",
+          zh: "三个来源。排查时按这个顺序看;但要知道,你自己写的 declare module 一旦存在,优先级最高。",
         }}
       >
         <div className="grid-3">
@@ -2318,7 +2321,7 @@ export default function ModulesPage() {
       <Section
         id="quiz"
         index="07"
-        title={{ en: "Quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Eleven questions on module scope, type-only imports, and where a library's types come from.",
           zh: "十一道题,考模块作用域、纯类型导入,以及一个库的类型从哪里来。",
@@ -2386,7 +2389,7 @@ export default function ModulesPage() {
               <>
                 <code>import type</code> 和 <code>export type</code>{" "}
                 把一行标为「只有类型」,于是整行被删除,运行时不会加载任何模块。<code>verbatimModuleSyntax</code>{" "}
-                把这个标注变成必需:导入报 <code>ts(1484)</code>,转手导出报 <code>ts(1205)</code>。
+                把这个标记变成必需:导入报 <code>ts(1484)</code>,转手导出报 <code>ts(1205)</code>。
               </>
             ),
           },
@@ -2413,7 +2416,10 @@ export default function ModulesPage() {
                 package&apos;s own <code>types</code> (or the{" "}
                 <code>types</code> condition in <code>exports</code>), then{" "}
                 <code>@types</code> from DefinitelyTyped, then a declaration you
-                write. All three empty means <code>ts(7016)</code>. Keep the{" "}
+                write. All three empty means <code>ts(7016)</code>. A{" "}
+                <code>declare module</code> you have already written takes
+                precedence over the other two, so remove a stopgap declaration
+                once real types exist. Keep the{" "}
                 <code>@types</code> major and minor version aligned with the
                 library.
               </>
@@ -2424,8 +2430,7 @@ export default function ModulesPage() {
                 <code>types</code>(或 <code>exports</code> 里的{" "}
                 <code>types</code> 条件)→ DefinitelyTyped 的{" "}
                 <code>@types</code> → 你自己写的声明。三个都空就是{" "}
-                <code>ts(7016)</code>。<code>@types</code> 的 major 和 minor
-                版本要和库本体对齐。
+                <code>ts(7016)</code>。你已经写好的 <code>declare module</code> 优先于前两者,有了真正的类型之后,要删掉当初的临时声明。<code>@types</code> 的 major 和 minor 版本要和库本体对齐。
               </>
             ),
           },

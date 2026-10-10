@@ -227,6 +227,7 @@ export function ErasedImports() {
           <button
             type="button"
             className={`seg-btn${!after ? " on" : ""}`}
+            aria-pressed={!after}
             onClick={() => setAfter(false)}
           >
             <T en="Source .ts" zh="编译前 .ts" />
@@ -234,6 +235,7 @@ export function ErasedImports() {
           <button
             type="button"
             className={`seg-btn${after ? " on" : ""}`}
+            aria-pressed={after}
             onClick={() => setAfter(true)}
           >
             <T en="Output .js" zh="编译后 .js" />
@@ -355,15 +357,14 @@ const QUEST_FRAMES: QuestFrameDef[] = [
           <>
             You write <code>import {"{ debounce }"} from &quot;lodash&quot;</code>
             . The compiler now needs to know the type of{" "}
-            <code>debounce</code>, so it starts looking for a declaration. It
-            checks three places, in order, and stops at the first one that
-            answers.
+            <code>debounce</code>, so it starts looking for a declaration in
+            three places, in this order.
           </>
         }
         zh={
           <>
             你写下 <code>import {"{ debounce }"} from &quot;lodash&quot;</code>
-            。编译器现在需要知道 <code>debounce</code> 的类型,于是开始找它的声明。它会按顺序看三个地方,哪一个有结果就停。
+            。编译器现在需要知道 <code>debounce</code> 的类型,于是开始找它的声明。它会按这个顺序看三个地方。
           </>
         }
       />
@@ -479,15 +480,18 @@ const QUEST_FRAMES: QuestFrameDef[] = [
         en={
           <>
             The order again: <b>1 the package&apos;s own types → 2 @types → 3 a
-            declaration you write</b>. The first one that answers wins. When you
-            are choosing a library, check it in this order and you will know
-            before you install what its type support costs you.
+            declaration you write</b>. When you are choosing a library, check it
+            in this order and you will know before you install what its type
+            support costs you. One exception: a <code>declare module</code> you
+            have already written takes precedence over the other two, so delete a
+            stopgap declaration once the library ships its own types or you
+            install <code>@types</code>.
           </>
         }
         zh={
           <>
             再看一遍顺序:<b>① 包自带的类型 → ② @types → ③ 你自己写的声明</b>
-            ,第一个有结果的胜出。给项目挑库时按这个顺序查一遍,装之前就知道它的类型支持要付多少代价。
+            。给项目挑库时按这个顺序查一遍,装之前就知道它的类型支持要付多少代价。例外只有一个:你已经写好的 <code>declare module</code> 优先于前两者,所以库自带类型或装上 <code>@types</code> 之后,要删掉当初写的临时声明。
           </>
         }
       />
@@ -540,8 +544,8 @@ export function TypeQuest() {
   return (
     <FlowStepper
       title={{
-        en: "How the compiler finds a type declaration: three places, in order",
-        zh: "编译器怎么找到类型声明:三个地方,按顺序",
+        en: "Where a library's type declaration comes from: three places to check",
+        zh: "一个库的类型声明从哪里来:依次检查三个地方",
       }}
       frames={frames}
     />

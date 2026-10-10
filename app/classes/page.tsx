@@ -730,7 +730,7 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                方法没有新规则。方法就是写在类里的函数,参数和返回值的标注方式和第 02 章完全一样。真正的新内容从下一节开始:规定哪些代码可以读某个成员。
+                方法没有新规则。方法就是写在类里的函数,参数和返回值的注解方式和第 02 章完全一样。真正的新内容从下一节开始:规定哪些代码可以读某个成员。
               </>
             }
           />
@@ -1123,9 +1123,10 @@ export default function ClassesPage() {
                   A password or a token stored in a <code>private</code> field is
                   not protected. One <code>JSON.stringify(shop)</code> prints it.
                   So does the browser&apos;s DevTools, and so does any log line
-                  that serializes the object. <code>#field</code> does keep the
-                  value out of those places, but it is still plain text in memory
-                  and it is still in your bundle if you hard-coded it. Real
+                  that serializes the object. <code>#field</code> keeps the value out
+                  of <code>JSON.stringify</code> and most serialized logs, but the
+                  browser&apos;s DevTools still shows it, it is still plain text
+                  in memory, and it is still in your bundle if you hard-coded it. Real
                   secrets belong on a server, not in a field of either kind.
                 </>
               }
@@ -1135,7 +1136,7 @@ export default function ClassesPage() {
                   字段并不构成保护。一句 <code>JSON.stringify(shop)</code>{" "}
                   就打印出来了,浏览器 DevTools
                   一样看得见,任何序列化对象的日志也一样。
-                  <code>#field</code> 确实能挡住这几处,但值仍然是内存里的明文,如果是硬编码的,它照样在你的打包产物里。真正的机密应该放在服务端,而不是任何一种字段里。
+                  <code>#field</code> 能让值不出现在 <code>JSON.stringify</code> 和多数序列化日志里,但浏览器 DevTools 照样看得见,值仍然是内存里的明文,如果是硬编码的,它照样在你的打包产物里。真正的机密应该放在服务端,而不是任何一种字段里。
                 </>
               }
             />
@@ -1179,7 +1180,7 @@ export default function ClassesPage() {
               lang="ts"
               title={{
                 en: "Written out · four lines of boilerplate",
-                zh: "老老实实写 · 四行样板",
+                zh: "完整地写出 · 四行样板",
               }}
               code={S4_VERBOSE}
             />
@@ -1303,7 +1304,10 @@ export default function ClassesPage() {
                   <code>set sugar(v: number | string)</code> together with{" "}
                   <code>get sugar(): number</code> lets callers write{" "}
                   <code>o.sugar = &quot;30&quot;</code> while{" "}
-                  <code>o.sugar</code> still reads as a <code>number</code>.
+                  <code>o.sugar</code> still reads as a <code>number</code>. Since
+                  TypeScript 5.1 even that restriction is gone when both sides
+                  have explicit types, although a property whose read and write
+                  types are unrelated usually confuses callers.
                 </>
               }
               zh={
@@ -1313,7 +1317,7 @@ export default function ClassesPage() {
                   <code>set sugar(v: number | string)</code> 配上{" "}
                   <code>get sugar(): number</code>,调用方可以写{" "}
                   <code>o.sugar = &quot;30&quot;</code>,而读 <code>o.sugar</code>{" "}
-                  拿到的仍然是 <code>number</code>。
+                  拿到的仍然是 <code>number</code>。TypeScript 5.1 起,只要两边都显式写了类型,连这条限制也取消了;不过读写类型毫不相关的属性通常会让调用方困惑。
                 </>
               }
             />
@@ -1450,7 +1454,7 @@ export default function ClassesPage() {
               }
               zh={
                 <>
-                  ① <b>implements 不会改变类的类型</b>:它不添加成员,也不替你标注任何东西。如果写成{" "}
+                  ① <b>implements 不会改变类的类型</b>:它不添加成员,也不替你写任何类型注解。如果写成{" "}
                   <code>pay(amount) {"{ … }"}</code> 而不标类型,
                   <code>amount</code> 不会变成 <code>number</code>,而是隐式 <code>any</code>,在 <code>strict</code> 下直接报错
                   ts(7006)。参数类型得自己写,编译器再拿你写的去和接口核对。
@@ -1618,7 +1622,7 @@ export default function ClassesPage() {
       <Section
         id="quiz"
         index="08"
-        title={{ en: "Quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Nine questions on what the compiler checks, and on what survives compilation.",
           zh: "九道题,考的是编译器到底检查了什么,以及编译之后还剩下什么。",

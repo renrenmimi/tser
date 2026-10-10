@@ -231,6 +231,7 @@ export function AccessGate() {
               key={gm.key}
               type="button"
               className={`seg-btn${member === i ? " on" : ""}`}
+              aria-pressed={member === i}
               onClick={() => setMember(i)}
             >
               {gm.ico} {gm.mod} {gm.key}
@@ -248,6 +249,7 @@ export function AccessGate() {
               key={i}
               type="button"
               className={`seg-btn${place === i ? " on" : ""}`}
+              aria-pressed={place === i}
               onClick={() => setPlace(i)}
             >
               {L(gp.label)}
@@ -414,6 +416,7 @@ export function ErasureViz() {
               key={et.label}
               type="button"
               className={`seg-btn${tab === i ? " on" : ""}`}
+              aria-pressed={tab === i}
               onClick={() => setTab(i)}
             >
               {et.label}
