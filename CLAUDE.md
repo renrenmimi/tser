@@ -43,6 +43,8 @@
 - 别怕句子短。短句有力。
 - **中文正文在 JSX 里不要折行。** JSX 把跨行文本的换行连接成一个空格,中文字之间、全角标点前后就会多出空格。中文段落在源码里写成一行;中文与英文单词、数字、行内代码之间照常空一格,「——」与运算符两侧也保留空格,其余地方不留。
   `test/zh-copy-spacing.test.ts` 扫描全部 TSX 文件,发现多余的空格就报错。
+- **全站统一的译法**:annotation 译「注解」,不用「标注」;hover 译「悬停」,中文正文不写 hover;
+  `!` 叫「非空断言(non-null assertion)」;LabSet 叫「动手任务」,Quiz 叫「本章测验」。
 
 ## 课程结构(12 页,由易到难)
 
@@ -79,8 +81,9 @@
 - Next.js 15(App Router)+ React 19 + TypeScript,**纯 CSS 无 Tailwind**。
 - **本机默认 Node 16 跑不动**,一切命令加:
   `export PATH="$HOME/.nvm/versions/node/v22.21.1/bin:$PATH"`
-- `npm run dev` / `npm run build` 前会自动跑 `scripts/prepare-tslab.mjs`,
-  把编译器搬进 `public/tslab/`(11 MB 生成物,已 gitignore;缺了实验室会退回静态视图)。
+- `npm run dev` / `npm run build` / `npm test` 前会自动跑 `scripts/prepare-tslab.mjs`,
+  把编译器搬进 `public/tslab/<版本>/`(解压后约 11 MB,首次传输约 2 MB)。`public/tslab/` 下
+  只有手写的 `worker.js` 进版本库,其余都已 gitignore;缺了编译器,实验室显示加载失败的横幅,代码照常可读。
 - 构建验证:`npm run build`;并行写章节时**不要各自跑 build**(.next 冲突),
   用 `npx tsc --noEmit --incremental false` 做类型检查。
 - 预览:`.claude/launch.json` 已配置(autoPort,基准端口 3400)。
@@ -98,6 +101,11 @@ app/<ch>/chapter.css   本章专属样式(page.tsx 里【必须】import "./chap
                        漏了会导致整章样式静默失效 —— DataData 踩过的坑;
                        所有类名带本章前缀,如 narrowing 章用 nr-,防止跨章冲突)
 lib/<ch>-data.tsx      本章动手任务 LABS + 测验 QUIZ 数据
+app/<ch>/layout.tsx    本章的服务端布局,只导出 metadata(标签页标题、描述、canonical),
+                       内容来自 app/chapter-metadata.ts;页面本身是 client component,不能导出 metadata
+app/document-title.tsx 让标签页标题跟随读者的语言(只在根布局渲染一次)
+app/not-found.tsx      404 页(沿用外壳与主题,中英两种文案)
+app/fonts/             自托管字体,next build 不联网下载字体;说明见其中的 README.md
 ```
 
 每章配色由 `<main className="page" data-ch="<章节id>">` 自动生效
@@ -137,20 +145,22 @@ lib/<ch>-data.tsx      本章动手任务 LABS + 测验 QUIZ 数据
   targets                       // 显示 target 下拉(es5…esnext)
   emit="js|dts|both"            // 产物页签:看类型擦除 / 看自动生成的声明文件
   inspect                       // 点代码看推断类型(默认开)
-  presets={[{ label: {en,zh}, code: "…" }]}         // 一键换稿:出错版 / 修好版
+  presets={[{ label: {en,zh}, code: "…" }]}         // 一键换稿:出错版 / 修好版;
+                                                    // 代码带讲解注释时 code 给 {en,zh} 两份
   note={{ en: "…", zh: "…" }}
 />
 ```
 
 **真的是 tsc**:`public/tslab/worker.js` 在 Web Worker 里 `importScripts` 真正的
-TypeScript(`scripts/prepare-tslab.mjs` 在 predev/prebuild 时从 node_modules 搬到
+TypeScript(`scripts/prepare-tslab.mjs` 在 predev/prebuild/pretest 时从 node_modules 搬到
 `public/tslab/<版本>/`,连同 89 个 `lib.*.d.ts` 的传递闭包)。诊断、类型悬浮、
 emit 全部来自 `ts.LanguageService` —— 报错文案、错误码、字符范围都是编译器给的,
 **不许手写模拟**。写章节时:
 - 要展示报错,优先用 TsLab 让读者自己改出来,而不是贴一张死代码 + 手抄报错;
 - 编译器 8.7 MB,按需加载:页面里放 1–2 个实验室,别每小节都塞;
 - 全站共享一个 worker 单例,第二个实验室是秒开的;
-- 加载失败会自动退回静态视图 + Playground 链接,课程内容不依赖它可用。
+- 加载中与加载失败时,编辑区上方显示一条横幅,代码保持清晰、可以选中复制;失败时横幅给出
+  「再试一次」和带上当前代码的 Playground 链接,课程内容不依赖实验室可用。
 - 实验室里的文件永远叫 `main.ts`(编译器报位置用的就是这个名字),**别传 title 改名**;
 - 片段没有 import/export 时是「全局脚本」(和 Playground 一样),顶层变量会和 DOM 全局撞名:
   `name / length / status / origin / top / parent / event / close / open / focus / history / location`
@@ -170,6 +180,8 @@ emit 全部来自 `ts.LanguageService` —— 报错文案、错误码、字符�
 ### lib/quiz.tsx
 - `<Quiz ch="narrowing" items={QuizItem[]} />`;题型 choice/multi/fill。
   **禁止通用文案**(「答案不正确」不合格),每个错误选项要有针对性纠错。
+- fill 题判分前先做 NFKC 规范化、去掉空白、统一引号(`normAnswer`):全角符号、弯引号和
+  单引号写法都算对,答案列表里不必为它们另列写法。
 
 ### lib/labs.tsx(动手任务)
 - `<LabSet ch="narrowing" items={Lab[]} />`
@@ -186,7 +198,8 @@ emit 全部来自 `ts.LanguageService` —— 报错文案、错误码、字符�
 
 直觉比喻(hero + 开场故事)→ 概念拆解(交互可视化/逐帧动画)→
 真代码(CodeBlock,可粘进 Playground 验证)→ 常见误区(Callout warn)→
-动手任务(LabSet)→ 通关测验(Quiz,6–10 题)→ 要点卡(KeyPoints)→ ChapterFooter。
+动手任务(LabSet)→ 本章测验(Quiz,7–12 题;小节标题写「本章测验 / Chapter quiz」)→
+要点卡(KeyPoints)→ ChapterFooter。
 
 ## 内容事实基准(写作时对齐,别写错)
 
