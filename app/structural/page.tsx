@@ -778,7 +778,7 @@ export default function StructuralPage() {
               zh={
                 <>
                   因为它的任务是描述已经存在的 JavaScript。想想日常的 JS 值长什么样:随手写下的对象字面量、
-                  <code>JSON.parse</code> 返回的数据、几个函数拼出来的对象 —— <b>它们谁都没有声明过什么</b>。如果兼容必须先有声明,那所有现存的 JS 文件都得先改写一遍才能被 TypeScript 标注,没人会这么干。结构化类型让 TypeScript 能按 JS 本来的写法去描述它,这正是「JavaScript 超集」这句承诺的技术前提。
+                  <code>JSON.parse</code> 返回的数据、几个函数拼出来的对象 —— <b>它们谁都没有声明过什么</b>。如果兼容必须先有声明,那所有现存的 JS 文件都得先改写一遍,TypeScript 才能为它们写出类型,没人会这么干。结构化类型让 TypeScript 能按 JS 本来的写法去描述它,这正是「JavaScript 超集」这句承诺的技术前提。
                 </>
               }
             />

@@ -467,9 +467,9 @@ function receipt(o: Order) {
   return o.paidAt.toLocaleTimeString(); // 从这一行起,o 是 Paid
 }
 
-// 如果把它存进变量,这个变量必须写出类型标注:
+// 如果把它存进变量,这个变量必须写出类型注解:
 const check: (o: Order) => asserts o is Paid = assertPaid;
-// 少了这句标注,调用处就会报:
+// 少了这句注解,调用处就会报:
 // ✕ Assertions require every name in the call target to be
 //   declared with an explicit type annotation.`,
 };
@@ -1555,7 +1555,7 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  这条标注规则很容易在不经意间撞上。用 <code>function</code>{" "}
+                  这条注解规则很容易在不经意间撞上。用 <code>function</code>{" "}
                   声明写出来就没问题;但如果把断言函数放进变量里,这个变量必须写出显式类型,否则调用它不会产生收窄,编译器还会直接报错。
                 </>
               }
