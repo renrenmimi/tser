@@ -807,7 +807,7 @@ export default function HomePage() {
         }}
         desc={{
           en: "Clear them up now, so they do not get in the way for the next eleven chapters.",
-          zh: "现在破除,省得它们在后面十一章里反复捣乱。",
+          zh: "现在就澄清,免得它们在后面十一章里反复干扰理解。",
         }}
       >
         <Callout

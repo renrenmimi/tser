@@ -1555,7 +1555,7 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  这条注解规则很容易在不经意间撞上。用 <code>function</code>{" "}
+                  这条注解规则很容易在不经意间违反。用 <code>function</code>{" "}
                   声明写出来就没问题;但如果把断言函数放进变量里,这个变量必须写出显式类型,否则调用它不会产生收窄,编译器还会直接报错。
                 </>
               }

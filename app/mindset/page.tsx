@@ -1159,7 +1159,7 @@ export default function MindsetPage() {
                 <>
                   这几行现在都不报错,而四种情况在运行时都可能出问题。这不是不该信任 TypeScript 的理由,而是这一章后面几节存在的理由:
                   <b>
-                    少用 <code>any</code> 和 <code>as</code>,在边界上自己检查数据,项目扛得住时打开{" "}
+                    少用 <code>any</code> 和 <code>as</code>,在边界上自己检查数据,项目条件成熟时打开{" "}
                     <code>noUncheckedIndexedAccess</code>
                   </b>
                   。

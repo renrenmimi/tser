@@ -995,7 +995,7 @@ export default function TsconfigPage() {
                   还有一种组合值得试:让 <code>strictNullChecks</code> 关着,单独打开 <code>noUncheckedIndexedAccess</code>。开关是亮的,
                   <b>但什么也没发生</b> —— 整个文件一处报错都没有。没有{" "}
                   <code>strictNullChecks</code>,<code>string | undefined</code>{" "}
-                  会退回成 <code>string</code>,这个选项也就无话可说。「开着但什么也没做」,正是手工挑选成员时会踩的那个坑。
+                  会退回成 <code>string</code>,这个选项也就无话可说。「开着但什么也没做」,正是手工挑选成员时容易落入的陷阱。
                 </>
               }
             />
@@ -2266,7 +2266,7 @@ export default function TsconfigPage() {
         }}
         desc={{
           en: "Three JavaScript files, 900 lines, nobody has changed them in years. The system cannot stop running while you work.",
-          zh: "三个 JavaScript 文件,九百行,好几年没人敢改。而你干活的时候,系统不能停。",
+          zh: "三个 JavaScript 文件,共九百行,多年来没有人敢修改。而迁移期间,系统必须照常运行。",
         }}
       >
         <p className="sec-desc">
