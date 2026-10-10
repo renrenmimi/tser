@@ -2,7 +2,7 @@
 
 // 第 01 章 · 基础类型与推断(双语:正文用 <T en zh />,组件 props 用 { en, zh })——
 // 身份证比喻 → 原始类型证件墙 → 数组/元组/对象 → 注解 vs 推断(放大镜)→
-// 字面量与拓宽 → any 的诱惑 → 奶茶店案例 → 三个坑 → 动手 → 测验 → 要点。
+// 字面量与拓宽 → any 的诱惑 → 奶茶店案例 → 三个误区 → 动手 → 测验 → 要点。
 //
 // 代码示例:可执行行在两种语言里逐字节相同,只有注释分 en / zh;
 // 因此 hl 行号在两种语言下一致。编译器报错原文一律不翻译。
@@ -231,19 +231,19 @@ cupSize = "mega";`;
 const ANY_CODE: Loc<string> = {
   en: `let data: any = JSON.parse('{"price": 22}');
 
-const total = data.prise * 2;      // key is misspelled, nobody complains
-const label = total.toUpperCase(); // total is any too, still silent
+const price = data.prise;          // key is misspelled, nothing reports it
+const label = price.toUpperCase(); // price is any too, still no error
 
 // The program only fails when it runs:
-// TypeError: total.toUpperCase is not a function
+// TypeError: Cannot read properties of undefined (reading 'toUpperCase')
 console.log(label);`,
   zh: `let data: any = JSON.parse('{"price": 22}');
 
-const total = data.prise * 2;      // 键名拼错了,没人吭声
-const label = total.toUpperCase(); // total 也成了 any,继续沉默
+const price = data.prise;          // 键名拼错了,没有任何报错
+const label = price.toUpperCase(); // price 也是 any,同样没有报错
 
 // 直到程序跑起来才出错:
-// TypeError: total.toUpperCase is not a function
+// TypeError: Cannot read properties of undefined (reading 'toUpperCase')
 console.log(label);`,
 };
 
@@ -328,7 +328,7 @@ const menu: MenuItem[] = [
 ];`,
 };
 
-/* ---------- §08 三个坑 ---------- */
+/* ---------- §08 三个误区 ---------- */
 
 const EMPTY_ARR_CODE: Loc<string> = {
   en: `const toppings = [];        // no error here — the type is just any[]
@@ -378,7 +378,7 @@ export default function TypesPage() {
           zh: (
             <>
               string、number、boolean…… 类型没那么神秘,就是每个值随身带的一张标签。更省事的是:大多数标签不用你写 —— TypeScript
-              看一眼值,自己就填好了。这手本事叫推断。
+              看一眼值,自己就填好了。这种能力叫推断。
             </>
           ),
         }}
@@ -390,7 +390,7 @@ export default function TypesPage() {
           { id: "literal", n: "05", label: { en: "Literals and widening", zh: "字面量与拓宽" } },
           { id: "any", n: "06", label: { en: "The cost of any", zh: "any 的代价" } },
           { id: "milktea", n: "07", label: { en: "Menu case study", zh: "奶茶店案例" } },
-          { id: "pitfalls", n: "08", label: { en: "Three pitfalls", zh: "三个坑" } },
+          { id: "pitfalls", n: "08", label: { en: "Three pitfalls", zh: "三个误区" } },
           { id: "labs", n: "09", label: { en: "Practice", zh: "动手" } },
           { id: "quiz", n: "10", label: { en: "Quiz", zh: "测验" } },
         ]}
@@ -549,11 +549,11 @@ export default function TypesPage() {
         index="02"
         title={{
           en: "Primitive types: the seven basic ones",
-          zh: "原始类型:七户常住人口",
+          zh: "原始类型:七种基本类型",
         }}
         desc={{
           en: "You meet string, number, and boolean every day. null and undefined are two different ways of saying there is no value. bigint and symbol are rare, but worth recognizing. Click a value to see its type.",
-          zh: "string、number、boolean 你天天见;null 和 undefined 是两种不同的「没有值」;bigint、symbol 少见,认个脸就行。点一个值试试。",
+          zh: "string、number、boolean 你天天见;null 和 undefined 是两种不同的「没有值」;bigint、symbol 少见,认识即可。点一个值试试。",
         }}
       >
         <IdWall />
@@ -561,7 +561,7 @@ export default function TypesPage() {
           tone="idea"
           title={{
             en: "Learn the first five well, and just recognize the last two",
-            zh: "先认前五户,后两户认个脸就行",
+            zh: "前五种要熟练,后两种认识即可",
           }}
         >
           <T
@@ -588,7 +588,7 @@ export default function TypesPage() {
             zh={
               <>
                 <p>
-                  日常写码 95% 的时间在跟 string、number、boolean、null、undefined 打交道。<b>null 和 undefined 的区别值得记一句</b>:
+                  日常写代码,绝大多数时候打交道的是 string、number、boolean、null、undefined。<b>null 和 undefined 的区别值得记一句</b>:
                   undefined 是「从来没人赋过值」时你拿到的东西(没写初始值、属性不存在、函数没有 return);null 是有人特意赋进去的、表示「空」的值。
                 </p>
                 <p>
@@ -1166,17 +1166,16 @@ export default function TypesPage() {
               en={
                 <>
                   Both highlighted lines contain a real bug. The key{" "}
-                  <code>prise</code> is misspelled, and nothing reports it. Then{" "}
-                  <code>total</code> becomes any as well, so calling{" "}
-                  <code>toUpperCase()</code> on a number is also accepted. Both
+                  <code>prise</code> is misspelled, and nothing reports it. A
+                  property read from an any value is any as well, so calling{" "}
+                  <code>toUpperCase()</code> on undefined is also accepted. Both
                   mistakes survive until the program runs, exactly as they would
                   in plain JavaScript.
                 </>
               }
               zh={
                 <>
-                  两行高亮都藏着真错误:键名 <code>prise</code>{" "}
-                  拼错了,没人报;然后 <code>total</code> 也成了 any,于是拿一个数字调 <code>toUpperCase()</code> 同样被放行。两个错都活到了运行时 —— 和裸写 JavaScript 一模一样。
+                  两行高亮都藏着真错误:键名 <code>prise</code> 拼错了,没有报错;从 any 上读出的 <code>price</code> 也是 any,于是对 undefined 调用 <code>toUpperCase()</code> 同样被放行。两个错都活到了运行时,和直接写 JavaScript 一样。
                 </>
               }
             />
@@ -1198,9 +1197,10 @@ export default function TypesPage() {
                   method that does not exist, a wrong argument. All silent.
                 </p>
                 <p>
-                  <b>It spreads.</b> A property read from an any value, a result
-                  computed from it, a callback parameter it is passed to — all
-                  become any. One any can quiet an entire chain of code.
+                  <b>It spreads.</b> A property read from an any value and the
+                  result of calling it are any as well (arithmetic is the
+                  exception: <code>data.price * 2</code> is still a number). One
+                  any can quiet an entire chain of code.
                 </p>
                 <p>
                   This does not mean you must never use it. It is useful while
@@ -1220,8 +1220,7 @@ export default function TypesPage() {
                   <b>一,关掉检查。</b>值一旦是 any,对它做任何操作编译器都放行:属性拼错、方法不存在、参数传错,全部沉默。
                 </p>
                 <p>
-                  <b>二,会扩散。</b>从 any
-                  值上取的属性、由它算出的结果、把它传进去的回调参数,统统变成 any。一个 any 能让一整条数据流失去检查。
+                  <b>二,会扩散。</b>从 any 值上读出的属性、调用它得到的返回值,都会变成 any(算术运算是例外:<code>data.price * 2</code> 的结果仍是 number)。一个 any 能让一整条数据流失去检查。
                 </p>
                 <p>
                   这不等于永远不能用。迁移老 JavaScript
@@ -1336,7 +1335,7 @@ export default function TypesPage() {
               lang="ts"
               title={{
                 en: "Annotated as MenuItem[] · caught on the spot",
-                zh: "注解成 MenuItem[] · 当场落网",
+                zh: "注解成 MenuItem[] · 当场报错",
               }}
               code={MENU_TYPED}
               hl={[10]}
@@ -1389,13 +1388,13 @@ export default function TypesPage() {
         </Callout>
       </Section>
 
-      {/* ================= §08 三个坑 ================= */}
+      {/* ================= §08 三个误区 ================= */}
       <Section
         id="pitfalls"
         index="08"
         title={{
           en: "Three beginner mistakes, fixed now",
-          zh: "三个新手坑,现在就填",
+          zh: "新手常见的三个误区",
         }}
         desc={{
           en: "All three show up repeatedly in real projects. One minute each.",
@@ -1406,7 +1405,7 @@ export default function TypesPage() {
           tone="warn"
           title={{
             en: "Mistake 1: String is not string",
-            zh: "坑一:String 不是 string",
+            zh: "误区一:String 不是 string",
           }}
         >
           <T
@@ -1437,7 +1436,7 @@ export default function TypesPage() {
           tone="warn"
           title={{
             en: "Mistake 2: annotating everything adds noise, not safety",
-            zh: "坑二:到处写注解,是噪音不是严谨",
+            zh: "误区二:到处写注解,是噪音不是严谨",
           }}
         >
           <T
@@ -1464,7 +1463,7 @@ export default function TypesPage() {
           tone="warn"
           title={{
             en: "Mistake 3: an empty array becomes any[]",
-            zh: "坑三:空数组会落成 any[]",
+            zh: "误区三:空数组会落成 any[]",
           }}
         >
           <T
@@ -1494,7 +1493,7 @@ export default function TypesPage() {
           lang="ts"
           title={{
             en: "empty.ts · mistake 3 in action",
-            zh: "empty.ts · 坑三现场",
+            zh: "empty.ts · 误区三的现场",
           }}
           code={EMPTY_ARR_CODE}
           hl={[8]}
@@ -1550,17 +1549,17 @@ export default function TypesPage() {
         title={{ en: "Practice", zh: "动手任务" }}
         desc={{
           en: "Five tasks, all in the TypeScript Playground, about fifteen minutes. For inference, hovering once teaches more than reading ten times.",
-          zh: "五个任务,全在 TypeScript Playground 里,十五分钟 —— 推断这件事,hover 一次胜过读十遍。",
+          zh: "五个任务,都在 TypeScript Playground 里完成,约十五分钟。理解推断,亲手悬停查看一次胜过读十遍说明。",
         }}
       >
         <LabSet ch="types" items={LABS} />
       </Section>
 
-      {/* ================= §10 通关测验 ================= */}
+      {/* ================= §10 本章测验 ================= */}
       <Section
         id="quiz"
         index="10"
-        title={{ en: "Chapter quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Eight questions covering inference, widening, any, and the empty array. Answer all of them correctly to light the green dot in the sidebar.",
           zh: "八道题,覆盖推断、拓宽、any 和空数组。全对点亮侧栏绿灯。",
@@ -1598,7 +1597,7 @@ export default function TypesPage() {
             ),
             zh: (
               <>
-                原始类型七户:string / number / boolean / null / undefined
+                原始类型共七种:string / number / boolean / null / undefined
                 天天见,bigint / symbol 少见。undefined 是「从没赋过值」,
                 null 是「特意留空」,而让它们不混进其他类型的开关是{" "}
                 <code>strictNullChecks</code>。

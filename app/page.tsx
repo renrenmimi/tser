@@ -26,7 +26,7 @@ console.log("Total: $" + bill); // Total: $NaN`,
   zh: `// order.js —— 全程零提示
 const order = { drink: "杨枝甘露", total: 22 };
 
-const bill = order.totle * 2; // 拼错了,没人吭声
+const bill = order.totle * 2; // 拼错了,没有任何报错
 console.log("合计:¥" + bill); // 合计:¥NaN`,
 };
 
@@ -60,14 +60,14 @@ const LOCAL_TSC = {
 npm i -D typescript      # install the compiler as a dev tool
 npx tsc --init           # create tsconfig.json - the subject of chapter 10
 # create order.ts, paste the code above into it, then:
-npx tsc                  # check and translate: reports totle, produces nothing
+npx tsc                  # check and translate: reports totle, still writes order.js
 npx tsc --noEmit         # check only, no output files - the usual CI command`,
   zh: `mkdir tea-shop && cd tea-shop
 npm i -D typescript      # 把编译器装进项目(它只是个开发工具)
 npx tsc --init           # 生成 tsconfig.json —— 第 10 章的主角
 # 新建 order.ts,把上面那段代码粘进去,然后:
-npx tsc                  # 检查 + 翻译:报出 totle 的错,不放行
-npx tsc --noEmit         # 只检查不出产物,CI 里最常用的姿势`,
+npx tsc                  # 检查 + 翻译:报出 totle 的错,order.js 仍会生成
+npx tsc --noEmit         # 只检查不出产物,CI 中最常用的写法`,
 };
 
 export default function HomePage() {
@@ -98,7 +98,7 @@ export default function HomePage() {
           ),
           zh: (
             <>
-              你会写 JavaScript,也被它坑过:属性拼错不报错、undefined
+              你会写 JavaScript,也遇到过它带来的问题:属性拼错不报错、undefined
               一路传染、页面上冒出 NaN。这一章讲清楚 TS 到底解决什么问题 ——
               以及为什么它值得你学完这一整套课。
             </>
@@ -191,7 +191,7 @@ export default function HomePage() {
                 <p>
                   但 JavaScript 没看到。读一个不存在的属性?它不报错,安静地给你
                   undefined。undefined 乘 2?也不报错,算出 NaN。NaN
-                  拼进字符串?照样不报错。于是深夜 1:47,一位买两杯四季春的用户,看到了「合计:¥NaN」—— 截图、发群、@客服。你凌晨三点爬起来,对着日志一行行 console.log,两小时后才找到那 5 个字母。
+                  拼进字符串?照样不报错。于是深夜 1:47,一位买两杯四季春的用户,看到了「合计:¥NaN」,随即截图联系客服。你凌晨三点被叫醒,对着日志逐行添加 console.log,两小时后才找到那 5 个字母。
                 </p>
                 <p>
                   同一段代码,如果文件后缀是 .ts —— 在你<b>保存文件的那一刻</b>,编辑器就画出红线:「没有 totle,你是不是想写 total?」连改法都替你想好了。
@@ -207,7 +207,7 @@ export default function HomePage() {
               <T en="STEP 1" zh="第一步" />
             </div>
             <div className="card-title">
-              <T en="The typo is silent" zh="拼错,不吭声" />
+              <T en="The typo is silent" zh="拼错了,没有报错" />
             </div>
             <p>
               <T
@@ -235,12 +235,12 @@ export default function HomePage() {
               <T en="STEP 3" zh="第三步" />
             </div>
             <div className="card-title">
-              <T en="It surfaces in front of a user" zh="在用户面前引爆" />
+              <T en="It surfaces in front of a user" zh="在用户面前暴露" />
             </div>
             <p>
               <T
                 en="By the time you see the problem, you are far away from the line that caused it. You have to trace backwards from the symptom."
-                zh="等它终于露面,案发现场已经离出错那行十万八千里 —— 你只能从爆炸点往回逐行倒查。"
+                zh="等它终于暴露出来,出问题的地方已经离写错的那一行很远,只能从出错的位置往回逐行排查。"
               />
             </p>
           </div>
@@ -253,7 +253,7 @@ export default function HomePage() {
         index="02"
         title={{
           en: "Two timelines: you choose where the error appears",
-          zh: "两条时间线:错误在哪炸,你说了算",
+          zh: "两条时间线:错误在哪里暴露,由你选择",
         }}
         desc={{
           en: "The same typo, two outcomes. Step through it one frame at a time.",
@@ -298,7 +298,7 @@ export default function HomePage() {
         }}
         desc={{
           en: 'Do not let the phrase "type system" put you off. The idea is simple: agree in advance what each value looks like.',
-          zh: "别被「类型系统」四个字吓住。它的本质是一句大白话:先说好每个值长什么样。",
+          zh: "别被「类型系统」四个字吓住。它的本质很朴素:事先约定每个值长什么样。",
         }}
       >
         <p className="sec-desc">
@@ -316,7 +316,7 @@ export default function HomePage() {
             }
             zh={
               <>
-                <code>{"{ drink: string; total: number }"}</code> 翻译成人话就是:「凡是订单,必须带一个字符串的 drink 和一个数字的 total」。这就是<b>类型(type)</b>:对一个值的形状,事先立下的<b>约定</b>。有了约定,编译器才有依据替你把关 —— 你写 order.totle,它翻一眼说明书:约定里没有 totle 这一栏,红线伺候。
+                <code>{"{ drink: string; total: number }"}</code> 用日常语言说就是:「凡是订单,必须带一个字符串的 drink 和一个数字的 total」。这就是<b>类型(type)</b>:对一个值的形状,事先立下的<b>约定</b>。有了约定,编译器才有依据替你把关 —— 你写 order.totle,它翻一眼说明书:约定里没有 totle 这一栏,编辑器会用红线标出来。
               </>
             }
           />
@@ -404,7 +404,7 @@ export default function HomePage() {
         }}
         desc={{
           en: "On the left, JavaScript quietly produces NaN. On the right, TypeScript reports the line. This pair of windows is used throughout the course.",
-          zh: "左边 JS 静默出 NaN,右边 TS 当场翻脸 —— 这一对窗口,是全书的招牌排版。",
+          zh: "左边 JS 静默出 NaN,右边 TS 当场报错 —— 这一对窗口,是全书的招牌排版。",
         }}
       >
         <CodePair
@@ -426,7 +426,7 @@ export default function HomePage() {
                 ),
                 zh: (
                   <>
-                    JS 的逻辑:totle 不存在?那就是 undefined。undefined 乘 2?那就是 NaN。<b>全程零报错,炸给用户看。</b>
+                    JS 的逻辑:totle 不存在?那就是 undefined。undefined 乘 2?那就是 NaN。<b>全程没有任何报错,问题直接暴露在用户面前。</b>
                   </>
                 ),
               }}
@@ -465,7 +465,7 @@ export default function HomePage() {
                     </code>{" "}
                     —— 「totle 不存在,你是不是想写 total?」注意:这段代码
                     <b>一个类型注解都没写</b>,TS 自己看懂了 order
-                    的形状。这手本事叫推断,01 章整章讲它。
+                    的形状。这种能力叫推断,第 01 章专门讲它。
                   </>
                 ),
               }}
@@ -551,7 +551,7 @@ export default function HomePage() {
                   typescriptlang.org/play
                 </a>
                 ,免注册。左边贴代码,红线立刻出现;鼠标悬停变量能看类型;右侧 .JS 标签是编译产物;还能一键分享链接 ——
-                全书的动手任务都在这打。
+                全书的动手任务都在这里完成。
               </>
             }
           />
@@ -577,7 +577,7 @@ export default function HomePage() {
             <p>
               <T
                 en="Hover over the red line and the full message appears. Compiler messages follow a small number of fixed patterns, so they get easy quickly. The tasks below practise reading them."
-                zh="鼠标移到红线上,完整报错弹出来。别怕英文,句式很固定,读三遍就熟 —— Labs 里专门练这个。"
+                zh="鼠标移到红线上,完整报错弹出来。不必畏惧英文:报错的句式很固定,读过几次就熟悉了。下面的动手任务专门练习这一点。"
               />
             </p>
           </div>
@@ -611,14 +611,14 @@ export default function HomePage() {
                 <b>tsc does two things: it checks, and it translates.</b> Checking
                 means comparing your code against the types and reporting what
                 does not match. Translating means removing the types and writing
-                .js files. You can ask for the two separately:{" "}
-                <code>--noEmit</code> means check only, write nothing.
+                .js files. The two are independent: by default a type error does
+                not stop the .js from being written, and <code>--noEmit</code>{" "}
+                means check only, write nothing.
               </>
             ),
             zh: (
               <>
-                <b>tsc 只干两件事:检查 + 翻译。</b>检查:对照类型说明书找错,有错就报;翻译:把 .ts 擦掉类型变成 .js。两件事可以分开干 ——
-                <code>--noEmit</code> 就是「只安检,不放行产物」。
+                <b>tsc 只做两件事:检查和翻译。</b>检查:对照类型说明书找错,有错就报告;翻译:去掉 .ts 里的类型,写出 .js。这两件事互相独立:有类型错误时,默认照样写出 .js;<code>--noEmit</code> 则是「只检查,不写产物」。
               </>
             ),
           }}
@@ -821,16 +821,16 @@ export default function HomePage() {
             en={
               <p>
                 It is not. TypeScript is a superset of JavaScript: every line of
-                JavaScript you have written is still valid, and renaming the file
-                is a real starting point. The only new part is the layer of types,
+                JavaScript you have written is still valid syntax in TypeScript, so
+                renaming the file is a real starting point. The type checker may
+                then point out problems in it, which is the point. The only new part is the layer of types,
                 and you can add it gradually. Annotate one function today, describe
                 one object tomorrow. Nothing has to be rewritten.
               </p>
             }
             zh={
               <p>
-                不是。TS 是 JS 的超集:你写过的每一行 JS 在 TS
-                里原样有效,改个后缀就是起点。要新学的只有「类型」这一层描述,而且可以渐进 —— 今天给一个函数标注,明天给一个对象定形,不需要推倒重来。
+                不是。TS 是 JS 的超集:你写过的每一行 JS 在 TS 里语法上都合法,改个后缀就是起点;类型检查可能会指出其中的问题,而这正是它的用处。要新学的只有「类型」这一层描述,而且可以渐进 —— 今天给一个函数加类型注解,明天给一个对象定形,不需要推倒重来。
               </p>
             }
           />
@@ -922,11 +922,11 @@ export default function HomePage() {
         <LabSet ch="home" items={LABS} />
       </Section>
 
-      {/* ================= §10 通关测验 ================= */}
+      {/* ================= §10 本章测验 ================= */}
       <Section
         id="quiz"
         index="10"
-        title={{ en: "Chapter quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Seven questions. Get them all right to light up the dot in the sidebar. Every wrong option has its own explanation.",
           zh: "七道题,全对点亮侧栏绿灯。答错不丢人,每个错误选项都有针对性的解释。",
@@ -947,8 +947,8 @@ export default function HomePage() {
             ),
             zh: (
               <>
-                JS 的错误在半夜的线上炸,TS 的错误在你保存文件时炸 ——
-                错误免不了,但你可以选它在哪炸。
+                JS 的错误在深夜的线上环境里暴露,TS 的错误在你保存文件时就被指出 ——
+                错误无法避免,但你可以选择让它在哪里暴露。
               </>
             ),
           },

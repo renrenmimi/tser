@@ -41,7 +41,7 @@ export function HeroIdCards() {
           <div className="tp-idcard-foot">
             <T
               en="Issued automatically by type inference"
-              zh="签发机关:类型推断 · 免申请"
+              zh="签发机关:类型推断 · 无需手写"
             />
           </div>
         </div>
@@ -276,6 +276,7 @@ export function IdWall() {
             key={i}
             type="button"
             className={`tp-wall-chip${sel === i ? " on" : ""}`}
+            aria-pressed={sel === i}
             onClick={() => setSel(i)}
           >
             {it.value}
@@ -359,7 +360,7 @@ const LENS_LINES: LensLine[] = [
           }
           zh={
             <>
-              <code>const</code> 变量不会再被赋值,TS 就敢把话说死:类型就是字面量 <code>&quot;Grape Tea&quot;</code> 本身 ——
+              <code>const</code> 变量不会再被赋值,所以 TS 可以把类型定得最窄:类型就是字面量 <code>&quot;Grape Tea&quot;</code> 本身 ——
               比 string 窄得多,这叫<b>字面量类型</b>。
             </>
           }
@@ -683,6 +684,7 @@ export function InferenceLens() {
                 className={`tp-lens-line${i === stepper.step ? " on" : ""}${
                   l.err?.[mode] && i === stepper.step ? " bad" : ""
                 }`}
+                aria-pressed={i === stepper.step}
                 onClick={() => {
                   // 点某行直接跳到那一帧(next/prev 是函数式更新,连点安全)
                   const diff = i - stepper.step;

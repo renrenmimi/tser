@@ -147,7 +147,7 @@ const TL_FRAMES: TLFrame[] = [
   },
   {
     js: { at: 0, tag: { en: "Silence...", zh: "一片安静……" } },
-    ts: { at: 1, tag: { en: "Red line!", zh: "红线!" }, boom: true },
+    ts: { at: 1, tag: { en: "Red line", zh: "红线" }, boom: true },
     msg: (
       <T
         en={
@@ -155,7 +155,8 @@ const TL_FRAMES: TLFrame[] = [
             On the TypeScript side, the editor draws a red line{" "}
             <b>the moment the file is saved</b>:{" "}
             <code>
-              Property &apos;totle&apos; does not exist. Did you mean
+              Property &apos;totle&apos; does not exist on type &apos;
+              {"{ drink: string; total: number; }"}&apos;. Did you mean
               &apos;total&apos;?
             </code>{" "}
             On the JavaScript side, nothing happens. Reading a missing property
@@ -166,11 +167,11 @@ const TL_FRAMES: TLFrame[] = [
           <>
             TS 这边,按下保存的<b>那一瞬间</b>,编辑器画出红线:
             <code>
-              Property &apos;totle&apos; does not exist. Did you mean
+              Property &apos;totle&apos; does not exist on type &apos;
+              {"{ drink: string; total: number; }"}&apos;. Did you mean
               &apos;total&apos;?
             </code>
-            ——「没有 totle,你是不是想写 total?」JS 那边?一点动静都没有,
-            undefined 从不吭声。
+            ——「没有 totle,你是不是想写 total?」JS 那边没有任何反应:读不存在的属性,只会安静地得到 undefined。
           </>
         }
       />
@@ -212,7 +213,7 @@ const TL_FRAMES: TLFrame[] = [
         }
         zh={
           <>
-            bug 不会立刻炸。它蹲在没人走过的代码路径里,<b>等一个触发它的用户</b>
+            bug 不会立刻暴露。它藏在没人执行过的代码路径里,<b>等一个触发它的用户</b>
             。这三天的「没出事」,只是还没轮到而已。
           </>
         }
@@ -284,8 +285,8 @@ const TL_FRAMES: TLFrame[] = [
         zh={
           <>
             同一个错误,两种命运。这就是整门课第一句要记住的话:
-            <b>JS 的错误在半夜的线上炸,TS 的错误在你保存文件时炸。</b>
-            错误免不了,但你可以选它在哪炸。
+            <b>JS 的错误在深夜的线上环境里暴露,TS 的错误在你保存文件时就被指出。</b>
+            错误无法避免,但你可以选择让它在哪里暴露。
           </>
         }
       />
