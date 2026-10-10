@@ -793,20 +793,29 @@ const LAB_ORDER: Loc<string> = {
   ),
 };
 
-const ORDER_WRONG_SIZE = s8Draft(
-  "A cup size that is not on the list.",
-  `makeOrder(milkTea, "grande", ["boba"]);`,
-);
+const ORDER_WRONG_SIZE: Loc<string> = {
+  en: s8Draft(
+    "A cup size that is not on the list.",
+    `makeOrder(milkTea, "grande", ["boba"]);`,
+  ),
+  zh: s8Draft("杯型不在名单上。", `makeOrder(milkTea, "grande", ["boba"]);`),
+};
 
-const ORDER_TOO_FEW = s8Draft(
-  "size is required, and it is missing.",
-  `makeOrder(milkTea);`,
-);
+const ORDER_TOO_FEW: Loc<string> = {
+  en: s8Draft("size is required, and it is missing.", `makeOrder(milkTea);`),
+  zh: s8Draft("size 是必填参数,这里漏掉了。", `makeOrder(milkTea);`),
+};
 
-const ORDER_TOO_MANY = s8Draft(
-  "One argument more than the signature accepts.",
-  `makeOrder(milkTea, "large", ["boba"], 2);`,
-);
+const ORDER_TOO_MANY: Loc<string> = {
+  en: s8Draft(
+    "One argument more than the signature accepts.",
+    `makeOrder(milkTea, "large", ["boba"], 2);`,
+  ),
+  zh: s8Draft(
+    "比签名允许的多传了一个参数。",
+    `makeOrder(milkTea, "large", ["boba"], 2);`,
+  ),
+};
 
 export default function FunctionsPage() {
   return (

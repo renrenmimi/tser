@@ -12,6 +12,7 @@ npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# TypeScript 实验室的编译器产物(predev / prebuild 生成,11 MB,不进版本库)
-/public/tslab/meta.json
-/public/tslab/[0-9]*
+# TypeScript 实验室的编译器产物(predev / prebuild / pretest 生成,约 11 MB,不进版本库)。
+# public/tslab/ 下只有 worker.js 是手写的源码。
+/public/tslab/*
+!/public/tslab/worker.js

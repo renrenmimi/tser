@@ -10,15 +10,21 @@
 //   · 「编译产物」页签是真的 emit 结果 —— 类型擦除不用讲,自己看;
 //   · 开关 strict 家族,同一段代码的结论当场变。
 //
-// 编译器按需加载(8.7 MB,首次之后走浏览器缓存),加载不成功就退回静态代码 +
-// 官方 Playground 链接,课程内容不受影响。
+// 编译器按需加载(首次传输约 2 MB,之后走浏览器缓存)。加载期间与加载失败时,
+// 状态显示在编辑区上方的一条横幅里,不遮住代码:代码照常可读、可选中;失败时横幅给出
+// 重试按钮和带着当前代码的官方 Playground 链接,课程内容不受影响。
+//
+// 键盘:编辑器里 Tab 缩进(有选区时整行缩进),Shift+Tab 反缩进;先按 Esc 再按 Tab
+// 或 Shift+Tab,焦点离开编辑器。读屏软件只听到一句报错数量的摘要,而不是整张列表。
 
 import {
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from "react";
 import { highlight, type Tok, type TokType } from "@/lib/highlight";
@@ -84,21 +90,34 @@ const TXT = {
     zh: "正在读取声明文件(lib.d.ts)…",
   },
   firstTimeHint: {
-    en: "About 11 MB, once. Cached from then on.",
-    zh: "约 11 MB,只下一次,之后走缓存。",
+    en: "About 2 MB to download, once. Cached from then on.",
+    zh: "首次下载约 2 MB,之后从缓存读取。",
   },
   start: { en: "Run the real compiler", zh: "运行真编译器" },
   startHint: {
-    en: "TypeScript itself, in a background thread. About 11 MB, once.",
-    zh: "TypeScript 本体,跑在后台线程。约 11 MB,只下一次。",
+    en: "TypeScript itself, in a background thread. About 2 MB to download, once.",
+    zh: "TypeScript 本体,在后台线程运行。首次下载约 2 MB。",
   },
   failed: {
     en: "The compiler could not be loaded here.",
     zh: "这里没能加载编译器。",
   },
   failedHint: {
-    en: "The code below is still correct — run it in the official Playground.",
-    zh: "下面的代码本身没问题 —— 去官方 Playground 跑一样的结果。",
+    en: "The code below is still correct. Run it in the official Playground.",
+    zh: "下面的代码本身没有问题,可以在官方 Playground 中运行。",
+  },
+  notRunning: { en: "compiler not running", zh: "编译器未运行" },
+  inspectOff: {
+    en: "The compiler is not running, so no types can be shown.",
+    zh: "编译器没有运行,无法显示推断出的类型。",
+  },
+  keyHint: {
+    en: "Tab indents · Esc, then Tab, leaves the editor",
+    zh: "Tab 缩进 · 先按 Esc 再按 Tab 离开编辑器",
+  },
+  verBadge: {
+    en: "The compiler running in your browser",
+    zh: "在你的浏览器中运行的编译器",
   },
   openPlayground: { en: "Open in Playground", zh: "在 Playground 打开" },
   retry: { en: "Try again", zh: "再试一次" },
@@ -121,12 +140,12 @@ const TXT = {
     zh: "光标处没有类型信息。",
   },
   emitSkipped: {
-    en: "Nothing was emitted — fix the errors above first.",
-    zh: "没有产物 —— 先把上面的报错修掉。",
+    en: "The compiler wrote no output for this code.",
+    zh: "编译器没有为这段代码写出产物。",
   },
   erasureNote: {
     en: "Every type annotation is gone. This is what actually runs.",
-    zh: "所有类型标注都不见了。真正运行的是这份。",
+    zh: "所有类型注解都被删除了。真正运行的是这一份。",
   },
   target: { en: "target", zh: "target" },
   // Shown instead of the lesson note once the learner has edited the sample.
@@ -157,11 +176,32 @@ const STRICT_FAMILY = new Set<string>([
   "alwaysStrict",
 ]);
 
+/** 官方 Playground 的地址,带上当前代码(Playground 读取 #src= 后的 URL 编码源码)。 */
+export function playgroundUrl(source: string): string {
+  return `https://www.typescriptlang.org/play/#src=${encodeURIComponent(source)}`;
+}
+
+/** 把 [from, to) 换成 text,并保留浏览器自己的撤销记录(做不到时退回直接改值)。 */
+function replaceRange(
+  ta: HTMLTextAreaElement,
+  from: number,
+  to: number,
+  text: string,
+  fallback: (next: string) => void,
+) {
+  ta.setSelectionRange(from, to);
+  const viaUndoStack =
+    typeof document.execCommand === "function" &&
+    document.execCommand("insertText", false, text);
+  if (!viaUndoStack) fallback(ta.value.slice(0, from) + text + ta.value.slice(to));
+}
+
 /* ---------------- 组件 ---------------- */
 
 export interface TsLabPreset {
   label: Loc<string>;
-  code: string;
+  /** 预设的代码;带注释的预设按语言给两份 */
+  code: Loc<string>;
 }
 
 export function TsLab({
@@ -202,6 +242,10 @@ export function TsLab({
   const [source, setSource] = useState(initialCode);
   const [flags, setFlags] = useState<TsFlags>(initialFlags ?? {});
   const [diagnostics, setDiagnostics] = useState<TsDiagnostic[] | null>(null);
+  // 诊断对应的那份源码:源码一变,旧诊断的字符偏移就不再可信
+  const [diagFor, setDiagFor] = useState<string | null>(null);
+  // 给读屏软件的一句摘要,只在检查完成且内容变化时更新
+  const [liveSummary, setLiveSummary] = useState("");
   const [checking, setChecking] = useState(false);
   const [ms, setMs] = useState<number | null>(null);
   const [info, setInfo] = useState<TsQuickInfo | null>(null);
@@ -214,6 +258,9 @@ export function TsLab({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const taRef = useRef<HTMLTextAreaElement | null>(null);
   const runId = useRef(0);
+  // 刚按过 Esc:下一次 Tab / Shift+Tab 交还给浏览器移动焦点
+  const tabEscape = useRef(false);
+  const uid = useId();
 
   // Whether the learner has moved away from the sample this lab shipped with.
   // Tracked against the sample text itself, never inferred from the diagnostics:
@@ -262,14 +309,18 @@ export function TsLab({
   useEffect(() => {
     if (ts.status !== "ready") return;
     const mine = ++runId.current;
+    const checked = source;
     setChecking(true);
     const timer = window.setTimeout(() => {
-      ts.check(source, flags)
+      ts.check(checked, flags)
         .then((r) => {
           if (mine !== runId.current) return;
           setDiagnostics(r.diagnostics);
+          setDiagFor(checked);
           setMs(r.ms);
           setChecking(false);
+          const n = r.diagnostics.filter((d) => d.severity === "error").length;
+          setLiveSummary(n > 0 ? L(TXT.errorCount(n)) : L(TXT.noErrors));
         })
         .catch(() => {
           if (mine !== runId.current) return;
@@ -315,15 +366,20 @@ export function TsLab({
 
   const errors = diagnostics ?? [];
   const errorCount = errors.filter((d) => d.severity === "error").length;
+  // 诊断是否针对屏幕上这份源码。输入之后、新结果到达之前不画波浪线,
+  // 免得旧的字符范围落在新文本的无关位置上。
+  const fresh = diagFor === source;
 
   const ranges = useMemo<Range[]>(
     () =>
-      errors.map((d) => ({
-        start: d.start,
-        // 零长度诊断也要看得见
-        end: d.start + Math.max(1, d.length),
-      })),
-    [errors],
+      fresh
+        ? errors.map((d) => ({
+            start: d.start,
+            // 零长度诊断也要看得见
+            end: d.start + Math.max(1, d.length),
+          }))
+        : [],
+    [errors, fresh],
   );
 
   const segLines = useMemo(
@@ -332,8 +388,8 @@ export function TsLab({
   );
 
   const errorLines = useMemo(
-    () => new Set(errors.map((d) => d.line)),
-    [errors],
+    () => new Set(fresh ? errors.map((d) => d.line) : []),
+    [errors, fresh],
   );
 
   /* The lesson note describes the sample this lab shipped with ("one error, and
@@ -366,16 +422,54 @@ export function TsLab({
     ta.setSelectionRange(d.start, d.start + Math.max(1, d.length));
   }, []);
 
-  /** Tab 键插入两个空格,而不是跳走焦点 */
+  /** Tab 缩进、Shift+Tab 反缩进;刚按过 Esc 时,Tab 交还给浏览器移动焦点(不做键盘陷阱)。 */
   const onKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key !== "Tab") return;
+    (e: ReactKeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === "Escape") {
+        tabEscape.current = true;
+        return;
+      }
+      if (e.key !== "Tab") {
+        tabEscape.current = false;
+        return;
+      }
+      if (tabEscape.current) {
+        tabEscape.current = false;
+        return; // 不阻止默认行为:焦点移到下一个(或上一个)控件
+      }
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
       e.preventDefault();
       const ta = e.currentTarget;
       const { selectionStart: s, selectionEnd: end, value } = ta;
-      const next = value.slice(0, s) + "  " + value.slice(end);
-      applySource(next);
-      requestAnimationFrame(() => ta.setSelectionRange(s + 2, s + 2));
+      const multiLine = value.slice(s, end).includes("\n");
+
+      if (!e.shiftKey && !multiLine) {
+        replaceRange(ta, s, end, "  ", applySource);
+        requestAnimationFrame(() => ta.setSelectionRange(s + 2, s + 2));
+        return;
+      }
+
+      // 选区涉及的每一整行一起缩进或反缩进
+      const from = value.lastIndexOf("\n", s - 1) + 1;
+      const last = end > s && value[end - 1] === "\n" ? end - 1 : end;
+      const nl = value.indexOf("\n", last);
+      const to = nl === -1 ? value.length : nl;
+      const lines = value.slice(from, to).split("\n");
+      const shifted = e.shiftKey
+        ? lines.map((l) => l.replace(/^ {1,2}/, ""))
+        : lines.map((l) => "  " + l);
+      const block = shifted.join("\n");
+      if (block === value.slice(from, to)) return; // 没有可以去掉的缩进
+      replaceRange(ta, from, to, block, applySource);
+      const removedOnFirst = lines[0].length - shifted[0].length;
+      requestAnimationFrame(() =>
+        multiLine
+          ? ta.setSelectionRange(from, from + block.length)
+          : ta.setSelectionRange(
+              Math.max(from, s - removedOnFirst),
+              Math.max(from, s - removedOnFirst),
+            ),
+      );
     },
     [applySource],
   );
@@ -385,6 +479,33 @@ export function TsLab({
   const idle = ts.status === "idle";
   const loading = ts.status === "loading";
   const failed = ts.status === "error";
+
+  // 页签:roving tabindex,左右方向键与 Home / End 切换(WAI-ARIA tabs 模式)
+  const tabOrder: ("problems" | "js" | "dts")[] = [
+    "problems",
+    ...(emit === "js" || emit === "both" ? (["js"] as const) : []),
+    ...(emit === "dts" || emit === "both" ? (["dts"] as const) : []),
+  ];
+  const tabId = (t: string) => `${uid}-tab-${t}`;
+  const panelId = `${uid}-panel`;
+  const hintId = `${uid}-keys`;
+  const onTabKey = (e: ReactKeyboardEvent<HTMLDivElement>) => {
+    const i = tabOrder.indexOf(tab);
+    const next =
+      e.key === "ArrowRight"
+        ? tabOrder[(i + 1) % tabOrder.length]
+        : e.key === "ArrowLeft"
+          ? tabOrder[(i - 1 + tabOrder.length) % tabOrder.length]
+          : e.key === "Home"
+            ? tabOrder[0]
+            : e.key === "End"
+              ? tabOrder[tabOrder.length - 1]
+              : null;
+    if (!next) return;
+    e.preventDefault();
+    setTab(next);
+    document.getElementById(tabId(next))?.focus();
+  };
 
   return (
     <div
@@ -403,7 +524,7 @@ export function TsLab({
         <span className="tsl-name">{L(title)}</span>
         <span className="tsl-bar-tail">
           {ts.version && (
-            <span className="tsl-ver" title="the compiler running in your browser">
+            <span className="tsl-ver" title={L(TXT.verBadge)}>
               tsc {ts.version}
             </span>
           )}
@@ -414,7 +535,7 @@ export function TsLab({
                   key={i}
                   type="button"
                   className="tsl-chip"
-                  onClick={() => applySource(p.code)}
+                  onClick={() => applySource(L(p.code))}
                 >
                   {L(p.label)}
                 </button>
@@ -454,11 +575,14 @@ export function TsLab({
             </label>
           )}
           {toggles?.map((key) => {
-            // 没显式设置的 strict 家族成员,跟着 strict 走(和 tsconfig 一致)
+            // 没显式设置时:strict 本身默认开启(与 worker 一致),
+            // strict 家族成员跟着 strict 走(和 tsconfig 一致)
             const on =
               typeof flags[key] === "boolean"
                 ? flags[key] === true
-                : STRICT_FAMILY.has(String(key)) && flags.strict !== false;
+                : key === "strict"
+                  ? true
+                  : STRICT_FAMILY.has(String(key)) && flags.strict !== false;
             return (
               <button
                 key={String(key)}
@@ -476,6 +600,52 @@ export function TsLab({
               </button>
             );
           })}
+        </div>
+      )}
+
+      {/* 加载 / 失败横幅:放在编辑区上方,不遮住代码 */}
+      {(idle || loading || failed) && (
+        <div className="tsl-banner" data-state={ts.status}>
+          {idle && (
+            <>
+              <button type="button" className="tsl-start" onClick={ts.warm}>
+                ▶ {L(TXT.start)}
+              </button>
+              <small>{L(TXT.startHint)}</small>
+            </>
+          )}
+          {loading && (
+            <>
+              <span className="tsl-spin" aria-hidden />
+              <div>
+                <b>
+                  {L(ts.phase === "libs" ? TXT.loadingLibs : TXT.loadingCompiler)}
+                </b>
+                <small>{L(TXT.firstTimeHint)}</small>
+              </div>
+            </>
+          )}
+          {failed && (
+            <>
+              <div>
+                <b>{L(TXT.failed)}</b>
+                <small>{L(TXT.failedHint)}</small>
+              </div>
+              <span className="tsl-banner-actions">
+                <button type="button" className="tsl-chip" onClick={ts.retry}>
+                  {L(TXT.retry)}
+                </button>
+                <a
+                  className="tsl-chip"
+                  href={playgroundUrl(source)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {L(TXT.openPlayground)} ↗
+                </a>
+              </span>
+            </>
+          )}
         </div>
       )}
 
@@ -515,6 +685,7 @@ export function TsLab({
             autoCorrect="off"
             wrap="off"
             aria-label={lang === "zh" ? "可编辑的 TypeScript 代码" : "editable TypeScript code"}
+            aria-describedby={hintId}
             onChange={(e) => applySource(e.target.value)}
             onKeyDown={onKeyDown}
             // 动手就是最明确的意图信号 —— 视口观察没触发时,这里兜底
@@ -524,48 +695,11 @@ export function TsLab({
               if (e.key.startsWith("Arrow")) askInfo();
             }}
           />
+          <span className="tsl-keyhint" id={hintId}>
+            {L(TXT.keyHint)}
+          </span>
         </div>
 
-        {idle && (
-          <div className="tsl-overlay">
-            <div>
-              <button type="button" className="tsl-start" onClick={ts.warm}>
-                ▶ {L(TXT.start)}
-              </button>
-              <small>{L(TXT.startHint)}</small>
-            </div>
-          </div>
-        )}
-        {loading && (
-          <div className="tsl-overlay">
-            <span className="tsl-spin" aria-hidden />
-            <div>
-              <b>
-                {L(ts.phase === "libs" ? TXT.loadingLibs : TXT.loadingCompiler)}
-              </b>
-              <small>{L(TXT.firstTimeHint)}</small>
-            </div>
-          </div>
-        )}
-        {failed && (
-          <div className="tsl-overlay">
-            <div>
-              <b>{L(TXT.failed)}</b>
-              <small>{L(TXT.failedHint)}</small>
-              <button type="button" className="tsl-chip" onClick={ts.retry}>
-                {L(TXT.retry)}
-              </button>
-              <a
-                className="tsl-chip"
-                href="https://www.typescriptlang.org/play"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {L(TXT.openPlayground)} ↗
-              </a>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* 推断类型 */}
@@ -578,7 +712,13 @@ export function TsLab({
             </>
           ) : (
             <span className="tsl-inspect-idle">
-              {L(infoAsked ? TXT.inspectEmpty : TXT.inspectHint)}
+              {L(
+                failed
+                  ? TXT.inspectOff
+                  : infoAsked
+                    ? TXT.inspectEmpty
+                    : TXT.inspectHint,
+              )}
             </span>
           )}
         </div>
@@ -586,11 +726,14 @@ export function TsLab({
 
       {/* 页签 */}
       {emit !== false && (
-        <div className="tsl-tabs" role="tablist">
+        <div className="tsl-tabs" role="tablist" onKeyDown={onTabKey}>
           <button
             type="button"
             role="tab"
+            id={tabId("problems")}
             aria-selected={tab === "problems"}
+            aria-controls={panelId}
+            tabIndex={tab === "problems" ? 0 : -1}
             className={tab === "problems" ? "on" : ""}
             onClick={() => setTab("problems")}
           >
@@ -601,7 +744,10 @@ export function TsLab({
             <button
               type="button"
               role="tab"
+              id={tabId("js")}
               aria-selected={tab === "js"}
+              aria-controls={panelId}
+              tabIndex={tab === "js" ? 0 : -1}
               className={tab === "js" ? "on" : ""}
               onClick={() => setTab("js")}
             >
@@ -612,7 +758,10 @@ export function TsLab({
             <button
               type="button"
               role="tab"
+              id={tabId("dts")}
               aria-selected={tab === "dts"}
+              aria-controls={panelId}
+              tabIndex={tab === "dts" ? 0 : -1}
               className={tab === "dts" ? "on" : ""}
               onClick={() => setTab("dts")}
             >
@@ -623,9 +772,15 @@ export function TsLab({
       )}
 
       {/* 面板 */}
-      <div className="tsl-panel">
+      <div
+        className="tsl-panel"
+        id={panelId}
+        role={emit !== false ? "tabpanel" : undefined}
+        aria-labelledby={emit !== false ? tabId(tab) : undefined}
+        tabIndex={emit !== false && tab !== "problems" ? 0 : undefined}
+      >
         {tab === "problems" ? (
-          <div className="tsl-diags" aria-live="polite">
+          <div className="tsl-diags" data-stale={fresh ? undefined : "1"}>
             {!diagnostics && !loading && !failed && (
               <div className="tsl-diag-idle">{L(TXT.checking)}</div>
             )}
@@ -667,6 +822,7 @@ export function TsLab({
           <OutputView
             text={tab === "js" ? output.js : output.dts}
             lang={tab === "js" ? "js" : "dts"}
+            pending={L(TXT.checking)}
             empty={L(TXT.emitSkipped)}
             hint={tab === "js" ? L(TXT.erasureNote) : undefined}
           />
@@ -676,13 +832,18 @@ export function TsLab({
       {/* 状态条 */}
       <div className="tsl-status">
         <span className={errorCount > 0 ? "tsl-st-bad" : "tsl-st-ok"}>
-          {checking
-            ? L(TXT.checking)
-            : diagnostics
-              ? errorCount > 0
-                ? L(TXT.errorCount(errorCount))
-                : L(TXT.noErrors)
-              : ""}
+          {failed
+            ? L(TXT.notRunning)
+            : checking
+              ? L(TXT.checking)
+              : diagnostics
+                ? errorCount > 0
+                  ? L(TXT.errorCount(errorCount))
+                  : L(TXT.noErrors)
+                : ""}
+        </span>
+        <span className="tsl-sr" role="status">
+          {liveSummary}
         </span>
         {ms !== null && !checking && <span className="tsl-st-ms">{ms} ms</span>}
         {statusNote !== null && (
@@ -702,11 +863,14 @@ export function TsLab({
 function OutputView({
   text,
   lang,
+  pending,
   empty,
   hint,
 }: {
+  /** null:结果还没回来;空字符串:编译器确实没有写出产物 */
   text: string | null;
   lang: "js" | "dts";
+  pending: string;
   empty: string;
   hint?: string;
 }) {
@@ -715,6 +879,7 @@ function OutputView({
     [text, lang],
   );
 
+  if (text === null) return <div className="tsl-diag-idle">{pending}</div>;
   if (!text) return <div className="tsl-diag-idle">{empty}</div>;
 
   return (

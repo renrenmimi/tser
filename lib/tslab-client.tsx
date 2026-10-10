@@ -6,7 +6,7 @@
 // 编译器只在 worker 里、只在真的要用时才加载(public/tslab/worker.js)。
 // 页面上可能同时有好几个实验室,它们共享同一个 worker、同一份已解析的 lib.d.ts。
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
 /* ---------------- 类型 ---------------- */
 
@@ -101,9 +101,22 @@ const state = {
 };
 const subscribers = new Set<() => void>();
 
+// useSyncExternalStore 需要一个「状态变了才换引用」的快照
+type Snapshot = Readonly<typeof state>;
+let snapshot: Snapshot = { ...state };
+const SERVER_SNAPSHOT: Snapshot = { ...state };
+
 function publish(next: Partial<typeof state>) {
   Object.assign(state, next);
+  snapshot = { ...state };
   subscribers.forEach((fn) => fn());
+}
+
+function subscribe(fn: () => void) {
+  subscribers.add(fn);
+  return () => {
+    subscribers.delete(fn);
+  };
 }
 
 /**
@@ -266,15 +279,13 @@ export interface TsLabApi {
 }
 
 export function useTsLab(): TsLabApi {
-  const [, force] = useState(0);
-
-  useEffect(() => {
-    const fn = () => force((n) => n + 1);
-    subscribers.add(fn);
-    return () => {
-      subscribers.delete(fn);
-    };
-  }, []);
+  // 订阅模块级状态。useSyncExternalStore 不会漏掉在渲染与订阅之间发布的变化
+  // (用 useEffect 订阅时,这段空档里的 publish 会被错过)。
+  const current = useSyncExternalStore(
+    subscribe,
+    () => snapshot,
+    () => SERVER_SNAPSHOT,
+  );
 
   const warm = useCallback(() => {
     void ensureReady().catch(() => {
@@ -320,10 +331,10 @@ export function useTsLab(): TsLabApi {
   }, []);
 
   return {
-    status: state.status,
-    phase: state.phase,
-    version: state.version,
-    error: state.error,
+    status: current.status,
+    phase: current.phase,
+    version: current.version,
+    error: current.error,
     warm,
     retry,
     check,
