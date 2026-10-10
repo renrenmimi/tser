@@ -113,8 +113,8 @@ const TRIO_MODES: {
     id: "as",
     label: { en: "as Config", zh: "as Config 断言" },
     stance: {
-      en: 'Assertion — "take my word for it". The compiler stops checking the object, and you carry the risk.',
-      zh: "「我说了算」—— 编译器不再检查这个对象,风险由你承担。",
+      en: 'Assertion — "take my word for it". The compiler only checks that the two types are comparable, not the object itself, and you carry the risk.',
+      zh: "「我说了算」—— 编译器不再检查这个对象,只确认两个类型可比较,风险由你承担。",
     },
   },
   {
@@ -182,13 +182,13 @@ const TRIO_TESTS: {
             <>
               An assertion only requires that the two types overlap enough for
               one to be the other. The excess property check is skipped
-              entirely, so the misspelled field goes through with the{" "}
+              entirely, so the extra field goes through with the{" "}
               <code>Config</code> label on it.
             </>
           ),
           zh: (
             <>
-              断言只要求两个类型有足够的重叠,能互相当成对方。多余属性检查完全不做,拼错的字段就这样带着 <code>Config</code>{" "}
+              断言只要求两个类型有足够的重叠,能互相当成对方。多余属性检查完全不做,多出来的字段就这样带着 <code>Config</code>{" "}
               的名分通过了。
             </>
           ),
@@ -389,6 +389,7 @@ export function TrioLab() {
               key={m.id}
               type="button"
               className={`seg-btn${mode === m.id ? " on" : ""}`}
+              aria-pressed={mode === m.id}
               onClick={() => setMode(m.id)}
             >
               {L(m.label)}
@@ -438,13 +439,14 @@ export function TrioLab() {
           en={
             <>
               Summary: annotation <b>checks ✓ infers ✕</b> · as{" "}
-              <b>checks ✕ infers ✕</b> · satisfies <b>checks ✓ infers ✓</b>. When
+              <b>checks △ (comparability only) infers ✕</b> · satisfies{" "}
+              <b>checks ✓ infers ✓</b>. When
               you want both, use satisfies.
             </>
           }
           zh={
             <>
-              总结:注解<b>检查 ✓ 推断 ✕</b> · as <b>检查 ✕ 推断 ✕</b> ·
+              总结:注解<b>检查 ✓ 推断 ✕</b> · as <b>检查 △(只查可比较) 推断 ✕</b> ·
               satisfies <b>检查 ✓ 推断 ✓</b> —— 两样都想要,用 satisfies。
             </>
           }
