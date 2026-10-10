@@ -546,14 +546,15 @@ export default function MindsetPage() {
               Eleven chapters have covered the syntax. This one is about how to
               think. TypeScript is JavaScript plus a layer of types that exists
               only while you write and compile: the compiler checks the types,
-              then removes them, and the JavaScript that runs is the JavaScript
-              you wrote. Five ideas, one map of the course, and a final quiz.
+              then removes them, and apart from a few constructs that generate
+              code, such as enums and parameter properties, the JavaScript that
+              runs is the JavaScript you wrote. Five ideas, one map of the course, and a final quiz.
             </>
           ),
           zh: (
             <>
               前十一章讲完了语法,这一章讲怎么想。TypeScript 就是 JavaScript
-              加上一层类型,这层类型只存在于你写代码和编译的阶段:编译器检查完就把它删掉,真正运行的是你写的那份 JavaScript。五条心法,一张全书地图,一场总测验。
+              加上一层类型,这层类型只存在于你写代码和编译的阶段:编译器检查完就把类型删掉;除了 enum、参数属性等少数会生成代码的写法,真正运行的就是你写的那份 JavaScript。五条心法,一张全书地图,一场总测验。
             </>
           ),
         }}
@@ -631,7 +632,8 @@ export default function MindsetPage() {
                   this&quot;: the compiler checks the value, then replaces the
                   inferred type with the type you declared.{" "}
                   <b>An assertion</b> (<code>as Config</code>) means &quot;take
-                  my word for it&quot;: the check is skipped.{" "}
+                  my word for it&quot;: the full check is skipped, and the
+                  compiler only confirms that the two types are comparable.{" "}
                   <b>
                     <code>satisfies</code>
                   </b>{" "}
@@ -646,7 +648,7 @@ export default function MindsetPage() {
                 <p>
                   给一个值「定类型」,其实是在对编译器说话,而这三种写法说的是三句不同的话。<b>注解</b>(
                   <code>: Config</code>)是「请你检查」:编译器检查这个值,然后把推断结果换成你声明的类型。
-                  <b>断言</b>(<code>as Config</code>)是「我说了算」:检查被跳过。
+                  <b>断言</b>(<code>as Config</code>)是「我说了算」:编译器不再做完整的检查,只确认两个类型还说得通(可比较)。
                   <b>
                     <code>satisfies</code>
                   </b>
@@ -670,7 +672,7 @@ export default function MindsetPage() {
             <T
               en={
                 <>
-                  The comparison above is written down. The window below is the
+                  The comparison above was written by hand. The window below is the
                   real TypeScript compiler, running in your browser. Four drafts
                   of the same object are behind the buttons in the title bar, and
                   they differ by one line. Switch between them and{" "}
@@ -769,7 +771,10 @@ export default function MindsetPage() {
                     required in type &apos;Config&apos;.
                   </code>{" "}
                   Change it to <code>satisfies Config</code> and you get{" "}
-                  <code>TS1360</code> saying the same thing.
+                  <code>TS1360</code> saying the same thing, plus{" "}
+                  <code>TS2339</code> on the <code>config.maxSugar</code> line,
+                  because <code>satisfies</code> keeps the inferred type, which
+                  has no <code>maxSugar</code>.
                 </>
               }
               zh={
@@ -783,7 +788,7 @@ export default function MindsetPage() {
                     required in type &apos;Config&apos;.
                   </code>{" "}
                   改成 <code>satisfies Config</code>,得到的是说同一件事的{" "}
-                  <code>TS1360</code>。
+                  <code>TS1360</code>;<code>config.maxSugar</code> 那一行还会多一个 <code>TS2339</code>,因为 <code>satisfies</code> 保留的推断类型里根本没有 <code>maxSugar</code>。
                 </>
               }
             />
@@ -797,13 +802,21 @@ export default function MindsetPage() {
                   to still be <b>comparable</b> — one of them assignable to the
                   other. A missing field passes that test, because{" "}
                   <code>Config</code> is assignable to the smaller shape you
-                  wrote. Change <code>maxSugar: 7</code> to{" "}
-                  <code>maxSugar: &quot;7&quot;</code> and it does not:{" "}
+                  wrote. In the second draft (<code>as Config</code>), change{" "}
+                  <code>maxSugar: 7</code> to <code>maxSugar: &quot;7&quot;</code>{" "}
+                  and it does not:{" "}
                   <code>
-                    TS2352: Conversion of type … may be a mistake because
-                    neither type sufficiently overlaps with the other.
+                    TS2352: Conversion of type &apos;
+                    {"{ shop: string; theme: \"dark\"; maxSugar: string; }"}
+                    &apos; to type &apos;Config&apos; may be a mistake because
+                    neither type sufficiently overlaps with the other. If this
+                    was intentional, convert the expression to &apos;unknown&apos;
+                    first.
                   </code>{" "}
-                  So the honest summary of <code>as</code> is narrower and more
+                  The suggested <code>as unknown as Config</code> does pass, but
+                  only because the value is first turned into{" "}
+                  <code>unknown</code> and then relabelled, so the compiler no
+                  longer compares the two at all. So the honest summary of <code>as</code> is narrower and more
                   useful than &quot;it lets anything through&quot;:{" "}
                   <b>
                     it will not catch what you left out, and it still refuses
@@ -816,13 +829,16 @@ export default function MindsetPage() {
                   但 <code>as</code> 不是万能通行证 ——
                   这一点值得弄准,不要靠猜。它要求两个类型仍然
                   <b>可比较(comparable)</b>:其中一个能赋给另一个。少一个字段是过关的,因为 <code>Config</code>{" "}
-                  可以赋给你写下的那个更小的形状。而把 <code>maxSugar: 7</code>{" "}
-                  改成 <code>maxSugar: &quot;7&quot;</code> 就过不去:
+                  可以赋给你写下的那个更小的形状。而在第二份稿子(<code>as Config</code>)里把 <code>maxSugar: 7</code> 改成 <code>maxSugar: &quot;7&quot;</code> 就过不去:
                   <code>
-                    TS2352: Conversion of type … may be a mistake because
-                    neither type sufficiently overlaps with the other.
-                  </code>{" "}
-                  所以关于 <code>as</code> 的老实说法比「什么都放行」更窄、也更有用:
+                    TS2352: Conversion of type &apos;
+                    {"{ shop: string; theme: \"dark\"; maxSugar: string; }"}
+                    &apos; to type &apos;Config&apos; may be a mistake because
+                    neither type sufficiently overlaps with the other. If this
+                    was intentional, convert the expression to &apos;unknown&apos;
+                    first.
+                  </code>
+                  。报错建议的 <code>as unknown as Config</code> 确实能通过,但它的做法是先把类型变成 <code>unknown</code> 再贴上新标签,编译器从此不再核对两者是否相符。所以关于 <code>as</code> 的老实说法比「什么都放行」更窄、也更有用:
                   <b>它不会替你发现漏掉的东西,但明摆着矛盾的它仍然拒绝。</b>
                 </>
               }
@@ -905,9 +921,9 @@ export default function MindsetPage() {
               <>
                 <p>
                   Inference already does most of the work. Writing{" "}
-                  <code>const total: number = 22</code> adds nothing the
-                  compiler did not already know, and it makes the code longer
-                  and harder to change.
+                  <code>const total: number = 22</code> only widens the inferred{" "}
+                  <code>22</code> to <code>number</code>; it tells the compiler
+                  nothing new, and it makes the code longer and harder to change.
                 </p>
                 <p>
                   Two places are worth annotating.{" "}
@@ -926,7 +942,7 @@ export default function MindsetPage() {
                 <p>
                   推断已经承担了绝大部分工作。写{" "}
                   <code>const total: number = 22</code>{" "}
-                  并没有告诉编译器任何它不知道的事,只是让代码更长、更难改。
+                  只会把推断出的 <code>22</code> 拓宽成 <code>number</code>,并没有告诉编译器任何新东西,只是让代码更长、更难改。
                 </p>
                 <p>
                   值得注解的地方有两处。<b>函数参数</b> ——
@@ -1963,7 +1979,7 @@ export default function MindsetPage() {
             zh={
               <>
                 <p>
-                  序章那天,你还在问「类型是干嘛的,JavaScript 不是跑得好好的」。现在你能读懂编译器报错里的每一个词,能为请求回来的数据设计校验边界,能用可辨识联合让非法状态写不出来,能自己实现{" "}
+                  序章那天,你还在问「类型有什么用,JavaScript 不是运行得好好的吗」。现在你能读懂编译器报错里的每一个词,能为请求回来的数据设计校验边界,能用可辨识联合让非法状态写不出来,能自己实现{" "}
                   <code>Omit</code>,还能给一个老的 JavaScript 项目排一份分步迁移计划。十二章没有白走。
                 </p>
               </>
@@ -2149,14 +2165,15 @@ export default function MindsetPage() {
             en: (
               <>
                 The three forms: an annotation checks but widens,{" "}
-                <code>as</code> neither checks nor keeps the literal,{" "}
+                <code>as</code> only checks that the types are comparable and
+                does not keep the literal,{" "}
                 <code>satisfies</code> does both. Add <code>as const</code> when
                 you need the literals kept exactly.
               </>
             ),
             zh: (
               <>
-                三种写法:注解检查但拓宽,<code>as</code> 既不检查也不保留,
+                三种写法:注解检查但拓宽,<code>as</code> 只做最宽松的可比较检查,也不保留字面量,
                 <code>satisfies</code> 两样都做。需要精确保留字面量时,再加 <code>as const</code>。
               </>
             ),

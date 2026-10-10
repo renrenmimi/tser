@@ -1706,7 +1706,8 @@ export default function TsconfigPage() {
                   <code>exactOptionalPropertyTypes</code> has the same hard
                   dependency as <code>strictPropertyInitialization</code> — set
                   it without <code>strictNullChecks</code> and the compiler
-                  reports <code>TS5052</code> and refuses to run.
+                  reports <code>TS5052</code>, an options error, and{" "}
+                  <code>tsc</code> exits with a non-zero code.
                 </>
               }
               zh={
@@ -1715,7 +1716,7 @@ export default function TsconfigPage() {
                   <code>exactOptionalPropertyTypes</code> 和{" "}
                   <code>strictPropertyInitialization</code> 有同样的硬依赖 ——
                   不开 <code>strictNullChecks</code> 就设它,编译器会报{" "}
-                  <code>TS5052</code> 并拒绝运行。
+                  <code>TS5052</code>(选项错误,<code>tsc</code> 以非零状态码退出)。
                 </>
               }
             />
@@ -1779,8 +1780,8 @@ export default function TsconfigPage() {
           targets
           emit="js"
           note={{
-            en: "es2022 → es2020 → es2015 → es5. Four steps down, four things rewritten.",
-            zh: "es2022 → es2020 → es2015 → es5,一级一级降,每一级各改写一样东西。",
+            en: "es2022 → es2020 → es2015 → es5: three steps down, and each step rewrites more.",
+            zh: "es2022 → es2020 → es2015 → es5,降三级,每降一级改写的东西更多。",
           }}
         />
 
@@ -2338,7 +2339,7 @@ export default function TsconfigPage() {
                   <code>menu</code> 一个类型 —— 没有它,<code>menu</code> 是{" "}
                   <code>any</code>,而在 <code>any</code> 上读{" "}
                   <code>it.pirce</code> 是合法的,拼写错误就不会被报出来。JSDoc 类型是迁移期的桥,不是终点:等文件改成{" "}
-                  <code>.ts</code>,它们就变成普通的类型标注。
+                  <code>.ts</code>,它们就变成普通的类型注解。
                 </>
               }
             />
@@ -2600,11 +2601,11 @@ export default function TsconfigPage() {
         <LabSet ch="tsconfig" items={LABS} />
       </Section>
 
-      {/* ================= §08 通关测验 ================= */}
+      {/* ================= §08 本章测验 ================= */}
       <Section
         id="quiz"
         index="08"
-        title={{ en: "Quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Eight questions on what each option actually does.",
           zh: "八道题,考的是每个选项实际做了什么。",

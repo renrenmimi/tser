@@ -1,6 +1,6 @@
 "use client";
 
-// 10 · tsconfig 与严格模式 —— 动手任务 LABS + 通关测验 QUIZ 数据(双语)。
+// 10 · tsconfig 与严格模式 —— 动手任务 LABS + 本章测验 QUIZ 数据(双语)。
 //
 // 双语约定:正文用 <T en zh />,组件 props 用 { en, zh };
 // 教学代码给 code 传 Loc<string>,两份只差注释,可执行行逐字节相同;
@@ -1460,13 +1460,13 @@ export const QUIZ: QuizItem[] = [
       {
         en: (
           <>
-            Put <code>@ts-ignore</code> at the top of every file so the build
+            Put <code>// @ts-nocheck</code> at the top of every file so the build
             passes
           </>
         ),
         zh: (
           <>
-            每个文件头上加 <code>@ts-ignore</code>,先让构建过了再说
+            每个文件头上加 <code>// @ts-nocheck</code>,先让构建过了再说
           </>
         ),
       },
@@ -1504,14 +1504,14 @@ export const QUIZ: QuizItem[] = [
       {
         en: (
           <>
-            <code>@ts-ignore</code> turns the check off; it does not fix
-            anything. Applied to whole files, you get no benefit from installing
-            TypeScript at all.
+            <code>// @ts-nocheck</code> turns checking off for the whole file; it
+            does not fix anything. Applied to every file, you get no benefit from
+            installing TypeScript at all.
           </>
         ),
         zh: (
           <>
-            <code>@ts-ignore</code> 是把检查关掉,不是把问题修好。整个文件都压住,等于装了 TypeScript 却什么都没得到。
+            <code>// @ts-nocheck</code> 是把整个文件的检查关掉,不是把问题修好。每个文件都关掉,等于装了 TypeScript 却什么都没得到。
           </>
         ),
       },

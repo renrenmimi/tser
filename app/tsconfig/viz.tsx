@@ -510,6 +510,7 @@ export function TargetSwitch() {
               key={m}
               type="button"
               className={`seg-btn${mode === m ? " on" : ""}`}
+              aria-pressed={mode === m}
               onClick={() => setMode(m)}
             >
               target: {m}
@@ -679,7 +680,7 @@ const MIG_FRAMES: MigFrame[] = [
           <>
             加上 <code>checkJs</code>(或在某个文件顶部写{" "}
             <code>{"// @ts-check"}</code>),编译器开始读这些旧代码。假设它报了 23 个错。<b>这些 bug 一直都在,今天才被点名。</b>
-            注意:完全没有类型标注的 JavaScript 会藏住大部分问题 ——
+            注意:完全没有类型注解的 JavaScript 会藏住大部分问题 ——
             JSDoc 注释就是你给检查器提供对照物的方式。
           </>
         }

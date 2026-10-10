@@ -26,8 +26,8 @@ const config = {
   maxSugar: 7,
 } satisfies Config;
 
-// misspell theme as thema  -> annotation: error / as: accepted / satisfies: error
-// delete maxSugar          -> annotation: error / as: accepted / satisfies: error
+// misspell theme as thema  -> annotation: error (TS2561) / as: error (TS2352) / satisfies: error (TS2561)
+// delete maxSugar          -> annotation: error (TS2741) / as: accepted / satisfies: error (TS1360)
 // hover config.theme       -> annotation: "light" | "dark"
 //                             as          "light" | "dark"
 //                             satisfies   "dark"   <- only this one keeps it`,
@@ -43,8 +43,8 @@ const config = {
   maxSugar: 7,
 } satisfies Config;
 
-// 把 theme 拼成 thema  -> 注解:报错 / as:放行 / satisfies:报错
-// 删掉 maxSugar        -> 注解:报错 / as:放行 / satisfies:报错
+// 把 theme 拼成 thema  -> 注解:报错(TS2561) / as:也报错(TS2352) / satisfies:报错(TS2561)
+// 删掉 maxSugar        -> 注解:报错(TS2741) / as:放行 / satisfies:报错(TS1360)
 // 悬停 config.theme    -> 注解      "light" | "dark"
 //                         as        "light" | "dark"
 //                         satisfies "dark"   <- 只有它保住了字面量`,
@@ -213,14 +213,15 @@ export const LABS: Lab[] = [
       en: (
         <>
           You are filling in a table with nine cells: three forms multiplied by
-          three questions (misspelled key, missing key, inferred type). It
-          should match the three traffic lights in section 01 exactly. If one
-          cell disagrees, look again before moving on.
+          three questions (misspelled key, missing key, inferred type). Then
+          compare it with section 01: one cell differs from the traffic lights
+          there, because a misspelled key is not the same as an extra key. The
+          callout &quot;What as actually lets through&quot; explains why.
         </>
       ),
       zh: (
         <>
-          你在填一张九格表:三种写法 × 三个问题(拼错的键、缺失的键、推断出的类型)。填完应该和 §01 的三盏灯完全一致。有一格对不上,先弄清楚再往下走。
+          你在填一张九格表:三种写法 × 三个问题(拼错的键、缺失的键、推断出的类型)。填完和 §01 对照:有一格与那里的三盏灯不同,因为拼错键名不等于多写一个键;§01 的提示框「as 到底放行了什么」解释了原因。
         </>
       ),
     },
@@ -1188,6 +1189,8 @@ export const QUIZ: QuizItem[] = [
     answers: [
       '"oolong" | "mango"',
       '"mango" | "oolong"',
+      "'oolong' | 'mango'",
+      "'mango' | 'oolong'",
       "oolong | mango",
       "mango | oolong",
     ],
@@ -1489,15 +1492,16 @@ export const QUIZ: QuizItem[] = [
         <>
           <code>satisfies</code> (TypeScript 4.9) checks the shape and keeps the
           inferred literal types. It is the only form that gives you both. The
-          summary: an annotation checks but widens, <code>as</code> neither
-          checks nor keeps the literal, <code>satisfies</code> does both.
+          summary: an annotation checks but widens, <code>as</code> only checks
+          that the types are comparable and does not keep the literal,{" "}
+          <code>satisfies</code> does both.
           Section 01 of this chapter covers it.
         </>
       ),
       zh: (
         <>
           <code>satisfies</code>(TypeScript 4.9)校验形状,同时保留推断出的字面量类型 —— 只有它两样都给。一句话:注解检查但拓宽,
-          <code>as</code> 既不检查也不保留,<code>satisfies</code> 两样都做。
+          <code>as</code> 只做最宽松的可比较检查,也不保留字面量,<code>satisfies</code> 两样都做。
           —— 回看本章 §01。
         </>
       ),
@@ -1798,7 +1802,7 @@ export const QUIZ: QuizItem[] = [
       ),
     },
     placeholder: { en: "the exact type", zh: "写出精确类型" },
-    answers: ['"dark"', "dark"],
+    answers: ['"dark"', "'dark'", "dark"],
     hint: {
       en: (
         <>
