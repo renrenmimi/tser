@@ -10,7 +10,8 @@
   background: var(--code-bg);
   padding: 16px 18px 14px;
   box-shadow: 0 0 24px var(--acc-glow);
-  animation: tm-glow 3.4s ease-in-out infinite;
+  /* box-shadow 动画不能交给合成器;进场发光三次后停下,静止的页面不再每帧重算样式 */
+  animation: tm-glow 3.4s ease-in-out 3;
 }
 @keyframes tm-glow {
   0%,

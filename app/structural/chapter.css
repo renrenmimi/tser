@@ -129,7 +129,7 @@
 .st-mem-type {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--tk-type);
+  color: var(--tk-type-ink);
 }
 .st-mem.ok {
   border-color: color-mix(in oklab, var(--ok) 40%, transparent);
@@ -275,7 +275,7 @@
 .st-tt {
   font-style: normal;
   font-size: 10.5px;
-  color: var(--tk-type);
+  color: var(--tk-type-ink);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 1px 6px;

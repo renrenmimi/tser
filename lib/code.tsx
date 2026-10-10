@@ -74,10 +74,11 @@ export function CodeBlock({
           <i />
           <i />
         </span>
-        <span className="codewin-name">
+        {/* 窄屏放不下时省略号截断;title 让完整的文件名仍然看得到 */}
+        <span className="codewin-name" title={L(title ?? LANG_LABEL[lang])}>
           {L(title ?? LANG_LABEL[lang])}
         </span>
-        <span style={{ width: 47 }} aria-hidden />
+        <span className="codewin-spacer" aria-hidden />
       </div>
       <CodeLines code={L(code)} lang={lang} hl={hl} />
       {note && <div className="codewin-note">{L(note)}</div>}

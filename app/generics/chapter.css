@@ -30,7 +30,8 @@
   border: 1px dashed var(--acc-border);
   background: var(--acc-soft);
   overflow: hidden;
-  animation: gn-hole-glow 6.9s ease-in-out infinite;
+  /* box-shadow 动画不能交给合成器;与类型投落的节奏同步发光三轮后停下 */
+  animation: gn-hole-glow 6.9s ease-in-out 3;
 }
 .gn-hero-hole::before,
 .gn-hero-hole::after {
@@ -46,14 +47,15 @@
 .gn-hero-hole::before {
   content: "string";
   color: var(--tk-str);
-  animation: gn-cast-a 6.9s ease-in-out infinite;
+  animation: gn-cast-a 6.9s ease-in-out 3 both;
 }
 .gn-hero-hole::after {
   content: "number";
   color: var(--tk-num);
-  animation: gn-cast-b 6.9s ease-in-out infinite;
+  animation: gn-cast-b 6.9s ease-in-out 3 both;
 }
-/* 三段循环:0–1/3 string,1/3–2/3 number,2/3–1 空洞喘口气 */
+/* 三段循环:0–1/3 string,1/3–2/3 number,2/3–1 空洞喘口气。
+   播三轮后停在最后一段(空洞),与 .gn-hero-hole 的发光同时停下。 */
 @keyframes gn-cast-a {
   0%        { transform: translateY(-120%); opacity: 0; }
   6%, 27%   { transform: translateY(0);     opacity: 1; }
@@ -230,7 +232,7 @@
   font-style: normal;
   font-family: var(--font-mono);
   font-size: 10.5px;
-  color: var(--tk-type);
+  color: var(--tk-type-ink);
   margin-left: auto;
 }
 .gn-cand.on {
@@ -270,6 +272,10 @@
   font-size: 13px;
   color: var(--acc-ink);
   white-space: nowrap;
+}
+/* 规则写在浅色面板上:关键字用面板版的语法色 */
+.gn-gate-rule .tk-kw {
+  color: var(--tk-kw-ink);
 }
 .gn-gate-door {
   font-size: 15px;
