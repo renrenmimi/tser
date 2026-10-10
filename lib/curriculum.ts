@@ -448,12 +448,26 @@ export function searchText(c: Chapter): string {
     .toLowerCase();
 }
 
-export function chapterByPath(path: string): Chapter {
+/** 课程之外的路径(404)在外壳里的样子:侧栏不高亮任何章节,面包屑显示页名(✦ 隐藏编号)。 */
+export interface PageOutsideCourse {
+  id: "not-found";
+  num: string;
+  title: Loc<string>;
+}
+
+export const PAGE_NOT_FOUND: PageOutsideCourse = {
+  id: "not-found",
+  num: "✦",
+  title: { en: "Page not found", zh: "页面不存在" },
+};
+
+/** 路径所属的章节;课程之外的路径返回 PAGE_NOT_FOUND,而不是冒充序章。 */
+export function chapterByPath(path: string): Chapter | PageOutsideCourse {
   if (path === "/") return CHAPTERS[0];
   const hit = CHAPTERS.find(
     (c) => c.href !== "/" && (path === c.href || path.startsWith(c.href + "/")),
   );
-  return hit ?? CHAPTERS[0];
+  return hit ?? PAGE_NOT_FOUND;
 }
 
 export function prevNext(id: ChapterId): { prev?: Chapter; next?: Chapter } {
