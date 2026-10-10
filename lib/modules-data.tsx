@@ -181,8 +181,7 @@ export const LABS: Lab[] = [
         <p>
           在一个空目录里建两个文件:<code>a.ts</code> 里写{" "}
           <code>const TAX = 0.06;</code>,<code>b.ts</code> 里写{" "}
-          <code>const TAX = 0.08;</code>,两个文件都不写任何 import / export。
-          先跑 <code>npx tsc --noEmit a.ts b.ts</code>;再往 <code>b.ts</code>{" "}
+          <code>const TAX = 0.08;</code>,两个文件都不写任何 import / export。先跑 <code>npx tsc --noEmit a.ts b.ts</code>;再往 <code>b.ts</code>{" "}
           顶上加一行 <code>export {"{}"}</code>,重跑一次。
           <code>TAX</code> 这个名字的归属发生了什么变化?
         </p>
@@ -198,8 +197,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          第一次会在两个文件里各报一次同样的错。这就是线索:
-          两个声明在同一个作用域里,所以它们互相看得见。
+          第一次会在两个文件里各报一次同样的错。这就是线索:两个声明在同一个作用域里,所以它们互相看得见。
         </>
       ),
     },
@@ -228,11 +226,8 @@ export const LABS: Lab[] = [
           <CodeBlock lang="bash" title="terminal" code={LAB_SCOPE_SHELL} />
           <p>
             一个顶层既没有 <code>import</code> 也没有 <code>export</code>{" "}
-            的文件是<b>脚本</b>。它的顶层声明会进入全局作用域,
-            而程序里所有脚本共用这一个作用域,
-            所以两个脚本声明同名变量就会撞车。加上 <code>export {"{}"}</code>{" "}
-            之后,文件变成<b>模块</b>:顶层的名字只属于这个文件,
-            别的文件只有在你导出、它导入之后才看得见。
+            的文件是<b>脚本</b>。它的顶层声明会进入全局作用域,而程序里所有脚本共用这一个作用域,所以两个脚本声明同名变量就会撞车。加上 <code>export {"{}"}</code>{" "}
+            之后,文件变成<b>模块</b>:顶层的名字只属于这个文件,别的文件只有在你导出、它导入之后才看得见。
           </p>
           <p>
             本章后面的内容都建立在这个区分之上 ——
@@ -315,8 +310,7 @@ export const LABS: Lab[] = [
             <code>
               export declare function cheapest(items: MenuItem[]): MenuItem;
             </code>{" "}
-            —— 只有签名,没有函数体;interface 则被原样抄了过去。
-            .JS 面板正相反:函数体在,interface 不见了。
+            —— 只有签名,没有函数体;interface 则被原样抄了过去。.JS 面板正相反:函数体在,interface 不见了。
           </p>
           <p>
             同一份源码,两样产物:<code>.js</code> 是真正运行的代码,
@@ -348,9 +342,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <p>
-          找个空目录,写一个 <code>order.ts</code>,导出一个函数和一个 interface。
-          然后跑 <code>npx tsc order.ts --declaration</code>,
-          打开生成的两个文件,和源码对照着看。
+          找个空目录,写一个 <code>order.ts</code>,导出一个函数和一个 interface。然后跑 <code>npx tsc order.ts --declaration</code>,打开生成的两个文件,和源码对照着看。
         </p>
       ),
     },
@@ -364,8 +356,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          产物应该有两个:<code>order.js</code> 和 <code>order.d.ts</code>。
-          只想要声明文件?再加 <code>--emitDeclarationOnly</code>。
+          产物应该有两个:<code>order.js</code> 和 <code>order.d.ts</code>。只想要声明文件?再加 <code>--emitDeclarationOnly</code>。
         </>
       ),
     },
@@ -404,8 +395,7 @@ export const LABS: Lab[] = [
           <p>
             TS 写的库「出厂自带类型」就是这么做的:编译时打开{" "}
             <code>declaration</code>,再用 <code>package.json</code> 的{" "}
-            <code>types</code> 字段指到这份 <code>.d.ts</code>。
-            这就是类型三个来源里的第一个。
+            <code>types</code> 字段指到这份 <code>.d.ts</code>。这就是类型三个来源里的第一个。
           </p>
         </>
       ),
@@ -438,8 +428,7 @@ export const LABS: Lab[] = [
           新建目录,跑 <code>npm init -y</code>,再 <code>npm i lodash</code>{" "}
           —— 注意<b>先别装</b> <code>@types/lodash</code>。写一个{" "}
           <code>index.ts</code> 导入 <code>debounce</code>,跑{" "}
-          <code>npx tsc --noEmit --strict index.ts</code>,把报错读全。
-          然后 <code>npm i -D @types/lodash</code>,重跑一次。
+          <code>npx tsc --noEmit --strict index.ts</code>,把报错读全。然后 <code>npm i -D @types/lodash</code>,重跑一次。
         </p>
       ),
     },
@@ -477,8 +466,7 @@ export const LABS: Lab[] = [
           <CodeBlock lang="bash" title="terminal" code={LAB_TYPES_SHELL} />
           <p>
             <code>@types/lodash</code> 装好的那一刻,编辑器里{" "}
-            <code>debounce</code> 的补全和参数提示同时出现。
-            库本体没变,变的只是类型声明到货了。打开{" "}
+            <code>debounce</code> 的补全和参数提示同时出现。库本体没变,变的只是类型声明到货了。打开{" "}
             <code>node_modules/@types/lodash</code> 看一眼:全是{" "}
             <code>.d.ts</code>,一行实现都没有。
           </p>
@@ -536,10 +524,8 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          把 <code>.d.ts</code> 和源文件一起交给 <code>tsc</code>。
-          另外确认任何上级目录的 <code>node_modules</code> 里都没有真的{" "}
-          <code>boba-sdk</code>,否则 Node 会把它找出来。
-          类型检查会通过,Node 会失败 —— 想清楚这两个结果为什么不矛盾。
+          把 <code>.d.ts</code> 和源文件一起交给 <code>tsc</code>。另外确认任何上级目录的 <code>node_modules</code> 里都没有真的{" "}
+          <code>boba-sdk</code>,否则 Node 会把它找出来。类型检查会通过,Node 会失败 —— 想清楚这两个结果为什么不矛盾。
         </>
       ),
     },
@@ -574,12 +560,10 @@ export const LABS: Lab[] = [
           />
           <CodeBlock lang="bash" title="terminal" code={LAB_PROMISE_SHELL} />
           <p>
-            声明是对「运行时有什么」的一个断言。编译器只能采信它,无从核实。
-            Node 从不读 <code>.d.ts</code> —— 它去找真正的模块,找不到就报错。
+            声明是对「运行时有什么」的一个断言。编译器只能采信它,无从核实。Node 从不读 <code>.d.ts</code> —— 它去找真正的模块,找不到就报错。
           </p>
           <p>
-            所以 <code>declare module</code> 面对的是<b>装了但没有类型</b>的包,
-            而不是一种「不装也能导入」的办法。
+            所以 <code>declare module</code> 面对的是<b>装了但没有类型</b>的包,而不是一种「不装也能导入」的办法。
           </p>
         </>
       ),
@@ -650,9 +634,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            那是加上 <code>export {"{}"}</code> <i>之后</i>的情况。
-            顶层没有任何 import / export 时,这个文件根本不算模块,
-            它的名字是共享的,不是私有的。
+            那是加上 <code>export {"{}"}</code> <i>之后</i>的情况。顶层没有任何 import / export 时,这个文件根本不算模块,它的名字是共享的,不是私有的。
           </>
         ),
       },
@@ -682,8 +664,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             <code>module</code> 决定的是输出格式(<code>esnext</code>、
-            <code>commonjs</code> 等)。某个文件到底是不是模块,由文件自己决定:
-            顶层有没有 import / export?
+            <code>commonjs</code> 等)。某个文件到底是不是模块,由文件自己决定:顶层有没有 import / export?
           </>
         ),
       },
@@ -707,8 +688,7 @@ export const QUIZ: QuizItem[] = [
           <code>
             error TS2451: Cannot redeclare block-scoped variable &apos;TAX&apos;.
           </code>{" "}
-          加一行 <code>export {"{}"}</code> 让文件获得模块作用域,报错就消失。
-          本章所有关于声明文件的内容都建立在这个区分之上。
+          加一行 <code>export {"{}"}</code> 让文件获得模块作用域,报错就消失。本章所有关于声明文件的内容都建立在这个区分之上。
         </>
       ),
     },
@@ -762,8 +742,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            一行实现都不允许。<code>declare</code> 的含义正是「实现在别处」。
-            带实现的那份文件叫 <code>.ts</code>。
+            一行实现都不允许。<code>declare</code> 的含义正是「实现在别处」。带实现的那份文件叫 <code>.ts</code>。
           </>
         ),
       },
@@ -795,9 +774,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>.d.ts</code> 描述每个导出长什么样,自己不产出任何代码;
-          真正运行的代码在旁边那份 <code>.js</code> 里。
-          因为描述形状不需要改动代码,<code>.d.ts</code>{" "}
+          <code>.d.ts</code> 描述每个导出长什么样,自己不产出任何代码;真正运行的代码在旁边那份 <code>.js</code> 里。因为描述形状不需要改动代码,<code>.d.ts</code>{" "}
           可以描述任何 JavaScript 库 —— 包括从来不是用 TypeScript 写的库。
         </>
       ),
@@ -869,8 +846,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             那就成了值导入,运行时会真的去加载 <code>./order</code>。
-            <code>type</code> 的意义正是声明「这一行只有类型」,
-            所以整行都可以删掉。
+            <code>type</code> 的意义正是声明「这一行只有类型」,所以整行都可以删掉。
           </>
         ),
       },
@@ -884,8 +860,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>require</code> 是输出格式为 CommonJS 时才出现的东西,
-            那是另一个问题。纯类型导入在轮到输出格式之前就已经被删掉了。
+            <code>require</code> 是输出格式为 CommonJS 时才出现的东西,那是另一个问题。纯类型导入在轮到输出格式之前就已经被删掉了。
           </>
         ),
       },
@@ -899,8 +874,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            浏览器不认识 TypeScript 的 <code>type</code> 关键字,
-            所以这一行必须在编译期处理掉,没有任何东西留给运行时决定。
+            浏览器不认识 TypeScript 的 <code>type</code> 关键字,所以这一行必须在编译期处理掉,没有任何东西留给运行时决定。
           </>
         ),
       },
@@ -916,10 +890,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          类型会被擦除,所以纯类型导入没有任何东西可导入。
-          删掉这一行同时也删掉了那次模块加载 —— 这一点很重要:
-          <code>.js</code> 模块被加载时可以执行代码,
-          而你不希望仅仅因为需要一个类型名字就触发它。
+          类型会被擦除,所以纯类型导入没有任何东西可导入。删掉这一行同时也删掉了那次模块加载 —— 这一点很重要:
+          <code>.js</code> 模块被加载时可以执行代码,而你不希望仅仅因为需要一个类型名字就触发它。
         </>
       ),
     },
@@ -949,8 +921,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            esbuild、SWC 这类单文件转译器分不清一个名字是值还是类型,
-            显式标注让它们不必猜
+            esbuild、SWC 这类单文件转译器分不清一个名字是值还是类型,显式标注让它们不必猜
           </>
         ),
       },
@@ -985,8 +956,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这一行编译后就没了,谈不上加载。
-            收益在于构建工具不用猜,而不是运行时速度。
+            这一行编译后就没了,谈不上加载。收益在于构建工具不用猜,而不是运行时速度。
           </>
         ),
       },
@@ -1000,8 +970,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            类型永远到不了运行时,擦除是无条件的。真正的风险方向相反:
-            工具猜错,把某个<b>值</b>需要的导入删掉了,程序在运行时才失败。
+            类型永远到不了运行时,擦除是无条件的。真正的风险方向相反:工具猜错,把某个<b>值</b>需要的导入删掉了,程序在运行时才失败。
           </>
         ),
       },
@@ -1016,8 +985,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            只用 <code>tsc</code> 编译的项目,差别确实不大。
-            一旦接入单文件转译器,它就成了正确性问题 ——
+            只用 <code>tsc</code> 编译的项目,差别确实不大。一旦接入单文件转译器,它就成了正确性问题 ——
             这也是 TypeScript 5.0 加入 <code>verbatimModuleSyntax</code>{" "}
             把规则明确下来的原因。
           </>
@@ -1134,8 +1102,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             包已经装好了 —— 没装的话,报错会是{" "}
-            <code>ts(2307): Cannot find module &apos;lodash&apos;</code>。
-            缺的是类型声明,重装并不会带来它。
+            <code>ts(2307): Cannot find module &apos;lodash&apos;</code>。缺的是类型声明,重装并不会带来它。
           </>
         ),
       },
@@ -1149,9 +1116,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            能编译通过,但 lodash 的每个函数从此都是 <code>any</code>:
-            没有补全、不检查参数、没有返回类型。
-            为了消掉一行报错,代价太大。
+            能编译通过,但 lodash 的每个函数从此都是 <code>any</code>:没有补全、不检查参数、没有返回类型。为了消掉一行报错,代价太大。
           </>
         ),
       },
@@ -1164,8 +1129,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            为了一个库,把整个项目的检查都削弱了。
-            而正确的解法,报错原文里已经写着。
+            为了一个库,把整个项目的检查都削弱了。而正确的解法,报错原文里已经写着。
           </>
         ),
       },
@@ -1181,9 +1145,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          按顺序检查三个来源:包自带 → <code>@types</code> → 自己写声明。
-          lodash 是老牌库,<code>@types/lodash</code> 一定有。
-          一条命令,类型、补全和文档提示就都回来了。
+          按顺序检查三个来源:包自带 → <code>@types</code> → 自己写声明。lodash 是老牌库,<code>@types/lodash</code> 一定有。一条命令,类型、补全和文档提示就都回来了。
         </>
       ),
     },
@@ -1215,8 +1177,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          两个英文单词连写,在 GitHub 上。
-          这个名字是在讲它收录的那些库:现在它们「确实有类型了」。
+          两个英文单词连写,在 GitHub 上。这个名字是在讲它收录的那些库:现在它们「确实有类型了」。
         </>
       ),
     },
@@ -1232,8 +1193,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           DefinitelyTyped 收录了几千个 JavaScript 库的社区声明,并发布成{" "}
-          <code>@types/*</code>。你也可以给它提 PR,
-          让下一个人不必再写一遍同样的声明。
+          <code>@types/*</code>。你也可以给它提 PR,让下一个人不必再写一遍同样的声明。
         </>
       ),
     },
@@ -1302,9 +1262,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>@types</code> 包里只有类型,不改变任何运行时能力。
-            Node 能直接跑 TypeScript 是 Node 自己的功能
-            (类型剥离,Node 22.6 加入),和这个包无关。
+            <code>@types</code> 包里只有类型,不改变任何运行时能力。Node 能直接跑 TypeScript 是 Node 自己的功能(类型剥离,Node 22.6 加入),和这个包无关。
           </>
         ),
       },
@@ -1318,8 +1276,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            DOM 的类型随 TypeScript 一起发布,在 <code>lib.dom.d.ts</code> 里,
-            由 <code>lib</code> 选项控制 —— 完全是另一个来源。
+            DOM 的类型随 TypeScript 一起发布,在 <code>lib.dom.d.ts</code> 里,由 <code>lib</code> 选项控制 —— 完全是另一个来源。
           </>
         ),
       },
@@ -1352,8 +1309,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>fs</code>、<code>path</code>、<code>process</code>{" "}
-          不属于 JavaScript 语言本身,它们由 Node 提供,
-          所以声明不在 TypeScript 自带的那几本 lib 里,而来自{" "}
+          不属于 JavaScript 语言本身,它们由 Node 提供,所以声明不在 TypeScript 自带的那几本 lib 里,而来自{" "}
           <code>@types/node</code>。这也是几乎每个 Node 项目都要装它的原因。
         </>
       ),
@@ -1466,10 +1422,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>declare</code> 只陈述类型、不产出代码,
-          所以断言错了,失败会发生在运行时、发生在你的程序里。
-          <code>declare global</code> 是从模块内部触及全局作用域的正确写法,
-          写在别处会报 <code>ts(2669)</code>。至于模块标识,
+          <code>declare</code> 只陈述类型、不产出代码,所以断言错了,失败会发生在运行时、发生在你的程序里。
+          <code>declare global</code> 是从模块内部触及全局作用域的正确写法,写在别处会报 <code>ts(2669)</code>。至于模块标识,
           <code>declare module</code> 接受任何能用来导入模块的字符串 ——
           包名、路径,或者像 <code>&quot;*.css&quot;</code> 这样的通配符。
         </>
@@ -1616,12 +1570,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>paths</code> 是编译期的映射,
-          它只告诉编译器某个标识指向哪个文件。真正运行代码的那一方 ——
-          Node、打包器、测试运行器 —— 需要一份自己的对应配置,否则导入就会失败。
-          Next.js、Vite、webpack 会读 <code>tsconfig.json</code> 的 paths,
-          或者提供等价的别名选项;这就是为什么别名在应用里通常好用,
-          却在你第一次用纯 <code>node</code> 跑产物时失败。
+          <code>paths</code> 是编译期的映射,它只告诉编译器某个标识指向哪个文件。真正运行代码的那一方 ——
+          Node、打包器、测试运行器 —— 需要一份自己的对应配置,否则导入就会失败。Next.js、Vite、webpack 会读 <code>tsconfig.json</code> 的 paths,或者提供等价的别名选项;这就是为什么别名在应用里通常好用,却在你第一次用纯 <code>node</code> 跑产物时失败。
         </>
       ),
     },
@@ -1697,8 +1647,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            方向反了。参数传错、方法名拼错,照样报错。
-            跳过的是声明之间的互相检查,不是「你用得对不对」。
+            方向反了。参数传错、方法名拼错,照样报错。跳过的是声明之间的互相检查,不是「你用得对不对」。
           </>
         ),
       },
@@ -1712,8 +1661,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>node_modules</code> 里的 JavaScript 本来就不参与类型检查,
-            除非你打开 <code>allowJs</code> 并把它 include 进来。
+            <code>node_modules</code> 里的 JavaScript 本来就不参与类型检查,除非你打开 <code>allowJs</code> 并把它 include 进来。
             <code>skipLibCheck</code> 管的是 <code>.d.ts</code>。
           </>
         ),
@@ -1749,11 +1697,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          声明文件之间会互相冲突:两个 <code>@types</code> 包可能用不同的类型
-          声明了同一个全局变量,而这两份你都改不了。
-          <code>skipLibCheck</code> 跳过这类冲突,同时让编译更快。
-          代价真实存在但不大:声明文件内部真有错也不会报出来,
-          你可能只能在调用处发现某个类型不对劲。
+          声明文件之间会互相冲突:两个 <code>@types</code> 包可能用不同的类型声明了同一个全局变量,而这两份你都改不了。
+          <code>skipLibCheck</code> 跳过这类冲突,同时让编译更快。代价真实存在但不大:声明文件内部真有错也不会报出来,你可能只能在调用处发现某个类型不对劲。
         </>
       ),
     },
@@ -1773,8 +1718,7 @@ export const QUIZ: QuizItem[] = [
         <>
           项目里只有 <code>helpers.d.ts</code>,没有对应的{" "}
           <code>helpers.js</code>。你写{" "}
-          <code>import {"{ helper }"} from &quot;./helpers&quot;</code>,
-          然后用 Node 运行产物,结果是?
+          <code>import {"{ helper }"} from &quot;./helpers&quot;</code>,然后用 Node 运行产物,结果是?
         </>
       ),
     },
@@ -1835,8 +1779,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            编译器不会拦。声明文件在,形状也对得上,导入就解析成功了。
-            这正是这个坑容易漏过去的地方:一路绿灯,直到运行才出问题。
+            编译器不会拦。声明文件在,形状也对得上,导入就解析成功了。这正是这个坑容易漏过去的地方:一路绿灯,直到运行才出问题。
           </>
         ),
       },
@@ -1850,8 +1793,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>.d.ts</code> 不产出任何东西,没有实现可用。
-            声明写得再详细,也变不出代码。
+            <code>.d.ts</code> 不产出任何东西,没有实现可用。声明写得再详细,也变不出代码。
           </>
         ),
       },
@@ -1864,8 +1806,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            根本走不到那一步。模块本身不存在,
-            导入这一步就失败了,轮不到读取任何绑定。
+            根本走不到那一步。模块本身不存在,导入这一步就失败了,轮不到读取任何绑定。
           </>
         ),
       },
@@ -1892,8 +1833,7 @@ export const QUIZ: QuizItem[] = [
             &apos;.../helpers.js&apos;
           </code>
           ,在 CommonJS 下报{" "}
-          <code>Error: Cannot find module &apos;./helpers&apos;</code>。
-          无论哪种,声明只能让编译器满意。
+          <code>Error: Cannot find module &apos;./helpers&apos;</code>。无论哪种,声明只能让编译器满意。
         </>
       ),
     },

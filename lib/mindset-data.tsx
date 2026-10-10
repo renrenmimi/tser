@@ -203,11 +203,8 @@ export const LABS: Lab[] = [
           <p>
             打开 typescriptlang.org/play,把 §01 的 <code>Config</code>{" "}
             和配置对象粘进去,然后做三轮:① 用 <code>: Config</code> 注解 ② 用{" "}
-            <code>as Config</code> ③ 用 <code>satisfies Config</code>。
-            每一轮都把对象弄坏两次:把 <code>theme</code> 拼成{" "}
-            <code>thema</code>、删掉 <code>maxSugar</code>,
-            记下哪种写法报错、哪种放行。最后恢复正确的对象,
-            悬停 <code>config.theme</code>,看三种写法各推断出什么。
+            <code>as Config</code> ③ 用 <code>satisfies Config</code>。每一轮都把对象弄坏两次:把 <code>theme</code> 拼成{" "}
+            <code>thema</code>、删掉 <code>maxSugar</code>,记下哪种写法报错、哪种放行。最后恢复正确的对象,悬停 <code>config.theme</code>,看三种写法各推断出什么。
           </p>
         </>
       ),
@@ -223,9 +220,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          你在填一张九格表:三种写法 × 三个问题(拼错的键、缺失的键、
-          推断出的类型)。填完应该和 §01 的三盏灯完全一致。
-          有一格对不上,先弄清楚再往下走。
+          你在填一张九格表:三种写法 × 三个问题(拼错的键、缺失的键、推断出的类型)。填完应该和 §01 的三盏灯完全一致。有一格对不上,先弄清楚再往下走。
         </>
       ),
     },
@@ -252,9 +247,7 @@ export const LABS: Lab[] = [
             zh: (
               <>
                 再做一个实验:把最后一行改成{" "}
-                <code>{"} as const satisfies Config;"}</code> 再悬停。
-                这时每个属性都是 <code>readonly</code>,每个字面量都保留精确
-                类型,形状仍然按 <code>Config</code> 校验 ——
+                <code>{"} as const satisfies Config;"}</code> 再悬停。这时每个属性都是 <code>readonly</code>,每个字面量都保留精确类型,形状仍然按 <code>Config</code> 校验 ——
                 配置对象通常就这么写。
               </>
             ),
@@ -307,9 +300,7 @@ export const LABS: Lab[] = [
                 "interface Order { id: string; total: number; toppings: string[] }"
               }
             </code>
-            ,然后手写 <code>isOrder(x: unknown): x is Order</code>,
-            逐个字段检查,<b>包括 toppings 是不是「字符串数组」</b>。
-            光用 <code>Array.isArray</code> 不够,它不说明元素是什么。
+            ,然后手写 <code>isOrder(x: unknown): x is Order</code>,逐个字段检查,<b>包括 toppings 是不是「字符串数组」</b>。光用 <code>Array.isArray</code> 不够,它不说明元素是什么。
           </p>
           <p>
             用两份数据自测:
@@ -334,10 +325,8 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          数组的套路:先 <code>Array.isArray(o.toppings)</code> 确认是数组,
-          再 <code>{'o.toppings.every((t) => typeof t === "string")'}</code>{" "}
-          检查元素。TypeScript 5.5 起,编译器能自己给这个箭头函数推断出类型谓词,
-          所以 <code>every</code> 之后数组会被收窄成 <code>string[]</code>。
+          数组的套路:先 <code>Array.isArray(o.toppings)</code> 确认是数组,再 <code>{'o.toppings.every((t) => typeof t === "string")'}</code>{" "}
+          检查元素。TypeScript 5.5 起,编译器能自己给这个箭头函数推断出类型谓词,所以 <code>every</code> 之后数组会被收窄成 <code>string[]</code>。
         </>
       ),
     },
@@ -360,8 +349,7 @@ export const LABS: Lab[] = [
             zh: (
               <>
                 第二份数据的 <code>total</code> 是字符串{" "}
-                <code>{'"30"'}</code>,不是数字 30。
-                线上最常见的坏数据就是这种「只差一点点」的。
+                <code>{'"30"'}</code>,不是数字 30。线上最常见的坏数据就是这种「只差一点点」的。
                 <code>as</code> 会放它进来,校验函数不会。
               </>
             ),
@@ -419,10 +407,8 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          两条路:① 键重映射 <code>[P in keyof T as …]</code>,
-          把黑名单上的键映射成 <code>never</code>;② 先用{" "}
-          <code>Exclude</code> 过滤 <code>keyof T</code>,再映射剩下的键。
-          两种都写出来,才算真懂。
+          两条路:① 键重映射 <code>[P in keyof T as …]</code>,把黑名单上的键映射成 <code>never</code>;② 先用{" "}
+          <code>Exclude</code> 过滤 <code>keyof T</code>,再映射剩下的键。两种都写出来,才算真懂。
         </>
       ),
     },
@@ -445,9 +431,7 @@ export const LABS: Lab[] = [
             zh: (
               <>
                 两种写法行为相同。第二种更接近标准库的真实定义:
-                <code>{"Pick<T, Exclude<keyof T, K>>"}</code>。
-                去 type-challenges 的第 3 题(Omit)提交你的版本,
-                看看测试用例能不能找出你漏掉的边角。
+                <code>{"Pick<T, Exclude<keyof T, K>>"}</code>。去 type-challenges 的第 3 题(Omit)提交你的版本,看看测试用例能不能找出你漏掉的边角。
               </>
             ),
           }}
@@ -485,13 +469,10 @@ export const LABS: Lab[] = [
       zh: (
         <>
           <p>
-            在 Playground 实现 <code>DeepReadonly&lt;T&gt;</code>:
-            对象每一层的每个属性都变成 <code>readonly</code>。
-            验收方法:拿一个嵌套两层的配置对象,给最里层的字段赋值 ——
+            在 Playground 实现 <code>DeepReadonly&lt;T&gt;</code>:对象每一层的每个属性都变成 <code>readonly</code>。验收方法:拿一个嵌套两层的配置对象,给最里层的字段赋值 ——
             这一行必须报错。做完这道,去{" "}
             <b>github.com/type-challenges/type-challenges</b> 的 easy
-            区做三道,推荐 Pick、Readonly、Tuple to Object。
-            每道题自带测试用例,当场就有结果。
+            区做三道,推荐 Pick、Readonly、Tuple to Object。每道题自带测试用例,当场就有结果。
           </p>
         </>
       ),
@@ -509,10 +490,8 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          骨架:一个带 <code>readonly</code> 修饰符的映射类型,
-          属性类型走条件类型 —— 是对象就递归{" "}
-          <code>DeepReadonly&lt;T[K]&gt;</code>,不是就原样保留。
-          小心函数:函数也是对象,想放过它,就再加一层{" "}
+          骨架:一个带 <code>readonly</code> 修饰符的映射类型,属性类型走条件类型 —— 是对象就递归{" "}
+          <code>DeepReadonly&lt;T[K]&gt;</code>,不是就原样保留。小心函数:函数也是对象,想放过它,就再加一层{" "}
           <code>extends</code> 判断。
         </>
       ),
@@ -538,9 +517,7 @@ export const LABS: Lab[] = [
             ),
             zh: (
               <>
-                type-challenges 的官方判题要求更细 —— 数组和元组还有各自的
-                规则。提交你的版本,读失败的测试用例,再改。
-                这个循环比现成答案更有用。
+                type-challenges 的官方判题要求更细 —— 数组和元组还有各自的规则。提交你的版本,读失败的测试用例,再改。这个循环比现成答案更有用。
               </>
             ),
           }}
@@ -633,8 +610,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            再想想 b。<code>const</code> 绑定不会被重新赋值,
-            编译器没有理由拓宽它,推断停在字面量类型{" "}
+            再想想 b。<code>const</code> 绑定不会被重新赋值,编译器没有理由拓宽它,推断停在字面量类型{" "}
             <code>&quot;Oolong Tea&quot;</code>。
           </>
         ),
@@ -650,8 +626,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            a 用 <code>let</code> 声明,以后可能被赋成别的字符串。
-            编译器把它拓宽成 <code>string</code>,不然你连改都改不了。
+            a 用 <code>let</code> 声明,以后可能被赋成别的字符串。编译器把它拓宽成 <code>string</code>,不然你连改都改不了。
           </>
         ),
       },
@@ -665,8 +640,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            正好说反了:<code>let</code> 拓宽,<code>const</code> 保留字面量。
-            「会不会被改」决定「推得多宽」。
+            正好说反了:<code>let</code> 拓宽,<code>const</code> 保留字面量。「会不会被改」决定「推得多宽」。
           </>
         ),
       },
@@ -751,9 +725,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            那是没有穷尽检查时的情况:新状态被静默吞掉,
-            页面显示成一片空白,没人知道为什么。
-            那行 <code>never</code> 赋值就是为了打破这种沉默。
+            那是没有穷尽检查时的情况:新状态被静默吞掉,页面显示成一片空白,没人知道为什么。那行 <code>never</code> 赋值就是为了打破这种沉默。
           </>
         ),
       },
@@ -768,8 +740,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>never</code> 只存在于编译期。类型被擦除,
-            运行时找不到它的任何痕迹。它的全部作用就是把错误提前到编译期。
+            <code>never</code> 只存在于编译期。类型被擦除,运行时找不到它的任何痕迹。它的全部作用就是把错误提前到编译期。
           </>
         ),
       },
@@ -802,10 +773,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          这是穷尽检查(exhaustiveness check):联合的成员全部处理完之后,
-          走到 default 的值被收窄成 <code>never</code>,赋给{" "}
-          <code>never</code> 合法;漏了一个,那个成员还在,赋值就失败。
-          新增状态的那一刻,所有没处理它的 switch 一起报错。—— 回看第 03 章。
+          这是穷尽检查(exhaustiveness check):联合的成员全部处理完之后,走到 default 的值被收窄成 <code>never</code>,赋给{" "}
+          <code>never</code> 合法;漏了一个,那个成员还在,赋值就失败。新增状态的那一刻,所有没处理它的 switch 一起报错。—— 回看第 03 章。
         </>
       ),
     },
@@ -823,8 +792,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>{'order({ size: "large", ice: "none" })'}</code> 报错说{" "}
-          <code>ice</code> 不存在,但先把同一个对象存进变量再传就通过了。
-          为什么?
+          <code>ice</code> 不存在,但先把同一个对象存进变量再传就通过了。为什么?
         </>
       ),
     },
@@ -843,8 +811,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            直接传的对象字面量是「新鲜」的,要做多余属性检查;
-            存进变量之后只按普通的结构兼容判断,多出来的属性不追究
+            直接传的对象字面量是「新鲜」的,要做多余属性检查;存进变量之后只按普通的结构兼容判断,多出来的属性不追究
           </>
         ),
       },
@@ -877,8 +844,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            没有「优先级」这回事。两种情况走的检查不同:
-            新鲜的字面量在普通结构比较之外,多受一道检查。
+            没有「优先级」这回事。两种情况走的检查不同:新鲜的字面量在普通结构比较之外,多受一道检查。
           </>
         ),
       },
@@ -894,8 +860,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这是刻意设计:在调用处现写的字面量,多出来的属性几乎都是拼错
-            或误解,值得报出来;变量可能在别处另有用途,多几个属性是合法的。
+            这是刻意设计:在调用处现写的字面量,多出来的属性几乎都是拼错或误解,值得报出来;变量可能在别处另有用途,多几个属性是合法的。
           </>
         ),
       },
@@ -909,8 +874,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>const</code> 对象的类型检查一点不少,少的只是多余属性检查
-            这一项。结构兼容仍然生效:少了属性照样报错。
+            <code>const</code> 对象的类型检查一点不少,少的只是多余属性检查这一项。结构兼容仍然生效:少了属性照样报错。
           </>
         ),
       },
@@ -1030,8 +994,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            数组也有 <code>length</code>,T 推断成 <code>number[]</code>。
-            这个调用合法。
+            数组也有 <code>length</code>,T 推断成 <code>number[]</code>。这个调用合法。
           </>
         ),
       },
@@ -1046,8 +1009,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这个对象的形状里明写着 <code>length: number</code>。
-            TypeScript 比较形状而不是名字,谁提供了 <code>length</code>{" "}
+            这个对象的形状里明写着 <code>length: number</code>。TypeScript 比较形状而不是名字,谁提供了 <code>length</code>{" "}
             谁就满足约束。
           </>
         ),
@@ -1064,10 +1026,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>extends {"{ length: number }"}</code> 是类型参数的约束:
-          传进来的类型必须有一个 <code>number</code> 类型的{" "}
-          <code>length</code> 属性。number 没有 <code>length</code>,
-          调用被拦下。—— 回看第 05 章。
+          <code>extends {"{ length: number }"}</code> 是类型参数的约束:传进来的类型必须有一个 <code>number</code> 类型的{" "}
+          <code>length</code> 属性。number 没有 <code>length</code>,调用被拦下。—— 回看第 05 章。
         </>
       ),
     },
@@ -1084,8 +1044,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          要做草稿功能:没填完的 Order 也要能保存,每个字段都允许先空着。
-          哪个工具类型是为这件事准备的?
+          要做草稿功能:没填完的 Order 也要能保存,每个字段都允许先空着。哪个工具类型是为这件事准备的?
         </>
       ),
     },
@@ -1152,8 +1111,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>Required</code> 方向相反:它把所有可选字段变成必填。
-            那是提交前做最后校验用的,不是保存草稿用的。
+            <code>Required</code> 方向相反:它把所有可选字段变成必填。那是提交前做最后校验用的,不是保存草稿用的。
           </>
         ),
       },
@@ -1167,8 +1125,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>Readonly</code> 管的是「能不能改」,不是「能不能空」。
-            草稿恰恰是要反复改的。
+            <code>Readonly</code> 管的是「能不能改」,不是「能不能空」。草稿恰恰是要反复改的。
           </>
         ),
       },
@@ -1182,8 +1139,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>Pick</code> 是挑几个字段组成新类型。草稿不是「只剩 id」,
-            而是「每个字段都可以先没有」。
+            <code>Pick</code> 是挑几个字段组成新类型。草稿不是「只剩 id」,而是「每个字段都可以先没有」。
           </>
         ),
       },
@@ -1264,8 +1220,7 @@ export const QUIZ: QuizItem[] = [
         <>
           <code>typeof</code>(用在类型位置)从值里取出类型,
           <code>keyof</code> 再把键收成联合:
-          <code>{'"oolong" | "mango"'}</code>。菜单只写一遍,
-          名字的类型从菜单里长出来;菜单改了,类型跟着改。—— 回看第 07 章。
+          <code>{'"oolong" | "mango"'}</code>。菜单只写一遍,名字的类型从菜单里长出来;菜单改了,类型跟着改。—— 回看第 07 章。
         </>
       ),
     },
@@ -1403,8 +1358,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>useUnknownInCatchVariables</code>(strict 家族成员)让 catch
-          变量是 <code>unknown</code>:一种类型安全的「不知道」。
-          用之前必须收窄,通常是 <code>e instanceof Error</code>。
+          变量是 <code>unknown</code>:一种类型安全的「不知道」。用之前必须收窄,通常是 <code>e instanceof Error</code>。
           —— 回看第 10 章。
         </>
       ),
@@ -1424,8 +1378,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          写一个主题配置对象:既要编译器<b>校验它符合 Config</b>,
-          又要 <code>config.theme</code> 保持字面量类型{" "}
+          写一个主题配置对象:既要编译器<b>校验它符合 Config</b>,又要 <code>config.theme</code> 保持字面量类型{" "}
           <code>&quot;dark&quot;</code>,方便后续做精确判断。用哪种写法?
         </>
       ),
@@ -1526,8 +1479,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            什么都不加,推断确实精确,但没有任何校验:字段拼错、漏写,
-            要到使用它的地方才暴露,离你写下它的位置很远。
+            什么都不加,推断确实精确,但没有任何校验:字段拼错、漏写,要到使用它的地方才暴露,离你写下它的位置很远。
           </>
         ),
       },
@@ -1544,8 +1496,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>satisfies</code>(TypeScript 4.9)校验形状,同时保留推断出的
-          字面量类型 —— 只有它两样都给。一句话:注解检查但拓宽,
+          <code>satisfies</code>(TypeScript 4.9)校验形状,同时保留推断出的字面量类型 —— 只有它两样都给。一句话:注解检查但拓宽,
           <code>as</code> 既不检查也不保留,<code>satisfies</code> 两样都做。
           —— 回看本章 §01。
         </>
@@ -1618,8 +1569,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            迁移期在局部用 <code>any</code> 可以接受,
-            只要它不出现在导出的函数签名上
+            迁移期在局部用 <code>any</code> 可以接受,只要它不出现在导出的函数签名上
           </>
         ),
       },
@@ -1649,8 +1599,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          还漏了一条。想想 <code>any</code> 最麻烦的性质:
-          它会顺着赋值和属性访问一路传下去。另外「别进导出签名」那条也别漏。
+          还漏了一条。想想 <code>any</code> 最麻烦的性质:它会顺着赋值和属性访问一路传下去。另外「别进导出签名」那条也别漏。
         </>
       ),
     },
@@ -1666,8 +1615,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           有一项选多了。要么是把 <code>unknown</code> 和 <code>any</code>{" "}
-          当成了一回事(它们对「怎么用这个值」的规定完全不同),
-          要么是高估了编译器对运行时数据的了解(类型被擦除了,它管不到)。
+          当成了一回事(它们对「怎么用这个值」的规定完全不同),要么是高估了编译器对运行时数据的了解(类型被擦除了,它管不到)。
         </>
       ),
     },
@@ -1688,11 +1636,8 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>unknown</code> 接收任何值,但用之前必须收窄;<code>any</code>{" "}
-          接收任何值且放行任何用法,还会扩散。原则:先用 <code>unknown</code>,
-          只有当它让代码写不下去时才降级到 <code>any</code>,
-          并且锁在最小的作用域里。E 是错的:<code>res.json()</code> 在 DOM
-          库里的类型是 <code>Promise&lt;any&gt;</code>,
-          真实形状只有在运行时被检查过才知道。—— 回看本章 §03、§04。
+          接收任何值且放行任何用法,还会扩散。原则:先用 <code>unknown</code>,只有当它让代码写不下去时才降级到 <code>any</code>,并且锁在最小的作用域里。E 是错的:<code>res.json()</code> 在 DOM
+          库里的类型是 <code>Promise&lt;any&gt;</code>,真实形状只有在运行时被检查过才知道。—— 回看本章 §03、§04。
         </>
       ),
     },
@@ -1799,8 +1744,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>require</code> 是 CommonJS 的运行时函数,导入的是值,
-            擦不掉,和类型导入完全是两回事。
+            <code>require</code> 是 CommonJS 的运行时函数,导入的是值,擦不掉,和类型导入完全是两回事。
           </>
         ),
       },
@@ -1814,8 +1758,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            命名空间导入拿进来的是整个模块的值。你只想要一个类型,
-            却把全部实现搬了进来 —— 这正是 <code>import type</code> 要避免的。
+            命名空间导入拿进来的是整个模块的值。你只想要一个类型,却把全部实现搬了进来 —— 这正是 <code>import type</code> 要避免的。
           </>
         ),
       },
@@ -1831,8 +1774,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>import type</code> 明确表示这一行只有类型,
-          编译时整行删除,打包器也不用猜。
+          <code>import type</code> 明确表示这一行只有类型,编译时整行删除,打包器也不用猜。
           <code>verbatimModuleSyntax</code>(TypeScript 5.0)
           把这个习惯变成了硬规定。—— 回看第 09 章、第 10 章。
         </>
@@ -1867,8 +1809,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>as const</code> 的作用就是「一点都不拓宽」。
-          推断停在你写下的那个字面量上,同时每个属性都变成{" "}
+          <code>as const</code> 的作用就是「一点都不拓宽」。推断停在你写下的那个字面量上,同时每个属性都变成{" "}
           <code>readonly</code>。
         </>
       ),
@@ -1885,10 +1826,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>as const</code> 把推断钉在字面量 <code>{'"dark"'}</code> 上,
-          并加上 <code>readonly</code>。没有它,对象属性会被拓宽成{" "}
-          <code>string</code>。配合 <code>satisfies</code>,
-          就是配置对象最常见的写法。—— 回看本章 §01。
+          <code>as const</code> 把推断钉在字面量 <code>{'"dark"'}</code> 上,并加上 <code>readonly</code>。没有它,对象属性会被拓宽成{" "}
+          <code>string</code>。配合 <code>satisfies</code>,就是配置对象最常见的写法。—— 回看本章 §01。
         </>
       ),
     },
@@ -1934,8 +1873,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            不能 —— interface 在编译时被擦除,
-            运行时的判断只能检查值本身(类型谓词或校验函数)
+            不能 —— interface 在编译时被擦除,运行时的判断只能检查值本身(类型谓词或校验函数)
           </>
         ),
       },
@@ -1977,8 +1915,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            恰好相反:<code>interface</code> 不产生任何 JavaScript,
-            在编译产物里一个字节都找不到。
+            恰好相反:<code>interface</code> 不产生任何 JavaScript,在编译产物里一个字节都找不到。
           </>
         ),
       },
@@ -1993,8 +1930,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>strict</code> 管的是编译期检查有多严,变不出运行时的类。
-            擦除对所有配置一视同仁。
+            <code>strict</code> 管的是编译期检查有多严,变不出运行时的类。擦除对所有配置一视同仁。
           </>
         ),
       },
@@ -2008,8 +1944,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这件事上 <code>type</code> 和 <code>interface</code> 完全一样:
-            都只存在于编译期,都会被擦除。运行时只能检查值本身的形状。
+            这件事上 <code>type</code> 和 <code>interface</code> 完全一样:都只存在于编译期,都会被擦除。运行时只能检查值本身的形状。
           </>
         ),
       },
@@ -2028,10 +1963,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          类型擦除既是这门课的第一课,也是最后一课:类型存在于你写代码和
-          编译的阶段;真正运行的是普通 JavaScript,里面只有值。
-          所以边界上需要你手写校验(本章 §03 的 <code>isOrder</code>);
-          也所以可辨识联合靠的是 <code>status</code> 这个
+          类型擦除既是这门课的第一课,也是最后一课:类型存在于你写代码和编译的阶段;真正运行的是普通 JavaScript,里面只有值。所以边界上需要你手写校验(本章 §03 的 <code>isOrder</code>);也所以可辨识联合靠的是 <code>status</code> 这个
           <b>真实存在的属性</b>,而不是类型的名字。—— 回看序章、本章 §03。
         </>
       ),

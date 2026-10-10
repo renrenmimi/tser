@@ -96,9 +96,7 @@ export function CompatPlayground() {
         zh={
           <>
             <b>通过。</b>
-            <code>Staff</code> 只问一件事:有没有 <code>name</code>,
-            是不是 <code>string</code>?<code>Barista</code> 的回答是有。
-            多出来的 <code>makeTea</code> 和 <code>years</code>{" "}
+            <code>Staff</code> 只问一件事:有没有 <code>name</code>,是不是 <code>string</code>?<code>Barista</code> 的回答是有。多出来的 <code>makeTea</code> 和 <code>years</code>{" "}
             不在要求里,直接被忽略。<b>成员多的类型,可以顶替成员少的。</b>
           </>
         }
@@ -440,8 +438,7 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
           }
           zh={
             <>
-              还剩一个 <code>{extraPins[0].key}</code>,目标类型里没有声明它。
-              这个字面量只为这一次调用而写,多出来的属性几乎都是拼错或误解。
+              还剩一个 <code>{extraPins[0].key}</code>,目标类型里没有声明它。这个字面量只为这一次调用而写,多出来的属性几乎都是拼错或误解。
               <b>多余属性检查在这里报错。</b>
             </>
           }
@@ -459,9 +456,7 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
           }
           zh={
             <>
-              还剩一个 <code>{extraPins[0].key}</code>,目标类型里没有声明它。
-              但这个对象存在变量里,别处可能另有正当用途,
-              于是按普通规则判断:成员多是允许的。<b>不报错。</b>
+              还剩一个 <code>{extraPins[0].key}</code>,目标类型里没有声明它。但这个对象存在变量里,别处可能另有正当用途,于是按普通规则判断:成员多是允许的。<b>不报错。</b>
             </>
           }
         />
@@ -507,8 +502,7 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
           }
           zh={
             <>
-              <b>通过。</b>多出来的 {extraPins[0].key} 没有被追究。
-              想看另一种结果,把上面的开关拨到「字面量直传」,再走一遍。
+              <b>通过。</b>多出来的 {extraPins[0].key} 没有被追究。想看另一种结果,把上面的开关拨到「字面量直传」,再走一遍。
             </>
           }
         />
@@ -523,8 +517,7 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
           }
           zh={
             <>
-              <b>通过。</b>每个必需成员都在,类型也对得上。
-              这个对象从没声明过自己是 <code>Staff</code>,而这并不影响结果。
+              <b>通过。</b>每个必需成员都在,类型也对得上。这个对象从没声明过自己是 <code>Staff</code>,而这并不影响结果。
             </>
           }
         />
@@ -540,8 +533,7 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
         }
         zh={
           <>
-            <b>拒绝。</b>有必需成员没对上,而且无论对象怎么传都是这个结果。
-            编译器的原文就在上面 —— 它描述的正是刚才没通过的那个成员。
+            <b>拒绝。</b>有必需成员没对上,而且无论对象怎么传都是这个结果。编译器的原文就在上面 —— 它描述的正是刚才没通过的那个成员。
           </>
         }
       />
@@ -559,8 +551,7 @@ function buildFrames(preset: Preset, literal: boolean): MatchFrame[] {
         zh={
           <>
             <b>拒绝。</b>同一个对象,先存进变量就能通过 ——
-            把开关拨到「先存变量」验证一下。这不是前后矛盾:
-            编译器对新鲜的字面量刻意更严,因为此处多出来的属性几乎都是 bug。
+            把开关拨到「先存变量」验证一下。这不是前后矛盾:编译器对新鲜的字面量刻意更严,因为此处多出来的属性几乎都是 bug。
           </>
         }
       />

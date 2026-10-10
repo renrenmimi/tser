@@ -39,11 +39,9 @@ export const LABS: Lab[] = [
         zh={
           <>
             <p>
-              打开 TypeScript Playground(typescriptlang.org/play),
-              把下面这段 JS 风格的函数贴进去:
+              打开 TypeScript Playground(typescriptlang.org/play),把下面这段 JS 风格的函数贴进去:
               <code>{`function makeTea(base, sweet) { return base + "(" + sweet + "% sugar)"; }`}</code>
-              。给它补上注解:base 是 string,sweet 是 number,返回值 string。
-              然后故意把参数反着传,调用{" "}
+              。给它补上注解:base 是 string,sweet 是 number,返回值 string。然后故意把参数反着传,调用{" "}
               <code>makeTea(50, &quot;Oolong&quot;)</code>,读一读编译器报了什么。
             </p>
           </>
@@ -61,9 +59,8 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            每个参数写成 <code>名字: 类型</code>,返回值写在关门括号后面:
-            <code>): string</code>。
-            报错会说清是哪个参数、期望什么、实际给了什么。
+            每个参数写成<code>名字: 类型</code>,返回值写在关门括号后面:
+            <code>): string</code>。报错会说清是哪个参数、期望什么、实际给了什么。
           </>
         }
       />
@@ -107,10 +104,7 @@ makeTea(50, "Oolong");
 // Argument of type 'number' is not assignable to parameter of type 'string'.`}
             />
             <p>
-              只会出现<b>一条</b>报错,不是两条。
-              对一个只有单条签名的函数,TypeScript 报出第一个对不上的实参就停了;
-              把它改对,第二个实参的报错才会冒出来。
-              而没有注解的 JS 版本根本不报错:程序照跑,打印出
+              只会出现<b>一条</b>报错,不是两条。对一个只有单条签名的函数,TypeScript 报出第一个对不上的实参就停了;把它改对,第二个实参的报错才会冒出来。而没有注解的 JS 版本根本不报错:程序照跑,打印出
               &quot;50(Oolong% sugar)&quot;。
             </p>
           </>
@@ -151,9 +145,7 @@ makeTea(50, "Oolong");
         zh={
           <>
             <p>
-              在 Playground 里写一个 <code>orderLine</code> 函数:
-              第一个参数 base(string,必选),
-              第二个参数 sugar(默认值 50),后面收任意多个配料{" "}
+              在 Playground 里写一个 <code>orderLine</code> 函数:第一个参数 base(string,必选),第二个参数 sugar(默认值 50),后面收任意多个配料{" "}
               <code>...toppings: string[]</code>。然后做三件事:
               ① 悬停 sugar,看推断出来的类型;
               ② 确认 <code>orderLine(&quot;Milk Green&quot;)</code> 和{" "}
@@ -179,8 +171,7 @@ makeTea(50, "Oolong");
         }
         zh={
           <>
-            带默认值的参数不用写类型;rest 参数必须放在最后。
-            第 ③ 步不会报「顺序错误」—— 想想这时候函数到底要求几个实参。
+            带默认值的参数不用写类型;rest 参数必须放在最后。第 ③ 步不会报「顺序错误」—— 想想这时候函数到底要求几个实参。
           </>
         }
       />
@@ -236,15 +227,10 @@ bad("Milk Green");
 // Expected 2 arguments, but got 1.`}
             />
             <p>
-              悬停 sugar 显示 <code>number</code>,是从默认值 50 推断的。
-              第 ③ 步最有意思:把带默认值的参数放在前面并不是语法错误,
-              但这个默认值用不上了 ——
-              一个参数要在调用处变成可选,前提是它<b>后面</b>的参数也全都可选。
-              这里 base 是必选的,所以函数仍然要求两个实参,
-              <code>bad(&quot;Milk Green&quot;)</code> 直接卡在个数上。
-              想用默认值就得写成{" "}
-              <code>bad(undefined, &quot;Milk Green&quot;)</code>。
-              所以实践中带默认值的参数照样放在最后。
+              悬停 sugar 显示 <code>number</code>,是从默认值 50 推断的。第 ③ 步最有意思:把带默认值的参数放在前面并不是语法错误,但这个默认值用不上了 ——
+              一个参数要在调用处变成可选,前提是它<b>后面</b>的参数也全都可选。这里 base 是必选的,所以函数仍然要求两个实参,
+              <code>bad(&quot;Milk Green&quot;)</code> 直接卡在个数上。想用默认值就得写成{" "}
+              <code>bad(undefined, &quot;Milk Green&quot;)</code>。所以实践中带默认值的参数照样放在最后。
             </p>
           </>
         }
@@ -301,8 +287,7 @@ bad("Milk Green");
         }
         zh={
           <>
-            索引签名的写法是 <code>{"[sku: string]: number"}</code>。
-            两条报错的说法完全不同:一条说属性只读,一条说类型不可赋值。
+            索引签名的写法是 <code>{"[sku: string]: number"}</code>。两条报错的说法完全不同:一条说属性只读,一条说类型不可赋值。
           </>
         }
       />
@@ -368,9 +353,7 @@ stock["tea-002"] = "many";
 // Type 'string' is not assignable to type 'number'.`}
             />
             <p>
-              两条规则各管一头:<code>readonly</code> 管的是这个属性能不能写,
-              索引签名管的是写进去的值长什么样。
-              顺手再做个实验:点开右侧的 .JS 标签 —— <code>readonly</code>{" "}
+              两条规则各管一头:<code>readonly</code> 管的是这个属性能不能写,索引签名管的是写进去的值长什么样。顺手再做个实验:点开右侧的 .JS 标签 —— <code>readonly</code>{" "}
               和所有类型都不见了。这就是「类型只活在编译期」的实际含义。
             </p>
           </>
@@ -435,8 +418,7 @@ stock["tea-002"] = "many";
         }
         zh={
           <>
-            第 ① 步的重点是「什么都不报」:两个同名 interface 会被合并成一个。
-            造对象时少写任何一个字段,编译器都会告诉你。
+            第 ① 步的重点是「什么都不报」:两个同名 interface 会被合并成一个。造对象时少写任何一个字段,编译器都会告诉你。
           </>
         }
       />
@@ -496,10 +478,7 @@ type Shop2 = { city: string }; // Duplicate identifier 'Shop2'.
 type Size = "small" | "large";`}
             />
             <p>
-              合并看着像 bug,其实是一道特意留的门:
-              用来给不属于你的类型做补充,比如给 window 加自定义字段,
-              或者给第三方包的类型打补丁(09 章细讲)。
-              也正因为它在读代码时容易被忽略,团队通常会约定统一用法 ——
+              合并看着像 bug,其实是一道特意留的门:用来给不属于你的类型做补充,比如给 window 加自定义字段,或者给第三方包的类型打补丁(09 章细讲)。也正因为它在读代码时容易被忽略,团队通常会约定统一用法 ——
               「随便选一个,但要一致」说的就是这件事。
             </p>
           </>
@@ -569,8 +548,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>topping?: string</code> 本身是完全合法的可选参数写法。
-            问题不在这个参数身上,在它站的位置。
+            <code>topping?: string</code> 本身是完全合法的可选参数写法。问题不在这个参数身上,在它站的位置。
           </>
         ),
       },
@@ -584,8 +562,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            参数个数没有上限,rest 参数甚至能收任意多个。
-            报错说的是顺序,不是数量。
+            参数个数没有上限,rest 参数甚至能收任意多个。报错说的是顺序,不是数量。
           </>
         ),
       },
@@ -598,8 +575,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            必选参数本来就不需要默认值。
-            真正的规矩是:可选的、带默认值的,都排在必选参数后面。
+            必选参数本来就不需要默认值。真正的规矩是:可选的、带默认值的,都排在必选参数后面。
           </>
         ),
       },
@@ -616,9 +592,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          实参按位置对号入座。调用 <code>brew(&quot;Oolong&quot;)</code> 时,
-          没法说清 &quot;Oolong&quot; 算 topping 还是 base,
-          所以 TypeScript 直接禁止这样声明。报错原文:A required parameter
+          实参按位置对号入座。调用 <code>brew(&quot;Oolong&quot;)</code> 时,没法说清 &quot;Oolong&quot; 算 topping 还是 base,所以 TypeScript 直接禁止这样声明。报错原文:A required parameter
           cannot follow an optional parameter.
         </>
       ),
@@ -693,8 +667,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>() =&gt; 123</code> 是一个返回 123 的箭头函数。
-            这道题问的是类型检查,不是这个值本身。
+            <code>() =&gt; 123</code> 是一个返回 123 的箭头函数。这道题问的是类型检查,不是这个值本身。
           </>
         ),
       },
@@ -707,8 +680,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            运行时什么事都没有。类型全部被擦除,
-            这个函数老老实实返回 123,只是没人去读它。
+            运行时什么事都没有。类型全部被擦除,这个函数老老实实返回 123,只是没人去读它。
           </>
         ),
       },
@@ -725,9 +697,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>() =&gt; void</code> 的宽容是有意设计的。
-          否则 <code>forEach((n) =&gt; arr.push(n))</code> 就通不过检查,
-          因为 push 返回一个 number。记住这个分工:
+          <code>() =&gt; void</code> 的宽容是有意设计的。否则 <code>forEach((n) =&gt; arr.push(n))</code> 就通不过检查,因为 push 返回一个 number。记住这个分工:
           <b>类型里的</b> void 表示调用方不看结果,
           <b>声明上的</b> void 表示函数不返回值。
         </>
@@ -790,8 +760,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            确实可能抛,但 TypeScript 不强制 try/catch,这段代码编译毫无问题。
-            编译器检查的是类型,不是运行时风险。
+            确实可能抛,但 TypeScript 不强制 try/catch,这段代码编译毫无问题。编译器检查的是类型,不是运行时风险。
           </>
         ),
       },
@@ -805,8 +774,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            JSON.parse 吃的就是字符串,<code>json: string</code> 写得完全正确。
-            问题出在「出去」那一头,不在「进来」这一头。
+            JSON.parse 吃的就是字符串,<code>json: string</code> 写得完全正确。问题出在「出去」那一头,不在「进来」这一头。
           </>
         ),
       },
@@ -819,8 +787,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            推断确实在工作,但它读的是 JSON.parse 的返回值类型,
-            而那个类型在标准库里就是 any。
+            推断确实在工作,但它读的是 JSON.parse 的返回值类型,而那个类型在标准库里就是 any。
           </>
         ),
       },
@@ -836,10 +803,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>JSON.parse</code> 返回 any,推断原样放行,
-          于是 load 的返回值也是 any。
-          调用方拼错字段、乱调方法,编译器全程沉默。
-          修法是写出返回值类型,把 any 关在函数内部。
+          <code>JSON.parse</code> 返回 any,推断原样放行,于是 load 的返回值也是 any。调用方拼错字段、乱调方法,编译器全程沉默。修法是写出返回值类型,把 any 关在函数内部。
         </>
       ),
     },
@@ -918,8 +882,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          勾多了。其中一项是两边都会的基本功,
-          还有一项恰恰是 interface 独有的能力 —— 两个同名 type 只会报
+          勾多了。其中一项是两边都会的基本功,还有一项恰恰是 interface 独有的能力 —— 两个同名 type 只会报
           Duplicate identifier。
         </>
       ),
@@ -935,8 +898,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          描述对象形状两边都行;合并是 interface 独有;
-          联合类型和映射类型是 type 独有 ——
+          描述对象形状两边都行;合并是 interface 独有;联合类型和映射类型是 type 独有 ——
           这也是 06、07 两章的类型编程全部写在 type 一侧的原因。
         </>
       ),
@@ -997,8 +959,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>Object.freeze</code> 是要你自己调用的运行时函数。
-            TypeScript 从不往产物里添加行为,类型擦除是铁律。
+            <code>Object.freeze</code> 是要你自己调用的运行时函数。TypeScript 从不往产物里添加行为,类型擦除是铁律。
           </>
         ),
       },
@@ -1011,8 +972,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            getter 是真实的 JavaScript 语法,得你自己写。
-            readonly 一个字节的代码都不产生。
+            getter 是真实的 JavaScript 语法,得你自己写。readonly 一个字节的代码都不产生。
           </>
         ),
       },
@@ -1026,8 +986,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            连注释都不会留下。类型信息对运行时完全不可见,
-            这正是「类型擦除」的含义。
+            连注释都不会留下。类型信息对运行时完全不可见,这正是「类型擦除」的含义。
           </>
         ),
       },
@@ -1043,10 +1002,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>readonly</code> 是<b>编译期</b>的检查:
-          你写代码时编译器拦你,运行时没有任何防护。
-          想要真冻结就用 <code>Object.freeze</code>。
-          不过在团队协作里,编译期这一拦已经挡掉了绝大多数误改。
+          <code>readonly</code> 是<b>编译期</b>的检查:你写代码时编译器拦你,运行时没有任何防护。想要真冻结就用 <code>Object.freeze</code>。不过在团队协作里,编译期这一拦已经挡掉了绝大多数误改。
         </>
       ),
     },
@@ -1095,8 +1051,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>void</code>。写在类型位置上,它表示调用方不会读结果,
-          所以返回任何值的函数都能匹配。这就是 <code>forEach</code> 能接收{" "}
+          <code>void</code>。写在类型位置上,它表示调用方不会读结果,所以返回任何值的函数都能匹配。这就是 <code>forEach</code> 能接收{" "}
           <code>push</code> 这种有返回值的回调的原因。
         </>
       ),
@@ -1146,8 +1101,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            试试就知道:<code>g()</code> 会报 Expected 1 arguments, but got 0。
-            两者的区别正是「能不能空手调用」。
+            试试就知道:<code>g()</code> 会报 Expected 1 arguments, but got 0。两者的区别正是「能不能空手调用」。
           </>
         ),
       },
@@ -1213,8 +1167,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>[1, 2, 3].map((n) =&gt; n * 2)</code> 能编译通过,
-          可是 map 调用回调时会传三个实参。为什么?
+          <code>[1, 2, 3].map((n) =&gt; n * 2)</code> 能编译通过,可是 map 调用回调时会传三个实参。为什么?
         </>
       ),
     },
@@ -1261,8 +1214,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>map</code> 只有一条签名。这条规则是通用的,
-            对所有函数类型都成立,不是 <code>map</code> 的特例。
+            <code>map</code> 只有一条签名。这条规则是通用的,对所有函数类型都成立,不是 <code>map</code> 的特例。
           </>
         ),
       },
@@ -1277,8 +1229,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            没有任何补齐。运行时 <code>map</code> 照样传三个实参,
-            只是这个回调没有给后两个起名字。
+            没有任何补齐。运行时 <code>map</code> 照样传三个实参,只是这个回调没有给后两个起名字。
           </>
         ),
       },
@@ -1310,10 +1261,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          在 JavaScript 里,传的实参比声明的参数多是正常且无害的。
-          TypeScript 允许的正是这一点,
-          所以单参数的回调放得进三参数的回调类型里。
-          反过来会被拒绝:第四个参数会去读一个根本没人传的实参。
+          在 JavaScript 里,传的实参比声明的参数多是正常且无害的。TypeScript 允许的正是这一点,所以单参数的回调放得进三参数的回调类型里。反过来会被拒绝:第四个参数会去读一个根本没人传的实参。
         </>
       ),
     },
@@ -1332,8 +1280,7 @@ export const QUIZ: QuizItem[] = [
         <>
           即使开着 <code>strict</code>,
           <code>interface Feeder &#123; feed(a: Animal): void &#125;</code>{" "}
-          也接受一个 <code>feed</code> 只收 <code>Dog</code> 的对象。
-          这说明什么?
+          也接受一个 <code>feed</code> 只收 <code>Dog</code> 的对象。这说明什么?
         </>
       ),
     },
@@ -1364,8 +1311,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>strictFunctionTypes</code> 默认关着,
-            必须在 <code>strict</code> 之外单独打开。
+            <code>strictFunctionTypes</code> 默认关着,必须在 <code>strict</code> 之外单独打开。
           </>
         ),
       },
@@ -1402,8 +1348,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>strict</code> 确实会打开 <code>strictFunctionTypes</code>。
-            只是这个开关对用方法语法声明的成员不生效。
+            <code>strict</code> 确实会打开 <code>strictFunctionTypes</code>。只是这个开关对用方法语法声明的成员不生效。
           </>
         ),
       },
@@ -1417,9 +1362,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            在函数<i>类型</i>里,参数按逆变检查:
-            一个收 Dog 的函数不能赋给「要求收 Animal」的位置。
-            方法语法才是例外。
+            在函数<i>类型</i>里,参数按逆变检查:一个收 Dog 的函数不能赋给「要求收 Animal」的位置。方法语法才是例外。
           </>
         ),
       },
@@ -1438,12 +1381,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          在 <code>strictFunctionTypes</code> 下,函数<b>类型</b>位置上的参数
-          按逆变检查,而用<b>方法语法</b>声明的成员沿用旧的双变规则。
-          这是类型系统里一个已知且刻意保留的漏洞:
-          堵上它,<code>Array&lt;Dog&gt;</code> 就不能当作{" "}
-          <code>Array&lt;Animal&gt;</code> 用了。
-          想要严格检查,就用属性语法写这个成员。
+          在 <code>strictFunctionTypes</code> 下,函数<b>类型</b>位置上的参数按逆变检查,而用<b>方法语法</b>声明的成员沿用旧的双变规则。这是类型系统里一个已知且刻意保留的漏洞:堵上它,<code>Array&lt;Dog&gt;</code> 就不能当作{" "}
+          <code>Array&lt;Animal&gt;</code> 用了。想要严格检查,就用属性语法写这个成员。
         </>
       ),
     },
@@ -1523,8 +1462,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            重载解析不会去找「最合适的那条」。
-            它在第一条能接受这些实参的签名上就停了,而 <code>unknown</code>{" "}
+            重载解析不会去找「最合适的那条」。它在第一条能接受这些实参的签名上就停了,而 <code>unknown</code>{" "}
             什么都接受。
           </>
         ),
@@ -1569,10 +1507,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          重载按书写顺序尝试,第一条匹配的胜出。
-          把两条签名调换,<code>fmt(1)</code> 就变成 <code>number</code> 了。
-          顺序是 API 的一部分:越具体的签名越要写在前面。
-          另外别忘了,实现签名不能从外部调用。
+          重载按书写顺序尝试,第一条匹配的胜出。把两条签名调换,<code>fmt(1)</code> 就变成 <code>number</code> 了。顺序是 API 的一部分:越具体的签名越要写在前面。另外别忘了,实现签名不能从外部调用。
         </>
       ),
     },
@@ -1603,8 +1538,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            随便选一个并保持一致;需要 union 或映射类型时用 type,
-            需要 merging 时用 interface。
+            随便选一个并保持一致;需要 union 或映射类型时用 type,需要 merging 时用 interface。
           </>
         ),
       },
@@ -1630,8 +1564,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            「一定更快」是流传很广的说法,并没有这样的绝对结论,
-            官方也从没建议以性能为由禁用 type。
+            「一定更快」是流传很广的说法,并没有这样的绝对结论,官方也从没建议以性能为由禁用 type。
           </>
         ),
       },
@@ -1659,8 +1592,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            handbook 恰恰<b>没有</b>强制规定,
-            现行说法是按个人与团队偏好选,保持一致即可。
+            handbook 恰恰<b>没有</b>强制规定,现行说法是按个人与团队偏好选,保持一致即可。
           </>
         ),
       },
@@ -1676,10 +1608,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          这场争论被夸大了。大部分代码里两者可以互换,
-          真正的选型标准只有两条:你需要的<b>能力</b>
-          (union 或映射类型 → type;merging → interface),
-          以及代码库内部的<b>一致性</b>。
+          这场争论被夸大了。大部分代码里两者可以互换,真正的选型标准只有两条:你需要的<b>能力</b>
+          (union 或映射类型 → type;merging → interface),以及代码库内部的<b>一致性</b>。
         </>
       ),
     },

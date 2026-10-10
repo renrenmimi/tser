@@ -134,8 +134,7 @@ export const LABS: Lab[] = [
         <p>
           在 TypeScript Playground 里写两个条件类型:
           <code>Naked&lt;T&gt; = T extends string ? true : false</code> 和{" "}
-          <code>Wrapped&lt;T&gt; = [T] extends [string] ? true : false</code>。
-          都传同一个实参 <code>&quot;a&quot; | 1</code>,再悬停看两个结果 ——
+          <code>Wrapped&lt;T&gt; = [T] extends [string] ? true : false</code>。都传同一个实参 <code>&quot;a&quot; | 1</code>,再悬停看两个结果 ——
           说清楚为什么一个是 <code>boolean</code>,另一个是 <code>false</code>。
         </p>
       ),
@@ -151,9 +150,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          裸 <code>T</code> 会让条件类型对联合的每个成员各跑一次,
-          结果再合并成联合;用 <code>[ ]</code> 包起来则是整体判断一次。
-          再想一想:<code>true | false</code> 会被显示成什么。
+          裸 <code>T</code> 会让条件类型对联合的每个成员各跑一次,结果再合并成联合;用 <code>[ ]</code> 包起来则是整体判断一次。再想一想:<code>true | false</code> 会被显示成什么。
         </>
       ),
     },
@@ -191,11 +188,9 @@ export const LABS: Lab[] = [
             hl={[4, 8]}
           />
           <p>
-            <code>A</code> 显示成 <code>boolean</code> 是最容易卡住的一步。
-            编译器没有偷懒:<code>true | false</code> 和 <code>boolean</code>{" "}
+            <code>A</code> 显示成 <code>boolean</code> 是最容易卡住的一步。编译器没有偷懒:<code>true | false</code> 和 <code>boolean</code>{" "}
             本来就是同一个类型,<code>boolean</code>{" "}
-            只是它的打印形式。所以条件类型返回了一个你没预料到的联合时,
-            第一件要检查的事就是:它是不是发生了分发。
+            只是它的打印形式。所以条件类型返回了一个你没预料到的联合时,第一件要检查的事就是:它是不是发生了分发。
           </p>
         </>
       ),
@@ -287,10 +282,8 @@ export const LABS: Lab[] = [
             hl={[2]}
           />
           <p>
-            四个零件挤在一行里:映射类型的循环、给键改名的 <code>as</code>、
-            模板字面量类型,以及 <code>Capitalize</code>。Vue 的{" "}
-            <code>onXxx</code> 属性、测试库的 <code>mockXxx</code>,
-            类型层面都是这个形状。
+            四个零件挤在一行里:映射类型的循环、给键改名的 <code>as</code>、模板字面量类型,以及 <code>Capitalize</code>。Vue 的{" "}
+            <code>onXxx</code> 属性、测试库的 <code>mockXxx</code>,类型层面都是这个形状。
           </p>
         </>
       ),
@@ -318,10 +311,7 @@ export const LABS: Lab[] = [
       zh: (
         <p>
           本章的 <code>Unbox</code> 只剥一层:喂它{" "}
-          <code>Promise&lt;Promise&lt;Promise&lt;string&gt;&gt;&gt;</code>,
-          剩下的两层还在。把它升级成 <code>DeepUnbox&lt;T&gt;</code>:
-          不管几层都剥到底,最后拿到 <code>string</code>。提示:
-          类型别名可以引用自己。
+          <code>Promise&lt;Promise&lt;Promise&lt;string&gt;&gt;&gt;</code>,剩下的两层还在。把它升级成 <code>DeepUnbox&lt;T&gt;</code>:不管几层都剥到底,最后拿到 <code>string</code>。提示:类型别名可以引用自己。
         </p>
       ),
     },
@@ -336,8 +326,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          剥掉一层之后,抓到的 <code>U</code> 可能还是 <code>Promise</code>。
-          那就先别急着返回:把 <code>U</code> 再交给 <code>DeepUnbox</code>{" "}
+          剥掉一层之后,抓到的 <code>U</code> 可能还是 <code>Promise</code>。那就先别急着返回:把 <code>U</code> 再交给 <code>DeepUnbox</code>{" "}
           自己处理 —— <code>? DeepUnbox&lt;U&gt; : T</code>。
         </>
       ),
@@ -387,8 +376,7 @@ export const LABS: Lab[] = [
             hl={[2]}
           />
           <p>
-            第 2 行就是类型系统里的递归:真分支里写出了正在定义的这个别名,
-            于是同一条规则反复应用,直到 <code>T</code> 不再是{" "}
+            第 2 行就是类型系统里的递归:真分支里写出了正在定义的这个别名,于是同一条规则反复应用,直到 <code>T</code> 不再是{" "}
             <code>Promise</code>。你刚刚写出了内置 <code>Awaited</code>{" "}
             的核心。标准库那一版还会处理任何带 <code>then</code>{" "}
             方法的对象,不只是 <code>Promise</code>,但形状是一样的。
@@ -399,8 +387,7 @@ export const LABS: Lab[] = [
               error TS2589: Type instantiation is excessively deep and possibly
               infinite.
             </code>{" "}
-            这个上限对真实数据够用;而且当递归调用占据了整个分支
-            (就像这里),上限还会高得多 ——
+            这个上限对真实数据够用;而且当递归调用占据了整个分支(就像这里),上限还会高得多 ——
             这时编译器可以反复执行同一步,而不必层层嵌套。
           </p>
         </>
@@ -436,7 +423,7 @@ export const LABS: Lab[] = [
           <code>MyOmit&lt;T, K&gt;</code>,对 <code>Order</code> 验证它和内置{" "}
           <code>Omit</code> 行为一致。第二步:把 <code>K</code> 的约束改成{" "}
           <code>K extends keyof T</code>,做出<b>严格版</b>{" "}
-          <code>StrictOmit</code> —— 键拼错要当场报错,而不是被默默忽略。 第 06
+          <code>StrictOmit</code> —— 键拼错要当场报错,而不是被默默忽略。第 06
           章那个漏洞就补上了。
         </p>
       ),
@@ -500,16 +487,12 @@ export const LABS: Lab[] = [
             hl={[2, 9]}
           />
           <p>
-            第 2 行就是 <code>lib.es5.d.ts</code> 里的原文,一字不差。
-            标准库的约束是 <code>keyof any</code>,也就是{" "}
-            <code>string | number | symbol</code>,所以几乎任何键类型都收,
-            拼错也能过。第 9 行只改了约束,默默失效就变成了编译错误。
-            这两章要给你的就是这个:内置类型不合用的时候,你已经能自己造一个。
+            第 2 行就是 <code>lib.es5.d.ts</code> 里的原文,一字不差。标准库的约束是 <code>keyof any</code>,也就是{" "}
+            <code>string | number | symbol</code>,所以几乎任何键类型都收,拼错也能过。第 9 行只改了约束,默默失效就变成了编译错误。这两章要给你的就是这个:内置类型不合用的时候,你已经能自己造一个。
           </p>
           <p>
             <code>Omit</code> 宽松是故意的。约束松一点,它才能接受不在{" "}
-            <code>T</code> 上的键 —— 当 <code>T</code> 本身是联合、
-            或者还是泛型时,这一点有用。想抓拼写错误就用 <code>StrictOmit</code>
+            <code>T</code> 上的键 —— 当 <code>T</code> 本身是联合、或者还是泛型时,这一点有用。想抓拼写错误就用 <code>StrictOmit</code>
             ,其他地方继续用 <code>Omit</code>。
           </p>
         </>
@@ -619,7 +602,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            它比 <code>string</code> 精确得多:就是那六个名字,一个不多。 所以{" "}
+            它比 <code>string</code> 精确得多:就是那六个名字,一个不多。所以{" "}
             <code>const k: keyof Order = &quot;cup&quot;</code> 会报{" "}
             <code>
               Type &apos;&quot;cup&quot;&apos; is not assignable to type
@@ -708,8 +691,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>console.log</code> 要的是实参,所以这里是表达式,
-            会真的执行,打印出 <code>&quot;object&quot;</code>。
+            <code>console.log</code> 要的是实参,所以这里是表达式,会真的执行,打印出 <code>&quot;object&quot;</code>。
           </>
         ),
       },
@@ -724,8 +706,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             <code>const t =</code> 后面是表达式位置,属于值世界。
-            <code>t</code> 里装的是字符串 <code>&quot;object&quot;</code>,
-            不是类型。
+            <code>t</code> 里装的是字符串 <code>&quot;object&quot;</code>,不是类型。
           </>
         ),
       },
@@ -742,9 +723,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          看位置。<code>type</code> 声明的等号右边、注解的冒号后面,
-          都是类型位置,那里的 <code>typeof</code> 属于 TypeScript,
-          编译时被擦除。其余位置都是 JavaScript 的那个运算符,会真的执行。
+          看位置。<code>type</code> 声明的等号右边、注解的冒号后面,都是类型位置,那里的 <code>typeof</code> 属于 TypeScript,编译时被擦除。其余位置都是 JavaScript 的那个运算符,会真的执行。
         </>
       ),
     },
@@ -850,8 +829,7 @@ export const QUIZ: QuizItem[] = [
         <>
           <code>as const</code> 把数组变成由字面量类型组成的只读元组,
           <code>T[number]</code> 取出全部元素类型的联合:
-          <code>&quot;boba&quot; | &quot;coconut jelly&quot;</code>。
-          数据只写一份,类型跟着它走。
+          <code>&quot;boba&quot; | &quot;coconut jelly&quot;</code>。数据只写一份,类型跟着它走。
         </>
       ),
     },
@@ -956,8 +934,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            如果是整体判断,<code>Exclude</code> 就永远删不掉任何东西。
-            裸类型参数遇到联合时故意<b>不</b>整体判断,
+            如果是整体判断,<code>Exclude</code> 就永远删不掉任何东西。裸类型参数遇到联合时故意<b>不</b>整体判断,
             <code>Exclude</code> 才成立。
           </>
         ),
@@ -988,8 +965,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>never</code> 只替换匹配上的那一个成员。它是空联合,
-            合并结果时安静消失,不影响其他成员。
+            <code>never</code> 只替换匹配上的那一个成员。它是空联合,合并结果时安静消失,不影响其他成员。
           </>
         ),
       },
@@ -1007,8 +983,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           这就是分布式条件类型:拆开联合、逐个判断、合并结果。
-          <code>&quot;b&quot;</code> 变成 <code>never</code>,什么也没留下,
-          所以结果是 <code>&quot;a&quot; | &quot;c&quot;</code>。§04
+          <code>&quot;b&quot;</code> 变成 <code>never</code>,什么也没留下,所以结果是 <code>&quot;a&quot; | &quot;c&quot;</code>。§04
           的可视化演的就是这一段。
         </>
       ),
@@ -1108,10 +1083,8 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          <code>[T]</code> 让 <code>T</code> 不再是裸类型参数,
-          于是不分发,联合被当成一个类型整体判断。
-          <code>[&quot;a&quot; | 1]</code> 不能赋给 <code>[string]</code>,
-          所以答案是 <code>&quot;mixed&quot;</code>。注意两边都要包,才有效。
+          <code>[T]</code> 让 <code>T</code> 不再是裸类型参数,于是不分发,联合被当成一个类型整体判断。
+          <code>[&quot;a&quot; | 1]</code> 不能赋给 <code>[string]</code>,所以答案是 <code>&quot;mixed&quot;</code>。注意两边都要包,才有效。
         </>
       ),
     },
@@ -1145,8 +1118,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            在 <code>extends</code> 后面的模式里声明一个类型变量;
-            模式匹配成功时,这个变量装着匹配到的类型,真分支里可以用
+            在 <code>extends</code> 后面的模式里声明一个类型变量;模式匹配成功时,这个变量装着匹配到的类型,真分支里可以用
           </>
         ),
       },
@@ -1218,8 +1190,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>T extends Promise&lt;infer U&gt; ? U : T</code> 读作:如果{" "}
-          <code>T</code> 长成 <code>Promise&lt;某个类型&gt;</code> 的样子,
-          就把那个类型记作 <code>U</code> 并返回它。相当于对类型做解构。
+          <code>T</code> 长成 <code>Promise&lt;某个类型&gt;</code> 的样子,就把那个类型记作 <code>U</code> 并返回它。相当于对类型做解构。
         </>
       ),
     },
@@ -1253,8 +1224,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          修饰符能加也能减:<code>+</code> 是加,可以省略不写;
-          另一个符号是减。手写版 <code>Required</code> 用的就是它。
+          修饰符能加也能减:<code>+</code> 是加,可以省略不写;另一个符号是减。手写版 <code>Required</code> 用的就是它。
         </>
       ),
     },
@@ -1271,7 +1241,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>{"{ [K in keyof T]-?: T[K] }"}</code> 把每个属性的{" "}
-          <code>?</code> 去掉,这正是 <code>Required</code> 的定义。 在{" "}
+          <code>?</code> 去掉,这正是 <code>Required</code> 的定义。在{" "}
           <code>strictNullChecks</code> 下,它同时把属性类型里的{" "}
           <code>undefined</code> 也去掉。<code>-readonly</code> 同理,用来去掉{" "}
           <code>readonly</code>。
@@ -1397,8 +1367,7 @@ export const QUIZ: QuizItem[] = [
         <>
           三个零件:映射类型对 <code>K</code> 逐键循环; 泛型约束保证{" "}
           <code>K</code> 里的每个名字都是 <code>T</code> 上真实的键(
-          <code>Pick</code> 严格的根源);
-          索引访问把原来的属性类型抄过来。没有条件类型,也没有 <code>infer</code>
+          <code>Pick</code> 严格的根源);索引访问把原来的属性类型抄过来。没有条件类型,也没有 <code>infer</code>
           。
         </>
       ),

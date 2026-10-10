@@ -85,8 +85,7 @@ export function TmDistribute() {
           <>
             规则是这样的:条件类型会<b>逐个成员</b>判断, 但前提是{" "}
             <code>extends</code> 左边是一个裸类型参数 —— 也就是光秃秃的{" "}
-            <code>T</code>,这里正是如此。
-            所以四个成员在左边排好队,一个一个过闸。
+            <code>T</code>,这里正是如此。所以四个成员在左边排好队,一个一个过闸。
           </>
         }
       />
@@ -108,8 +107,7 @@ export function TmDistribute() {
             <>
               <code>&quot;{m}&quot;</code> extends{" "}
               <code>&quot;cancelled&quot;</code> 成立,所以这个成员变成{" "}
-              <b>never</b>,被丢弃。<code>never</code> 是空联合,
-              合并结果时它什么也不贡献。
+              <b>never</b>,被丢弃。<code>never</code> 是空联合,合并结果时它什么也不贡献。
             </>
           }
         />
@@ -126,8 +124,7 @@ export function TmDistribute() {
           zh={
             <>
               <code>&quot;{m}&quot;</code> 不能赋给{" "}
-              <code>&quot;cancelled&quot;</code>,判断为假,走假分支。
-              假分支写的是 <code>T</code>,所以这个成员原样保留。
+              <code>&quot;cancelled&quot;</code>,判断为假,走假分支。假分支写的是 <code>T</code>,所以这个成员原样保留。
             </>
           }
         />
@@ -172,8 +169,7 @@ export function TmDistribute() {
           }
           zh={
             <>
-              分发逐帧看:MyExclude&lt;OrderStatus, &quot;cancelled&quot;&gt;
-              是怎么算出来的
+              分发逐帧看:MyExclude&lt;OrderStatus, &quot;cancelled&quot;&gt;是怎么算出来的
             </>
           }
         />
@@ -327,7 +323,7 @@ const TM_RULES: {
         }
         zh={
           <>
-            每个键都照抄一遍,只在冒号前加上 <code>?</code>。 这就是{" "}
+            每个键都照抄一遍,只在冒号前加上 <code>?</code>。这就是{" "}
             <b>Partial</b> 的全部定义。
           </>
         }
@@ -353,8 +349,8 @@ const TM_RULES: {
         }
         zh={
           <>
-            修饰符前面加个减号就是去掉它,于是 <code>?</code> 被摘掉。 这就是{" "}
-            <b>Required</b>。注意这一次进来的键带着 <code>?</code>。 在{" "}
+            修饰符前面加个减号就是去掉它,于是 <code>?</code> 被摘掉。这就是{" "}
+            <b>Required</b>。注意这一次进来的键带着 <code>?</code>。在{" "}
             <code>strictNullChecks</code> 下,<code>-?</code>{" "}
             同时会把属性类型里的 <code>undefined</code> 去掉。
           </>
@@ -379,7 +375,7 @@ const TM_RULES: {
         }
         zh={
           <>
-            <code>readonly</code> 写在方括号前面。这就是 <b>Readonly</b>。 同理,
+            <code>readonly</code> 写在方括号前面。这就是 <b>Readonly</b>。同理,
             <code>-readonly</code> 可以把它去掉。
           </>
         }
@@ -405,8 +401,7 @@ const TM_RULES: {
         }
         zh={
           <>
-            <code>as</code> 把键名整个换掉:模板字面量类型拼出新名字,
-            属性类型改成回调。一个对象类型就变成了配套的事件处理器类型。
+            <code>as</code> 把键名整个换掉:模板字面量类型拼出新名字,属性类型改成回调。一个对象类型就变成了配套的事件处理器类型。
             <code>as</code> 和模板字面量类型都是 TypeScript 4.1 加入的。
           </>
         }

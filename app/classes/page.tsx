@@ -497,9 +497,7 @@ export default function ClassesPage() {
           zh: (
             <>
               class 描述形状,也生产对象。TypeScript
-              在它之上加了三级访问权限、一套「必须有这个成员」的约束,
-              以及一次和 interface 的形状检查。
-              这些全部发生在编译期,而且几乎都不会留在产物里。
+              在它之上加了三级访问权限、一套「必须有这个成员」的约束,以及一次和 interface 的形状检查。这些全部发生在编译期,而且几乎都不会留在产物里。
             </>
           ),
         }}
@@ -568,8 +566,7 @@ export default function ClassesPage() {
               zh={
                 <>
                   在类里写下 <code>name: string</code>,等于告诉编译器:
-                  <b>这个类造出来的每个对象都有 name,而且是 string</b>。
-                  于是别处的代码可以直接写{" "}
+                  <b>这个类造出来的每个对象都有 name,而且是 string</b>。于是别处的代码可以直接写{" "}
                   <code>shop.name.toUpperCase()</code>,不必先判断{" "}
                   <code>undefined</code>。
                 </>
@@ -650,8 +647,7 @@ export default function ClassesPage() {
                 <>
                   <b>把赋值挪到别的方法里。</b>构造器里调{" "}
                   <code>this.init()</code>、由 <code>init</code> 给字段赋值 ——
-                  照样报 ts(2564)。编译器<b>不跨方法追踪赋值</b>,
-                  因为它无法确定那个方法一定会被调用。要么就在构造器里赋值。
+                  照样报 ts(2564)。编译器<b>不跨方法追踪赋值</b>,因为它无法确定那个方法一定会被调用。要么就在构造器里赋值。
                 </>
               }
             />
@@ -676,11 +672,8 @@ export default function ClassesPage() {
                   <b>
                     太早搬出 <code>!</code>。
                   </b>
-                  <code>boss!: string</code> 是明确赋值断言:
-                  它把这份保证从编译器手里转到你手里。检查不再报错,
-                  但也没有任何验证。真是 <code>undefined</code>{" "}
-                  的话,出问题的时刻挪到了运行时。
-                  只在「类外有东西确定会赋值」时用它,比如由框架注入的字段。
+                  <code>boss!: string</code> 是明确赋值断言:它把这份保证从编译器手里转到你手里。检查不再报错,但也没有任何验证。真是 <code>undefined</code>{" "}
+                  的话,出问题的时刻挪到了运行时。只在「类外有东西确定会赋值」时用它,比如由框架注入的字段。
                 </>
               }
             />
@@ -737,9 +730,7 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                方法没有新规则。方法就是写在类里的函数,
-                参数和返回值的标注方式和第 02 章完全一样。
-                真正的新内容从下一节开始:规定哪些代码可以读某个成员。
+                方法没有新规则。方法就是写在类里的函数,参数和返回值的标注方式和第 02 章完全一样。真正的新内容从下一节开始:规定哪些代码可以读某个成员。
               </>
             }
           />
@@ -772,8 +763,7 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                <b>public</b> 表示任何代码都能读这个成员。它是默认值,
-                不写修饰符就等于写了 <code>public</code>。<b>protected</b>{" "}
+                <b>public</b> 表示任何代码都能读这个成员。它是默认值,不写修饰符就等于写了 <code>public</code>。<b>protected</b>{" "}
                 收紧到「本类,以及任何 extends 它的类」。<b>private</b>{" "}
                 再收紧一步,只剩类体自己。写成代码是这样:
               </>
@@ -807,9 +797,7 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                上面有两行是报错的。最快的确认办法,是让编译器自己说。
-                下面这个窗口里跑的是真的 <code>tsc</code>,就在你的浏览器里:
-                把 <code>protected</code> 删掉,或者把 <code>private</code>{" "}
+                上面有两行是报错的。最快的确认办法,是让编译器自己说。下面这个窗口里跑的是真的 <code>tsc</code>,就在你的浏览器里:把 <code>protected</code> 删掉,或者把 <code>private</code>{" "}
                 改成 <code>public</code>,对应的那条报错会自己消失。
               </>
             }
@@ -853,8 +841,7 @@ export default function ClassesPage() {
                 标题栏上还挂着另外两份稿子。<b>只声明不赋值</b>
                 那一份里有两个字段,一个都没给值 —— 这正是 §01
                 那道检查,ts(2564)。把代码上方的{" "}
-                <code>strictPropertyInitialization</code> 关掉,
-                两条报错一起消失:代码一个字没变,变的是一个编译选项。
+                <code>strictPropertyInitialization</code> 关掉,两条报错一起消失:代码一个字没变,变的是一个编译选项。
               </>
             }
           />
@@ -909,8 +896,7 @@ export default function ClassesPage() {
               zh={
                 <>
                   有一个后果很容易忽略:子类自己的字段初始化,是在{" "}
-                  <code>super()</code> 返回<b>之后</b>才执行的。
-                  所以父类构造器如果去读一个由子类初始化的字段,读到的是{" "}
+                  <code>super()</code> 返回<b>之后</b>才执行的。所以父类构造器如果去读一个由子类初始化的字段,读到的是{" "}
                   <code>undefined</code>。父类构造器需要的东西,应该以参数形式传给它。
                 </>
               }
@@ -946,11 +932,9 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                第 01 章说过,TypeScript 编译时会把类型全部擦除。
-                访问修饰符是类型系统的一部分,所以同样会被擦掉:
+                第 01 章说过,TypeScript 编译时会把类型全部擦除。访问修饰符是类型系统的一部分,所以同样会被擦掉:
                 <code>private vaultCode</code>{" "}
-                在产物里就是一个普通属性,谁都读得到。
-                JavaScript 自己也有私有字段,写作 <code>#</code> 开头 ——
+                在产物里就是一个普通属性,谁都读得到。JavaScript 自己也有私有字段,写作 <code>#</code> 开头 ——
                 那是另一套机制。两边对照着看:
               </>
             }
@@ -998,9 +982,7 @@ export default function ClassesPage() {
               <>
                 注意左边第 7 行。<code>s[&quot;vaultCode&quot;]</code>{" "}
                 完全不报错,<b>连断言都不用写</b>:TypeScript
-                有意允许用方括号访问私有成员,给测试和老代码留一条路。
-                而一个普通 JavaScript 文件引入这个类时更是毫无察觉,
-                直接 <code>s.vaultCode</code> 就读到了。
+                有意允许用方括号访问私有成员,给测试和老代码留一条路。而一个普通 JavaScript 文件引入这个类时更是毫无察觉,直接 <code>s.vaultCode</code> 就读到了。
               </>
             }
           />
@@ -1022,10 +1004,8 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                上面那张对照是事先摆好的,下面这个不是:一个类,两种私有字段,
-                底下是真编译器。切到<b>编译产物 JS</b> 读一遍类体 ——{" "}
-                <code>private</code> 不在里面,那个词只是给类型检查器看的;
-                而 <code>#realCode</code> 还在,和你写下的一模一样。
+                上面那张对照是事先摆好的,下面这个不是:一个类,两种私有字段,底下是真编译器。切到<b>编译产物 JS</b> 读一遍类体 ——{" "}
+                <code>private</code> 不在里面,那个词只是给类型检查器看的;而 <code>#realCode</code> 还在,和你写下的一模一样。
               </>
             }
           />
@@ -1068,10 +1048,8 @@ export default function ClassesPage() {
                 有两件事值得试。把 <code>target</code> 调到{" "}
                 <code>es2015</code> —— 那个版本的 JavaScript 还没有{" "}
                 <code>#</code> 字段:编译器会把 <code>#realCode</code>{" "}
-                改写成一个以实例为键的 <code>WeakMap</code>,
-                好让它在那里也照样读不到。<code>private</code>{" "}
-                不需要这套机械,因为它在运行时本来就没许诺过什么。
-                然后换上<b>从类外读一读</b>,对比那两条报错:ts(2341)
+                改写成一个以实例为键的 <code>WeakMap</code>,好让它在那里也照样读不到。<code>private</code>{" "}
+                不需要这套机械,因为它在运行时本来就没许诺过什么。然后换上<b>从类外读一读</b>,对比那两条报错:ts(2341)
                 来自类型系统,ts(18013) 来自 JavaScript 这门语言。
               </>
             }
@@ -1098,8 +1076,7 @@ export default function ClassesPage() {
                 zh={
                   <>
                     没有运行时开销,报错清楚,而且会参与类型兼容判定(§06
-                    讲的就是它)。用它来标记哪些成员属于内部实现,
-                    让改代码的人不会顺手伸进去。封装的大部分需求,到这里就够了。
+                    讲的就是它)。用它来标记哪些成员属于内部实现,让改代码的人不会顺手伸进去。封装的大部分需求,到这里就够了。
                   </>
                 }
               />
@@ -1123,10 +1100,7 @@ export default function ClassesPage() {
                 }
                 zh={
                   <>
-                    这是 JavaScript 的语言特性,不是 TypeScript 的。
-                    它在编译后依然存在,程序运行时类外也确实读不到。
-                    TypeScript 对它照样做完整的类型检查。
-                    当「你控制不了的代码绝对不能碰到这个字段」时用它 ——
+                    这是 JavaScript 的语言特性,不是 TypeScript 的。它在编译后依然存在,程序运行时类外也确实读不到。TypeScript 对它照样做完整的类型检查。当「你控制不了的代码绝对不能碰到这个字段」时用它 ——
                     主要是写库的场景。
                   </>
                 }
@@ -1161,9 +1135,7 @@ export default function ClassesPage() {
                   字段并不构成保护。一句 <code>JSON.stringify(shop)</code>{" "}
                   就打印出来了,浏览器 DevTools
                   一样看得见,任何序列化对象的日志也一样。
-                  <code>#field</code> 确实能挡住这几处,
-                  但值仍然是内存里的明文,如果是硬编码的,它照样在你的打包产物里。
-                  真正的机密应该放在服务端,而不是任何一种字段里。
+                  <code>#field</code> 确实能挡住这几处,但值仍然是内存里的明文,如果是硬编码的,它照样在你的打包产物里。真正的机密应该放在服务端,而不是任何一种字段里。
                 </>
               }
             />
@@ -1195,9 +1167,7 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                <b>参数属性(parameter properties)</b>省下的样板最多:
-                在构造器参数前面加一个访问修饰符,这一行就同时完成了
-                声明字段、接收实参、赋值三件事:
+                <b>参数属性(parameter properties)</b>省下的样板最多:在构造器参数前面加一个访问修饰符,这一行就同时完成了声明字段、接收实参、赋值三件事:
               </>
             }
           />
@@ -1253,14 +1223,11 @@ export default function ClassesPage() {
               }
               zh={
                 <>
-                  这是本章唯一一个<b>在 JavaScript 里没有对应写法</b>的特性。
-                  这一章其他东西要么被擦除,要么本来就是 JavaScript;
-                  而参数属性会让编译器<b>生成</b>一句你源码里没写过的{" "}
+                  这是本章唯一一个<b>在 JavaScript 里没有对应写法</b>的特性。这一章其他东西要么被擦除,要么本来就是 JavaScript;而参数属性会让编译器<b>生成</b>一句你源码里没写过的{" "}
                   <code>this.db = db</code>。Node 内置的 TypeScript 支持(22.18
                   起)只做类型剥离,所以会拒绝这种语法。打开{" "}
                   <code>erasableSyntaxOnly</code> 后,编译器会以 ts(1294)
-                  提前提醒你。有正常构建步骤时尽管用;
-                  但如果要让 Node 直接跑 <code>.ts</code> 文件,就别用它。
+                  提前提醒你。有正常构建步骤时尽管用;但如果要让 Node 直接跑 <code>.ts</code> 文件,就别用它。
                 </>
               }
             />
@@ -1309,12 +1276,9 @@ export default function ClassesPage() {
               zh={
                 <>
                   <code>readonly</code> 和 <code>private</code>{" "}
-                  一样是编译期检查,而且管的范围比看上去窄:
-                  它禁止的是给<i>这个属性</i>赋值,不是禁止改属性指向的那个对象。
-                  比如 <code>readonly tags: string[]</code>,
+                  一样是编译期检查,而且管的范围比看上去窄:它禁止的是给<i>这个属性</i>赋值,不是禁止改属性指向的那个对象。比如 <code>readonly tags: string[]</code>,
                   <code>o.tags = []</code> 会报错,但{" "}
-                  <code>o.tags.push(&quot;x&quot;)</code> 完全合法。
-                  想在运行时也拦住修改,那是 <code>Object.freeze</code> 的事。
+                  <code>o.tags.push(&quot;x&quot;)</code> 完全合法。想在运行时也拦住修改,那是 <code>Object.freeze</code> 的事。
                 </>
               }
             />
@@ -1345,8 +1309,7 @@ export default function ClassesPage() {
               zh={
                 <>
                   从 TypeScript 4.3 起,setter 接受的类型可以比 getter
-                  返回的更宽,只要 getter 的类型能赋给 setter 的类型。
-                  当你想接受多种输入形式、却总是返回同一种时很好用:
+                  返回的更宽,只要 getter 的类型能赋给 setter 的类型。当你想接受多种输入形式、却总是返回同一种时很好用:
                   <code>set sugar(v: number | string)</code> 配上{" "}
                   <code>get sugar(): number</code>,调用方可以写{" "}
                   <code>o.sugar = &quot;30&quot;</code>,而读 <code>o.sugar</code>{" "}
@@ -1384,9 +1347,7 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                <b>abstract 类是一个没写完的类</b>:一部分成员已经实现,
-                标了 <code>abstract</code> 的那些只有签名。
-                它不能被实例化;子类必须把每一个抽象成员都实现掉,才能拿来用:
+                <b>abstract 类是一个没写完的类</b>:一部分成员已经实现,标了 <code>abstract</code> 的那些只有签名。它不能被实例化;子类必须把每一个抽象成员都实现掉,才能拿来用:
               </>
             }
           />
@@ -1418,8 +1379,7 @@ export default function ClassesPage() {
               <>
                 <b>implements 是一次检查,不是继承</b>:interface
                 列出一个类必须有哪些成员,<code>implements</code>{" "}
-                让编译器去核对这个类有没有。它不会给类添加任何东西。
-                收银台不关心背后接的是哪家支付服务,只要那个对象能{" "}
+                让编译器去核对这个类有没有。它不会给类添加任何东西。收银台不关心背后接的是哪家支付服务,只要那个对象能{" "}
                 <code>pay</code>、能 <code>refund</code>:
               </>
             }
@@ -1451,8 +1411,7 @@ export default function ClassesPage() {
             zh={
               <>
                 interface 的价值体现在调用方:MilkTeaShop 接受<i>任何</i>
-                符合 <code>PaymentProvider</code> 的对象,
-                所以换一家支付服务,店铺内部一行都不用改:
+                符合 <code>PaymentProvider</code> 的对象,所以换一家支付服务,店铺内部一行都不用改:
               </>
             }
           />
@@ -1491,13 +1450,10 @@ export default function ClassesPage() {
               }
               zh={
                 <>
-                  ① <b>implements 不会改变类的类型</b>:
-                  它不添加成员,也不替你标注任何东西。如果写成{" "}
+                  ① <b>implements 不会改变类的类型</b>:它不添加成员,也不替你标注任何东西。如果写成{" "}
                   <code>pay(amount) {"{ … }"}</code> 而不标类型,
-                  <code>amount</code> 不会变成 <code>number</code>,
-                  而是隐式 <code>any</code>,在 <code>strict</code> 下直接报错
-                  ts(7006)。参数类型得自己写,
-                  编译器再拿你写的去和接口核对。
+                  <code>amount</code> 不会变成 <code>number</code>,而是隐式 <code>any</code>,在 <code>strict</code> 下直接报错
+                  ts(7006)。参数类型得自己写,编译器再拿你写的去和接口核对。
                 </>
               }
             />
@@ -1518,10 +1474,7 @@ export default function ClassesPage() {
               zh={
                 <>
                   ② <b>abstract class 和 interface 的区别。</b>interface
-                  只描述形状,编译期就被擦除 —— 运行时这个名字根本不存在。
-                  abstract 类是一个真实的类:它在运行时存在,
-                  可以带着已实现的方法和状态,子类会继承这些。
-                  想让子类继承可用的代码,用 abstract 类;只想描述形状,用 interface。
+                  只描述形状,编译期就被擦除 —— 运行时这个名字根本不存在。abstract 类是一个真实的类:它在运行时存在,可以带着已实现的方法和状态,子类会继承这些。想让子类继承可用的代码,用 abstract 类;只想描述形状,用 interface。
                 </>
               }
             />
@@ -1581,9 +1534,7 @@ export default function ClassesPage() {
             }
             zh={
               <>
-                第 04 章说过,TypeScript 比较类型看的是形状,不是名字。
-                class 也不例外:两个毫无关系的类,只要成员一样就可以互换。
-                但有一个例外,只要类里出现 <code>private</code> 或{" "}
+                第 04 章说过,TypeScript 比较类型看的是形状,不是名字。class 也不例外:两个毫无关系的类,只要成员一样就可以互换。但有一个例外,只要类里出现 <code>private</code> 或{" "}
                 <code>protected</code> 成员,它就出现了。逐帧看:
               </>
             }
@@ -1612,8 +1563,7 @@ export default function ClassesPage() {
               }
               zh={
                 <>
-                  把两行 <code>private stock</code> 都删掉,赋值就通过了;
-                  或者保留它,把这个声明挪到两个杯子共同 extends
+                  把两行 <code>private stock</code> 都删掉,赋值就通过了;或者保留它,把这个声明挪到两个杯子共同 extends
                   的基类里 —— 这样声明只有一处,两个类型重新兼容。
                 </>
               }
@@ -1642,11 +1592,8 @@ export default function ClassesPage() {
               }
               zh={
                 <>
-                  类型按形状比较,<b>但只要涉及 private 或 protected 成员,
-                  两个类型必须让这些成员来自同一处声明才兼容</b>
-                  (从共同基类继承下来的算)。
-                  这也正是一些库模拟名义类型的办法:给类塞一个私有成员,
-                  形状相同的路人就再也顶替不了它。
+                  类型按形状比较,<b>但只要涉及 private 或 protected 成员,两个类型必须让这些成员来自同一处声明才兼容</b>
+                  (从共同基类继承下来的算)。这也正是一些库模拟名义类型的办法:给类塞一个私有成员,形状相同的路人就再也顶替不了它。
                 </>
               }
             />
@@ -1694,10 +1641,8 @@ export default function ClassesPage() {
             ),
             zh: (
               <>
-                声明了的字段必须真的被赋值:就地初始化、在构造器里赋值,
-                或者用 <code>!</code>{" "}
-                自己承担。strictPropertyInitialization 负责这项检查,
-                而且它不追踪写在其他方法里的赋值。
+                声明了的字段必须真的被赋值:就地初始化、在构造器里赋值,或者用 <code>!</code>{" "}
+                自己承担。strictPropertyInitialization 负责这项检查,而且它不追踪写在其他方法里的赋值。
               </>
             ),
           },
@@ -1729,10 +1674,8 @@ export default function ClassesPage() {
             ),
             zh: (
               <>
-                <code>private</code> 会被擦除:编译产物里它就是个普通属性,
-                连在 TypeScript 里 <code>s[&quot;field&quot;]</code>{" "}
-                都能直接读到,不用断言。要一个运行时也拿不到的字段,
-                用 JavaScript 的 <code>#field</code>。
+                <code>private</code> 会被擦除:编译产物里它就是个普通属性,连在 TypeScript 里 <code>s[&quot;field&quot;]</code>{" "}
+                都能直接读到,不用断言。要一个运行时也拿不到的字段,用 JavaScript 的 <code>#field</code>。
               </>
             ),
           },
@@ -1747,8 +1690,7 @@ export default function ClassesPage() {
             ),
             zh: (
               <>
-                参数属性一行顶四行,但它是本章唯一会生成代码的特性。
-                只做类型剥离的运行时会拒绝它 —— 比如直接跑{" "}
+                参数属性一行顶四行,但它是本章唯一会生成代码的特性。只做类型剥离的运行时会拒绝它 —— 比如直接跑{" "}
                 <code>.ts</code> 文件的 Node。
               </>
             ),
@@ -1767,8 +1709,7 @@ export default function ClassesPage() {
               <>
                 <code>abstract</code>{" "}
                 标记的是不能实例化的类,以及子类必须实现的成员。
-                <code>implements</code> 只是拿类去和接口核对:
-                既不添加成员,也不推断参数类型。一个类可以同时接受多个接口的检查。
+                <code>implements</code> 只是拿类去和接口核对:既不添加成员,也不推断参数类型。一个类可以同时接受多个接口的检查。
               </>
             ),
           },
@@ -1784,8 +1725,7 @@ export default function ClassesPage() {
             zh: (
               <>
                 class 也按形状比较,只有一个例外:一旦类里有{" "}
-                <code>private</code> 或 <code>protected</code> 成员,
-                这些成员必须来自同一处声明,两个类型才兼容。
+                <code>private</code> 或 <code>protected</code> 成员,这些成员必须来自同一处声明,两个类型才兼容。
               </>
             ),
           },

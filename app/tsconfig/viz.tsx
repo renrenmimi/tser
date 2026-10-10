@@ -362,8 +362,7 @@ export function StrictPanel() {
                       specified without specifying option
                       &apos;strictNullChecks&apos;.
                     </b>
-                    「没赋值」的意思就是「值是 undefined」,
-                    而 strictNullChecks 关着时这句话根本不成立。
+                    「没赋值」的意思就是「值是 undefined」,而 strictNullChecks 关着时这句话根本不成立。
                   </>
                 }
               />
@@ -383,8 +382,7 @@ export function StrictPanel() {
                     开着,但什么也没变。strictNullChecks 关着时,
                     <code>string | undefined</code> 会退回成{" "}
                     <code>string</code>,所以给下标取值加上{" "}
-                    <code>| undefined</code> 没有任何作用。
-                    把 strictNullChecks 打开,这一行才开始报错。
+                    <code>| undefined</code> 没有任何作用。把 strictNullChecks 打开,这一行才开始报错。
                   </>
                 }
               />
@@ -417,8 +415,7 @@ export function StrictPanel() {
                 <>
                   🏆 五个 bug 现在全是编译错误。看最后一个开关:
                   <code>noUncheckedIndexedAccess</code>{" "}
-                  <b>不属于 strict: true</b>。上面那个按钮只打开四个家族成员,
-                  这一个不动 —— 它得你自己开。
+                  <b>不属于 strict: true</b>。上面那个按钮只打开四个家族成员,这一个不动 —— 它得你自己开。
                 </>
               }
             />
@@ -555,8 +552,7 @@ export function TargetSwitch() {
             zh={
               <>
                 源码里用到的写法在 ES2022 里都已经存在,所以
-                <b>tsc 只擦掉类型,其他一个字不动</b>。
-                产物小,而且和源码对得上、还能读。
+                <b>tsc 只擦掉类型,其他一个字不动</b>。产物小,而且和源码对得上、还能读。
               </>
             }
           />
@@ -575,11 +571,8 @@ export function TargetSwitch() {
             }
             zh={
               <>
-                为了跑在只认 ES5 的引擎上,tsc 把每一种较新的写法都改写成
-                旧的等价形式。产物变大,也更难读。只有真的存在这种引擎时
-                才把 <code>target</code> 定这么低 —— 而且记住,
-                <code>target</code> 不会替你补上缺失的运行时 API。
-                那件事由 <code>lib</code> 描述,而 <code>lib</code>{" "}
+                为了跑在只认 ES5 的引擎上,tsc 把每一种较新的写法都改写成旧的等价形式。产物变大,也更难读。只有真的存在这种引擎时才把 <code>target</code> 定这么低 —— 而且记住,
+                <code>target</code> 不会替你补上缺失的运行时 API。那件事由 <code>lib</code> 描述,而 <code>lib</code>{" "}
                 只改变检查器相信什么。
               </>
             }
@@ -625,8 +618,7 @@ const MIG_FRAMES: MigFrame[] = [
         }
         zh={
           <>
-            三个 JavaScript 文件,九百行,注释只有一句「别动」。
-            报错 0 —— <b>不是没有 bug,是没有人在查</b>。
+            三个 JavaScript 文件,九百行,注释只有一句「别动」。报错 0 —— <b>不是没有 bug,是没有人在查</b>。
           </>
         }
       />
@@ -655,8 +647,7 @@ const MIG_FRAMES: MigFrame[] = [
         zh={
           <>
             <code>npx tsc --init</code> 生成配置。先只开一个选项:
-            <code>allowJs</code>。<code>.js</code> 文件从此进入编译,
-            但只是<b>被收进来,还没有被检查</b>。谁也没被打扰,系统照常跑。
+            <code>allowJs</code>。<code>.js</code> 文件从此进入编译,但只是<b>被收进来,还没有被检查</b>。谁也没被打扰,系统照常跑。
           </>
         }
       />
@@ -687,8 +678,7 @@ const MIG_FRAMES: MigFrame[] = [
         zh={
           <>
             加上 <code>checkJs</code>(或在某个文件顶部写{" "}
-            <code>{"// @ts-check"}</code>),编译器开始读这些旧代码。
-            假设它报了 23 个错。<b>这些 bug 一直都在,今天才被点名。</b>
+            <code>{"// @ts-check"}</code>),编译器开始读这些旧代码。假设它报了 23 个错。<b>这些 bug 一直都在,今天才被点名。</b>
             注意:完全没有类型标注的 JavaScript 会藏住大部分问题 ——
             JSDoc 注释就是你给检查器提供对照物的方式。
           </>
@@ -719,10 +709,8 @@ const MIG_FRAMES: MigFrame[] = [
         }
         zh={
           <>
-            一次只改一个文件:<code>order.js → order.ts</code>,
-            修完它的报错再动下一个。一时修不了的,写上{" "}
-            <code>@ts-expect-error</code> 并注明原因。
-            这行注释<b>会在错误消失时自己报错</b>,所以这笔账丢不了。
+            一次只改一个文件:<code>order.js → order.ts</code>,修完它的报错再动下一个。一时修不了的,写上{" "}
+            <code>@ts-expect-error</code> 并注明原因。这行注释<b>会在错误消失时自己报错</b>,所以这笔账丢不了。
           </>
         }
       />
@@ -751,10 +739,7 @@ const MIG_FRAMES: MigFrame[] = [
         }
         zh={
           <>
-            所有文件都是 <code>.ts</code> 了,于是把这一族<b>一项一项</b>打开:
-            先 <code>noImplicitAny</code> 清掉隐式 <code>any</code> 的参数,
-            再 <code>strictNullChecks</code> 处理没判的 <code>null</code>。
-            每开一项,报错都是一批做得完的量。
+            所有文件都是 <code>.ts</code> 了,于是把这一族<b>一项一项</b>打开:先 <code>noImplicitAny</code> 清掉隐式 <code>any</code> 的参数,再 <code>strictNullChecks</code> 处理没判的 <code>null</code>。每开一项,报错都是一批做得完的量。
           </>
         }
       />

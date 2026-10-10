@@ -205,8 +205,7 @@ export const LABS: Lab[] = [
           <>
             在函数名后面加 <code>&lt;T&gt;</code> 声明占位符, 再把签名里写死的{" "}
             <code>string</code> / <code>number</code> / <code>boolean</code>{" "}
-            都换成 <code>T</code>。 返回值里的 <code>| undefined</code> 要留着:
-            空数组取第 0 个,拿到的是 <code>undefined</code>。
+            都换成 <code>T</code>。返回值里的 <code>| undefined</code> 要留着:空数组取第 0 个,拿到的是 <code>undefined</code>。
           </>
         }
       />
@@ -225,8 +224,7 @@ export const LABS: Lab[] = [
           zh={
             <p>
               这一题的重点就是悬停:你能亲眼看到 <code>T</code>{" "}
-              在每次调用被解成不同的类型,返回值类型也跟着变。
-              一份定义,一个类型都没丢。
+              在每次调用被解成不同的类型,返回值类型也跟着变。一份定义,一个类型都没丢。
             </p>
           }
         />
@@ -292,8 +290,7 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            切片用 <code>all.slice((page - 1) * size, page * size)</code>。
-            返回值类型写成 <code>{"Paginated<T>"}</code> ——
+            切片用 <code>all.slice((page - 1) * size, page * size)</code>。返回值类型写成 <code>{"Paginated<T>"}</code> ——
             函数的占位符和类型的占位符是同一个 <code>T</code>。
           </>
         }
@@ -353,11 +350,8 @@ export const LABS: Lab[] = [
             <code>
               {"function longest<T extends { length: number }>(a: T, b: T): T"}
             </code>
-            ,返回 <code>length</code> 更大的那个。然后调用四次:
-            两个字符串、两个数组、<code>longest(10, 100)</code>、
-            <code>{"longest({ length: 3 }, { length: 7 })"}</code>。
-            每次先自己预测结果,再看编译器怎么说。最后把约束删掉,
-            看函数体里哪一行先坏掉。
+            ,返回 <code>length</code> 更大的那个。然后调用四次:两个字符串、两个数组、<code>longest(10, 100)</code>、
+            <code>{"longest({ length: 3 }, { length: 7 })"}</code>。每次先自己预测结果,再看编译器怎么说。最后把约束删掉,看函数体里哪一行先坏掉。
           </p>
         }
       />
@@ -375,8 +369,7 @@ export const LABS: Lab[] = [
         zh={
           <>
             判断一个类型能不能通过,只问一句:它可以赋值给{" "}
-            <code>{"{ length: number }"}</code> 吗?这就是上一章那套结构化检查。
-            和 class、继承没有任何关系。
+            <code>{"{ length: number }"}</code> 吗?这就是上一章那套结构化检查。和 class、继承没有任何关系。
           </>
         }
       />
@@ -396,8 +389,7 @@ export const LABS: Lab[] = [
           zh={
             <p>
               最后那个实验才是这题的题眼:约束同时朝两个方向起作用 ——
-              对调用方它是一个条件,对函数体它是一个保证。
-              删掉它,先垮的是函数体。
+              对调用方它是一个条件,对函数体它是一个保证。删掉它,先垮的是函数体。
             </p>
           }
         />
@@ -434,11 +426,9 @@ export const LABS: Lab[] = [
           <p>
             一个签名可以声明不止一个占位符。请在 Playground 里实现两个函数:①{" "}
             <code>{"swap<A, B>(pair: [A, B]): [B, A]"}</code>, 交换一个二元组;②{" "}
-            <code>{"zip<A, B>(as: A[], bs: B[]): [A, B][]"}</code>,
-            把两个数组按位配对,以短的那个为准。验收标准:
+            <code>{"zip<A, B>(as: A[], bs: B[]): [A, B][]"}</code>,把两个数组按位配对,以短的那个为准。验收标准:
             <code>{'swap(["Boba milk tea", 18])'}</code> 悬停显示{" "}
-            <code>[number, string]</code>,而且配出来的每一对,
-            两个位置各自的类型都不糊。
+            <code>[number, string]</code>,而且配出来的每一对,两个位置各自的类型都不糊。
           </p>
         }
       />
@@ -481,8 +471,7 @@ export const LABS: Lab[] = [
           }
           zh={
             <p>
-              <code>A</code> 和 <code>B</code> 各自独立推断,
-              各自在出现的每个位置保持一致。<code>swap</code>{" "}
+              <code>A</code> 和 <code>B</code> 各自独立推断,各自在出现的每个位置保持一致。<code>swap</code>{" "}
               换的是值的位置,不是类型;<code>zip</code>{" "}
               配出的每一对都是货真价实的 <code>[A, B]</code>。多个占位符正是{" "}
               <code>{"Record<K, V>"}</code>、<code>{"Map<K, V>"}</code>{" "}
@@ -547,8 +536,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            「什么都收 + 不报错」<code>any</code> 就做得到,而且做得更彻底。
-            泛型的价值恰恰在于还会报错:类型对不上的时候它拦得住。
+            「什么都收 + 不报错」<code>any</code> 就做得到,而且做得更彻底。泛型的价值恰恰在于还会报错:类型对不上的时候它拦得住。
           </>
         ),
       },
@@ -563,8 +551,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            类型参数只存在于编译期,擦除之后运行时没有 <code>T</code>。
-            按值的形状分支那是收窄,第 03 章的内容。
+            类型参数只存在于编译期,擦除之后运行时没有 <code>T</code>。按值的形状分支那是收窄,第 03 章的内容。
           </>
         ),
       },
@@ -577,8 +564,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            字符数往往还变多了。泛型省掉的是重复的定义和丢失的类型信息,
-            不是键盘敲击数。
+            字符数往往还变多了。泛型省掉的是重复的定义和丢失的类型信息,不是键盘敲击数。
           </>
         ),
       },
@@ -593,8 +579,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          类型参数是一个在调用处才被填上的占位符,
-          同一个签名里的每次使用指的都是同一个类型 ——
+          类型参数是一个在调用处才被填上的占位符,同一个签名里的每次使用指的都是同一个类型 ——
           返回值的类型就是这样和实参的类型绑在一起的。
         </>
       ),
@@ -689,8 +674,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             <code>unknown</code>{" "}
-            是在完全没有推断原料时才会出现的结果,比如类型参数只出现在返回值里。
-            这里原料充足:<code>[9.9, 19.9]</code> 就是 <code>number[]</code>。
+            是在完全没有推断原料时才会出现的结果,比如类型参数只出现在返回值里。这里原料充足:<code>[9.9, 19.9]</code> 就是 <code>number[]</code>。
           </>
         ),
       },
@@ -796,8 +780,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            「写得长」不是论点。区别在行为:一个把类型丢在门口,
-            一个把类型带到结果。
+            「写得长」不是论点。区别在行为:一个把类型丢在门口,一个把类型带到结果。
           </>
         ),
       },
@@ -827,8 +810,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>any</code> 没有被废弃,它有合法的用途。
-            它和泛型是两个不同的工具,不是新旧版本的关系。
+            <code>any</code> 没有被废弃,它有合法的用途。它和泛型是两个不同的工具,不是新旧版本的关系。
           </>
         ),
       },
@@ -917,8 +899,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            数组也有 <code>.length</code>,通过,<code>T = number[]</code>。
-            约束检查的是形状,不是「你是不是数组」。
+            数组也有 <code>.length</code>,通过,<code>T = number[]</code>。约束检查的是形状,不是「你是不是数组」。
           </>
         ),
       },
@@ -932,8 +913,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这个匿名对象字面量正好有 <code>length: number</code>,
-            所以满足约束。约束问的是形状,不问这个类型是哪来的。
+            这个匿名对象字面量正好有 <code>length: number</code>,所以满足约束。约束问的是形状,不问这个类型是哪来的。
           </>
         ),
       },
@@ -1027,8 +1007,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           还有对的没选全。编译出的 JavaScript 里还有 <code>T</code> 吗?
-          <code>{"<T = string>"}</code> 是合法语法吗?
-          同一次调用会把同一个占位符填成两种类型吗?
+          <code>{"<T = string>"}</code> 是合法语法吗?同一次调用会把同一个占位符填成两种类型吗?
         </>
       ),
     },
@@ -1046,8 +1025,7 @@ export const QUIZ: QuizItem[] = [
         <>
           选进了错误说法。类型参数列表里的 <code>extends</code> 是约束,不是继承
           —— 它的意思是「可以赋值给」,
-          <code>string</code> 或一个普通对象类型都满足它。
-          而绝大多数泛型调用靠推断,尖括号是例外。
+          <code>string</code> 或一个普通对象类型都满足它。而绝大多数泛型调用靠推断,尖括号是例外。
         </>
       ),
     },
@@ -1104,7 +1082,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>T</code> 只出现一次,没联系任何东西,也就什么都没承诺。 改成{" "}
+            <code>T</code> 只出现一次,没联系任何东西,也就什么都没承诺。改成{" "}
             <code>x: unknown</code> 更诚实
           </>
         ),
@@ -1146,9 +1124,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这种灵活是假的。<code>x: unknown</code> 一样什么值都收。
-            类型参数在这里没提供 <code>unknown</code> 给不了的任何东西,
-            只多了阅读成本。
+            这种灵活是假的。<code>x: unknown</code> 一样什么值都收。类型参数在这里没提供 <code>unknown</code> 给不了的任何东西,只多了阅读成本。
           </>
         ),
       },
@@ -1164,8 +1140,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             加约束解决不了根本问题:<code>T</code>{" "}
-            依然只出现一次,依然没联系任何东西。
-            问题不是「洞太松」,而是「这个洞根本没在做事」。
+            依然只出现一次,依然没联系任何东西。问题不是「洞太松」,而是「这个洞根本没在做事」。
           </>
         ),
       },
@@ -1196,8 +1171,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          类型参数的价值在于把东西联系起来,所以它至少要出现两次:
-          在两个参数之间,或者在参数和返回值之间。 只出现一次的 <code>T</code>{" "}
+          类型参数的价值在于把东西联系起来,所以它至少要出现两次:在两个参数之间,或者在参数和返回值之间。只出现一次的 <code>T</code>{" "}
           什么都没承诺,直接写 <code>unknown</code> 更清楚。
         </>
       ),
@@ -1232,8 +1206,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          和 class 继承用的是同一个单词,但在类型参数列表里它的意思是
-          「可以赋值给」。本章 §04 那道门上就写着它。
+          和 class 继承用的是同一个单词,但在类型参数列表里它的意思是「可以赋值给」。本章 §04 那道门上就写着它。
         </>
       ),
     },
@@ -1248,8 +1221,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           <code>{"<T extends { length: number }>"}</code> 的意思是 T
-          必须可以赋值给 <code>{"{ length: number }"}</code>。它是约束,不是继承,
-          判定用的是第 04 章那套结构化检查。
+          必须可以赋值给 <code>{"{ length: number }"}</code>。它是约束,不是继承,判定用的是第 04 章那套结构化检查。
         </>
       ),
     },
@@ -1348,8 +1320,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            它连运行的机会都没有。错误在编译期就报出来了,
-            这正是把约束写进签名的意义。
+            它连运行的机会都没有。错误在编译期就报出来了,这正是把约束写进签名的意义。
           </>
         ),
       },

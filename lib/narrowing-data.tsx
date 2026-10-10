@@ -234,11 +234,8 @@ export const LABS: Lab[] = [
           <p>
             打开 TypeScript Playground(typescriptlang.org/play),写一个{" "}
             <code>{"function shout(id: string | number)"}</code>
-            ,函数体里直接 <code>return id.toUpperCase()</code>。
-            读一读报错,注意它有<b>两行</b>:第二行点名了到底是谁缺这个成员。
-            然后用 <code>typeof</code> 把它修好。修好后,把光标分别悬停在{" "}
-            <code>if</code> 里面和 <code>if</code> 之后的 <code>id</code> 上,
-            对比这两个类型。
+            ,函数体里直接 <code>return id.toUpperCase()</code>。读一读报错,注意它有<b>两行</b>:第二行点名了到底是谁缺这个成员。然后用 <code>typeof</code> 把它修好。修好后,把光标分别悬停在{" "}
+            <code>if</code> 里面和 <code>if</code> 之后的 <code>id</code> 上,对比这两个类型。
           </p>
         }
       />
@@ -254,8 +251,7 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            报错的第二行会告诉你联合里哪个成员缺 <code>toUpperCase</code>。
-            修的办法是:写一道检查,让这条路径上只剩一种可能。
+            报错的第二行会告诉你联合里哪个成员缺 <code>toUpperCase</code>。修的办法是:写一道检查,让这条路径上只剩一种可能。
           </>
         }
       />
@@ -314,14 +310,8 @@ export const LABS: Lab[] = [
         zh={
           <p>
             在 Playground 里先声明{" "}
-            <code>{"declare function later(fn: () => void): void;"}</code>。
-            写一个接收 <code>x: string | number</code> 的函数,把它复制进{" "}
-            <code>let value = x</code>,用 <code>typeof</code> 收窄,
-            然后调用两次 <code>value.toUpperCase()</code>:
-            一次直接调用,一次放在传给 <code>later</code> 的回调里面。
-            最后在函数末尾加一行 <code>value = 42</code>。
-            这时只有一次调用会报错。再把 <code>value = 42</code> 删掉,
-            看那个报错消失。
+            <code>{"declare function later(fn: () => void): void;"}</code>。写一个接收 <code>x: string | number</code> 的函数,把它复制进{" "}
+            <code>let value = x</code>,用 <code>typeof</code> 收窄,然后调用两次 <code>value.toUpperCase()</code>:一次直接调用,一次放在传给 <code>later</code> 的回调里面。最后在函数末尾加一行 <code>value = 42</code>。这时只有一次调用会报错。再把 <code>value = 42</code> 删掉,看那个报错消失。
           </p>
         }
       />
@@ -337,9 +327,7 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            编译器不知道回调什么时候执行。想一想:
-            到了那个时刻,要满足什么条件,先前那道检查才依然成立?
-            这就是末尾那行重新赋值为什么会影响结果。
+            编译器不知道回调什么时候执行。想一想:到了那个时刻,要满足什么条件,先前那道检查才依然成立?这就是末尾那行重新赋值为什么会影响结果。
           </>
         }
       />
@@ -364,8 +352,7 @@ export const LABS: Lab[] = [
               <>
                 然后换成属性再试一次:给参数一个{" "}
                 <code>{"{ note?: string }"}</code> 类型,写{" "}
-                <code>if (d.note)</code>,再在回调里用 <code>d.note</code>。
-                这一次<b>一定</b>会报{" "}
+                <code>if (d.note)</code>,再在回调里用 <code>d.note</code>。这一次<b>一定</b>会报{" "}
                 <code>&apos;d.note&apos; is possibly &apos;undefined&apos;</code>
                 ,哪怕代码里没有任何重新赋值 ——
                 因为属性随时可能被函数外面的代码改掉。
@@ -405,9 +392,7 @@ export const LABS: Lab[] = [
         zh={
           <p>
             定义一个三状态的 <code>Order</code> 类型:pending(只有{" "}
-            <code>createdAt</code>)、paid(多一个 <code>paidAt</code>)、
-            delivered(再多一个 <code>deliveredAt</code>)。
-            每个成员的 <code>status</code> 都写成<b>字面量类型</b>。然后写{" "}
+            <code>createdAt</code>)、paid(多一个 <code>paidAt</code>)、delivered(再多一个 <code>deliveredAt</code>)。每个成员的 <code>status</code> 都写成<b>字面量类型</b>。然后写{" "}
             <code>{"function report(order: Order): string"}</code>,对{" "}
             <code>status</code> 做 switch。在每个 case 里悬停{" "}
             <code>order</code>,确认形状不一样。最后故意在 pending 分支里读{" "}
@@ -452,8 +437,7 @@ export const LABS: Lab[] = [
             zh={
               <>
                 现在把 <code>status</code> 改成 <code>string</code>{" "}
-                再看:<code>order</code> 在所有 case 里都不再收窄,
-                每一处 <code>paidAt</code> 都会报错。宽泛的{" "}
+                再看:<code>order</code> 在所有 case 里都不再收窄,每一处 <code>paidAt</code> 都会报错。宽泛的{" "}
                 <code>string</code> 区分不了成员,所以标签字段必须是字面量类型
                 —— 这正是三个条件里的第二条。
               </>
@@ -491,11 +475,9 @@ export const LABS: Lab[] = [
         zh={
           <p>
             接着上一题。给 switch 补一个 <code>default</code> 分支,里面写{" "}
-            <code>const _exhaustive: never = order;</code>,确认没有报错。
-            然后给 <code>Order</code> 加第四个成员{" "}
+            <code>const _exhaustive: never = order;</code>,确认没有报错。然后给 <code>Order</code> 加第四个成员{" "}
             <code>{'{ status: "refunded"; refundedAt: Date }'}</code>,并且
-            <b>不要动 report</b>。看编译器把错报在哪一行、说了什么。
-            最后补上缺的 case,看报错消失。
+            <b>不要动 report</b>。看编译器把错报在哪一行、说了什么。最后补上缺的 case,看报错消失。
           </p>
         }
       />
@@ -534,8 +516,7 @@ export const LABS: Lab[] = [
             zh={
               <>
                 体会这个工作流:改类型 → 编译器列出所有没跟上的 switch →
-                逐个补齐 → 完成。真实项目里一个状态可能被二十处代码消费,
-                这一招把「全局搜索然后祈祷」变成了照着清单干活。
+                逐个补齐 → 完成。真实项目里一个状态可能被二十处代码消费,这一招把「全局搜索然后祈祷」变成了照着清单干活。
               </>
             }
           />
@@ -568,8 +549,7 @@ export const LABS: Lab[] = [
             还是那个 <code>Order</code> 类型:① 先写{" "}
             <code>{'const paid = orders.filter((o) => o.status === "paid")'}</code>
             ,悬停 <code>paid</code> 看类型;② 写一个谓词函数{" "}
-            <code>{"function isPaid(o: Order): o is Paid"}</code>,
-            用它再 filter 一次,对比结果;③ 把 Playground 的 TypeScript
+            <code>{"function isPaid(o: Order): o is Paid"}</code>,用它再 filter 一次,对比结果;③ 把 Playground 的 TypeScript
             版本切到 5.5 以下,再看第 ① 步的类型。
           </p>
         }
@@ -586,8 +566,7 @@ export const LABS: Lab[] = [
         }
         zh={
           <>
-            版本选择器在 Playground 顶部。第 ① 步的答案<b>随版本变化</b>,
-            亲眼看到这个差别正是这道题的重点。
+            版本选择器在 Playground 顶部。第 ① 步的答案<b>随版本变化</b>,亲眼看到这个差别正是这道题的重点。
           </>
         }
       />
@@ -610,8 +589,7 @@ export const LABS: Lab[] = [
               <>
                 从 TS 5.5 起,「单参数、直接返回一个收窄表达式」的 filter
                 回调会自动获得谓词。更长的逻辑仍然需要显式的{" "}
-                <code>is</code>。而一旦手写,编译器就无条件信你:
-                函数体写错了,没有任何东西会提醒你。
+                <code>is</code>。而一旦手写,编译器就无条件信你:函数体写错了,没有任何东西会提醒你。
               </>
             }
           />
@@ -696,8 +674,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            当然允许。只要确定 <code>id</code> 是字符串,这个调用就没问题。
-            问题在于现在还不确定。
+            当然允许。只要确定 <code>id</code> 是字符串,这个调用就没问题。问题在于现在还不确定。
           </>
         }
       />,
@@ -713,9 +690,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <b>共有成员</b>可以直接调用。<code>toString</code> 就没问题,
-            因为 <code>string</code> 和 <code>number</code> 都有它。
-            被挡住的只是「有成员没有」的那些。
+            <b>共有成员</b>可以直接调用。<code>toString</code> 就没问题,因为 <code>string</code> 和 <code>number</code> 都有它。被挡住的只是「有成员没有」的那些。
           </>
         }
       />,
@@ -846,9 +821,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>typeof null === &quot;object&quot;</code>。
-            这来自 1995 年 JavaScript 的第一版实现,为了兼容性一直保留。
-            所以判断对象的完整写法是{" "}
+            <code>typeof null === &quot;object&quot;</code>。这来自 1995 年 JavaScript 的第一版实现,为了兼容性一直保留。所以判断对象的完整写法是{" "}
             <code>
               x !== null &amp;&amp; typeof x === &quot;object&quot;
             </code>
@@ -929,8 +902,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>0</code> 确实是合法的 number,但真值检查看的不是类型,
-            而是这个值真不真 —— <code>0</code> 不真。
+            <code>0</code> 确实是合法的 number,但真值检查看的不是类型,而是这个值真不真 —— <code>0</code> 不真。
           </>
         }
       />,
@@ -945,8 +917,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            真值检查对任何类型都合法,这正是它危险的地方。
-            编译器一声不吭,坑就这么安静地埋下了。
+            真值检查对任何类型都合法,这正是它危险的地方。编译器一声不吭,坑就这么安静地埋下了。
           </>
         }
       />,
@@ -960,8 +931,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>if (0)</code> 在运行时平静地得到 false,不会有任何错误。
-            没有异常,只有走错的分支。
+            <code>if (0)</code> 在运行时平静地得到 false,不会有任何错误。没有异常,只有走错的分支。
           </>
         }
       />,
@@ -981,8 +951,7 @@ export const QUIZ: QuizItem[] = [
           <>
             真值检查会一次排除所有 falsy 值:<code>undefined</code>、
             <code>null</code>、<code>0</code>、<code>&quot;&quot;</code>、
-            <code>NaN</code>。「0 件」是数据,不是没填。
-            如果你只想排除 <code>undefined</code>,就写{" "}
+            <code>NaN</code>。「0 件」是数据,不是没填。如果你只想排除 <code>undefined</code>,就写{" "}
             <code>count !== undefined</code>。
           </>
         }
@@ -1005,10 +974,8 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             <code>x</code> 的类型是 <code>string | number</code>。在{" "}
-            <code>if (typeof x === &quot;string&quot;)</code> 里,
-            你给 <code>setTimeout</code> 传了一个调用{" "}
-            <code>x.toUpperCase()</code> 的回调;同一个函数里的别处,
-            你还写了 <code>x = 42</code>。会发生什么?
+            <code>if (typeof x === &quot;string&quot;)</code> 里,你给 <code>setTimeout</code> 传了一个调用{" "}
+            <code>x.toUpperCase()</code> 的回调;同一个函数里的别处,你还写了 <code>x = 42</code>。会发生什么?
           </>
         }
       />
@@ -1067,9 +1034,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            回调写在哪里并不重要,重要的是它<b>什么时候执行</b>,
-            而编译器无法知道。既然 <code>x</code> 还会被重新赋值,
-            到那时那道检查可能已经不成立了。
+            回调写在哪里并不重要,重要的是它<b>什么时候执行</b>,而编译器无法知道。既然 <code>x</code> 还会被重新赋值,到那时那道检查可能已经不成立了。
           </>
         }
       />,
@@ -1086,8 +1051,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             对一个 <code>string | number</code> 类型的变量来说,{" "}
-            <code>x = 42</code> 是完全合法的赋值。
-            它是报错的原因,而不是报错的位置。
+            <code>x = 42</code> 是完全合法的赋值。它是报错的原因,而不是报错的位置。
           </>
         }
       />,
@@ -1101,8 +1065,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            回调里是会收窄的,但仅限于从未被重新赋值的变量。
-            把 <code>x = 42</code> 删掉,报错就没了。
+            回调里是会收窄的,但仅限于从未被重新赋值的变量。把 <code>x = 42</code> 删掉,报错就没了。
           </>
         }
       />,
@@ -1121,10 +1084,8 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            只有当变量不可能改变时,编译器才会把收窄结果带进嵌套函数。
-            函数里任何一处重新赋值都足以让它失效。被收窄的对象<b>属性</b>
-            更严格:它永远不会被带进回调,因为外部代码随时可能改动它。
-            两种情况的解法一样:把检查过的值复制进一个 <code>const</code>。
+            只有当变量不可能改变时,编译器才会把收窄结果带进嵌套函数。函数里任何一处重新赋值都足以让它失效。被收窄的对象<b>属性</b>
+            更严格:它永远不会被带进回调,因为外部代码随时可能改动它。两种情况的解法一样:把检查过的值复制进一个 <code>const</code>。
           </>
         }
       />
@@ -1197,8 +1158,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            叫 <code>kind</code>、<code>type</code>、<code>tag</code> 都行。
-            编译器看的是结构,不是名字。
+            叫 <code>kind</code>、<code>type</code>、<code>tag</code> 都行。编译器看的是结构,不是名字。
           </>
         }
       />,
@@ -1214,9 +1174,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            差一个词:它必须是<b>字面量类型</b>,而不是 <code>string</code>。
-            宽泛的 <code>string</code> 区分不了成员。
-            数字字面量和布尔字面量同样可以当标签。
+            差一个词:它必须是<b>字面量类型</b>,而不是 <code>string</code>。宽泛的 <code>string</code> 区分不了成员。数字字面量和布尔字面量同样可以当标签。
           </>
         }
       />,
@@ -1247,8 +1205,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            三个条件:<b>公共字段</b>、<b>字面量类型</b>、
-            各成员的字面量<b>互不相同</b>。三条都满足时,一句{" "}
+            三个条件:<b>公共字段</b>、<b>字面量类型</b>、各成员的字面量<b>互不相同</b>。三条都满足时,一句{" "}
             <code>switch (order.status)</code> 就能把整个对象收窄到对应的成员。
           </>
         }
@@ -1292,8 +1249,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            还漏了一个。把字段和字面量比较,就是一次普通的运行时比较,
-            也是可辨识联合最日常的写法。
+            还漏了一个。把字段和字面量比较,就是一次普通的运行时比较,也是可辨识联合最日常的写法。
           </>
         }
       />
@@ -1309,8 +1265,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            勾多了。有两个选项<b>编译后就消失了</b>,运行时什么都不检查。
-            那不是收窄,那只是让编译器别再报错。
+            勾多了。有两个选项<b>编译后就消失了</b>,运行时什么都不检查。那不是收窄,那只是让编译器别再报错。
           </>
         }
       />
@@ -1328,11 +1283,8 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>typeof</code>、<code>in</code> 和字面量比较,
-            编译成 JavaScript 后都<b>真的会执行</b>,
-            所以收窄背后有一次真实的检查。<code>as</code> 和 <code>!</code>{" "}
-            编译后什么都不剩。类型判断错了,程序照样出错,
-            只是这次连提醒都没有了。
+            <code>typeof</code>、<code>in</code> 和字面量比较,编译成 JavaScript 后都<b>真的会执行</b>,所以收窄背后有一次真实的检查。<code>as</code> 和 <code>!</code>{" "}
+            编译后什么都不剩。类型判断错了,程序照样出错,只是这次连提醒都没有了。
           </>
         }
       />
@@ -1353,8 +1305,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             穷尽检查:在 <code>default</code> 分支里写{" "}
-            <code>const _x: ____ = order;</code>,
-            就能让「漏了一个 case」变成编译错误。空格里填哪个类型?
+            <code>const _x: ____ = order;</code>,就能让「漏了一个 case」变成编译错误。空格里填哪个类型?
           </>
         }
       />
@@ -1371,8 +1322,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            它是空联合 —— 所有 case 都处理完之后剩下的那个类型。
-            §02 那段动画的最后一帧就是它。
+            它是空联合 —— 所有 case 都处理完之后剩下的那个类型。§02 那段动画的最后一帧就是它。
           </>
         }
       />
@@ -1390,9 +1340,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>never</code> 是空联合,所以任何值都不能赋给它。
-            当所有 case 都被处理时,编译器认同这一行不可能被执行到,
-            赋值成立。一旦联合里多出一个成员,它会流到{" "}
+            <code>never</code> 是空联合,所以任何值都不能赋给它。当所有 case 都被处理时,编译器认同这一行不可能被执行到,赋值成立。一旦联合里多出一个成员,它会流到{" "}
             <code>default</code>,赋值失败 —— 编译器就替你指出了漏掉的分支。
           </>
         }
@@ -1479,8 +1427,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            代码运行前所有类型都被擦除了,不会发生任何转换。
-            谓词只改变编译器记录的内容,值本身分毫不动。
+            代码运行前所有类型都被擦除了,不会发生任何转换。谓词只改变编译器记录的内容,值本身分毫不动。
           </>
         }
       />,
@@ -1495,8 +1442,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            恰恰相反,它<b>不检查</b>。这正是谓词最危险的地方:
-            逻辑写反了,编译器照样相信你。
+            恰恰相反,它<b>不检查</b>。这正是谓词最危险的地方:逻辑写反了,编译器照样相信你。
           </>
         }
       />,
@@ -1532,12 +1478,10 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>o is Paid</code> 的意思是「只要我返回 true,o 就是 Paid」。
-            所以在 <code>if (isPaid(order))</code> 里 <code>order</code>{" "}
+            <code>o is Paid</code> 的意思是「只要我返回 true,o 就是 Paid」。所以在 <code>if (isPaid(order))</code> 里 <code>order</code>{" "}
             变成 <code>Paid</code>,而 <code>orders.filter(isPaid)</code>{" "}
             的类型是 <code>Paid[]</code>。还有一种相近的写法{" "}
-            <code>asserts o is Paid</code>,它收窄的不是某个分支,
-            而是调用之后的所有代码。
+            <code>asserts o is Paid</code>,它收窄的不是某个分支,而是调用之后的所有代码。
           </>
         }
       />
@@ -1676,10 +1620,8 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>!</code> 是一句编译期的断言。它让报错消失,
-            但不增加任何保护。断言错了,运行时照样是{" "}
-            <code>TypeError</code>,而且这次编译器完全没有提醒过你。
-            规矩:能用 <code>?.</code> 或 <code>??</code> 表达的,就用它们。
+            <code>!</code> 是一句编译期的断言。它让报错消失,但不增加任何保护。断言错了,运行时照样是{" "}
+            <code>TypeError</code>,而且这次编译器完全没有提醒过你。规矩:能用 <code>?.</code> 或 <code>??</code> 表达的,就用它们。
           </>
         }
       />
@@ -1763,8 +1705,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             这是你想要的结果,但 <code>||</code> 判断的是真值,而{" "}
-            <code>0</code> 是 falsy,所以它被替换掉了。
-            想要这个效果,用 <code>??</code>。
+            <code>0</code> 是 falsy,所以它被替换掉了。想要这个效果,用 <code>??</code>。
           </>
         }
       />,
@@ -1779,8 +1720,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            <code>||</code> 总会返回两个操作数之一。左边是 falsy,
-            所以返回右边,也就是 <code>50</code>。
+            <code>||</code> 总会返回两个操作数之一。左边是 falsy,所以返回右边,也就是 <code>50</code>。
           </>
         }
       />,
@@ -1794,8 +1734,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            这是合法的 JavaScript,也是合法的 TypeScript。
-            这种逻辑问题,编译器捕捉不到。
+            这是合法的 JavaScript,也是合法的 TypeScript。这种逻辑问题,编译器捕捉不到。
           </>
         }
       />,
@@ -1814,8 +1753,7 @@ export const QUIZ: QuizItem[] = [
           <>
             <code>||</code> 判断的是真值,所以 <code>0</code> 和{" "}
             <code>&quot;&quot;</code> 也会被替换;<code>??</code> 只认{" "}
-            <code>null</code> 和 <code>undefined</code>。
-            写默认值,用 <code>??</code>。
+            <code>null</code> 和 <code>undefined</code>。写默认值,用 <code>??</code>。
           </>
         }
       />

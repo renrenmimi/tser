@@ -96,8 +96,7 @@ const ID_ENTRIES: IdEntry[] = [
         }
         zh={
           <>
-            JS/TS 只有一种数字类型:22、19.5、-3 都是 number。
-            别的语言里的 int / float 之分,这里没有。
+            JS/TS 只有一种数字类型:22、19.5、-3 都是 number。别的语言里的 int / float 之分,这里没有。
           </>
         }
       />
@@ -117,9 +116,7 @@ const ID_ENTRIES: IdEntry[] = [
         }
         zh={
           <>
-            NaN 的意思是「不是数」,可它的类型偏偏是 number。
-            所以类型系统拦不住 NaN —— 要拦,得去查产生它的那个值,
-            通常是某个 undefined。
+            NaN 的意思是「不是数」,可它的类型偏偏是 number。所以类型系统拦不住 NaN —— 要拦,得去查产生它的那个值,通常是某个 undefined。
           </>
         }
       />
@@ -154,8 +151,7 @@ const ID_ENTRIES: IdEntry[] = [
         }
         zh={
           <>
-            「这里空着」,而且是<b>有意为之</b>的空。
-            null 不会自己出现,一定是某段代码把它赋了进去 ——
+            「这里空着」,而且是<b>有意为之</b>的空。null 不会自己出现,一定是某段代码把它赋了进去 ——
             通常表示「这个字段存在,但故意留空」。
           </>
         }
@@ -195,8 +191,7 @@ const ID_ENTRIES: IdEntry[] = [
         }
         zh={
           <>
-            「从来没人往这儿放过值」。声明了没赋值、读一个不存在的属性、
-            函数没有 return —— 拿到的都是它。
+            「从来没人往这儿放过值」。声明了没赋值、读一个不存在的属性、函数没有 return —— 拿到的都是它。
           </>
         }
       />
@@ -213,8 +208,7 @@ const ID_ENTRIES: IdEntry[] = [
         }
         zh={
           <>
-            null 和 undefined 是两个不同的值,含义也不同。
-            它们之所以是两个独立的类型,是因为 <code>strictNullChecks</code>{" "}
+            null 和 undefined 是两个不同的值,含义也不同。它们之所以是两个独立的类型,是因为 <code>strictNullChecks</code>{" "}
             开着;这个开关一关,两者可以赋给任何类型,编译器也就不再提醒你了。
           </>
         }
@@ -234,8 +228,7 @@ const ID_ENTRIES: IdEntry[] = [
         }
         zh={
           <>
-            大到 number 存不准的整数,写法是在数字后面加一个 <code>n</code>。
-            日常业务代码几乎用不上,知道有这户人家就行。
+            大到 number 存不准的整数,写法是在数字后面加一个 <code>n</code>。日常业务代码几乎用不上,知道有这户人家就行。
           </>
         }
       />
@@ -255,8 +248,7 @@ const ID_ENTRIES: IdEntry[] = [
         }
         zh={
           <>
-            保证和其他任何值都不相等的值,常用来做「绝不会撞名」的对象键。
-            日常业务代码里也少见,遇到再回来查。
+            保证和其他任何值都不相等的值,常用来做「绝不会撞名」的对象键。日常业务代码里也少见,遇到再回来查。
           </>
         }
       />
@@ -349,8 +341,7 @@ const LENS_LINES: LensLine[] = [
           }
           zh={
             <>
-              <code>let</code> 声明的变量以后还能改,所以 TS 往<b>宽</b>了记:
-              「反正是个字符串」。从字面量类型放宽到 string,这个动作叫
+              <code>let</code> 声明的变量以后还能改,所以 TS 往<b>宽</b>了记:「反正是个字符串」。从字面量类型放宽到 string,这个动作叫
               <b>拓宽(widening)</b>。
             </>
           }
@@ -368,8 +359,7 @@ const LENS_LINES: LensLine[] = [
           }
           zh={
             <>
-              <code>const</code> 变量不会再被赋值,TS 就敢把话说死:
-              类型就是字面量 <code>&quot;Grape Tea&quot;</code> 本身 ——
+              <code>const</code> 变量不会再被赋值,TS 就敢把话说死:类型就是字面量 <code>&quot;Grape Tea&quot;</code> 本身 ——
               比 string 窄得多,这叫<b>字面量类型</b>。
             </>
           }
@@ -392,8 +382,7 @@ const LENS_LINES: LensLine[] = [
           }
           zh={
             <>
-              数字同理:初始值是 22,但以后可能改成 19.5,所以记成 number。
-              注意你一个冒号都没写。
+              数字同理:初始值是 22,但以后可能改成 19.5,所以记成 number。注意你一个冒号都没写。
             </>
           }
         />
@@ -494,9 +483,7 @@ const LENS_LINES: LensLine[] = [
           zh={
             <>
               这一行常让人意外:<b>const 版依旧是</b> <code>string[]</code>。
-              <code>const</code> 只保证「变量名不能重新赋值」,
-              数组内容照样能 push、能改,所以元素类型必须留宽。
-              想连内容一起锁死,要用 <code>as const</code>(终章讲)。
+              <code>const</code> 只保证「变量名不能重新赋值」,数组内容照样能 push、能改,所以元素类型必须留宽。想连内容一起锁死,要用 <code>as const</code>(终章讲)。
             </>
           }
         />
@@ -524,8 +511,7 @@ const LENS_LINES: LensLine[] = [
           }
           zh={
             <>
-              对象:TS 把每个属性的类型都推出来,拼成一份「形状」。
-              后面的章节反复出现的就是这份形状。
+              对象:TS 把每个属性的类型都推出来,拼成一份「形状」。后面的章节反复出现的就是这份形状。
             </>
           }
         />
@@ -587,8 +573,7 @@ const LENS_LINES: LensLine[] = [
           }
           zh={
             <>
-              <code>const</code> 版在赋值这一步就被拦下了,还轮不到类型出场。
-              这是 JavaScript 自己的规矩,TS 只是把它提前到编译期告诉你。
+              <code>const</code> 版在赋值这一步就被拦下了,还轮不到类型出场。这是 JavaScript 自己的规矩,TS 只是把它提前到编译期告诉你。
             </>
           }
         />
@@ -616,8 +601,7 @@ const LENS_LINES: LensLine[] = [
           zh={
             <>
               这一行是整节的重点:你<b>一个类型注解都没写</b>,TS
-              照样逮住「拿字符串当数字用」。
-              推断出来的类型,和你手写的一样严格。
+              照样逮住「拿字符串当数字用」。推断出来的类型,和你手写的一样严格。
             </>
           }
         />

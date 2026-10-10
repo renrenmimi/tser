@@ -695,8 +695,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                想用某一种类型独有的成员,先写一道检查。
-                这道检查会告诉编译器:这条路上只可能是它。
+                想用某一种类型独有的成员,先写一道检查。这道检查会告诉编译器:这条路上只可能是它。
               </>
             }
           />
@@ -731,9 +730,7 @@ export default function NarrowingPage() {
                 <>
                   <code>string | number</code> 表示这个值是 string{" "}
                   <b>或</b>是 number,二者取一,而不是「同时具备两者的能力」
-                  —— 那是交叉类型 <code>&amp;</code>,02 章已经讲过。
-                  所以联合的成员越多,不检查时能做的事<i>越少</i>:
-                  成员越多,共有成员越少。
+                  —— 那是交叉类型 <code>&amp;</code>,02 章已经讲过。所以联合的成员越多,不检查时能做的事<i>越少</i>:成员越多,共有成员越少。
                 </>
               }
             />
@@ -779,12 +776,9 @@ export default function NarrowingPage() {
               zh={
                 <>
                   在分支里把类型变得更具体,这件事叫<b>收窄(narrowing)</b>
-                  。编译器的做法是:按执行顺序走一遍你的代码,
-                  在每一行记住此刻还剩哪些可能。这趟遍历叫
-                  <b>控制流分析(control flow analysis)</b>。
-                  同一个变量,第 3 行和第 5
-                  行的类型可以不一样。在编辑器里把光标悬停在不同行的同一个变量上,
-                  就能看到类型在变。
+                  。编译器的做法是:按执行顺序走一遍你的代码,在每一行记住此刻还剩哪些可能。这趟遍历叫
+                  <b>控制流分析(control flow analysis)</b>。同一个变量,第 3 行和第 5
+                  行的类型可以不一样。在编辑器里把光标悬停在不同行的同一个变量上,就能看到类型在变。
                 </>
               }
             />
@@ -830,9 +824,7 @@ export default function NarrowingPage() {
                 <>
                   <b>1. 真值检查会连 0 和空字符串一起排除。</b>
                   <code>if (count)</code> 看起来只排除了{" "}
-                  <code>undefined</code>,但 <code>0</code> 同样是 falsy,
-                  也会走进 else 分支。「0 份配料」是真实数据,不是没填。
-                  真正想表达的意思,就写 <code>count !== undefined</code>。
+                  <code>undefined</code>,但 <code>0</code> 同样是 falsy,也会走进 else 分支。「0 份配料」是真实数据,不是没填。真正想表达的意思,就写 <code>count !== undefined</code>。
                 </>
               }
             />
@@ -879,11 +871,8 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                第二个错误,与其读,不如亲眼看一次。下面这个窗口跑的是真编译器。
-                订单备注可能是一段自由文本、一个结构化备注,也可能根本没有;
-                而 <code>typeof note === &quot;object&quot;</code>{" "}
-                守住的那个分支,把 <code>null</code> 和对象一起放了进来。
-                第 6 行直接点名:
+                第二个错误,与其读,不如亲眼看一次。下面这个窗口跑的是真编译器。订单备注可能是一段自由文本、一个结构化备注,也可能根本没有;而 <code>typeof note === &quot;object&quot;</code>{" "}
+                守住的那个分支,把 <code>null</code> 和对象一起放了进来。第 6 行直接点名:
                 <code>&apos;note&apos; is possibly &apos;null&apos;.</code>{" "}
                 两个预设分别是「完全不检查」的版本,和「先排除 null」的版本。
               </>
@@ -961,8 +950,7 @@ export default function NarrowingPage() {
             zh={
               <>
                 最常见的是回调函数。编译器无法知道这个回调<b>什么时候</b>
-                执行 —— 它可能在变量被改动之后才跑起来,
-                那么你先前写的那道检查就不再能说明任何事。
+                执行 —— 它可能在变量被改动之后才跑起来,那么你先前写的那道检查就不再能说明任何事。
               </>
             }
           />
@@ -990,8 +978,7 @@ export default function NarrowingPage() {
               zh={
                 <>
                   把最后一行删掉,报错就消失了:只要 <code>value</code>{" "}
-                  在整个函数里从未被重新赋值,编译器就把它当作固定不变的,
-                  回调里的收窄依然有效。这条规则真正看的是
+                  在整个函数里从未被重新赋值,编译器就把它当作固定不变的,回调里的收窄依然有效。这条规则真正看的是
                   <b>这个变量还会不会变</b>,而不是「是不是回调」。
                 </>
               }
@@ -1011,8 +998,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                被收窄的<b>属性</b>也一样,而且更严格:
-                对象属性随时可能被别处改掉,所以编译器从不把属性的收窄结果带进回调。
+                被收窄的<b>属性</b>也一样,而且更严格:对象属性随时可能被别处改掉,所以编译器从不把属性的收窄结果带进回调。
               </>
             }
           />
@@ -1049,9 +1035,7 @@ export default function NarrowingPage() {
                   }
                   zh={
                     <>
-                      这是标准做法,而且它是诚实的:
-                      你捕获的就是当时检查过的那个值,
-                      而不是期望那个属性稍后还装着同一个值。
+                      这是标准做法,而且它是诚实的:你捕获的就是当时检查过的那个值,而不是期望那个属性稍后还装着同一个值。
                     </>
                   }
                 />
@@ -1084,14 +1068,10 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  在同一个函数里,被收窄的属性能挺过一次普通的函数调用。
-                  写成{" "}
+                  在同一个函数里,被收窄的属性能挺过一次普通的函数调用。写成{" "}
                   <code>if (d.note) &#123; clear(d); d.note.trim(); &#125;</code>
                   ,编译器一声不吭 —— 哪怕 <code>clear</code> 可能已经把{" "}
-                  <code>d.note</code> 改成了 <code>undefined</code>。
-                  TypeScript 是有意留下这个缺口的:
-                  如果要追踪每一次可能的修改,会有大量正确代码被误判。
-                  这是少数几个「编译通过 ≠ 值还在」的地方。
+                  <code>d.note</code> 改成了 <code>undefined</code>。TypeScript 是有意留下这个缺口的:如果要追踪每一次可能的修改,会有大量正确代码被误判。这是少数几个「编译通过 ≠ 值还在」的地方。
                 </>
               }
             />
@@ -1119,10 +1099,7 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  给 <code>let</code> 赋值,会从那一行起清掉它的收窄结果。
-                  回调里能否保留收窄,取决于那个变量有没有被重新赋值过。
-                  属性的收窄则永远不会带进回调。
-                  这三种情况的解法几乎都一样:把检查过的值复制进一个{" "}
+                  给 <code>let</code> 赋值,会从那一行起清掉它的收窄结果。回调里能否保留收窄,取决于那个变量有没有被重新赋值过。属性的收窄则永远不会带进回调。这三种情况的解法几乎都一样:把检查过的值复制进一个{" "}
                   <code>const</code>。
                 </>
               }
@@ -1155,8 +1132,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                先看不好用的那种写法。所有字段挤在一个类型里,
-                「哪个状态有哪些字段」这条规则只存在于你的脑子里。
+                先看不好用的那种写法。所有字段挤在一个类型里,「哪个状态有哪些字段」这条规则只存在于你的脑子里。
               </>
             }
           />
@@ -1183,8 +1159,7 @@ export default function NarrowingPage() {
                   }
                   zh={
                     <>
-                      那个 <code>!</code> 就是类型系统帮不上忙的地方。
-                      而且 <code>status</code> 的类型是宽泛的{" "}
+                      那个 <code>!</code> 就是类型系统帮不上忙的地方。而且 <code>status</code> 的类型是宽泛的{" "}
                       <code>string</code>,把它拼成{" "}
                       <code>&quot;pald&quot;</code> 也能通过编译。
                     </>
@@ -1218,8 +1193,7 @@ export default function NarrowingPage() {
                       每种状态一个成员,而且 <code>status</code> 的类型是
                       <b>字面量类型</b> —— 就是{" "}
                       <code>&quot;paid&quot;</code> 这个词本身,而不是{" "}
-                      <code>string</code>。
-                      只要比对这一个字段,整个对象的形状就确定了。
+                      <code>string</code>。只要比对这一个字段,整个对象的形状就确定了。
                     </>
                   }
                 />
@@ -1282,9 +1256,7 @@ export default function NarrowingPage() {
                   都行。第二,这个字段是<b>字面量类型</b>,比如{" "}
                   <code>&quot;paid&quot;</code>、<code>1</code>、
                   <code>true</code>,而不是 <code>string</code>{" "}
-                  这样的宽泛类型。第三,各成员的字面量<b>互不相同</b>。
-                  三条都满足,比对一次就能收窄整个对象。
-                  这是 TypeScript 里写状态机的常规做法。
+                  这样的宽泛类型。第三,各成员的字面量<b>互不相同</b>。三条都满足,比对一次就能收窄整个对象。这是 TypeScript 里写状态机的常规做法。
                 </>
               }
             />
@@ -1320,10 +1292,8 @@ export default function NarrowingPage() {
             zh={
               <>
                 把收窄推到尽头。每个 <code>case</code>{" "}
-                从联合里去掉一个成员,最后一个成员被去掉之后,就什么都不剩了。
-                「什么都不剩」这个类型就是 <code>never</code>。而{" "}
-                <code>never</code> 不接受任何值,所以只有当编译器认同这一行
-                永远不会被执行到时,这个赋值才能通过。
+                从联合里去掉一个成员,最后一个成员被去掉之后,就什么都不剩了。「什么都不剩」这个类型就是 <code>never</code>。而{" "}
+                <code>never</code> 不接受任何值,所以只有当编译器认同这一行永远不会被执行到时,这个赋值才能通过。
               </>
             }
           />
@@ -1349,8 +1319,7 @@ export default function NarrowingPage() {
               zh={
                 <>
                   把这行赋值读成一句断言:「走到 <code>default</code> 时,
-                  <code>order</code> 已经没有任何可能了。」
-                  现在这句断言成立,所以代码编译通过,一切平静。
+                  <code>order</code> 已经没有任何可能了。」现在这句断言成立,所以代码编译通过,一切平静。
                 </>
               }
             />
@@ -1379,9 +1348,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                它的价值在后面。三个月后店里开始支持退款,
-                类型要加第四个状态 —— 而那个函数没人打算动。
-                就在下面这个窗口里做,它跑的是真编译器:往联合里加一行{" "}
+                它的价值在后面。三个月后店里开始支持退款,类型要加第四个状态 —— 而那个函数没人打算动。就在下面这个窗口里做,它跑的是真编译器:往联合里加一行{" "}
                 <code>
                   | &#123; status: &quot;refunded&quot;; createdAt: Date;
                   refundedAt: Date &#125;
@@ -1432,12 +1399,9 @@ export default function NarrowingPage() {
             zh={
               <>
                 把这条消息读成一句话,它就是一条待办:走到{" "}
-                <code>default</code> 时 <code>refunded</code> 还在场,
-                所以「这里什么都不剩了」这句断言不再成立。
-                加状态前后各点一次 <code>default</code> 里的{" "}
+                <code>default</code> 时 <code>refunded</code> 还在场,所以「这里什么都不剩了」这句断言不再成立。加状态前后各点一次 <code>default</code> 里的{" "}
                 <code>order</code>:它的类型会从 <code>never</code>{" "}
-                变成你漏掉的那个成员。补上缺的 <code>case</code>,
-                报错自己就消失了。
+                变成你漏掉的那个成员。补上缺的 <code>case</code>,报错自己就消失了。
               </>
             }
           />
@@ -1463,11 +1427,7 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  如果项目里有二十个函数在 switch <code>order.status</code>,
-                  加一个状态就会让这二十处同时报错、逐个点名。
-                  你顺着报错清单改下去,不会漏掉任何一处。
-                  没有这道检查,新状态会安静地落进 <code>default</code>,
-                  或者根本没有分支接住它,函数返回 <code>undefined</code>。
+                  如果项目里有二十个函数在 switch <code>order.status</code>,加一个状态就会让这二十处同时报错、逐个点名。你顺着报错清单改下去,不会漏掉任何一处。没有这道检查,新状态会安静地落进 <code>default</code>,或者根本没有分支接住它,函数返回 <code>undefined</code>。
                 </>
               }
             />
@@ -1498,8 +1458,7 @@ export default function NarrowingPage() {
                   保护来自那行 <code>never</code> 赋值,而不是「有 default
                   分支」。在上面那个窗口里试一次:留着第四个状态,把整个{" "}
                   <code>default</code> 块换成{" "}
-                  <code>default: return &quot;unknown status&quot;;</code>,
-                  所有报错都会消失,包括那个你根本没处理的状态 ——
+                  <code>default: return &quot;unknown status&quot;;</code>,所有报错都会消失,包括那个你根本没处理的状态 ——
                   你等于告诉编译器,这事你管过了。
                 </>
               }
@@ -1549,13 +1508,8 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  <code>o is Paid</code> 是你对编译器的承诺,
-                  编译器不看函数体就接受它。
-                  哪怕你不小心写成{" "}
-                  <code>return o.status === &quot;pending&quot;</code>,
-                  它照样相信。从此类型就不再描述这个程序了。
-                  这是少数几个能让 TypeScript 判断错误的地方,
-                  所以谓词的函数体要写得短、写得一目了然。
+                  <code>o is Paid</code> 是你对编译器的承诺,编译器不看函数体就接受它。哪怕你不小心写成{" "}
+                  <code>return o.status === &quot;pending&quot;</code>,它照样相信。从此类型就不再描述这个程序了。这是少数几个能让 TypeScript 判断错误的地方,所以谓词的函数体要写得短、写得一目了然。
                 </>
               }
             />
@@ -1575,8 +1529,7 @@ export default function NarrowingPage() {
             zh={
               <>
                 谓词是在 <code>if</code> 分支里收窄。<b>断言函数</b>
-                则是让调用之后的每一行都收窄:检查不通过就抛异常,
-                所以只要代码还在往下走,就说明检查通过了。
+                则是让调用之后的每一行都收窄:检查不通过就抛异常,所以只要代码还在往下走,就说明检查通过了。
               </>
             }
           />
@@ -1603,9 +1556,7 @@ export default function NarrowingPage() {
               zh={
                 <>
                   这条标注规则很容易在不经意间撞上。用 <code>function</code>{" "}
-                  声明写出来就没问题;
-                  但如果把断言函数放进变量里,这个变量必须写出显式类型,
-                  否则调用它不会产生收窄,编译器还会直接报错。
+                  声明写出来就没问题;但如果把断言函数放进变量里,这个变量必须写出显式类型,否则调用它不会产生收窄,编译器还会直接报错。
                 </>
               }
             />
@@ -1642,8 +1593,7 @@ export default function NarrowingPage() {
               }
               zh={
                 <>
-                  只有「单参数、直接返回一个收窄表达式」的简短回调,
-                  编译器才会推断出谓词。更复杂的逻辑仍然要手写{" "}
+                  只有「单参数、直接返回一个收窄表达式」的简短回调,编译器才会推断出谓词。更复杂的逻辑仍然要手写{" "}
                   <code>is</code> —— 而手写就意味着,那句承诺又归你负责了。
                 </>
               }
@@ -1683,8 +1633,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                <code>??</code> 有一个长得很像的前辈 <code>||</code>,
-                两者的区别正是 §03 里那个真值检查的问题。
+                <code>??</code> 有一个长得很像的前辈 <code>||</code>,两者的区别正是 §03 里那个真值检查的问题。
               </>
             }
           />
@@ -1743,11 +1692,8 @@ export default function NarrowingPage() {
                 <>
                   <code>?.</code> 和 <code>??</code> 是 JavaScript
                   的正式操作符,编译后是真实的运行时检查。而 <code>!</code>{" "}
-                  是 TypeScript 的标注,编译后会消失。
-                  它不做任何检查,只是让编译器不再报错。
-                  运行时那个值如果真的是 <code>null</code>,你照样会拿到和
-                  JavaScript 里一样的 <code>TypeError</code>,
-                  而且这次连编译器的提醒都没有了。规矩:能用 <code>?.</code>{" "}
+                  是 TypeScript 的标注,编译后会消失。它不做任何检查,只是让编译器不再报错。运行时那个值如果真的是 <code>null</code>,你照样会拿到和
+                  JavaScript 里一样的 <code>TypeError</code>,而且这次连编译器的提醒都没有了。规矩:能用 <code>?.</code>{" "}
                   和 <code>??</code> 表达的,就不要用 <code>!</code>。
                 </>
               }
@@ -1795,8 +1741,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                联合类型只允许你使用<b>每一种</b>成员类型都有的成员,
-                因为编译器按最坏情况处理。想用其余的,先收窄。
+                联合类型只允许你使用<b>每一种</b>成员类型都有的成员,因为编译器按最坏情况处理。想用其余的,先收窄。
               </>
             }
           />,
@@ -1813,8 +1758,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                收窄的本质是<b>控制流分析</b>:编译器按顺序走一遍代码,
-                在每个分支里给变量一个更具体的类型。<code>typeof</code>
+                收窄的本质是<b>控制流分析</b>:编译器按顺序走一遍代码,在每个分支里给变量一个更具体的类型。<code>typeof</code>
                 、真值检查、相等比较、<code>in</code>、
                 <code>instanceof</code>、<code>Array.isArray</code>{" "}
                 和字面量比对,都能收窄。
@@ -1850,9 +1794,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                收窄会在这些地方失效:<code>let</code> 被重新赋值之后;
-                回调内部,只要那个变量可能被重新赋值,或者它是对象属性。
-                解法是把检查过的值复制进一个 <code>const</code>。
+                收窄会在这些地方失效:<code>let</code> 被重新赋值之后;回调内部,只要那个变量可能被重新赋值,或者它是对象属性。解法是把检查过的值复制进一个 <code>const</code>。
               </>
             }
           />,
@@ -1867,8 +1809,7 @@ export default function NarrowingPage() {
             }
             zh={
               <>
-                可辨识联合需要:一个公共字段、字面量类型、各成员的字面量互不相同。
-                三条齐了,比对一次就能收窄整个对象。
+                可辨识联合需要:一个公共字段、字面量类型、各成员的字面量互不相同。三条齐了,比对一次就能收窄整个对象。
               </>
             }
           />,
@@ -1886,9 +1827,7 @@ export default function NarrowingPage() {
             zh={
               <>
                 在 <code>default</code> 分支里写{" "}
-                <code>const _x: never = order</code> 就是穷尽检查。
-                所有 case 都处理完时,剩下的类型是空联合,赋值成立;
-                一旦联合里多出一个成员,这行立刻编译失败。
+                <code>const _x: never = order</code> 就是穷尽检查。所有 case 都处理完时,剩下的类型是空联合,赋值成立;一旦联合里多出一个成员,这行立刻编译失败。
               </>
             }
           />,
@@ -1904,8 +1843,7 @@ export default function NarrowingPage() {
             zh={
               <>
                 <code>o is Paid</code> 把一段检查打包复用,
-                <code>asserts o is Paid</code> 则让调用之后的代码收窄。
-                两者的函数体编译器都不验证 —— 那句承诺由你负责。
+                <code>asserts o is Paid</code> 则让调用之后的代码收窄。两者的函数体编译器都不验证 —— 那句承诺由你负责。
               </>
             }
           />,
@@ -1922,8 +1860,7 @@ export default function NarrowingPage() {
             zh={
               <>
                 <code>?.</code> 和 <code>??</code> 会编译成真实的运行时检查;
-                <code>!</code> 编译后什么都不剩,也什么都不检查。
-                当默认值有可能合法地取 <code>0</code> 或{" "}
+                <code>!</code> 编译后什么都不剩,也什么都不检查。当默认值有可能合法地取 <code>0</code> 或{" "}
                 <code>&quot;&quot;</code> 时,绝不要用 <code>||</code>。
               </>
             }

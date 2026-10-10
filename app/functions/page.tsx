@@ -837,9 +837,7 @@ export default function FunctionsPage() {
           ),
           zh: (
             <>
-              一行签名就记下了每个参数的形状和返回值的形状。
-              写的人不用另作解释,调的人不用猜,
-              而编译器会盯着双方各自守约。
+              一行签名就记下了每个参数的形状和返回值的形状。写的人不用另作解释,调的人不用猜,而编译器会盯着双方各自守约。
             </>
           ),
         }}
@@ -885,8 +883,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                先看差距。同一个函数写两遍:左边你得读函数体才知道它想要什么,
-                右边第一行就写明白了。
+                先看差距。同一个函数写两遍:左边你得读函数体才知道它想要什么,右边第一行就写明白了。
               </>
             }
           />
@@ -931,8 +928,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                参数类型通常必须写:编译器没有别的材料可以读。
-                返回值类型通常<b>不必</b>写,因为编译器会从{" "}
+                参数类型通常必须写:编译器没有别的材料可以读。返回值类型通常<b>不必</b>写,因为编译器会从{" "}
                 <code>return</code> 语句里读出来。
               </>
             }
@@ -964,10 +960,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  两种情况。第一种是<b>对外边界</b>:会被其他模块、其他团队,
-                  或者发布出去的包调用的函数。
-                  这时注解就是那份承诺,能挡住「函数体一改,
-                  所有人依赖的类型跟着悄悄变了」。
+                  两种情况。第一种是<b>对外边界</b>:会被其他模块、其他团队,或者发布出去的包调用的函数。这时注解就是那份承诺,能挡住「函数体一改,所有人依赖的类型跟着悄悄变了」。
                 </>
               }
             />
@@ -987,9 +980,7 @@ export default function FunctionsPage() {
               zh={
                 <>
                   第二种是报错的位置会更好。写了注解,错误就报在
-                  <b>定义处</b>,也就是你正在改的这一行。不写注解,
-                  错误的类型会流出去,报错出现在很远的某个<b>调用处</b>,
-                  甚至根本不报。最糟的情况是 <code>any</code>:
+                  <b>定义处</b>,也就是你正在改的这一行。不写注解,错误的类型会流出去,报错出现在很远的某个<b>调用处</b>,甚至根本不报。最糟的情况是 <code>any</code>:
                 </>
               }
             />
@@ -1012,8 +1003,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  写上 <code>: Order</code> 相当于在出口装了一道闸。
-                  函数体内部仍然可能推断出 <code>any</code>,但调用方拿到的是{" "}
+                  写上 <code>: Order</code> 相当于在出口装了一道闸。函数体内部仍然可能推断出 <code>any</code>,但调用方拿到的是{" "}
                   <code>Order</code>,写错字段当场被抓。
                 </>
               }
@@ -1061,9 +1051,7 @@ export default function FunctionsPage() {
               zh={
                 <>
                   两者都允许调用方不写这个实参。区别在于参数在函数体
-                  <b>内部</b>长什么样。写 <code>topping?: string</code>,
-                  它的类型是 <code>string | undefined</code>,用之前得先检查。
-                  写 <code>sugar = 50</code>,它的类型就是干净的{" "}
+                  <b>内部</b>长什么样。写 <code>topping?: string</code>,它的类型是 <code>string | undefined</code>,用之前得先检查。写 <code>sugar = 50</code>,它的类型就是干净的{" "}
                   <code>number</code>:实参没给的时候默认值先跑一遍,
                   <code>undefined</code> 根本进不到函数体里。
                 </>
@@ -1084,11 +1072,9 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  显式传 <code>undefined</code> 同样会触发默认值,
-                  所以{" "}
+                  显式传 <code>undefined</code> 同样会触发默认值,所以{" "}
                   <code>pourSugar(&quot;Milk Green&quot;, undefined)</code>{" "}
-                  拿到的也是 50。当一个参数存在合理的默认值时,
-                  优先用默认值而不是 <code>?</code> —— 函数体里少一道检查。
+                  拿到的也是 50。当一个参数存在合理的默认值时,优先用默认值而不是 <code>?</code> —— 函数体里少一道检查。
                 </>
               }
             />
@@ -1119,9 +1105,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  实参是按<b>位置</b>对号入座的。可选参数一旦插在中间,
-                  它后面的必选参数就再也认不出来了。所以规矩是:
-                  必选在前,可选和带默认值的在后。
+                  实参是按<b>位置</b>对号入座的。可选参数一旦插在中间,它后面的必选参数就再也认不出来了。所以规矩是:必选在前,可选和带默认值的在后。
                 </>
               }
             />
@@ -1164,8 +1148,7 @@ export default function FunctionsPage() {
             zh: (
               <>
                 <code>?</code> 管的是这个实参能不能<b>整个不写</b>;
-                <code>| undefined</code> 管的是这个实参能<b>放哪些值</b>。
-                后者仍然要求你传点什么进来。
+                <code>| undefined</code> 管的是这个实参能<b>放哪些值</b>。后者仍然要求你传点什么进来。
               </>
             ),
           }}
@@ -1185,8 +1168,7 @@ export default function FunctionsPage() {
             zh={
               <>
                 rest 参数的类型是一个数组。它也可以是一个<b>元组</b> ——
-                固定住前面几个位置各自的类型,同时仍然接受后面数量不定的实参。
-                变长元组类型的实用价值就在这里。
+                固定住前面几个位置各自的类型,同时仍然接受后面数量不定的实参。变长元组类型的实用价值就在这里。
               </>
             }
           />
@@ -1237,10 +1219,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                注意那个回调的返回值写的是 <code>void</code>。
-                在函数类型里,<code>void</code> 的意思不是「你不许返回任何东西」,
-                而是<b>「返回什么调用方都不会用」</b>。
-                所以一个真的返回了东西的函数,照样可以放进来。
+                注意那个回调的返回值写的是 <code>void</code>。在函数类型里,<code>void</code> 的意思不是「你不许返回任何东西」,而是<b>「返回什么调用方都不会用」</b>。所以一个真的返回了东西的函数,照样可以放进来。
               </>
             }
           />
@@ -1261,10 +1240,7 @@ export default function FunctionsPage() {
             ),
             zh: (
               <>
-                这是有意设计的。单行箭头函数会把表达式的值返回出去,
-                不管你要不要。如果 <code>(…) =&gt; void</code> 拒绝这种函数,
-                大部分 <code>forEach</code> 回调都得改写成花括号函数体,
-                只为了把那个值丢掉。
+                这是有意设计的。单行箭头函数会把表达式的值返回出去,不管你要不要。如果 <code>(…) =&gt; void</code> 拒绝这种函数,大部分 <code>forEach</code> 回调都得改写成花括号函数体,只为了把那个值丢掉。
               </>
             ),
           }}
@@ -1327,9 +1303,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                这个方向很好接受:调用方要一个 <code>Animal</code>,
-                拿到的东西是 <code>Animal</code> 而且还多点别的。
-                参数方向则正好反过来 —— 这里最容易让人意外。
+                这个方向很好接受:调用方要一个 <code>Animal</code>,拿到的东西是 <code>Animal</code> 而且还多点别的。参数方向则正好反过来 —— 这里最容易让人意外。
               </>
             }
           />
@@ -1356,10 +1330,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                从调用方的角度读一遍。持有 <code>FeedAnimal</code> 的那段代码,
-                可以拿<i>任意</i>一只动物来调用它,比如一只猫。
-                而一个要读 <code>d.breed</code> 的函数这时就会出错,
-                所以编译器把它拦下。参数按这种反方向检查,叫做
+                从调用方的角度读一遍。持有 <code>FeedAnimal</code> 的那段代码,可以拿<i>任意</i>一只动物来调用它,比如一只猫。而一个要读 <code>d.breed</code> 的函数这时就会出错,所以编译器把它拦下。参数按这种反方向检查,叫做
                 <b>逆变(contravariance)</b>,由{" "}
                 <code>strictFunctionTypes</code> 开关控制,而{" "}
                 <code>strict</code> 会打开它。
@@ -1393,8 +1364,7 @@ export default function FunctionsPage() {
                   <b>类型</b>所在的位置。用<b>方法语法</b>声明的成员 ——
                   也就是写成 <code>feed(a: Animal): void</code> 而不是{" "}
                   <code>feed: (a: Animal) =&gt; void</code> ——
-                  沿用的还是旧规则:参数往哪个方向都放得进去。
-                  这叫<b>双变(bivariance)</b>。
+                  沿用的还是旧规则:参数往哪个方向都放得进去。这叫<b>双变(bivariance)</b>。
                 </>
               }
             />
@@ -1422,14 +1392,9 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  这是一处已知的、<b>刻意保留的不健全</b>,
-                  而不是「恰好安全」的规则。上面最后两行能编译通过,
-                  然后把一个普通 <code>Animal</code> 塞进了一个实际上是{" "}
-                  <code>Dog[]</code> 的数组里。TypeScript 之所以接受,
-                  是因为拒绝它就等于让 <code>Array&lt;Dog&gt;</code>{" "}
-                  不能当作 <code>Array&lt;Animal&gt;</code> 使用,
-                  同时废掉大量现存的 JavaScript 写法。
-                  官方在这里选择了可用性而不是健全性,并且把这个取舍写进了文档。
+                  这是一处已知的、<b>刻意保留的不健全</b>,而不是「恰好安全」的规则。上面最后两行能编译通过,然后把一个普通 <code>Animal</code> 塞进了一个实际上是{" "}
+                  <code>Dog[]</code> 的数组里。TypeScript 之所以接受,是因为拒绝它就等于让 <code>Array&lt;Dog&gt;</code>{" "}
+                  不能当作 <code>Array&lt;Animal&gt;</code> 使用,同时废掉大量现存的 JavaScript 写法。官方在这里选择了可用性而不是健全性,并且把这个取舍写进了文档。
                 </>
               }
             />
@@ -1446,9 +1411,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  实际怎么用:想让 interface 的某个成员走严格检查,
-                  就用属性语法声明它。反过来,当某个你以为会报错的赋值被放行时,
-                  先看一眼是不是方法语法。
+                  实际怎么用:想让 interface 的某个成员走严格检查,就用属性语法声明它。反过来,当某个你以为会报错的赋值被放行时,先看一眼是不是方法语法。
                 </>
               }
             />
@@ -1500,10 +1463,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  <code>map</code> 调用回调时会传三个实参,
-                  而你几乎总是只写一个参数的回调。在 JavaScript 里,
-                  多余的实参会被直接忽略,所以「声明的参数更少」的回调
-                  永远可以安全调用。类型系统允许的,正是语言本来就允许的。
+                  <code>map</code> 调用回调时会传三个实参,而你几乎总是只写一个参数的回调。在 JavaScript 里,多余的实参会被直接忽略,所以「声明的参数更少」的回调永远可以安全调用。类型系统允许的,正是语言本来就允许的。
                 </>
               }
             />
@@ -1519,8 +1479,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  反过来就不安全了。声明了第四个参数的回调,
-                  会去读一个根本没人传的实参,所以编译器把它拦下。
+                  反过来就不安全了。声明了第四个参数的回调,会去读一个根本没人传的实参,所以编译器把它拦下。
                 </>
               }
             />
@@ -1554,8 +1513,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                有的函数会根据传进来的东西表现不同:传字符串还回来一种结果,
-                传数组还回来另一种。这可以用几条<b>重载签名</b>加一条
+                有的函数会根据传进来的东西表现不同:传字符串还回来一种结果,传数组还回来另一种。这可以用几条<b>重载签名</b>加一条
                 <b>实现签名</b>来描述。
               </>
             }
@@ -1588,11 +1546,8 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  第一条:<b>实现签名不能从外部调用</b>。
-                  它只需要和上面每一条重载都兼容。例子里 <code>price</code>{" "}
-                  的实现接受 <code>string | string[]</code>,
-                  但拿一个 <code>string | string[]</code> 的值去调用它却会报错,
-                  因为两条重载谁都不接受这个类型。
+                  第一条:<b>实现签名不能从外部调用</b>。它只需要和上面每一条重载都兼容。例子里 <code>price</code>{" "}
+                  的实现接受 <code>string | string[]</code>,但拿一个 <code>string | string[]</code> 的值去调用它却会报错,因为两条重载谁都不接受这个类型。
                 </>
               }
             />
@@ -1609,9 +1564,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  第二条:TypeScript 按你书写的顺序,取<b>第一条匹配上的重载</b>,
-                  而不是去找「最合适的那条」。所以重载的顺序是 API 的一部分:
-                  越具体的签名越要写在前面。
+                  第二条:TypeScript 按你书写的顺序,取<b>第一条匹配上的重载</b>,而不是去找「最合适的那条」。所以重载的顺序是 API 的一部分:越具体的签名越要写在前面。
                 </>
               }
             />
@@ -1635,8 +1588,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                另一件事是一个名字叫 <code>this</code> 的参数。
-                它不是真的参数,而是告诉编译器:这个函数运行时,
+                另一件事是一个名字叫 <code>this</code> 的参数。它不是真的参数,而是告诉编译器:这个函数运行时,
                 <code>this</code> 必须是什么。
               </>
             }
@@ -1658,9 +1610,7 @@ export default function FunctionsPage() {
             ),
             zh: (
               <>
-                <code>this</code> 参数和其他类型一起被擦除,
-                编译出来的 JavaScript 里是一个单参数函数。
-                它在运行时不改变任何东西,只是让编译器能拦下那些{" "}
+                <code>this</code> 参数和其他类型一起被擦除,编译出来的 JavaScript 里是一个单参数函数。它在运行时不改变任何东西,只是让编译器能拦下那些{" "}
                 <code>this</code> 会出错的调用。
               </>
             ),
@@ -1688,10 +1638,8 @@ export default function FunctionsPage() {
               zh={
                 <>
                   返回值类型还可以写成 <code>x is Dog</code> 或{" "}
-                  <code>asserts x is Dog</code>。
-                  这是类型谓词和断言签名 ——
-                  用签名告诉编译器「这次检查证明了什么」。
-                  它们属于收窄的范畴,03 章会讲。
+                  <code>asserts x is Dog</code>。这是类型谓词和断言签名 ——
+                  用签名告诉编译器「这次检查证明了什么」。它们属于收窄的范畴,03 章会讲。
                 </>
               }
             />
@@ -1735,11 +1683,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  <code>readonly</code> 只在<b>编译期</b>拦你。
-                  它在产出的 JavaScript 里不留任何痕迹,
-                  所以运行时这个属性照样能写。想要真正的运行时冻结,
-                  得用 <code>Object.freeze</code>。
-                  但编译期这道检查依然值得要:误改几乎都被它挡住了。
+                  <code>readonly</code> 只在<b>编译期</b>拦你。它在产出的 JavaScript 里不留任何痕迹,所以运行时这个属性照样能写。想要真正的运行时冻结,得用 <code>Object.freeze</code>。但编译期这道检查依然值得要:误改几乎都被它挡住了。
                 </>
               }
             />
@@ -1763,11 +1707,8 @@ export default function FunctionsPage() {
             zh={
               <>
                 这个说法不用信,可以当场验。下面这个窗口里,给 <code>id</code>{" "}
-                赋值那一行被画了波浪线;切到<b>编译产物 JS</b> 页签,
-                再找 <code>readonly</code> 这个词 —— 产物里根本没有它。
-                检查发生过,然后被擦掉了。第二条红线来自另一个修饰:
-                <code>desc</code> 可能不存在,用之前必须先检查。
-                把 <code>readonly</code> 这个词删掉,它那条报错就跟着没了。
+                赋值那一行被画了波浪线;切到<b>编译产物 JS</b> 页签,再找 <code>readonly</code> 这个词 —— 产物里根本没有它。检查发生过,然后被擦掉了。第二条红线来自另一个修饰:
+                <code>desc</code> 可能不存在,用之前必须先检查。把 <code>readonly</code> 这个词删掉,它那条报错就跟着没了。
               </>
             }
           />
@@ -1793,9 +1734,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                有时候<b>键</b>是事先列不出来的:库存表明天可能上任何一个新货号。
-                这时用<b>索引签名(index signature)</b>,
-                只约定键的类型和值的类型。
+                有时候<b>键</b>是事先列不出来的:库存表明天可能上任何一个新货号。这时用<b>索引签名(index signature)</b>,只约定键的类型和值的类型。
               </>
             }
           />
@@ -1827,10 +1766,8 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  字段名写得全,就老老实实一个个写出来,编译器会帮你查拼写。
-                  只有当键是<b>运行时</b>才定的 ——
-                  货号、用户输入、由数据拼出来的字典 —— 才用索引签名。
-                  它更宽松,代价正是你刚刚放弃的那道拼写检查。
+                  字段名写得全,就老老实实一个个写出来,编译器会帮你查拼写。只有当键是<b>运行时</b>才定的 ——
+                  货号、用户输入、由数据拼出来的字典 —— 才用索引签名。它更宽松,代价正是你刚刚放弃的那道拼写检查。
                 </>
               }
             />
@@ -1879,8 +1816,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                右边用的 <code>&amp;</code> 是<b>交叉类型</b>。
-                值得单独看一眼,因为下一章会拿它和联合类型作对比。
+                右边用的 <code>&amp;</code> 是<b>交叉类型</b>。值得单独看一眼,因为下一章会拿它和联合类型作对比。
               </>
             }
           />
@@ -1910,9 +1846,7 @@ export default function FunctionsPage() {
             ),
             zh: (
               <>
-                两个冲突的属性类型交叉之后会被归约成 <code>never</code>,
-                声明处并不报错,问题要到后面真正使用这个属性的地方才暴露。
-                这就是「扩展对象类型时优先用 <code>extends</code>」的实际理由。
+                两个冲突的属性类型交叉之后会被归约成 <code>never</code>,声明处并不报错,问题要到后面真正使用这个属性的地方才暴露。这就是「扩展对象类型时优先用 <code>extends</code>」的实际理由。
               </>
             ),
           }}
@@ -2067,10 +2001,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  TypeScript handbook 现行的建议很朴素:
-                  两个随便挑一个,在同一个代码库里保持一致。
-                  需要联合类型或映射类型时,只有 <code>type</code> 写得出来;
-                  写库、并且希望使用者能扩展你的声明时,用{" "}
+                  TypeScript handbook 现行的建议很朴素:两个随便挑一个,在同一个代码库里保持一致。需要联合类型或映射类型时,只有 <code>type</code> 写得出来;写库、并且希望使用者能扩展你的声明时,用{" "}
                   <code>interface</code>。至于「<code>interface</code>{" "}
                   编译一定更快」这种说法,不足以作为选型依据。
                 </>
@@ -2112,8 +2043,7 @@ export default function FunctionsPage() {
             zh: (
               <>
                 高亮的这段签名就是本章开头那一份。注意 <code>toppings</code>{" "}
-                这次用的是<b>默认值</b>而不是 <code>?</code>:
-                函数体里它的类型就是 <code>Topping[]</code>,不含{" "}
+                这次用的是<b>默认值</b>而不是 <code>?</code>:函数体里它的类型就是 <code>Topping[]</code>,不含{" "}
                 <code>undefined</code>,所以 <code>toppings.length</code>{" "}
                 不需要任何检查。
               </>
@@ -2132,8 +2062,7 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                签名定下来了,现在换你当编译器。下面六种调用,
-                先猜「能不能通过」,再看编译器的原话。
+                签名定下来了,现在换你当编译器。下面六种调用,先猜「能不能通过」,再看编译器的原话。
               </>
             }
           />
@@ -2155,11 +2084,8 @@ export default function FunctionsPage() {
             }
             zh={
               <>
-                猜是一半,另一半是自己动手违约。
-                下面这个窗口里是同一份签名,最后一行那次调用守约。
-                把杯型改成名单外的字符串、删掉一个实参、再多塞一个 ——
-                你拿到的每一句都是当场生成的,出自编译器本人。
-                标题栏那三份稿子,是最常见的三种错法。
+                猜是一半,另一半是自己动手违约。下面这个窗口里是同一份签名,最后一行那次调用守约。把杯型改成名单外的字符串、删掉一个实参、再多塞一个 ——
+                你拿到的每一句都是当场生成的,出自编译器本人。标题栏那三份稿子,是最常见的三种错法。
               </>
             }
           />
@@ -2205,9 +2131,7 @@ export default function FunctionsPage() {
                 两份把参数个数搞错的稿子,报的都是 <code>TS2554</code>:
                 <code>Expected 2-3 arguments, but got 1.</code> 和{" "}
                 <code>Expected 2-3 arguments, but got 4.</code>
-                那个 <b>2-3</b> 的范围,就是这份签名念出来的样子:
-                两个必填参数,加一个可以不写的。这个范围没有人写在任何地方,
-                是编译器从签名上数出来的 —— 你改一下签名,它当场重数一遍。
+                那个 <b>2-3</b> 的范围,就是这份签名念出来的样子:两个必填参数,加一个可以不写的。这个范围没有人写在任何地方,是编译器从签名上数出来的 —— 你改一下签名,它当场重数一遍。
               </>
             }
           />
@@ -2244,10 +2168,7 @@ export default function FunctionsPage() {
                     makeOrder(item: MenuItem, size: Size, toppings?: Topping[]):
                     Order
                   </code>
-                  。第三个参数声明时写的是<b>默认值</b>,
-                  显示出来却带着一个<b>问号</b>。
-                  因为站在调用方这一侧,两者确实是同一件事:这个实参可以不写。
-                  区别在函数体内部,§02 讲过 —— 有默认值,就没有{" "}
+                  。第三个参数声明时写的是<b>默认值</b>,显示出来却带着一个<b>问号</b>。因为站在调用方这一侧,两者确实是同一件事:这个实参可以不写。区别在函数体内部,§02 讲过 —— 有默认值,就没有{" "}
                   <code>undefined</code> 需要检查了。
                 </>
               }
@@ -2275,8 +2196,7 @@ export default function FunctionsPage() {
               zh={
                 <>
                   03 章里,这个 <code>Order</code> 会长出一个状态字段:
-                  pending、paid、delivered。
-                  写成可辨识联合之后,编译器就能在每个分支里自己算出有哪些字段。
+                  pending、paid、delivered。写成可辨识联合之后,编译器就能在每个分支里自己算出有哪些字段。
                 </>
               }
             />
@@ -2324,9 +2244,7 @@ export default function FunctionsPage() {
             ),
             zh: (
               <>
-                参数类型通常必须写,返回值类型通常靠推断。
-                对外边界上要写,想让错误报在定义处而不是很远的调用处时也要写。
-                它同时能挡住 <code>any</code> 从函数里漏出去。
+                参数类型通常必须写,返回值类型通常靠推断。对外边界上要写,想让错误报在定义处而不是很远的调用处时也要写。它同时能挡住 <code>any</code> 从函数里漏出去。
               </>
             ),
           },
@@ -2343,11 +2261,8 @@ export default function FunctionsPage() {
             ),
             zh: (
               <>
-                <code>?</code> 让调用方可以不写这个实参,
-                而函数体里的类型会带上 <code>| undefined</code>。
-                默认值同样允许不写,但函数体里的类型<b>不含</b>{" "}
-                <code>undefined</code>。可选参数必须排在最后。
-                rest 参数是数组,也可以是元组。
+                <code>?</code> 让调用方可以不写这个实参,而函数体里的类型会带上 <code>| undefined</code>。默认值同样允许不写,但函数体里的类型<b>不含</b>{" "}
+                <code>undefined</code>。可选参数必须排在最后。rest 参数是数组,也可以是元组。
               </>
             ),
           },
@@ -2363,10 +2278,7 @@ export default function FunctionsPage() {
             ),
             zh: (
               <>
-                函数类型里的 <code>void</code> 表示调用方不看返回值,
-                所以真的返回了东西的函数照样放得进去;
-                声明上的 <code>void</code> 则禁止返回值;
-                类型为 <code>void</code> 的变量只接受 <code>undefined</code>。
+                函数类型里的 <code>void</code> 表示调用方不看返回值,所以真的返回了东西的函数照样放得进去;声明上的 <code>void</code> 则禁止返回值;类型为 <code>void</code> 的变量只接受 <code>undefined</code>。
               </>
             ),
           },
@@ -2388,8 +2300,7 @@ export default function FunctionsPage() {
                 返回值按协变检查:返回 <code>Dog</code> 可以放进「要{" "}
                 <code>Animal</code>」的位置。参数在{" "}
                 <code>strictFunctionTypes</code> 下按逆变检查 ——
-                但用方法语法写的成员是例外,仍然双变。
-                这个例外是刻意保留的不健全,也正是{" "}
+                但用方法语法写的成员是例外,仍然双变。这个例外是刻意保留的不健全,也正是{" "}
                 <code>Array&lt;Dog&gt;</code> 能赋给{" "}
                 <code>Array&lt;Animal&gt;</code> 的原因。
               </>
@@ -2406,10 +2317,8 @@ export default function FunctionsPage() {
             ),
             zh: (
               <>
-                参数更少的函数可以放进「要求参数更多」的位置,
-                因为 JavaScript 本来就会忽略多余的实参 —— 这就是{" "}
-                <code>array.map(x =&gt; x)</code> 能编译的原因。
-                反过来,声明的参数比目标提供的<i>还多</i>,会被拒绝。
+                参数更少的函数可以放进「要求参数更多」的位置,因为 JavaScript 本来就会忽略多余的实参 —— 这就是{" "}
+                <code>array.map(x =&gt; x)</code> 能编译的原因。反过来,声明的参数比目标提供的<i>还多</i>,会被拒绝。
               </>
             ),
           },
@@ -2426,9 +2335,7 @@ export default function FunctionsPage() {
             zh: (
               <>
                 重载里,实现签名不能从外部调用;
-                TypeScript 按书写顺序取<b>第一条匹配</b>的重载,
-                而不是最合适的那条。<code>this</code> 参数在编译期被擦除,
-                箭头函数不能声明它。
+                TypeScript 按书写顺序取<b>第一条匹配</b>的重载,而不是最合适的那条。<code>this</code> 参数在编译期被擦除,箭头函数不能声明它。
               </>
             ),
           },
@@ -2465,8 +2372,7 @@ export default function FunctionsPage() {
                 <code>interface</code> 和 <code>type</code>{" "}
                 大部分时候可以互换。联合类型和映射类型只能用{" "}
                 <code>type</code>;declaration merging 只有{" "}
-                <code>interface</code> 有。<code>A &amp; B</code> 是交叉类型:
-                一个同时满足两边的值。
+                <code>interface</code> 有。<code>A &amp; B</code> 是交叉类型:一个同时满足两边的值。
               </>
             ),
           },

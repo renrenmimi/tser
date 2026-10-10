@@ -553,9 +553,7 @@ export default function MindsetPage() {
           zh: (
             <>
               前十一章讲完了语法,这一章讲怎么想。TypeScript 就是 JavaScript
-              加上一层类型,这层类型只存在于你写代码和编译的阶段:
-              编译器检查完就把它删掉,真正运行的是你写的那份 JavaScript。
-              五条心法,一张全书地图,一场总测验。
+              加上一层类型,这层类型只存在于你写代码和编译的阶段:编译器检查完就把它删掉,真正运行的是你写的那份 JavaScript。五条心法,一张全书地图,一场总测验。
             </>
           ),
         }}
@@ -646,17 +644,13 @@ export default function MindsetPage() {
             zh={
               <>
                 <p>
-                  给一个值「定类型」,其实是在对编译器说话,
-                  而这三种写法说的是三句不同的话。<b>注解</b>(
-                  <code>: Config</code>)是「请你检查」:
-                  编译器检查这个值,然后把推断结果换成你声明的类型。
-                  <b>断言</b>(<code>as Config</code>)是「我说了算」:
-                  检查被跳过。
+                  给一个值「定类型」,其实是在对编译器说话,而这三种写法说的是三句不同的话。<b>注解</b>(
+                  <code>: Config</code>)是「请你检查」:编译器检查这个值,然后把推断结果换成你声明的类型。
+                  <b>断言</b>(<code>as Config</code>)是「我说了算」:检查被跳过。
                   <b>
                     <code>satisfies</code>
                   </b>
-                  (TypeScript 4.9 加入)是「检查完别改我」:
-                  形状照查,推断结果保留。下面直接对比。
+                  (TypeScript 4.9 加入)是「检查完别改我」:形状照查,推断结果保留。下面直接对比。
                 </p>
               </>
             }
@@ -688,10 +682,8 @@ export default function MindsetPage() {
               zh={
                 <>
                   上面那份对照是写好的。下面这个窗口里跑的是真正的 TypeScript
-                  编译器,就在你的浏览器里。同一个对象的四份稿子藏在标题栏的按钮后面,
-                  彼此只差一行。切着看,并且<b>点一下</b> <code>theme</code>{" "}
-                  这个词 —— 编辑器下面那条显示的是编译器推断出的类型,
-                  不是我们写上去的。
+                  编译器,就在你的浏览器里。同一个对象的四份稿子藏在标题栏的按钮后面,彼此只差一行。切着看,并且<b>点一下</b> <code>theme</code>{" "}
+                  这个词 —— 编辑器下面那条显示的是编译器推断出的类型,不是我们写上去的。
                 </>
               }
             />
@@ -724,8 +716,7 @@ export default function MindsetPage() {
                     the types &apos;&quot;dark&quot;&apos; and
                     &apos;&quot;light&quot;&apos; have no overlap.
                   </code>{" "}
-                  这一处报错<b>本身</b>就是三种写法的差别,由编译器说出口:
-                  只有 <code>satisfies</code> 之后,它还记得 <code>theme</code>{" "}
+                  这一处报错<b>本身</b>就是三种写法的差别,由编译器说出口:只有 <code>satisfies</code> 之后,它还记得 <code>theme</code>{" "}
                   是 <code>&quot;dark&quot;</code>。
                 </>
               }
@@ -783,11 +774,8 @@ export default function MindsetPage() {
               }
               zh={
                 <>
-                  第四份稿子值得花一分钟。<code>maxSugar</code> 根本不在里面,
-                  而这个文件<b>一处报错都没有</b> —— 包括调用{" "}
-                  <code>config.maxSugar.toFixed(1)</code> 那一行,
-                  它在运行时是一个必然发生的 <code>TypeError</code>。
-                  现在你自己在编辑器里把那个 <code>as Config</code> 改成{" "}
+                  第四份稿子值得花一分钟。<code>maxSugar</code> 根本不在里面,而这个文件<b>一处报错都没有</b> —— 包括调用{" "}
+                  <code>config.maxSugar.toFixed(1)</code> 那一行,它在运行时是一个必然发生的 <code>TypeError</code>。现在你自己在编辑器里把那个 <code>as Config</code> 改成{" "}
                   <code>: Config</code>,编译器立刻回话:
                   <code>
                     TS2741: Property &apos;maxSugar&apos; is missing in type
@@ -827,16 +815,14 @@ export default function MindsetPage() {
                 <>
                   但 <code>as</code> 不是万能通行证 ——
                   这一点值得弄准,不要靠猜。它要求两个类型仍然
-                  <b>可比较(comparable)</b>:其中一个能赋给另一个。
-                  少一个字段是过关的,因为 <code>Config</code>{" "}
+                  <b>可比较(comparable)</b>:其中一个能赋给另一个。少一个字段是过关的,因为 <code>Config</code>{" "}
                   可以赋给你写下的那个更小的形状。而把 <code>maxSugar: 7</code>{" "}
                   改成 <code>maxSugar: &quot;7&quot;</code> 就过不去:
                   <code>
                     TS2352: Conversion of type … may be a mistake because
                     neither type sufficiently overlaps with the other.
                   </code>{" "}
-                  所以关于 <code>as</code> 的老实说法比「什么都放行」
-                  更窄、也更有用:
+                  所以关于 <code>as</code> 的老实说法比「什么都放行」更窄、也更有用:
                   <b>它不会替你发现漏掉的东西,但明摆着矛盾的它仍然拒绝。</b>
                 </>
               }
@@ -946,9 +932,7 @@ export default function MindsetPage() {
                   值得注解的地方有两处。<b>函数参数</b> ——
                   参数来自外部,推断没有材料可读。<b>对外的边界</b> ——
                   导出的函数、模块 API、共享数据 ——
-                  那里的类型是给别的代码的承诺,写下来,
-                  编译器才会去检查这份承诺,而不是照抄你碰巧返回了什么。
-                  除此之外,交给推断。
+                  那里的类型是给别的代码的承诺,写下来,编译器才会去检查这份承诺,而不是照抄你碰巧返回了什么。除此之外,交给推断。
                 </p>
               </>
             }
@@ -984,10 +968,8 @@ export default function MindsetPage() {
             zh={
               <>
                 <code>as</code> 不是坏东西 ——
-                它就是为「你确实比编译器知道得多」的场合准备的。
-                判断标准只有一条:<b>你的信息从哪来?</b>
-                来自你亲自确认过的事实,这个断言就合理;
-                来自「另一种情况我懒得处理」,就不合理。
+                它就是为「你确实比编译器知道得多」的场合准备的。判断标准只有一条:<b>你的信息从哪来?</b>
+                来自你亲自确认过的事实,这个断言就合理;来自「另一种情况我懒得处理」,就不合理。
               </>
             }
           />
@@ -1018,10 +1000,7 @@ export default function MindsetPage() {
                   zh={
                     <>
                       <code>querySelector</code> 返回{" "}
-                      <code>Element | null</code>。编译器没读过你的 HTML,
-                      你读过 —— 这份信息差让断言变得合理。
-                      但它仍然是一份承诺:哪天页面结构改了,
-                      这一行就会静悄悄地变成错的。
+                      <code>Element | null</code>。编译器没读过你的 HTML,你读过 —— 这份信息差让断言变得合理。但它仍然是一份承诺:哪天页面结构改了,这一行就会静悄悄地变成错的。
                     </>
                   }
                 />
@@ -1051,9 +1030,7 @@ export default function MindsetPage() {
                   zh={
                     <>
                       请求回来的 JSON、<code>localStorage</code>、用户输入 ——
-                      这些数据的形状<b>不由你的代码库决定</b>。
-                      这里的 <code>as</code> 不是知识,
-                      而是把一个猜测写成了事实。正确做法见 §03。
+                      这些数据的形状<b>不由你的代码库决定</b>。这里的 <code>as</code> 不是知识,而是把一个猜测写成了事实。正确做法见 §03。
                     </>
                   }
                 />
@@ -1090,13 +1067,9 @@ export default function MindsetPage() {
             zh={
               <>
                 <p>
-                  当两个类型毫无交集时,直接 <code>as</code> 会被拒绝,
-                  于是有人写 <code>x as unknown as T</code> 分两步硬转。
-                  它的真实含义是:
+                  当两个类型毫无交集时,直接 <code>as</code> 会被拒绝,于是有人写 <code>x as unknown as T</code> 分两步硬转。它的真实含义是:
                   <b>「把编译器对这个值的全部认知丢掉,然后让我重新贴标签」</b>
-                  。在测试代码里,它有时是个合理的逃生口;
-                  出现在业务代码里,通常说明类型建模本身有问题,
-                  该改的是模型。
+                  。在测试代码里,它有时是个合理的逃生口;出现在业务代码里,通常说明类型建模本身有问题,该改的是模型。
                 </p>
               </>
             }
@@ -1130,15 +1103,12 @@ export default function MindsetPage() {
             zh={
               <>
                 <p>
-                  一个类型系统是<b>健全的(sound)</b>,
-                  意思是通过检查的程序不会以类型宣称不可能的方式出错。
-                  TypeScript 并不健全,而这是设计决定,不是缺陷 ——
+                  一个类型系统是<b>健全的(sound)</b>,意思是通过检查的程序不会以类型宣称不可能的方式出错。TypeScript 并不健全,而这是设计决定,不是缺陷 ——
                   完全健全的系统会拒绝大量普通的 JavaScript,
                   TypeScript 用一部分保证换取了在真实代码上可用。
                 </p>
                 <p>
-                  知道具体的口子在哪很有用,
-                  因为正是在这些地方,「编译通过」什么也不能说明。
+                  知道具体的口子在哪很有用,因为正是在这些地方,「编译通过」什么也不能说明。
                 </p>
               </>
             }
@@ -1171,12 +1141,9 @@ export default function MindsetPage() {
               }
               zh={
                 <>
-                  这几行现在都不报错,而四种情况在运行时都可能出问题。
-                  这不是不该信任 TypeScript 的理由,
-                  而是这一章后面几节存在的理由:
+                  这几行现在都不报错,而四种情况在运行时都可能出问题。这不是不该信任 TypeScript 的理由,而是这一章后面几节存在的理由:
                   <b>
-                    少用 <code>any</code> 和 <code>as</code>,
-                    在边界上自己检查数据,项目扛得住时打开{" "}
+                    少用 <code>any</code> 和 <code>as</code>,在边界上自己检查数据,项目扛得住时打开{" "}
                     <code>noUncheckedIndexedAccess</code>
                   </b>
                   。
@@ -1214,11 +1181,7 @@ export default function MindsetPage() {
             }
             zh={
               <>
-                类型在编译时会被<b>擦除</b>。这带来一个冷酷的结论:
-                你写的每一个 <code>interface</code> 在线上都不存在,
-                从外面进来的数据没有任何东西替你校验。
-                一个描述接口返回值的 <code>interface</code>,
-                是<b>对数据的一个声称,不是保证</b>。逐帧看一遍。
+                类型在编译时会被<b>擦除</b>。这带来一个冷酷的结论:你写的每一个 <code>interface</code> 在线上都不存在,从外面进来的数据没有任何东西替你校验。一个描述接口返回值的 <code>interface</code>,是<b>对数据的一个声称,不是保证</b>。逐帧看一遍。
               </>
             }
           />
@@ -1258,15 +1221,11 @@ export default function MindsetPage() {
                 <p>
                   很多人以为类型报错会让一切停下,其实不会。默认情况下,
                   <code>tsc</code> 会报出错误,<b>同时照样写出 JavaScript 文件</b>
-                  ;想让它停下,需要开 <code>noEmitOnError</code>。
-                  不少构建工具走得更远:它们直接删掉类型,根本不做检查,
-                  于是这个类型错误在构建过程中连出现的机会都没有。
+                  ;想让它停下,需要开 <code>noEmitOnError</code>。不少构建工具走得更远:它们直接删掉类型,根本不做检查,于是这个类型错误在构建过程中连出现的机会都没有。
                 </p>
                 <p>
-                  所以那条红线是一条消息,不是一堵墙。
-                  这一点值得直说,因为它解释了一个常见的困惑:
-                  <b>有类型错误的代码照样能跑,也照样能发布</b>。
-                  把类型检查放进持续集成,才是把消息变成墙。
+                  所以那条红线是一条消息,不是一堵墙。这一点值得直说,因为它解释了一个常见的困惑:
+                  <b>有类型错误的代码照样能跑,也照样能发布</b>。把类型检查放进持续集成,才是把消息变成墙。
                 </p>
               </>
             }
@@ -1285,8 +1244,7 @@ export default function MindsetPage() {
             zh={
               <>
                 站在边界上的那个 <code>isOrder</code>,就是第 03 章学过的
-                <b>类型谓词(type predicate)</b>:
-                在值这一层做检查,换来类型这一层的收窄。
+                <b>类型谓词(type predicate)</b>:在值这一层做检查,换来类型这一层的收窄。
               </>
             }
           />
@@ -1312,9 +1270,7 @@ export default function MindsetPage() {
               }
               zh={
                 <>
-                  注意第 10 行的 <code>as</code>:它只活在函数内部,
-                  只为逐个读取字段服务,而且每个字段<b>之后真的被检查了</b>。
-                  这是断言给检查打下手,不是断言替检查上岗。
+                  注意第 10 行的 <code>as</code>:它只活在函数内部,只为逐个读取字段服务,而且每个字段<b>之后真的被检查了</b>。这是断言给检查打下手,不是断言替检查上岗。
                 </>
               }
             />
@@ -1332,8 +1288,7 @@ export default function MindsetPage() {
             }
             zh={
               <>
-                这些都是断言,读到断言就该想验一下。
-                下面这个窗口就是验它的:同一道边界的三份稿子,由真编译器判。
+                这些都是断言,读到断言就该想验一下。下面这个窗口就是验它的:同一道边界的三份稿子,由真编译器判。
               </>
             }
           />
@@ -1385,10 +1340,8 @@ export default function MindsetPage() {
                     TS18046: &apos;data&apos; is of type &apos;unknown&apos;.
                   </code>{" "}
                   这不是编译器为难你,是编译器实话实说:
-                  <code>JSON.parse</code> 返回的就是字符串里当时装着的东西,
-                  在它上面读 <code>.total</code> 是猜。切到
-                  <b>加类型谓词</b>,报错没了 —— 不是因为你把它捂住了,
-                  而是因为 <code>isOrder</code> 真的先看了一眼那个值。
+                  <code>JSON.parse</code> 返回的就是字符串里当时装着的东西,在它上面读 <code>.total</code> 是猜。切到
+                  <b>加类型谓词</b>,报错没了 —— 不是因为你把它捂住了,而是因为 <code>isOrder</code> 真的先看了一眼那个值。
                 </>
               }
             />
@@ -1416,12 +1369,10 @@ export default function MindsetPage() {
                   <code>data.totl.toFixed(2)</code>,以及连装都不装的{" "}
                   <code>data.anything.at.all()</code>。
                   <b>
-                    unknown 和 any 说的都是「我不知道这是什么」,
-                    差别在下一步
+                    unknown 和 any 说的都是「我不知道这是什么」,差别在下一步
                   </b>
                   :<code>unknown</code> 逼你去弄清楚,<code>any</code>{" "}
-                  是你说什么它都点头。站在边界上,你选的就是这两句话之一,
-                  而其中一句等于决定不再检查。
+                  是你说什么它都点头。站在边界上,你选的就是这两句话之一,而其中一句等于决定不再检查。
                 </>
               }
             />
@@ -1460,14 +1411,12 @@ export default function MindsetPage() {
               <>
                 <p>
                   真实项目里形状会变大,手写的校验函数又长又容易写漏。
-                  <b>zod</b> 这类运行时校验库解决的正是这件事:
-                  用代码描述一次形状,校验函数和 TypeScript
+                  <b>zod</b> 这类运行时校验库解决的正是这件事:用代码描述一次形状,校验函数和 TypeScript
                   类型都从这一份描述里生成。
                 </p>
                 <p>
                   本课不展开,记一句就够:
-                  <b>它们存在,是因为类型被擦除了,运行时得有人来查</b>。
-                  思路和你刚读的 <code>isOrder</code> 完全一样。
+                  <b>它们存在,是因为类型被擦除了,运行时得有人来查</b>。思路和你刚读的 <code>isOrder</code> 完全一样。
                 </p>
               </>
             }
@@ -1505,10 +1454,7 @@ export default function MindsetPage() {
               <>
                 前面十一章一直在说「少用 <code>any</code>」,这里说句公道话:
                 <code>any</code> 有它的正当用途 —— <b>迁移期的旧代码</b>
-                (第 10 章讲的过渡状态),以及<b>真正动态的边界</b>,
-                比如 <code>eval</code> 的结果、
-                形状没有任何文档的第三方回调。
-                纪律只有一条:<b>把它锁在能跑通的最小范围里</b>。
+                (第 10 章讲的过渡状态),以及<b>真正动态的边界</b>,比如 <code>eval</code> 的结果、形状没有任何文档的第三方回调。纪律只有一条:<b>把它锁在能跑通的最小范围里</b>。
               </>
             }
           />
@@ -1537,8 +1483,7 @@ export default function MindsetPage() {
                   zh={
                     <>
                       <code>any</code> 会扩散:从 <code>any</code>{" "}
-                      值上取出来的东西还是 <code>any</code>。
-                      一旦它进入导出签名,项目里所有调用方也一起失去了检查。
+                      值上取出来的东西还是 <code>any</code>。一旦它进入导出签名,项目里所有调用方也一起失去了检查。
                     </>
                   }
                 />
@@ -1605,15 +1550,11 @@ export default function MindsetPage() {
               <>
                 <p>
                   两者都能接收任何值,差别在于之后你能拿它做什么。
-                  <code>unknown</code> <b>必须先收窄才能使用</b>,
-                  编译器会逼你补上检查;<code>any</code> 允许任何用法,
-                  所以不需要检查,也就没有检查。
+                  <code>unknown</code> <b>必须先收窄才能使用</b>,编译器会逼你补上检查;<code>any</code> 允许任何用法,所以不需要检查,也就没有检查。
                 </p>
                 <p>
                   因此拿不准类型时,第一反应是 <code>unknown</code> ——
-                  它是类型安全的「我还不知道」。
-                  只有当 <code>unknown</code> 确实让代码写不下去时,
-                  才降级到 <code>any</code>,并且锁在尽可能小的作用域里。
+                  它是类型安全的「我还不知道」。只有当 <code>unknown</code> 确实让代码写不下去时,才降级到 <code>any</code>,并且锁在尽可能小的作用域里。
                 </p>
               </>
             }
@@ -1646,10 +1587,7 @@ export default function MindsetPage() {
             }
             zh={
               <>
-                同一个订单状态,两种建模。左边每个字段都可选,
-                于是<b>不可能存在的组合</b>可以随便造;
-                右边用第 03 章的可辨识联合,
-                把「什么状态下有什么字段」写进了类型。
+                同一个订单状态,两种建模。左边每个字段都可选,于是<b>不可能存在的组合</b>可以随便造;右边用第 03 章的可辨识联合,把「什么状态下有什么字段」写进了类型。
               </>
             }
           />
@@ -1677,8 +1615,7 @@ export default function MindsetPage() {
                   }
                   zh={
                     <>
-                      你可以在文档里写「status 为 paid 时才有 paidAt」。
-                      文档不会报错,代码也不读文档 ——
+                      你可以在文档里写「status 为 paid 时才有 paidAt」。文档不会报错,代码也不读文档 ——
                       这个约定只活在某个人的记忆里。
                     </>
                   }
@@ -1713,10 +1650,8 @@ export default function MindsetPage() {
                   }
                   zh={
                     <>
-                      写完 <code>switch (order.status)</code>,
-                      每个分支里恰好有该状态的字段,漏掉的状态由{" "}
-                      <code>never</code> 兜住。第 03 章给了你技术,
-                      这一章给的是用它的理由:
+                      写完 <code>switch (order.status)</code>,每个分支里恰好有该状态的字段,漏掉的状态由{" "}
+                      <code>never</code> 兜住。第 03 章给了你技术,这一章给的是用它的理由:
                       <b>把约定写进类型,而不是写在旁边的注释里</b>。
                     </>
                   }
@@ -1759,16 +1694,12 @@ export default function MindsetPage() {
               <>
                 <p>
                   前四条心法讲的是怎么和编译器相处,这一条讲的是
-                  <b>类型系统真正的用途</b>:它不是拼写检查器,
-                  而是一门描述你的问题域规则的语言。
-                  「订单没付钱就不可能已送达」就是这样一条规则 ——
+                  <b>类型系统真正的用途</b>:它不是拼写检查器,而是一门描述你的问题域规则的语言。「订单没付钱就不可能已送达」就是这样一条规则 ——
                   写进类型之后,今后每一次破坏它的改动都编译不过。
                 </p>
                 <p>
-                  注意这个联合是靠什么区分的:<code>status</code>,
-                  一个运行时真实存在的属性。它没法靠类型的名字来区分 ——
-                  因为 TypeScript 比较的是<b>类型的形状,不是名字</b>,
-                  而名字在编译之后就没了。这套比较规则,第 04 章讲得很细。
+                  注意这个联合是靠什么区分的:<code>status</code>,一个运行时真实存在的属性。它没法靠类型的名字来区分 ——
+                  因为 TypeScript 比较的是<b>类型的形状,不是名字</b>,而名字在编译之后就没了。这套比较规则,第 04 章讲得很细。
                 </p>
               </>
             }
@@ -1803,9 +1734,7 @@ export default function MindsetPage() {
             zh={
               <>
                 第一个:<b>MyOmit</b> —— 重写第 06 章起你一直在用的{" "}
-                <code>Omit</code>。零件全来自第 07 章:
-                映射类型遍历键,<code>as</code> 键重映射(TypeScript 4.1)
-                负责把不要的键去掉。
+                <code>Omit</code>。零件全来自第 07 章:映射类型遍历键,<code>as</code> 键重映射(TypeScript 4.1)负责把不要的键去掉。
               </>
             }
           />
@@ -1828,8 +1757,7 @@ export default function MindsetPage() {
               }
               zh={
                 <>
-                  <code>never</code> 在这里又立了一功:
-                  被映射成 <code>never</code> 的键会从结果里消失 ——
+                  <code>never</code> 在这里又立了一功:被映射成 <code>never</code> 的键会从结果里消失 ——
                   在类型层面的代码里,<code>never</code> 是通用的「删除」手段。
                 </>
               }
@@ -1850,8 +1778,7 @@ export default function MindsetPage() {
             zh={
               <>
                 第二个,难一些:<b>DeepReadonly</b>。内置的{" "}
-                <code>Readonly</code> 只锁最外一层,嵌套对象里面照样能改。
-                想全锁住,让映射类型<b>调用它自己</b>。
+                <code>Readonly</code> 只锁最外一层,嵌套对象里面照样能改。想全锁住,让映射类型<b>调用它自己</b>。
               </>
             }
           />
@@ -1876,10 +1803,7 @@ export default function MindsetPage() {
               }
               zh={
                 <>
-                  条件类型(第 07 章)+ 映射类型(第 07 章)+ 递归,
-                  就得到一个新工具。严谨的版本还要处理函数和数组:
-                  函数也是 <code>object</code>,往里递归没有意义。
-                  那是 type-challenges 上 medium 难度的题,值得你自己做一遍。
+                  条件类型(第 07 章)+ 映射类型(第 07 章)+ 递归,就得到一个新工具。严谨的版本还要处理函数和数组:函数也是 <code>object</code>,往里递归没有意义。那是 type-challenges 上 medium 难度的题,值得你自己做一遍。
                 </>
               }
             />
@@ -1906,9 +1830,7 @@ export default function MindsetPage() {
                 zh={
                   <>
                     github.com/type-challenges/type-challenges
-                    是社区维护的类型题库,难度从 easy 到 extreme。
-                    每道题都能在 Playground 里做,自带测试用例,当场就有结果。
-                    你刚写的 MyOmit 和 DeepReadonly 都是里面的原题。
+                    是社区维护的类型题库,难度从 easy 到 extreme。每道题都能在 Playground 里做,自带测试用例,当场就有结果。你刚写的 MyOmit 和 DeepReadonly 都是里面的原题。
                   </>
                 }
               />
@@ -1931,9 +1853,7 @@ export default function MindsetPage() {
                 }
                 zh={
                   <>
-                    typescriptlang.org/docs 下的 Handbook 是第一手资料:
-                    本课讲过的每个概念,那里都有权威版本。
-                    以你现在的水平读它不再吃力 —— 这正是这门课的目的之一。
+                    typescriptlang.org/docs 下的 Handbook 是第一手资料:本课讲过的每个概念,那里都有权威版本。以你现在的水平读它不再吃力 —— 这正是这门课的目的之一。
                   </>
                 }
               />
@@ -1957,10 +1877,7 @@ export default function MindsetPage() {
                 }
                 zh={
                   <>
-                    typescriptlang.org/play 免注册、可分享链接、
-                    能切换 TypeScript 版本、能看编译产物。
-                    行为拿不准的时候别猜,贴进去看答案。
-                    这个习惯比这门课里的任何一个知识点都值钱。
+                    typescriptlang.org/play 免注册、可分享链接、能切换 TypeScript 版本、能看编译产物。行为拿不准的时候别猜,贴进去看答案。这个习惯比这门课里的任何一个知识点都值钱。
                   </>
                 }
               />
@@ -2046,13 +1963,8 @@ export default function MindsetPage() {
             zh={
               <>
                 <p>
-                  序章那天,你还在问「类型是干嘛的,JavaScript 不是跑得好好的」。
-                  现在你能读懂编译器报错里的每一个词,
-                  能为请求回来的数据设计校验边界,
-                  能用可辨识联合让非法状态写不出来,能自己实现{" "}
-                  <code>Omit</code>,
-                  还能给一个老的 JavaScript 项目排一份分步迁移计划。
-                  十二章没有白走。
+                  序章那天,你还在问「类型是干嘛的,JavaScript 不是跑得好好的」。现在你能读懂编译器报错里的每一个词,能为请求回来的数据设计校验边界,能用可辨识联合让非法状态写不出来,能自己实现{" "}
+                  <code>Omit</code>,还能给一个老的 JavaScript 项目排一份分步迁移计划。十二章没有白走。
                 </p>
               </>
             }
@@ -2085,12 +1997,9 @@ export default function MindsetPage() {
                 }
                 zh={
                   <>
-                    用 Vite + TypeScript 起一个项目,
-                    把贯穿全书的点单系统实现出来:<code>MenuItem</code>、
-                    用可辨识联合写的 <code>Order</code>、一个泛型容器、
+                    用 Vite + TypeScript 起一个项目,把贯穿全书的点单系统实现出来:<code>MenuItem</code>、用可辨识联合写的 <code>Order</code>、一个泛型容器、
                     <code>Partial</code> 草稿单、边界上的{" "}
-                    <code>isOrder</code>。<code>strict</code> 全开,
-                    再把 <code>noUncheckedIndexedAccess</code> 也加上。
+                    <code>isOrder</code>。<code>strict</code> 全开,再把 <code>noUncheckedIndexedAccess</code> 也加上。
                   </>
                 }
               />
@@ -2122,9 +2031,7 @@ export default function MindsetPage() {
                 }
                 zh={
                   <>
-                    type-challenges 从 easy 刷起,每天一道;做不出来就看讨论区,
-                    那里有社区里很聪明的写法。刷完 easy 和 medium,
-                    再读开源库的类型定义就不会发怵了。
+                    type-challenges 从 easy 刷起,每天一道;做不出来就看讨论区,那里有社区里很聪明的写法。刷完 easy 和 medium,再读开源库的类型定义就不会发怵了。
                   </>
                 }
               />
@@ -2150,11 +2057,8 @@ export default function MindsetPage() {
                 }
                 zh={
                   <>
-                    打开你最常用的 JavaScript 库,
-                    去 <code>node_modules</code> 里读它的 <code>.d.ts</code>;
-                    再去 DefinitelyTyped 看看 <code>@types</code>{" "}
-                    是怎么给没有类型的库补类型的。
-                    先读懂别人的类型设计,才谈得上设计自己的。
+                    打开你最常用的 JavaScript 库,去 <code>node_modules</code> 里读它的 <code>.d.ts</code>;再去 DefinitelyTyped 看看 <code>@types</code>{" "}
+                    是怎么给没有类型的库补类型的。先读懂别人的类型设计,才谈得上设计自己的。
                   </>
                 }
               />
@@ -2203,21 +2107,16 @@ export default function MindsetPage() {
               <>
                 <p>
                   最后说一句。这门课教的不是语法,是一种看待程序的方式:
-                  <b>每个值都有形状,而形状可以被描述、被检查、被推导</b>。
-                  你脑子里那些默契 ——「这里不会是 null」
-                  「这个状态下一定有那个字段」——
+                  <b>每个值都有形状,而形状可以被描述、被检查、被推导</b>。你脑子里那些默契 ——「这里不会是 null」「这个状态下一定有那个字段」——
                   统统可以写下来,交给一个不会累、也不会忘的审查员。
                 </p>
                 <p>
-                  它不会替你抓住所有问题。类型会被擦除,
-                  类型系统并不完全健全,外部进来的数据仍然归你负责。
-                  但它能抓住的那些,会抓得很早 ——
+                  它不会替你抓住所有问题。类型会被擦除,类型系统并不完全健全,外部进来的数据仍然归你负责。但它能抓住的那些,会抓得很早 ——
                   早到你还在看着造成问题的那段代码。
                 </p>
                 <p>
                   <b>
-                    往后你写任何语言,都会先问一句「这里的约定是什么」。
-                    这个习惯,才是这门课真正教给你的东西。
+                    往后你写任何语言,都会先问一句「这里的约定是什么」。这个习惯,才是这门课真正教给你的东西。
                   </b>
                 </p>
               </>
@@ -2242,8 +2141,7 @@ export default function MindsetPage() {
             ),
             zh: (
               <>
-                类型是写下来的约定:写下来的,编译器替你守;
-                只记在脑子里的,只能靠运气。
+                类型是写下来的约定:写下来的,编译器替你守;只记在脑子里的,只能靠运气。
               </>
             ),
           },
@@ -2259,8 +2157,7 @@ export default function MindsetPage() {
             zh: (
               <>
                 三种写法:注解检查但拓宽,<code>as</code> 既不检查也不保留,
-                <code>satisfies</code> 两样都做。需要精确保留字面量时,
-                再加 <code>as const</code>。
+                <code>satisfies</code> 两样都做。需要精确保留字面量时,再加 <code>as const</code>。
               </>
             ),
           },
@@ -2276,9 +2173,7 @@ export default function MindsetPage() {
             ),
             zh: (
               <>
-                类型在编译期被擦除,所以<b>运行时没有任何类型检查</b>。
-                外部数据一律用 <code>unknown</code> 接收,
-                再用你自己写的检查收窄 ——
+                类型在编译期被擦除,所以<b>运行时没有任何类型检查</b>。外部数据一律用 <code>unknown</code> 接收,再用你自己写的检查收窄 ——
                 让错误发生在边界,而不是三个文件之外。
               </>
             ),
@@ -2294,8 +2189,7 @@ export default function MindsetPage() {
             ),
             zh: (
               <>
-                类型系统是刻意不完全健全的:<code>any</code>、断言、
-                数组协变、未开检查的下标访问,都是真实存在的口子 ——
+                类型系统是刻意不完全健全的:<code>any</code>、断言、数组协变、未开检查的下标访问,都是真实存在的口子 ——
                 「编译通过」不等于「代码正确」。
               </>
             ),
@@ -2311,9 +2205,7 @@ export default function MindsetPage() {
             ),
             zh: (
               <>
-                <code>any</code> 在迁移期和真正动态的边界上是正当的。
-                纪律是控制范围:内部可以乱,导出签名必须精确。
-                先用 <code>unknown</code>。
+                <code>any</code> 在迁移期和真正动态的边界上是正当的。纪律是控制范围:内部可以乱,导出签名必须精确。先用 <code>unknown</code>。
               </>
             ),
           },
@@ -2328,9 +2220,7 @@ export default function MindsetPage() {
             ),
             zh: (
               <>
-                类型最有价值的用途是建模:可辨识联合让非法状态写不出来,
-                约定就不再只是一句注释。拿不准的时候,
-                去 Playground 验证,别猜。
+                类型最有价值的用途是建模:可辨识联合让非法状态写不出来,约定就不再只是一句注释。拿不准的时候,去 Playground 验证,别猜。
               </>
             ),
           },

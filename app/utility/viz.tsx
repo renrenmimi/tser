@@ -164,8 +164,7 @@ function utFieldMsg(tool: UtToolId, f: UtField): ReactNode {
         }
         zh={
           <>
-            <b>{f.key}</b> 过机:冒号前加上一个 <code>?</code>。
-            这个属性现在可以不写,所以读它拿到的是{" "}
+            <b>{f.key}</b> 过机:冒号前加上一个 <code>?</code>。这个属性现在可以不写,所以读它拿到的是{" "}
             <code>
               {f.type} | undefined
             </code>
@@ -208,8 +207,7 @@ function utFieldMsg(tool: UtToolId, f: UtField): ReactNode {
         }
         zh={
           <>
-            <b>{f.key}</b> 过机:前面加上 <code>readonly</code>。
-            对象建好之后,再给这个属性赋值就会被编译器拒绝。
+            <b>{f.key}</b> 过机:前面加上 <code>readonly</code>。对象建好之后,再给这个属性赋值就会被编译器拒绝。
           </>
         }
       />
@@ -225,8 +223,7 @@ function utFieldMsg(tool: UtToolId, f: UtField): ReactNode {
         }
         zh={
           <>
-            <b>{f.key}</b> 在白名单上,原样通过。名字、类型、
-            可选与只读标记全都不变。
+            <b>{f.key}</b> 在白名单上,原样通过。名字、类型、可选与只读标记全都不变。
           </>
         }
       />
@@ -256,8 +253,7 @@ function utFieldMsg(tool: UtToolId, f: UtField): ReactNode {
       }
       zh={
         <>
-          <b>{f.key}</b> 不在白名单上,被丢掉。新类型里没有这个属性,
-          读它就是一个编译错误。
+          <b>{f.key}</b> 不在白名单上,被丢掉。新类型里没有这个属性,读它就是一个编译错误。
         </>
       }
     />
@@ -271,8 +267,7 @@ function utFieldMsg(tool: UtToolId, f: UtField): ReactNode {
       }
       zh={
         <>
-          <b>{f.key}</b> 被点了名,<code>Omit</code> 把它丢掉。
-          对外的类型里再也没有这个属性。
+          <b>{f.key}</b> 被点了名,<code>Omit</code> 把它丢掉。对外的类型里再也没有这个属性。
         </>
       }
     />
@@ -308,8 +303,7 @@ export function UtPipeline() {
         }
         zh={
           <>
-            六个属性在左边排好队,机器上装的是 <b>{tool}</b>。
-            点「下一步」,让它们一个一个过机。
+            六个属性在左边排好队,机器上装的是 <b>{tool}</b>。点「下一步」,让它们一个一个过机。
           </>
         }
       />
@@ -328,8 +322,7 @@ export function UtPipeline() {
         zh={
           <>
             出料完毕,这就是 <b>{meta.out}</b>。回头看入料区:<b>Order</b>{" "}
-            和原来一模一样。工具类型接受一个类型、返回一个新类型,
-            从不改动你交给它的那个类型。
+            和原来一模一样。工具类型接受一个类型、返回一个新类型,从不改动你交给它的那个类型。
           </>
         }
       />
@@ -527,8 +520,7 @@ export function UtUnionSieve() {
               <>
                 <b>Exclude</b> 去掉与第二个参数匹配的成员:
                 <code>&quot;done&quot;</code> 和{" "}
-                <code>&quot;cancelled&quot;</code> 被去掉,其余留下。
-                这正好是「还在进行中」的订单状态,适合用在取餐大屏上。
+                <code>&quot;cancelled&quot;</code> 被去掉,其余留下。这正好是「还在进行中」的订单状态,适合用在取餐大屏上。
               </>
             }
           />
@@ -543,8 +535,7 @@ export function UtUnionSieve() {
             }
             zh={
               <>
-                <b>Extract</b> 只留下匹配的成员,其余全部去掉。
-                这里得到的是两个终结状态,归档表要的就是这个类型。
+                <b>Extract</b> 只留下匹配的成员,其余全部去掉。这里得到的是两个终结状态,归档表要的就是这个类型。
               </>
             }
           />

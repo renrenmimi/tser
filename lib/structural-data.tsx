@@ -198,8 +198,7 @@ export const LABS: Lab[] = [
               和一个 <code>makeOrder(o: Order)</code> 函数。然后做两件事:①
               把带错字属性 <code>sweetnes</code> 的对象字面量
               <b>在调用处直接传</b>进去,读一遍报错;②
-              把同一个对象先存进变量,再把变量传进去,它会安静通过。
-              把 ① 的报错逐字读完 —— 编译器有没有猜出你想写什么?
+              把同一个对象先存进变量,再把变量传进去,它会安静通过。把 ① 的报错逐字读完 —— 编译器有没有猜出你想写什么?
             </>
           }
         />
@@ -216,8 +215,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          两次传的对象一个字都没改,唯一的区别是字面量写没写在调用处。
-          规则就是这么一句:多余属性检查只看「新鲜」的对象字面量。
+          两次传的对象一个字都没改,唯一的区别是字面量写没写在调用处。规则就是这么一句:多余属性检查只看「新鲜」的对象字面量。
         </>
       ),
     },
@@ -240,11 +238,8 @@ export const LABS: Lab[] = [
             zh={
               <>
                 ① 的报错结尾是 <code>Did you mean to write &apos;sweetness&apos;?</code>{" "}
-                —— 编译器不但拦下错字,还说出了改法。② 编译通过,
-                但运行时打印的是 <code>full sugar</code>:
-                错字属性跟着混了进来,真正的 <code>sweetness</code>{" "}
-                从头到尾没被赋值。一屏之内就是全部取舍:
-                写在调用处的字面量从严查,变量按普通规则查。
+                —— 编译器不但拦下错字,还说出了改法。② 编译通过,但运行时打印的是 <code>full sugar</code>:错字属性跟着混了进来,真正的 <code>sweetness</code>{" "}
+                从头到尾没被赋值。一屏之内就是全部取舍:写在调用处的字面量从严查,变量按普通规则查。
               </>
             }
           />
@@ -281,8 +276,7 @@ export const LABS: Lab[] = [
               <code>{"type HasName = { name: string }"}</code> 和函数{" "}
               <code>greet(x: HasName)</code>。然后造三个来路完全不同的值:①
               一个 class 的实例;② 一个存进变量的对象字面量;③
-              一个函数的返回值 —— 让它们全部通过 <code>greet</code>,
-              全程不写 <code>implements</code>、不写类型注解、不写{" "}
+              一个函数的返回值 —— 让它们全部通过 <code>greet</code>,全程不写 <code>implements</code>、不写类型注解、不写{" "}
               <code>as</code>。
             </>
           }
@@ -321,9 +315,7 @@ export const LABS: Lab[] = [
             zh={
               <>
                 三个值和 <code>HasName</code>{" "}
-                之间没有任何声明过的关系。编译器把每个形状和要求的成员比了一遍,
-                每次都找到了 <code>name: string</code>。
-                这里的兼容是算出来的,不是登记出来的。
+                之间没有任何声明过的关系。编译器把每个形状和要求的成员比了一遍,每次都找到了 <code>name: string</code>。这里的兼容是算出来的,不是登记出来的。
               </>
             }
           />
@@ -358,9 +350,7 @@ export const LABS: Lab[] = [
               第一步:定义 <code>type UserId = string</code> 和{" "}
               <code>type PostId = string</code>,写一个{" "}
               <code>getUser(id: UserId)</code>,然后故意传一个{" "}
-              <code>PostId</code> 进去,确认编译器<b>毫无反应</b>。第二步:
-              把两个类型改成品牌类型(branded types),
-              让同样的误传变成编译错误。再试着从一个普通 string 造出{" "}
+              <code>PostId</code> 进去,确认编译器<b>毫无反应</b>。第二步:把两个类型改成品牌类型(branded types),让同样的误传变成编译错误。再试着从一个普通 string 造出{" "}
               <code>UserId</code>,看看代价是什么。
             </>
           }
@@ -377,8 +367,7 @@ export const LABS: Lab[] = [
       ),
       zh: (
         <>
-          编译器只比形状,那就让两个形状不一样:
-          各自和一个带标记成员的对象类型求交集,标记成员的类型互不相同。
+          编译器只比形状,那就让两个形状不一样:各自和一个带标记成员的对象类型求交集,标记成员的类型互不相同。
         </>
       ),
     },
@@ -407,12 +396,9 @@ export const LABS: Lab[] = [
             zh={
               <>
                 <code>__brand</code> 只存在于类型层面。运行时{" "}
-                <code>UserId</code> 就是普通 string,标记不占任何开销。
-                注意诚实的那一面:普通 string 不能赋给{" "}
-                <code>UserId</code>,所以造一个出来总得断言一次。
-                通常的做法是只写一个 <code>toUserId(s: string)</code>{" "}
-                函数来做这次断言,只在数据进入系统的入口调用它,
-                别处一律不写 <code>as UserId</code>。
+                <code>UserId</code> 就是普通 string,标记不占任何开销。注意诚实的那一面:普通 string 不能赋给{" "}
+                <code>UserId</code>,所以造一个出来总得断言一次。通常的做法是只写一个 <code>toUserId(s: string)</code>{" "}
+                函数来做这次断言,只在数据进入系统的入口调用它,别处一律不写 <code>as UserId</code>。
               </>
             }
           />
@@ -450,8 +436,7 @@ export const LABS: Lab[] = [
               <code>&quot;tea&quot;</code>、<code>true</code>、
               <code>{"() => {}"}</code>、<code>[1, 2]</code>、<code>null</code>、
               <code>undefined</code>,记下哪些报错。再把 <code>x</code>{" "}
-              的类型换成 <code>object</code> 重测一轮,对比两张结果,
-              说清楚两个类型各自到底挡住了什么。
+              的类型换成 <code>object</code> 重测一轮,对比两张结果,说清楚两个类型各自到底挡住了什么。
             </>
           }
         />
@@ -504,9 +489,7 @@ export const LABS: Lab[] = [
                 结果:<code>{"{}"}</code> 只挡 <code>null</code> 和{" "}
                 <code>undefined</code>,原始值全部放行 ——
                 因为它的必需成员清单是空的,任何值都满足。<code>object</code>{" "}
-                挡掉全部原始值,只收对象、数组和函数。所以:
-                想表达「任意对象」写 <code>object</code>;
-                想表达「什么值都可能,用之前先收窄」写{" "}
+                挡掉全部原始值,只收对象、数组和函数。所以:想表达「任意对象」写 <code>object</code>;想表达「什么值都可能,用之前先收窄」写{" "}
                 <code>unknown</code>;<code>{"{}"}</code> 尽量别用。
               </>
             }
@@ -581,8 +564,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            声明关系不是必需的。一个从没提过目标类型的对象字面量,
-            只要形状覆盖了目标的要求,照样通过。
+            声明关系不是必需的。一个从没提过目标类型的对象字面量,只要形状覆盖了目标的要求,照样通过。
           </>
         ),
       },
@@ -595,8 +577,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            在哪里声明完全没有影响。两个毫无关系的文件里,
-            形状相同的两个类型可以互换。
+            在哪里声明完全没有影响。两个毫无关系的文件里,形状相同的两个类型可以互换。
           </>
         ),
       },
@@ -612,8 +593,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          TypeScript 用的是结构化类型(structural typing):忽略名字,比较成员。
-          源类型有目标要求的每个成员,且这些成员的类型也兼容,赋值就成立。
+          TypeScript 用的是结构化类型(structural typing):忽略名字,比较成员。源类型有目标要求的每个成员,且这些成员的类型也兼容,赋值就成立。
         </>
       ),
     },
@@ -674,8 +654,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             「不同 interface 就是不同类型」是名义类型系统的规则。TypeScript
-            里名字只是标签,<code>x: number</code> 对上 <code>x: number</code>,
-            就是兼容。
+            里名字只是标签,<code>x: number</code> 对上 <code>x: number</code>,就是兼容。
           </>
         ),
       },
@@ -691,8 +670,7 @@ export const QUIZ: QuizItem[] = [
         zh: (
           <>
             <code>extends</code>{" "}
-            能让意图更好读,但它不是兼容的前提。一句声明都不写,
-            形状相同照样能赋值。
+            能让意图更好读,但它不是兼容的前提。一句声明都不写,形状相同照样能赋值。
           </>
         ),
       },
@@ -724,8 +702,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           形状相同、名字不同的两个类型,可以互相赋值。<code>interface</code> 和{" "}
-          <code>type</code> 在这一点上表现一致:
-          都不会仅仅因为名字不同就造出一个不兼容的新类型。
+          <code>type</code> 在这一点上表现一致:都不会仅仅因为名字不同就造出一个不兼容的新类型。
         </>
       ),
     },
@@ -745,8 +722,7 @@ export const QUIZ: QuizItem[] = [
         <>
           <code>{"type Staff = { name: string }"}</code>,变量{" "}
           <code>barista</code> 的类型是{" "}
-          <code>{"{ name: string; makeTea: () => void }"}</code>。
-          下面哪个赋值能通过?
+          <code>{"{ name: string; makeTea: () => void }"}</code>。下面哪个赋值能通过?
         </>
       ),
     },
@@ -797,8 +773,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            方向反了。<code>Staff</code> 身上没有 <code>makeTea</code>,
-            缺了一个必需成员:
+            方向反了。<code>Staff</code> 身上没有 <code>makeTea</code>,缺了一个必需成员:
             <code>
               Property &apos;makeTea&apos; is missing in type ... ts(2741)
             </code>
@@ -832,8 +807,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            第一个方向是通的。<code>barista</code> 有 <code>name</code>,
-            类型也对,<code>Staff</code> 的要求全部满足。
+            第一个方向是通的。<code>barista</code> 有 <code>name</code>,类型也对,<code>Staff</code> 的要求全部满足。
           </>
         ),
       },
@@ -849,8 +823,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          成员越多越具体,对应的值集合越小。小集合里的每个值同时也属于大集合,
-          所以更具体的类型能用在要求较宽松的位置,反过来不行。
+          成员越多越具体,对应的值集合越小。小集合里的每个值同时也属于大集合,所以更具体的类型能用在要求较宽松的位置,反过来不行。
         </>
       ),
     },
@@ -890,8 +863,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            多余属性检查只对「新鲜」的对象字面量生效。对象一旦存进变量,
-            就只按普通的兼容规则判断,多出来的成员是允许的
+            多余属性检查只对「新鲜」的对象字面量生效。对象一旦存进变量,就只按普通的兼容规则判断,多出来的成员是允许的
           </>
         ),
       },
@@ -940,9 +912,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            这是刻意设计,也是文档里写明的行为。写在调用处的字面量只用这一次,
-            多出来的成员几乎都是拼错;变量可能在别处另有正当用途,
-            所以按普通规则判断。
+            这是刻意设计,也是文档里写明的行为。写在调用处的字面量只用这一次,多出来的成员几乎都是拼错;变量可能在别处另有正当用途,所以按普通规则判断。
           </>
         ),
       },
@@ -976,9 +946,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          多余属性检查是叠加在可赋值性之上的一道额外检查,目标是抓拼写错误。
-          只有当一个新鲜的对象字面量被直接赋值、或直接传给已知类型的位置时,
-          它才会运行。它不属于可赋值性规则本身 ——
+          多余属性检查是叠加在可赋值性之上的一道额外检查,目标是抓拼写错误。只有当一个新鲜的对象字面量被直接赋值、或直接传给已知类型的位置时,它才会运行。它不属于可赋值性规则本身 ——
           这正是先存进变量它就消失的原因。
         </>
       ),
@@ -1053,8 +1021,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          选进了一个错误说法。多写的属性只在字面量「新鲜」时才被报出来,
-          而类型是谁写的,编译器根本不看。
+          选进了一个错误说法。多写的属性只在字面量「新鲜」时才被报出来,而类型是谁写的,编译器根本不看。
         </>
       ),
     },
@@ -1111,8 +1078,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            用品牌类型:<code>{'string & { __brand: "user" }'}</code>,
-            让两个形状不同
+            用品牌类型:<code>{'string & { __brand: "user" }'}</code>,让两个形状不同
           </>
         ),
       },
@@ -1145,8 +1111,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            运行时检查只是兜底,而且要等错误的值已经传进来才会响。
-            这里的目标是让这次调用根本编译不过。
+            运行时检查只是兜底,而且要等错误的值已经传进来才会响。这里的目标是让这次调用根本编译不过。
           </>
         ),
       },
@@ -1161,8 +1126,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>any</code> 是往反方向走:它把检查整个关掉,
-            连本来能拦下的错误也放过了。问题是检查太粗,不是检查太多。
+            <code>any</code> 是往反方向走:它把检查整个关掉,连本来能拦下的错误也放过了。问题是检查太粗,不是检查太多。
           </>
         ),
       },
@@ -1175,8 +1139,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            编译器不看名字。名字再长,形状还是 <code>string</code>,
-            误传照样通过。
+            编译器不看名字。名字再长,形状还是 <code>string</code>,误传照样通过。
           </>
         ),
       },
@@ -1194,10 +1157,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          既然编译器比的是形状,就把区别写进形状:
-          各自和一个类型不同的标记成员求交集,两者就不再能互换。
-          标记只存在于编译期,没有运行时开销。代价是造一个值需要断言,
-          通常把它包进唯一一个工厂函数里。
+          既然编译器比的是形状,就把区别写进形状:各自和一个类型不同的标记成员求交集,两者就不再能互换。标记只存在于编译期,没有运行时开销。代价是造一个值需要断言,通常把它包进唯一一个工厂函数里。
         </>
       ),
     },
@@ -1245,9 +1205,7 @@ export const QUIZ: QuizItem[] = [
       zh: (
         <>
           structural typing,结构化类型。相对的一种做法是 Java、C# 用的
-          nominal typing(名义类型):
-          编译器比较声明的名字和声明的继承关系,所以成员完全一样的两个类
-          依然毫无关系。
+          nominal typing(名义类型):编译器比较声明的名字和声明的继承关系,所以成员完全一样的两个类依然毫无关系。
         </>
       ),
     },
@@ -1263,8 +1221,7 @@ export const QUIZ: QuizItem[] = [
       ),
       zh: (
         <>
-          想给函数参数一个类型,表达「任意对象都行,但原始值不行」,
-          应该写哪个?
+          想给函数参数一个类型,表达「任意对象都行,但原始值不行」,应该写哪个?
         </>
       ),
     },
@@ -1347,8 +1304,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>any</code> 把检查关掉了,什么都拦不住,
-            而且从它读出来的值也不再受检查。
+            <code>any</code> 把检查关掉了,什么都拦不住,而且从它读出来的值也不再受检查。
           </>
         ),
       },
@@ -1361,8 +1317,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            <code>unknown</code> 的意思是「任何值都可能」,原始值也收。
-            它安全,但表达的不是「只要对象」。
+            <code>unknown</code> 的意思是「任何值都可能」,原始值也收。它安全,但表达的不是「只要对象」。
           </>
         ),
       },
@@ -1382,8 +1337,7 @@ export const QUIZ: QuizItem[] = [
         <>
           <code>object</code> 的意思是「不是原始值」:对象、数组、函数进得来,
           <code>number</code>、<code>string</code>、<code>boolean</code>{" "}
-          进不来。想要任意对象用 <code>object</code>;
-          想要任何值、用之前先收窄,用 <code>unknown</code>;<code>{"{}"}</code>{" "}
+          进不来。想要任意对象用 <code>object</code>;想要任何值、用之前先收窄,用 <code>unknown</code>;<code>{"{}"}</code>{" "}
           放着别用。
         </>
       ),

@@ -188,8 +188,7 @@ const TRIO_TESTS: {
           ),
           zh: (
             <>
-              断言只要求两个类型有足够的重叠,能互相当成对方。
-              多余属性检查完全不做,拼错的字段就这样带着 <code>Config</code>{" "}
+              断言只要求两个类型有足够的重叠,能互相当成对方。多余属性检查完全不做,拼错的字段就这样带着 <code>Config</code>{" "}
               的名分通过了。
             </>
           ),
@@ -265,10 +264,8 @@ const TRIO_TESTS: {
           ),
           zh: (
             <>
-              <code>Config</code> 可以赋给你写的这个更小的形状,
-              两个类型有重叠,断言就通过了。运行时{" "}
-              <code>config.maxSugar</code> 是 <code>undefined</code>,
-              拿它做算术会得到 <code>NaN</code>。
+              <code>Config</code> 可以赋给你写的这个更小的形状,两个类型有重叠,断言就通过了。运行时{" "}
+              <code>config.maxSugar</code> 是 <code>undefined</code>,拿它做算术会得到 <code>NaN</code>。
             </>
           ),
         },
@@ -320,9 +317,7 @@ const TRIO_TESTS: {
           ),
           zh: (
             <>
-              注解把推断结果换成了你声明的类型。
-              编译器从此只知道「是两者之一」,不知道具体是哪一个。
-              写 <code>{'if (config.theme === "light")'}</code>{" "}
+              注解把推断结果换成了你声明的类型。编译器从此只知道「是两者之一」,不知道具体是哪一个。写 <code>{'if (config.theme === "light")'}</code>{" "}
               它仍然认为有可能成立。
             </>
           ),
@@ -341,8 +336,7 @@ const TRIO_TESTS: {
           ),
           zh: (
             <>
-              断言同样把字面量信息换成了 <code>Config</code>。
-              检查没做,精确的推断也丢了 —— 两头都没落着。
+              断言同样把字面量信息换成了 <code>Config</code>。检查没做,精确的推断也丢了 —— 两头都没落着。
             </>
           ),
         },
@@ -363,8 +357,7 @@ const TRIO_TESTS: {
           zh: (
             <>
               检查照做,推断不动 —— <code>config.theme</code> 依然是字面量类型{" "}
-              <code>&quot;dark&quot;</code>。「既要校验又要精确推断」,
-              正是 TypeScript 4.9 加入 <code>satisfies</code> 的原因。
+              <code>&quot;dark&quot;</code>。「既要校验又要精确推断」,正是 TypeScript 4.9 加入 <code>satisfies</code> 的原因。
             </>
           ),
         },
@@ -451,7 +444,7 @@ export function TrioLab() {
           }
           zh={
             <>
-              总结:注解 <b>检查 ✓ 推断 ✕</b> · as <b>检查 ✕ 推断 ✕</b> ·
+              总结:注解<b>检查 ✓ 推断 ✕</b> · as <b>检查 ✕ 推断 ✕</b> ·
               satisfies <b>检查 ✓ 推断 ✓</b> —— 两样都想要,用 satisfies。
             </>
           }
@@ -535,9 +528,7 @@ const EF_FRAMES: FlowFrame[] = [
         }
         zh={
           <>
-            一次请求带回一段 JSON。你写下 <b>as Order</b>,
-            编译器不再检查这个值,直接接受。
-            从这里开始,在编译器眼里它的类型就是 <code>Order</code>。
+            一次请求带回一段 JSON。你写下 <b>as Order</b>,编译器不再检查这个值,直接接受。从这里开始,在编译器眼里它的类型就是 <code>Order</code>。
           </>
         }
       />
@@ -567,9 +558,7 @@ const EF_FRAMES: FlowFrame[] = [
         }
         zh={
           <>
-            编译产物是普通 JavaScript。<b>Order 这个名字在运行时并不存在</b>,
-            门口也没有任何检查。这就是类型擦除:
-            编译器能检查你写的代码,检查不了别人发来的数据。
+            编译产物是普通 JavaScript。<b>Order 这个名字在运行时并不存在</b>,门口也没有任何检查。这就是类型擦除:编译器能检查你写的代码,检查不了别人发来的数据。
           </>
         }
       />
@@ -607,13 +596,11 @@ const EF_FRAMES: FlowFrame[] = [
         }
         zh={
           <>
-            某天后端把 <code>total</code> 改名成 <code>amount</code>。
-            JSON 照样进来,
+            某天后端把 <code>total</code> 改名成 <code>amount</code>。JSON 照样进来,
             <b>
               <code>order.total</code> 变成 <code>undefined</code>
             </b>
-            ,一路传过三个文件,直到报表页才出错。
-            出错的地方离原因越远,排查越费时间。
+            ,一路传过三个文件,直到报表页才出错。出错的地方离原因越远,排查越费时间。
           </>
         }
       />
@@ -642,9 +629,7 @@ const EF_FRAMES: FlowFrame[] = [
         }
         zh={
           <>
-            换一种做法:外部数据先标成 <b>unknown</b>。
-            这样编译器会拒绝一切用法,直到你把它收窄,
-            于是你在边界上写一个检查函数 ——
+            换一种做法:外部数据先标成 <b>unknown</b>。这样编译器会拒绝一切用法,直到你把它收窄,于是你在边界上写一个检查函数 ——
             这个检查就是类型系统替你做不了的那部分。
           </>
         }
@@ -682,10 +667,8 @@ const EF_FRAMES: FlowFrame[] = [
         }
         zh={
           <>
-            坏数据再来一次,<code>isOrder</code> 在门口拦下,
-            一行日志就能说清问题。错误仍然会发生,只是
-            <b>发生在边界,而不是三个文件之外</b>。
-            「用 <code>unknown</code> 接收,再用检查收窄」的价值就在这里。
+            坏数据再来一次,<code>isOrder</code> 在门口拦下,一行日志就能说清问题。错误仍然会发生,只是
+            <b>发生在边界,而不是三个文件之外</b>。「用 <code>unknown</code> 接收,再用检查收窄」的价值就在这里。
           </>
         }
       />
