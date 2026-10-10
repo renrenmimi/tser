@@ -163,30 +163,47 @@ const newHire = { name: "New hire" };
 const asBarista: typeof barista = newHire;`,
 };
 
-const LAB_COMPAT_CATCHUP = `type Staff = { name: string };
-
-const barista = {
+const COMPAT_BARISTA = `const barista = {
   name: "Zhen",
   makeTea: () => {},
   years: 3,
-};
+};`;
+
+const LAB_COMPAT_CATCHUP: Loc<string> = {
+  en: `type Staff = { name: string };
+
+${COMPAT_BARISTA}
 
 const asStaff: Staff = barista;
 
 // now the new hire has every member barista has
 const newHire = { name: "New hire", makeTea: () => {}, years: 0 };
-const asBarista: typeof barista = newHire;`;
+const asBarista: typeof barista = newHire;`,
+  zh: `type Staff = { name: string };
 
-const LAB_COMPAT_RAISED = `// Staff now asks for one member more than barista has
-type Staff = { name: string; tips: number };
+${COMPAT_BARISTA}
 
-const barista = {
-  name: "Zhen",
-  makeTea: () => {},
-  years: 3,
+const asStaff: Staff = barista;
+
+// 现在新员工具备 barista 的全部成员
+const newHire = { name: "New hire", makeTea: () => {}, years: 0 };
+const asBarista: typeof barista = newHire;`,
 };
 
-const asStaff: Staff = barista;`;
+const LAB_COMPAT_RAISED: Loc<string> = {
+  en: `// Staff now asks for one member more than barista has
+type Staff = { name: string; tips: number };
+
+${COMPAT_BARISTA}
+
+const asStaff: Staff = barista;`,
+  zh: `// Staff 现在要求的成员比 barista 多一个
+type Staff = { name: string; tips: number };
+
+${COMPAT_BARISTA}
+
+const asStaff: Staff = barista;`,
+};
 
 const S3_OPTIONAL: Loc<string> = {
   en: `type A = { note?: string };            // the key may be absent
@@ -314,12 +331,15 @@ const draft = {
 makeOrder(draft);`,
 };
 
-const LAB_EXCESS_VARIABLE = `type Order = {
+const EXCESS_HEAD = `type Order = {
   item: string;
   sweetness?: string;
 };
 
-function makeOrder(o: Order) {}
+function makeOrder(o: Order) {}`;
+
+const LAB_EXCESS_VARIABLE: Loc<string> = {
+  en: `${EXCESS_HEAD}
 
 // the same object as before, stored in a variable first
 const draft = {
@@ -327,20 +347,34 @@ const draft = {
   sweetnes: "half sugar",
 };
 
-makeOrder(draft); // no error - and no half sugar either`;
+makeOrder(draft); // no error - and no half sugar either`,
+  zh: `${EXCESS_HEAD}
 
-const LAB_EXCESS_UNKNOWN = `type Order = {
-  item: string;
-  sweetness?: string;
+// 和前面同一个对象,先存进变量
+const draft = {
+  item: "Boba milk tea",
+  sweetnes: "half sugar",
 };
 
-function makeOrder(o: Order) {}
+makeOrder(draft); // 没有报错,但「半糖」也丢了`,
+};
+
+const LAB_EXCESS_UNKNOWN: Loc<string> = {
+  en: `${EXCESS_HEAD}
 
 // 'cup' resembles nothing in Order
 makeOrder({
   item: "Boba milk tea",
   cup: "large",
-});`;
+});`,
+  zh: `${EXCESS_HEAD}
+
+// 'cup' 与 Order 中的任何属性都不相像
+makeOrder({
+  item: "Boba milk tea",
+  cup: "large",
+});`,
+};
 
 /* ---------- §05 traps that come with identical shapes ---------- */
 

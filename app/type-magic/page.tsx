@@ -391,13 +391,15 @@ type MyExclude<T, U> = T;
     LAB_GRADER_TAIL.zh,
 };
 
-const LAB_GRADER_SOLVED =
-  LAB_GRADER_HEAD.en +
-  `type MyPartial<T> = { [K in keyof T]?: T[K] };
+const GRADER_SOLUTION = `type MyPartial<T> = { [K in keyof T]?: T[K] };
 type MyPick<T, K extends keyof T> = { [P in K]: T[P] };
 type MyExclude<T, U> = T extends U ? never : T;
-` +
-  LAB_GRADER_TAIL.en;
+`;
+
+const LAB_GRADER_SOLVED: Loc<string> = {
+  en: LAB_GRADER_HEAD.en + GRADER_SOLUTION + LAB_GRADER_TAIL.en,
+  zh: LAB_GRADER_HEAD.zh + GRADER_SOLUTION + LAB_GRADER_TAIL.zh,
+};
 
 export default function TypeMagicPage() {
   return (

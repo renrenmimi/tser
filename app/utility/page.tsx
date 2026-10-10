@@ -292,12 +292,20 @@ type PublicOrder = Omit<Order, "internalNote">;
 type CupStock = Record<Size, number>;`,
 };
 
-const LAB_TYPO =
-  LAB_ORDER_HEAD +
-  `
+const LAB_TYPO: Loc<string> = {
+  en:
+    LAB_ORDER_HEAD +
+    `
 // The same misspelled key, once to Omit and once to Pick.
 type Leaky = Omit<Order, "internalNotes">;
-type Checked = Pick<Order, "internalNotes">;`;
+type Checked = Pick<Order, "internalNotes">;`,
+  zh:
+    LAB_ORDER_HEAD +
+    `
+// 同一个拼错的键名,分别交给 Omit 和 Pick。
+type Leaky = Omit<Order, "internalNotes">;
+type Checked = Pick<Order, "internalNotes">;`,
+};
 
 /* ---------- §05 筛联合 ---------- */
 

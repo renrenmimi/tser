@@ -207,11 +207,18 @@ cupSize = "mega";
 // 点一下 cupSize。然后从标题栏换上另外两份稿子。`,
 };
 
-const WIDEN_CONST = `const cupSize = "small";
+const WIDEN_CONST: Loc<string> = {
+  en: `const cupSize = "small";
 const sizes = ["small", "medium", "large"];
 const cup = { size: "small", sugar: 50 };
 
-// Click all three. Only the first one keeps its literal type.`;
+// Click all three. Only the first one keeps its literal type.`,
+  zh: `const cupSize = "small";
+const sizes = ["small", "medium", "large"];
+const cup = { size: "small", sugar: 50 };
+
+// 三个名字都点一下。只有第一个保留了字面量类型。`,
+};
 
 const WIDEN_UNION = `type Size = "small" | "medium" | "large";
 
