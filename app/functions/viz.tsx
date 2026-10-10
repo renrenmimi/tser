@@ -214,6 +214,7 @@ export function SignatureAnatomy() {
             type="button"
             data-k={s.k}
             className={`fn-sig-seg${sel === i ? " on" : ""}`}
+            aria-pressed={sel === i}
             onClick={() => setSel(i)}
           >
             {s.s}

@@ -1,6 +1,6 @@
 "use client";
 
-// 第 02 章 · 函数与对象类型 —— 动手任务 LABS + 通关测验 QUIZ 数据(双语)。
+// 第 02 章 · 函数与对象类型 —— 动手任务 LABS + 本章测验 QUIZ 数据(双语)。
 // 正文用 <T en zh />,props 用 { en, zh };代码示例的可执行行两语言逐字节相同。
 // 编译器报错原文一律保留英文,并已在 TypeScript 5.9 + strict 下实测。
 
@@ -680,7 +680,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            运行时什么事都没有。类型全部被擦除,这个函数老老实实返回 123,只是没人去读它。
+            运行时什么事都没有。类型全部被擦除,这个函数照常返回 123,只是没人去读它。
           </>
         ),
       },
@@ -774,7 +774,7 @@ export const QUIZ: QuizItem[] = [
         ),
         zh: (
           <>
-            JSON.parse 吃的就是字符串,<code>json: string</code> 写得完全正确。问题出在「出去」那一头,不在「进来」这一头。
+            JSON.parse 接收的就是字符串,<code>json: string</code> 写得完全正确。问题出在「出去」那一头,不在「进来」这一头。
           </>
         ),
       },
@@ -953,13 +953,13 @@ export const QUIZ: QuizItem[] = [
         en: (
           <>
             <code>Object.freeze</code> is a runtime function you call yourself.
-            TypeScript never adds behavior to the output. Type erasure is
-            absolute.
+            <code>readonly</code> is part of a type, and like every type
+            annotation it is erased at compile time without adding any code.
           </>
         ),
         zh: (
           <>
-            <code>Object.freeze</code> 是要你自己调用的运行时函数。TypeScript 从不往产物里添加行为,类型擦除是铁律。
+            <code>Object.freeze</code> 是要你自己调用的运行时函数。<code>readonly</code> 只是类型的一部分,和其他类型注解一样在编译时被擦除,不会往产物里加任何代码。
           </>
         ),
       },

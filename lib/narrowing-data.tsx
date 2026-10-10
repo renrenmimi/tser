@@ -578,18 +578,18 @@ export const LABS: Lab[] = [
           <T
             en={
               <>
-                From TS 5.5, a filter callback that takes one parameter and
-                immediately returns a narrowing expression gets a predicate
-                inferred automatically. Longer logic still needs an explicit{" "}
-                <code>is</code>. And writing it explicitly means the compiler
+                From TS 5.5, a function gets an inferred type predicate when it
+                has no return type annotation, a single return statement, does
+                not modify its parameter, and returns true exactly when the
+                parameter has the narrower type; arrow functions and
+                declarations, one parameter or several, all qualify. When a
+                condition fails you still need an explicit <code>is</code>. And writing it explicitly means the compiler
                 trusts you: if the body is wrong, nothing will tell you.
               </>
             }
             zh={
               <>
-                从 TS 5.5 起,「单参数、直接返回一个收窄表达式」的 filter
-                回调会自动获得谓词。更长的逻辑仍然需要显式的{" "}
-                <code>is</code>。而一旦手写,编译器就无条件信你:函数体写错了,没有任何东西会提醒你。
+                从 TS 5.5 起,满足这几个条件的函数会被自动推断出类型谓词:没写返回类型;只有一条 return;不修改参数;返回 true 恰好意味着参数是收窄后的类型。箭头函数和普通函数、单参数和多参数都适用。条件不满足时,仍然需要显式的 <code>is</code>。而一旦手写,编译器就无条件信你:函数体写错了,没有任何东西会提醒你。
               </>
             }
           />
@@ -769,7 +769,7 @@ export const QUIZ: QuizItem[] = [
         zh={
           <>
             大多数人都这么以为,但 <code>typeof</code> 的返回值里从来没有{" "}
-            <code>&quot;null&quot;</code>。这正是它坑人的地方。
+            <code>&quot;null&quot;</code>。这正是它容易出错的地方。
           </>
         }
       />,
@@ -795,13 +795,15 @@ export const QUIZ: QuizItem[] = [
         key="d"
         en={
           <>
-            <code>typeof</code> never throws. It even works on a variable that
-            was never declared.
+            <code>typeof</code> does not throw even for a variable that was
+            never declared; it returns &quot;undefined&quot;. (The one exception
+            is a <code>let</code> or <code>const</code> variable used before its
+            declaration in the same scope.)
           </>
         }
         zh={
           <>
-            <code>typeof</code> 从不抛错,连没声明过的变量都能查。
+            <code>typeof</code> 对没声明过的变量也不会抛错,直接得到 &quot;undefined&quot;(唯一的例外是在同一作用域里 <code>let</code>/<code>const</code> 声明之前就使用它)。
           </>
         }
       />,
@@ -917,7 +919,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            真值检查对任何类型都合法,这正是它危险的地方。编译器一声不吭,坑就这么安静地埋下了。
+            真值检查对任何类型都合法,这正是它危险的地方。编译器没有任何报错,隐患就这样埋下了。
           </>
         }
       />,
@@ -967,15 +969,16 @@ export const QUIZ: QuizItem[] = [
             <code>x</code> is <code>string | number</code>. Inside{" "}
             <code>if (typeof x === &quot;string&quot;)</code> you pass a
             callback to <code>setTimeout</code> that calls{" "}
-            <code>x.toUpperCase()</code>, and somewhere else in the same
-            function you also write <code>x = 42</code>. What happens?
+            <code>x.toUpperCase()</code>, and after the <code>if</code>, at the
+            end of the function, you also write <code>x = 42</code>. What
+            happens?
           </>
         }
         zh={
           <>
             <code>x</code> 的类型是 <code>string | number</code>。在{" "}
             <code>if (typeof x === &quot;string&quot;)</code> 里,你给 <code>setTimeout</code> 传了一个调用{" "}
-            <code>x.toUpperCase()</code> 的回调;同一个函数里的别处,你还写了 <code>x = 42</code>。会发生什么?
+            <code>x.toUpperCase()</code> 的回调;在这个 <code>if</code> 之后、函数末尾,你还写了 <code>x = 42</code>。会发生什么?
           </>
         }
       />
@@ -1026,15 +1029,15 @@ export const QUIZ: QuizItem[] = [
         key="a"
         en={
           <>
-            Where the callback is written does not matter. What matters is{" "}
-            <b>when it runs</b>, and the compiler cannot know that. Since{" "}
-            <code>x</code> can be reassigned, the check may no longer hold by
-            then.
+            Being written inside the <code>if</code> is not enough. What
+            matters is <b>when it runs</b>, and the compiler cannot know that.
+            Since <code>x</code> is assigned again after the callback is
+            created, the check may no longer hold by then.
           </>
         }
         zh={
           <>
-            回调写在哪里并不重要,重要的是它<b>什么时候执行</b>,而编译器无法知道。既然 <code>x</code> 还会被重新赋值,到那时那道检查可能已经不成立了。
+            回调写在 <code>if</code> 里面还不够,重要的是它<b>什么时候执行</b>,而编译器无法知道。既然回调创建之后 <code>x</code> 还会被重新赋值,到那时那道检查可能已经不成立了。
           </>
         }
       />,
@@ -1060,12 +1063,13 @@ export const QUIZ: QuizItem[] = [
         en={
           <>
             It does narrow inside callbacks — but only for a variable that is
-            never reassigned. Remove <code>x = 42</code> and the error is gone.
+            not assigned again after the callback is created. Remove{" "}
+            <code>x = 42</code> and the error is gone.
           </>
         }
         zh={
           <>
-            回调里是会收窄的,但仅限于从未被重新赋值的变量。把 <code>x = 42</code> 删掉,报错就没了。
+            回调里是会收窄的,但仅限于回调创建之后不再被赋值的变量。把 <code>x = 42</code> 删掉,报错就没了。
           </>
         }
       />,
@@ -1074,9 +1078,11 @@ export const QUIZ: QuizItem[] = [
       <T
         en={
           <>
-            The compiler carries narrowing into a nested function only when the
-            variable cannot change. A reassignment anywhere in the function is
-            enough to drop it. A narrowed object <b>property</b> is stricter
+            Since TypeScript 5.4, a callback keeps outside narrowing only if it
+            is created after the variable's last assignment. Here{" "}
+            <code>x = 42</code> comes after the callback, so by the time it runs{" "}
+            <code>x</code> may already be 42, and inside it <code>x</code> is{" "}
+            <code>string | number</code> again. A narrowed object <b>property</b> is stricter
             still: it is never carried into a callback, because outside code
             could change it. The fix in both cases is to copy the checked value
             into a <code>const</code>.
@@ -1084,7 +1090,7 @@ export const QUIZ: QuizItem[] = [
         }
         zh={
           <>
-            只有当变量不可能改变时,编译器才会把收窄结果带进嵌套函数。函数里任何一处重新赋值都足以让它失效。被收窄的对象<b>属性</b>
+            从 TypeScript 5.4 起,只有在最后一次赋值之后创建的回调,才会沿用外面的收窄。这里 <code>x = 42</code> 写在回调之后,回调执行时 <code>x</code> 可能已经是 42,所以回调里 <code>x</code> 又是 <code>string | number</code>。被收窄的对象<b>属性</b>
             更严格:它永远不会被带进回调,因为外部代码随时可能改动它。两种情况的解法一样:把检查过的值复制进一个 <code>const</code>。
           </>
         }

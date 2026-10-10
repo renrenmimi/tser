@@ -788,7 +788,7 @@ const LAB_ORDER: Loc<string> = {
     `makeOrder(milkTea, "large", ["boba"]);`,
   ),
   zh: s8Draft(
-    "这次调用是守约的。接下来轮到你违约。",
+    "这次调用遵守了约定。接下来,请你亲手违反它。",
     `makeOrder(milkTea, "large", ["boba"]);`,
   ),
 };
@@ -1775,7 +1775,7 @@ export default function FunctionsPage() {
               }
               zh={
                 <>
-                  字段名写得全,就老老实实一个个写出来,编译器会帮你查拼写。只有当键是<b>运行时</b>才定的 ——
+                  字段名写得全,就完整地一个个写出来,编译器会帮你查拼写。只有当键是<b>运行时</b>才定的 ——
                   货号、用户输入、由数据拼出来的字典 —— 才用索引签名。它更宽松,代价正是你刚刚放弃的那道拼写检查。
                 </>
               }
@@ -1790,7 +1790,7 @@ export default function FunctionsPage() {
         index="07"
         title={{
           en: "interface vs type: a smaller difference than you have heard",
-          zh: "interface vs type:一场被夸大的战争",
+          zh: "interface 与 type:差别没有传说中那么大",
         }}
         desc={{
           en: "Both describe the shape of an object, and in most cases they are interchangeable. Here is the syntax side by side, then the abilities that only one of them has.",
@@ -2220,17 +2220,17 @@ export default function FunctionsPage() {
         title={{ en: "Practice", zh: "动手任务" }}
         desc={{
           en: "Signatures are learned by writing them and reading the errors. Four tasks, all of which fit in the TypeScript Playground.",
-          zh: "签名这东西,看十遍不如亲手写一遍、报错一遍。四个任务,TypeScript Playground 就够。",
+          zh: "函数签名读十遍,不如亲手写一遍、看一遍报错。四个任务,用 TypeScript Playground 就能完成。",
         }}
       >
         <LabSet ch="functions" items={LABS} />
       </Section>
 
-      {/* ================= §10 通关测验 ================= */}
+      {/* ================= §10 本章测验 ================= */}
       <Section
         id="quiz"
         index="10"
-        title={{ en: "Quiz", zh: "通关测验" }}
+        title={{ en: "Chapter quiz", zh: "本章测验" }}
         desc={{
           en: "Eleven questions on parameters, void, assignability, overloads, readonly, and interface vs type. A perfect score lights up the sidebar.",
           zh: "十一道题,覆盖参数、void、可赋值性、重载、readonly 和 interface vs type。全对点亮侧栏绿灯。",
